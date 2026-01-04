@@ -1,7 +1,7 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Artist, TicketType} from '../models/festival.models';
+import {Artist} from '../models/artist.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,5 @@ export class FestivalService {
 
   getArtists(): Observable<Artist[]> {
     return this.http.get<Artist[]>(`${this.apiUrl}/artists`);
-  }
-
-  getTicketTypes(): Observable<TicketType[]> {
-    return this.http.get<TicketType[]>(`${this.apiUrl}/tickets`);
   }
 }
