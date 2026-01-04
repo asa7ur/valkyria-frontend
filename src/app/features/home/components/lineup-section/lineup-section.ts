@@ -1,10 +1,13 @@
 import {Component, signal, inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Artist} from '../../../../core/models/artist.model';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-lineup-section',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './lineup-section.html',
   styles: ``,
 })

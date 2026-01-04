@@ -1,10 +1,11 @@
 import {Component, computed, input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Artist} from '../../../../core/models/artist.model';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-artist-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './artist-card.html',
   styles: ``,
 })

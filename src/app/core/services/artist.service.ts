@@ -9,9 +9,13 @@ import {Artist} from '../models/artist.model';
 
 export class ArtistService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'http://localhost:8080/api/artists';
 
   getArtists(): Observable<Artist[]> {
-    return this.http.get<Artist[]>(`${this.apiUrl}/artists`);
+    return this.http.get<Artist[]>(this.apiUrl);
+  }
+
+  getArtistById(id: string): Observable<Artist> {
+    return this.http.get<Artist>(`${this.apiUrl}/${id}`);
   }
 }

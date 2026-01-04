@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {LineupService} from '../../core/services/lineup.service';
 import {Performance, FESTIVAL_DAYS} from '../../core/models/lineup.model';
 import {getFestivalDate} from '../../shared/utils/date-utils';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-lineup',
   standalone: true, // Asumiendo que usas standalone
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './lineup.html',
 })
 export class Lineup implements OnInit {
