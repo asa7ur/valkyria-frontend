@@ -1,4 +1,6 @@
-import {Component, signal} from '@angular/core';
+import {Component, signal, inject, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Artist} from '../../../../core/models/festival.models';
 
 @Component({
   selector: 'app-lineup-section',
@@ -6,11 +8,15 @@ import {Component, signal} from '@angular/core';
   templateUrl: './lineup-section.html',
   styles: ``,
 })
-export class LineupSection {
-  protected readonly artists = signal([
-    'Slipknot', 'Rammstein', 'Meshuggah', 'Gojira',
-    'Opeth', 'Deftones', 'Metallica', 'Loathe',
-    'Iron Maiden', 'Alice in Chains', 'Wardruna', 'Limp Bizkit',
-    'Knocked Loose', 'Soen', 'Vola', 'Acid Bath'
-  ]);
+export class LineupSection implements OnInit {
+  private http = inject(HttpClient);
+  protected readonly artists = signal<Artist[]>([]);
+
+  ngOnInit() {
+    this.http.get<Artist[]>('http://localhost:8080/api/artists')
+      .subscribe({
+        next: (data) => this.artists.set(data),
+        error: (err) => console.error('Error:', err)
+      });
+  }
 }
