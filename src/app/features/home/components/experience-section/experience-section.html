@@ -1,0 +1,19 @@
+<section class="bg-black text-white py-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 mb-12">
+    <h2 class="text-5xl font-black uppercase tracking-tighter italic">Experience the Festival</h2>
+  </div>
+
+  <div class="relative w-full h-[60vh] md:h-[80vh]">
+    <div class="absolute inset-0 flex transition-transform duration-1000 ease-in-out"
+         [style.transform]="'translateX(-' + (currentIndex() * 100) + '%)'">
+
+      @for (image of images(); track image) {
+        <div class="min-w-full h-full">
+          <img [src]="image"
+               class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+               alt="Festival experience">
+        </div>
+      }
+    </div>
+  </div>
+</section>

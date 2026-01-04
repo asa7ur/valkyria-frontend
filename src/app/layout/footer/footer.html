@@ -1,0 +1,50 @@
+<footer class="bg-black text-white pt-24 pb-12 px-6 border-t border-white/10">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-4">Info</h2>
+      <p class="text-4xl font-black uppercase tracking-tighter italic">Contact & Legal</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-20 border-b border-white/5">
+
+      <div>
+        <h3 class="text-[10px] uppercase tracking-widest text-gray-500 mb-6">Any Questions?</h3>
+        <a href="mailto:info@valkyrfest.es" class="text-xl font-bold hover:text-red-600 transition-colors">
+          info@valkyrfest.es
+        </a>
+      </div>
+
+      <div>
+        <h3 class="text-[10px] uppercase tracking-widest text-gray-500 mb-6">General Info</h3>
+        <ul class="space-y-4">
+          @for (link of infoLinks(); track link) {
+            <li>
+              <a href="#" class="text-sm hover:pl-2 transition-all duration-300 hover:text-gray-400 italic">
+                {{ link }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-[10px] uppercase tracking-widest text-gray-500 mb-6">Legal Notice</h3>
+        <ul class="space-y-4">
+          @for (link of legalLinks(); track link) {
+            <li>
+              <a href="#" class="text-sm hover:pl-2 transition-all duration-300 hover:text-gray-400 italic">
+                {{ link }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.2em] text-gray-600">
+      <p>VALKYRFEST PRODUCTIONS © {{ currentYear() }}</p>
+      <p class="text-center md:text-right italic">Calle Einstein 45 - Sevilla, Spain</p>
+    </div>
+  </div>
+</footer>

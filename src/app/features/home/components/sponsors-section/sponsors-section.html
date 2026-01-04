@@ -1,0 +1,17 @@
+<section class="bg-black text-white py-24 px-6 border-t border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-16">Sponsors</h2>
+
+    <div
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-16 gap-x-8 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
+      @for (sponsor of sponsors(); track sponsor.name) {
+        <div class="group cursor-help text-center">
+          <span
+            class="text-xl md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
+            {{ sponsor.name }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

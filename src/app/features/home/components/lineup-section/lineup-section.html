@@ -1,0 +1,23 @@
+<section class="bg-black text-white py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-12 border-b border-gray-800 pb-4">
+      Line-up 2026
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12">
+      @for (artist of artists(); track artist) {
+        <div class="group cursor-pointer">
+          <h3
+            class="text-4xl md:text-5xl font-black uppercase tracking-tighter transition-all duration-300 group-hover:text-red-600 group-hover:pl-4">
+            {{ artist }}
+          </h3>
+          <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
+        </div>
+      }
+    </div>
+
+    <p class="mt-20 text-center text-gray-600 text-sm uppercase tracking-widest">
+      + 100 artistas por confirmar
+    </p>
+  </div>
+</section>
