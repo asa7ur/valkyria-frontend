@@ -15,7 +15,12 @@ export class LineupSection implements OnInit {
   ngOnInit() {
     this.http.get<Artist[]>('http://localhost:8080/api/artists')
       .subscribe({
-        next: (data) => this.artists.set(data),
+        next: (data) => {
+          const randomArtists = data
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 18);
+          this.artists.set(randomArtists);
+        },
         error: (err) => console.error('Error:', err)
       });
   }
