@@ -15,6 +15,8 @@ export class ArtistDetail implements OnInit {
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
 
+  protected readonly baseUrl = 'http://localhost:8080/uploads/artists';
+
   id = input.required<string>();
   protected artist = signal<Artist | null>(null);
   protected loading = signal(true);
