@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-black text-white pt-32 pb-20 px-6">
+  <div class="max-w-7xl mx-auto">
+
+    <header class="mb-16 text-center">
+      <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
+
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 border-y border-gray-800 py-6">
+        @for (day of days; track day.date) {
+          <button
+            (click)="setDay(day.date)"
+            [class.text-red-600]="selectedDay() === day.date"
+            class="text-xl md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors">
+            {{ day.label }}
+          </button>
+        }
+      </nav>
+    </header>
+
+    <div class="space-y-24">
+      @for (stageName of stageNames(); track stageName) {
+        <section>
+          <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-8 border-b border-gray-900 pb-2">
+            {{ stageName }}
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
+            @for (perf of performancesByStage()[stageName]; track perf.id) {
+              <div class="group cursor-pointer">
+                <div class="flex items-baseline justify-between mb-2">
+                  <span class="text-red-600 font-mono text-sm">
+                    {{ perf.startTime | date:'HH:mm' }}
+                  </span>
+                  <span class="text-gray-600 text-[10px] uppercase tracking-widest">
+                    {{ perf.artist.genre }}
+                  </span>
+                </div>
+
+                <h3
+                  class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
+                  {{ perf.artist.name }}
+                </h3>
+                <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
+              </div>
+            }
+          </div>
+        </section>
+      } @empty {
+        <div class="text-center py-20 text-gray-500 italic">
+          No hay actuaciones programadas para este día todavía.
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

@@ -1,16 +1,27 @@
 <nav
   class="fixed top-0 z-50 w-full px-6 py-4 flex justify-between items-center bg-black/20 backdrop-blur-md border-b border-white/10">
-  <div class="text-2xl font-black tracking-tighter text-white">
+
+  <a routerLink="/"
+     class="text-2xl font-black tracking-tighter text-white hover:text-red-600 transition-colors cursor-pointer">
     VALKYRFEST
-  </div>
+  </a>
 
   <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-white/80">
-    <a href="#" class="hover:text-white transition-colors">Lineup</a>
-    <a href="#" class="hover:text-white transition-colors">Artists</a>
-    <a href="#" class="hover:text-white transition-colors">Tickets</a>
+    <a routerLink="/lineup"
+       routerLinkActive="text-red-600 !text-white"
+       class="hover:text-white transition-colors cursor-pointer">Lineup</a>
+
+    <a routerLink="/artists"
+       routerLinkActive="text-red-600 !text-white"
+       class="hover:text-white transition-colors cursor-pointer">Artists</a>
+
+    <a routerLink="/tickets"
+       routerLinkActive="text-red-600 !text-white"
+       class="hover:text-white transition-colors cursor-pointer">Tickets</a>
   </div>
 
   <button
+    routerLink="/tickets"
     class="bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
     Buy Tickets
   </button>
