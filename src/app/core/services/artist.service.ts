@@ -7,7 +7,7 @@ import {Artist} from '../models/artist.model';
   providedIn: 'root'
 })
 
-export class FestivalService {
+export class ArtistService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api';
 

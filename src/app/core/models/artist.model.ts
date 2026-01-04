@@ -1,10 +1,13 @@
+export interface ArtistImage {
+  id: number;
+  imageUrl: string;
+}
+
 export interface Artist {
   id: number;
   name: string;
-  logo: string;
-}
-
-export interface ArtistDetail extends Artist {
   genre: string;
   country: string;
+  logo: string;
+  images: ArtistImage[];
 }
