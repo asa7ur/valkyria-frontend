@@ -8,8 +8,8 @@
       @for (ticket of tickets(); track ticket.id; let i = $index) {
         <div
           [class]="i < 2
-            ? 'lg:col-span-2 p-10 lg:p-12 min-h-[450px] border-red-600/40 bg-gradient-to-br from-red-950/20 to-transparent'
-            : 'col-span-1 p-8 aspect-[3/4] border-white/20'"
+            ? 'lg:col-span-2 p-10 lg:p-12 min-h-112.5 border-red-600/40 bg-linear-to-br from-red-950/20 to-transparent'
+            : 'col-span-1 p-8 aspect-3/4 border-white/20'"
           class="border flex flex-col justify-between hover:bg-white hover:text-black transition-all duration-500 group relative overflow-hidden">
 
           @if (i < 2) {
