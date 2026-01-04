@@ -4,31 +4,46 @@
       Tickets
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      @for (ticket of tickets(); track ticket.type) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      @for (ticket of tickets(); track ticket.id; let i = $index) {
         <div
-          class="border border-white/20 p-8 flex flex-col justify-between aspect-[3/4] hover:bg-white hover:text-black transition-all duration-500 group">
+          [class]="i < 2
+            ? 'lg:col-span-2 p-10 lg:p-12 min-h-[450px] border-red-600/40 bg-gradient-to-br from-red-950/20 to-transparent'
+            : 'col-span-1 p-8 aspect-[3/4] border-white/20'"
+          class="border flex flex-col justify-between hover:bg-white hover:text-black transition-all duration-500 group relative overflow-hidden">
+
+          @if (i < 2) {
+            <span
+              class="absolute top-6 right-6 text-[10px] font-bold border border-red-600 text-red-600 px-2 py-1 uppercase tracking-tighter">
+              Full Experience
+            </span>
+          }
 
           <div>
-            <p class="text-xs font-bold tracking-[0.3em] text-gray-500 group-hover:text-gray-400 mb-2">
-              {{ ticket.duration }}
+            <p
+              [class]="i < 2 ? 'text-sm mb-4' : 'text-xs mb-2'"
+              class="font-bold tracking-[0.3em] text-gray-500 group-hover:text-gray-400">
+              {{ i < 2 ? '4 DAYS PASS' : '1 DAY ACCESS' }}
             </p>
-            <h3 class="text-3xl font-black uppercase leading-none italic">
-              {{ ticket.type }}
+            <h3
+              [class]="i < 2 ? 'text-5xl lg:text-6xl' : 'text-3xl'"
+              class="font-black uppercase leading-none italic">
+              {{ ticket.name }}
             </h3>
           </div>
 
           <div class="mt-auto">
-            <p class="text-4xl font-light mb-8 group-hover:font-bold transition-all">
-              {{ ticket.price }}
+            <p
+              [class]="i < 2 ? 'text-6xl mb-8' : 'text-4xl mb-8'"
+              class="font-light group-hover:font-bold transition-all">
+              {{ ticket.price }}€
             </p>
 
             <button
               class="w-full border border-current py-4 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors cursor-pointer">
-              BUY
+              BUY NOW
             </button>
           </div>
-
         </div>
       }
     </div>

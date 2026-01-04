@@ -1,16 +1,19 @@
-import {Component, signal} from '@angular/core';
+import {Component, signal, inject, OnInit} from '@angular/core';
+import {TicketService} from '../../../../core/services/ticket.service';
+import {TicketType} from '../../../../core/models/ticket.model';
 
 @Component({
   selector: 'app-tickets-section',
-  imports: [],
-  templateUrl: './tickets-section.html',
-  styles: ``,
+  templateUrl: './tickets-section.html'
 })
-export class TicketsSection {
-  protected readonly tickets = signal([
-    {type: 'General Pass', price: '155€', duration: '4 DAYS'},
-    {type: 'VIP Pass', price: '280€', duration: '4 DAYS'},
-    {type: 'Gold Pass', price: '450€', duration: '4 DAYS'},
-    {type: 'Camping Plus', price: '60€', duration: '4 DAYS'}
-  ]);
+export class TicketsSection implements OnInit {
+  private ticketService = inject(TicketService);
+  protected readonly tickets = signal<TicketType[]>([]);
+
+  ngOnInit() {
+    this.ticketService.getTicketTypes().subscribe({
+      next: (data) => this.tickets.set(data),
+      error: (err) => console.error('Error cargando tickets:', err)
+    });
+  }
 }
