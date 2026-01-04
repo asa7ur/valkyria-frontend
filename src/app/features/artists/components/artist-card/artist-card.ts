@@ -11,24 +11,17 @@ import {Artist} from '../../../../core/models/artist.model';
 export class ArtistCard {
   artist = input.required<Artist>();
 
-  // Base URL de tu servidor y carpeta de subidas configurada en WebConfig
   private readonly baseUrl = 'http://localhost:8080/uploads/artists';
 
   protected displayImage = computed(() => {
     const images = this.artist().images;
-    const logo = this.artist().logo;
 
-    // 1. Si hay imágenes, devolvemos la URL completa de la primera
     if (images && images.length > 0) {
-      return `${this.baseUrl}/${images[0].imageUrl}`;
+      // Retornamos la primera con el formato optimizado
+      return `${this.baseUrl}/${images[0].imageUrl}_thumb.webp`;
     }
 
-    // 2. Si no hay imágenes pero hay logo, devolvemos la URL del logo
-    if (logo) {
-      return `${this.baseUrl}/${logo}`;
-    }
-
-    // 3. Imagen por defecto si no hay nada (opcional)
-    return 'assets/images/placeholder-artist.jpg';
+    // Si no hay imágenes, devolvemos null para controlar el icono en el HTML
+    return null;
   });
 }
