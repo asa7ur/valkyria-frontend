@@ -16,40 +16,48 @@
       </nav>
     </header>
 
-    <div class="space-y-24">
-      @for (stageName of stageNames(); track stageName) {
-        <section>
-          <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-8 border-b border-gray-900 pb-2">
-            {{ stageName }}
+    <div class="space-y-32">
+      @for (date of getGroupedDates(); track date) {
+        <section class="animate-in fade-in duration-700">
+          <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
+            {{ getDayLabel(date) }}
           </h2>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
-            @for (perf of performancesByStage()[stageName]; track perf.id) {
-              <div class="group cursor-pointer">
-                <div class="flex items-baseline justify-between mb-2">
-                  <span class="text-red-600 font-mono text-sm">
-                    {{ perf.startTime | date:'HH:mm' }}
-                  </span>
-                  <span class="text-gray-600 text-[10px] uppercase tracking-widest">
-                    {{ perf.artist.genre }}
-                  </span>
-                </div>
-
-                <h3
-                  class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
-                  {{ perf.artist.name }}
+          <div class="space-y-16">
+            @for (stageName of Object.keys(groupedLineup()[date]); track stageName) {
+              <div>
+                <h3 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-8 border-b border-gray-900 pb-2">
+                  {{ stageName }}
                 </h3>
-                <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
+                  @for (perf of groupedLineup()[date][stageName]; track perf.id) {
+                    <div class="group cursor-pointer">
+                      <div class="flex items-baseline justify-between mb-2">
+                        <span class="text-red-600 font-mono text-sm">
+                          {{ perf.startTime | date:'HH:mm' }}
+                        </span>
+                        <span class="text-gray-600 text-[10px] uppercase tracking-widest">
+                          {{ perf.artist.genre }}
+                        </span>
+                      </div>
+                      <h4
+                        class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
+                        {{ perf.artist.name }}
+                      </h4>
+                      <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
+                    </div>
+                  }
+                </div>
               </div>
             }
           </div>
         </section>
       } @empty {
         <div class="text-center py-20 text-gray-500 italic">
-          No hay actuaciones programadas para este día todavía.
+          No hay actuaciones programadas. Revisa la conexión con el backend.
         </div>
       }
     </div>
-
   </div>
 </div>
