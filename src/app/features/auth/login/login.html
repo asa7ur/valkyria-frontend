@@ -1,0 +1,48 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12">
+  <div class="max-w-md w-full space-y-8 bg-gray-800 p-10 rounded-xl shadow-2xl border border-orange-500/20">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-white uppercase tracking-widest">
+        Valkyr<span class="text-orange-500">Fest</span>
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-400">
+        Ingresa a la zona VIP
+      </p>
+    </div>
+
+    <form class="mt-8 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div class="mb-4">
+          <label for="username" class="sr-only">Usuario</label>
+          <input formControlName="username" id="username" type="text" required
+                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-700 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                 placeholder="Nombre de usuario">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Contraseña</label>
+          <input formControlName="password" id="password" type="password" required
+                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-700 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                 placeholder="Contraseña">
+        </div>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="text-red-500 text-sm text-center font-medium bg-red-500/10 py-2 rounded">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <div>
+        <button type="submit" [disabled]="loginForm.invalid || isLoading()"
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-black bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-all uppercase">
+          {{ isLoading() ? 'Procesando...' : 'Entrar' }}
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center">
+      <a routerLink="/" class="text-orange-400 hover:text-orange-300 text-sm font-medium">
+        ← Volver al inicio
+      </a>
+    </div>
+  </div>
+</div>
