@@ -1,0 +1,41 @@
+<div [formGroup]="ticketForm" class="row g-3 mb-3 p-3 border border-dark rounded bg-dark ticket-row">
+  <div class="col-md-3">
+    <label class="form-label">Nombre</label>
+    <input type="text" formControlName="firstName" class="form-control" required>
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Apellido</label>
+    <input type="text" formControlName="lastName" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Tipo Doc.</label>
+    <select formControlName="documentType" class="form-select" required>
+      <option value="">-- Selecciona --</option>
+      @for (type of documentTypes; track type) {
+        <option [value]="type">{{ type }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Nº Documento</label>
+    <input type="text" formControlName="documentNumber" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Entrada</label>
+    <select formControlName="ticketTypeId" class="form-select" required>
+      <option value="">-- Selecciona --</option>
+      @for (tt of ticketTypes; track tt.id) {
+        <option [value]="tt.id">{{ tt.name }} ({{ tt.price }}€)</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-3 mt-2">
+    <label class="form-label">Fecha Nacimiento</label>
+    <input type="date" formControlName="birthDate" class="form-control" required>
+  </div>
+  <div class="col-md-1 d-flex align-items-end ms-auto">
+    <button type="button" class="btn btn-danger" (click)="remove.emit()">
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</div>

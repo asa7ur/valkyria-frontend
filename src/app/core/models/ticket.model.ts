@@ -3,3 +3,9 @@ export interface TicketType {
   name: string;
   price: number;
 }
+
+export interface CampingType {
+  id: number;
+  name: string;
+  price: number;
+}

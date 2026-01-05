@@ -11,13 +11,13 @@
        class="hover:text-white transition-colors cursor-pointer">Lineup</a>
     <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
        class="hover:text-white transition-colors cursor-pointer">Artists</a>
-    <a routerLink="/tickets" routerLinkActive="text-red-600 !text-white"
+    <a routerLink="/purchase" routerLinkActive="text-red-600 !text-white"
        class="hover:text-white transition-colors cursor-pointer">Tickets</a>
   </div>
 
   <div class="flex items-center gap-4">
     <button
-      routerLink="/tickets"
+      routerLink="/purchase"
       class="hidden md:block bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
       Buy Tickets
     </button>
@@ -43,11 +43,11 @@
          class="text-2xl font-black uppercase tracking-tighter text-white">Lineup</a>
       <a routerLink="/artists" routerLinkActive="text-red-600" (click)="closeMenu()"
          class="text-2xl font-black uppercase tracking-tighter text-white">Artists</a>
-      <a routerLink="/tickets" routerLinkActive="text-red-600" (click)="closeMenu()"
+      <a routerLink="/purchase" routerLinkActive="text-red-600" (click)="closeMenu()"
          class="text-2xl font-black uppercase tracking-tighter text-white">Tickets</a>
 
       <button
-        routerLink="/tickets"
+        routerLink="/purchase"
         (click)="closeMenu()"
         class="bg-white text-black w-full py-4 text-sm font-bold uppercase tracking-widest">
         Buy Tickets Now

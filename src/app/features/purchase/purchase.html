@@ -1,0 +1,61 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <h1 class="display-5 fw-bold mb-4 text-center">Finalizar Compra</h1>
+
+      <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
+
+        <div class="card bg-secondary text-white mb-4 shadow">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-ticket-perforated me-2"></i>Entradas</h3>
+            <button type="button" class="btn btn-warning btn-sm" (click)="addTicket()">
+              <i class="bi bi-plus-circle me-1"></i>Añadir Asistente
+            </button>
+          </div>
+          <div class="card-body">
+            @for (ticketGroup of tickets.controls; track $index) {
+              <app-ticket-item
+                [ticketForm]="$any(ticketGroup)"
+                [ticketTypes]="ticketTypes"
+                [documentTypes]="documentTypes"
+                (remove)="removeTicket($index)">
+              </app-ticket-item>
+            }
+            @if (tickets.length === 0) {
+              <p class="text-center text-light">No has añadido ninguna entrada todavía.</p>
+            }
+          </div>
+        </div>
+
+        <div class="card bg-secondary text-white mb-4 shadow">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-tent me-2"></i>Camping</h3>
+            <button type="button" class="btn btn-warning btn-sm" (click)="addCamping()">
+              <i class="bi bi-plus-circle me-1"></i>Añadir Reserva
+            </button>
+          </div>
+          <div class="card-body">
+            @for (campingGroup of campings.controls; track $index) {
+              <app-camping-item
+                [campingForm]="$any(campingGroup)"
+                [campingTypes]="campingTypes"
+                [documentTypes]="documentTypes"
+                (remove)="removeCamping($index)">
+              </app-camping-item>
+            }
+            @if (campings.length === 0) {
+              <p class="text-center text-light">No has añadido reservas de camping.</p>
+            }
+          </div>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success btn-lg" [disabled]="purchaseForm.invalid">
+            <i class="bi bi-cart-check me-2"></i>Ir al Checkout
+          </button>
+          <a routerLink="/" class="btn btn-outline-light">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
