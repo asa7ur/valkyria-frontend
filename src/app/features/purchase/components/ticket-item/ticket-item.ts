@@ -6,6 +6,7 @@ import {DocumentType} from '../../../../core/models/order.model';
 
 @Component({
   selector: 'app-ticket-item',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './ticket-item.html',
 })

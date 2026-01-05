@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {DocumentType} from '../../../../core/models/order.model';
+import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CampingType} from '../../../../core/models/ticket.model';
-import {CommonModule} from '@angular/common';
+import {DocumentType} from '../../../../core/models/order.model';
 
 @Component({
   selector: 'app-camping-item',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './camping-item.html',
 })

@@ -1,14 +1,15 @@
-<div class="container py-5">
+<div class="container py-5 mt-5">
   <div class="row justify-content-center">
-    <div class="col-lg-11">
-      <h1 class="display-5 fw-bold mb-4 text-center">Finalizar Compra</h1>
+    <div class="col-lg-11 text-white">
+      <h1 class="display-5 fw-bold mb-4 text-center uppercase tracking-tighter">Finalizar Compra</h1>
 
       <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
 
-        <div class="card bg-secondary text-white mb-4 shadow">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0"><i class="bi bi-ticket-perforated me-2"></i>Entradas</h3>
-            <button type="button" class="btn btn-warning btn-sm" (click)="addTicket()">
+        <div class="card bg-dark text-white mb-4 border-white/10 shadow-xl">
+          <div class="card-header bg-white/5 d-flex justify-content-between align-items-center py-3">
+            <h3 class="mb-0 text-xl font-bold uppercase"><i class="bi bi-ticket-perforated me-2"></i>Entradas</h3>
+            <button type="button" class="btn btn-danger btn-sm uppercase font-bold tracking-widest"
+                    (click)="addTicket()">
               <i class="bi bi-plus-circle me-1"></i>Añadir Asistente
             </button>
           </div>
@@ -22,15 +23,16 @@
               </app-ticket-item>
             }
             @if (tickets.length === 0) {
-              <p class="text-center text-light">No has añadido ninguna entrada todavía.</p>
+              <p class="text-center text-white/50 py-4 italic">No has añadido ninguna entrada todavía.</p>
             }
           </div>
         </div>
 
-        <div class="card bg-secondary text-white mb-4 shadow">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0"><i class="bi bi-tent me-2"></i>Camping</h3>
-            <button type="button" class="btn btn-warning btn-sm" (click)="addCamping()">
+        <div class="card bg-dark text-white mb-4 border-white/10 shadow-xl">
+          <div class="card-header bg-white/5 d-flex justify-content-between align-items-center py-3">
+            <h3 class="mb-0 text-xl font-bold uppercase"><i class="bi bi-tent me-2"></i>Camping</h3>
+            <button type="button" class="btn btn-danger btn-sm uppercase font-bold tracking-widest"
+                    (click)="addCamping()">
               <i class="bi bi-plus-circle me-1"></i>Añadir Reserva
             </button>
           </div>
@@ -44,16 +46,20 @@
               </app-camping-item>
             }
             @if (campings.length === 0) {
-              <p class="text-center text-light">No has añadido reservas de camping.</p>
+              <p class="text-center text-white/50 py-4 italic">No has añadido reservas de camping.</p>
             }
           </div>
         </div>
 
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success btn-lg" [disabled]="purchaseForm.invalid">
-            <i class="bi bi-cart-check me-2"></i>Ir al Checkout
+        <div class="d-grid gap-3">
+          <button type="submit" class="btn btn-light btn-lg py-3 uppercase font-black tracking-widest"
+                  [disabled]="purchaseForm.invalid">
+            Ir al Checkout
           </button>
-          <a routerLink="/" class="btn btn-outline-light">Cancelar</a>
+          <a routerLink="/"
+             class="btn btn-outline-light py-2 uppercase font-bold text-xs tracking-widest border-white/20">
+            Cancelar y volver
+          </a>
         </div>
       </form>
     </div>

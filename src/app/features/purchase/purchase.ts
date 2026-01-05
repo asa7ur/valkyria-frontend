@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
@@ -11,6 +11,7 @@ import {DocumentType} from '../../core/models/order.model';
 
 @Component({
   selector: 'app-purchase',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,27 +21,24 @@ import {DocumentType} from '../../core/models/order.model';
   ],
   templateUrl: './purchase.html',
 })
-export class Purchase {
+export class Purchase implements OnInit {
   private fb = inject(FormBuilder);
   private ticketService = inject(TicketService);
   private orderService = inject(OrderService);
   private router = inject(Router);
 
   purchaseForm!: FormGroup;
-
   ticketTypes: TicketType[] = [];
   campingTypes: CampingType[] = [];
-
   documentTypes: DocumentType[] = Object.values(DocumentType) as DocumentType[];
 
   ngOnInit(): void {
     this.initForm();
     this.loadData();
+    // Agregamos un ticket por defecto para que la pantalla no aparezca vacía
+    this.addTicket();
   }
 
-  /**
-   * Inicializa el formulario reactivo con arrays vacíos.
-   */
   private initForm(): void {
     this.purchaseForm = this.fb.group({
       tickets: this.fb.array([]),
@@ -48,9 +46,6 @@ export class Purchase {
     });
   }
 
-  /**
-   * Carga los tipos de tickets y de camping desde la API.
-   */
   private loadData(): void {
     this.ticketService.getTicketTypes().subscribe({
       next: (types) => this.ticketTypes = types,
@@ -63,8 +58,6 @@ export class Purchase {
     });
   }
 
-  // --- Getters para facilitar el acceso a los FormArrays en el HTML ---
-
   get tickets(): FormArray {
     return this.purchaseForm.get('tickets') as FormArray;
   }
@@ -72,8 +65,6 @@ export class Purchase {
   get campings(): FormArray {
     return this.purchaseForm.get('campings') as FormArray;
   }
-
-  // --- Métodos de gestión de la lista de Entradas ---
 
   addTicket(): void {
     const ticketGroup = this.fb.group({
@@ -91,8 +82,6 @@ export class Purchase {
     this.tickets.removeAt(index);
   }
 
-  // --- Métodos de gestión de la lista de Camping ---
-
   addCamping(): void {
     const campingGroup = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -109,20 +98,17 @@ export class Purchase {
     this.campings.removeAt(index);
   }
 
-  /**
-   * Procesa el envío del formulario.
-   */
   onSubmit(): void {
     if (this.purchaseForm.valid) {
       const orderData = this.purchaseForm.value;
-
       this.orderService.createOrder(orderData).subscribe({
         next: (response) => {
           console.log('Pedido creado con éxito', response);
+          this.router.navigate(['/purchase/success']); // Ajusta según tu ruta de éxito
         },
         error: (err) => {
-          console.error('Error al procesar la order:', err);
-          alert('Hubo un problema al tramitar tu pedido. Por favor, revisa los datos.');
+          console.error('Error al procesar la orden:', err);
+          alert('Hubo un problema al tramitar tu pedido.');
         }
       });
     } else {

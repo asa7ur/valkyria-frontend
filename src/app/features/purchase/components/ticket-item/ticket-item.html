@@ -1,40 +1,46 @@
-<div [formGroup]="ticketForm" class="row g-3 mb-3 p-3 border border-dark rounded bg-dark ticket-row">
+<div [formGroup]="ticketForm" class="row g-3 mb-4 p-4 border border-white/10 rounded-lg bg-black/40">
   <div class="col-md-3">
-    <label class="form-label">Nombre</label>
-    <input type="text" formControlName="firstName" class="form-control" required>
+    <label class="form-label text-xs uppercase font-bold text-white/60">Nombre</label>
+    <input type="text" formControlName="firstName"
+           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
   </div>
   <div class="col-md-3">
-    <label class="form-label">Apellido</label>
-    <input type="text" formControlName="lastName" class="form-control" required>
+    <label class="form-label text-xs uppercase font-bold text-white/60">Apellido</label>
+    <input type="text" formControlName="lastName"
+           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
   </div>
   <div class="col-md-2">
-    <label class="form-label">Tipo Doc.</label>
-    <select formControlName="documentType" class="form-select" required>
-      <option value="">-- Selecciona --</option>
+    <label class="form-label text-xs uppercase font-bold text-white/60">Tipo Doc.</label>
+    <select formControlName="documentType"
+            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
+      <option value="">-- Doc --</option>
       @for (type of documentTypes; track type) {
         <option [value]="type">{{ type }}</option>
       }
     </select>
   </div>
   <div class="col-md-2">
-    <label class="form-label">Nº Documento</label>
-    <input type="text" formControlName="documentNumber" class="form-control" required>
+    <label class="form-label text-xs uppercase font-bold text-white/60">Nº Documento</label>
+    <input type="text" formControlName="documentNumber"
+           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
   </div>
   <div class="col-md-2">
-    <label class="form-label">Entrada</label>
-    <select formControlName="ticketTypeId" class="form-select" required>
+    <label class="form-label text-xs uppercase font-bold text-white/60">Entrada</label>
+    <select formControlName="ticketTypeId"
+            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
       <option value="">-- Selecciona --</option>
       @for (tt of ticketTypes; track tt.id) {
         <option [value]="tt.id">{{ tt.name }} ({{ tt.price }}€)</option>
       }
     </select>
   </div>
-  <div class="col-md-3 mt-2">
-    <label class="form-label">Fecha Nacimiento</label>
-    <input type="date" formControlName="birthDate" class="form-control" required>
+  <div class="col-md-3 mt-3">
+    <label class="form-label text-xs uppercase font-bold text-white/60">Fecha Nacimiento</label>
+    <input type="date" formControlName="birthDate"
+           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
   </div>
-  <div class="col-md-1 d-flex align-items-end ms-auto">
-    <button type="button" class="btn btn-danger" (click)="remove.emit()">
+  <div class="col-md-1 d-flex align-items-end ms-auto mt-3">
+    <button type="button" class="btn btn-outline-danger w-100" (click)="remove.emit()">
       <i class="bi bi-trash"></i>
     </button>
   </div>
