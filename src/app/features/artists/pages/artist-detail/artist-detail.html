@@ -13,28 +13,43 @@
         <span class="text-xl">←</span> VOLVER
       </button>
 
-      <div class="relative w-full border border-white/10 overflow-hidden group mb-12 shadow-2xl">
-        <img [src]="baseUrl + '/' + (a.images.length > 0 ? a.images[0].imageUrl : a.logo) + '_full.webp'"
-             [alt]="a.name"
-             class="w-full aspect-video md:aspect-4/3 object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-75 transition-all duration-1000">
+      <div
+        class="relative w-full aspect-video md:aspect-4/3 border border-white/10 overflow-hidden group mb-12 shadow-2xl bg-black">
 
-        <div class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent"></div>
+        @if (a.images.length > 0) {
+          @for (img of a.images; track $index) {
+            <img [src]="baseUrl + '/' + img.imageUrl + '_full.webp'"
+                 [alt]="a.name"
+                 class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-75"
+                 [ngClass]="{
+                   'opacity-100 z-10': $index === currentImageIndex(),
+                   'opacity-0 z-0': $index !== currentImageIndex()
+                 }">
+          }
+        } @else {
+          <img [src]="baseUrl + '/' + a.logo + '_full.webp'"
+               class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 z-10">
+        }
 
-        <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6">
+        @if (a.images.length > 1) {
+          <button (click)="prevImage()"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-red-600 text-white p-3 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center">
+            <i class="bi bi-chevron-left text-2xl"></i>
+          </button>
+          <button (click)="nextImage()"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-red-600 text-white p-3 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center">
+            <i class="bi bi-chevron-right text-2xl"></i>
+          </button>
+        }
+
+        <div
+          class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent z-20 pointer-events-none"></div>
+
+        <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6 z-20 pointer-events-none">
           <h1 class="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-2 drop-shadow-lg"
               style="-webkit-text-stroke: 1px rgba(255,255,255,0.5); color: transparent;">
             {{ a.name }}
           </h1>
-          @if (a.performances && a.performances.length > 0) {
-            <div class="flex flex-col md:flex-row md:items-end gap-2 md:gap-6">
-              <h2 class="text-xl md:text-3xl font-black uppercase tracking-tight text-red-600">
-                {{ a.performances[0].stage.name }}
-              </h2>
-              <p class="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-gray-400 pb-1">
-                {{ a.performances[0].startTime | date:'EEEE d MMMM' | uppercase }}
-              </p>
-            </div>
-          }
         </div>
       </div>
 
@@ -52,7 +67,20 @@
                 Artist Info
               </h3>
 
-              <div class="space-y-4 mb-8">
+              <div class="space-y-6 mb-8">
+                @if (a.performances && a.performances.length > 0) {
+                  <div class="bg-black/10 p-4 -mx-4 border-l-4 border-black/30 mb-6">
+                    <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-1">Escenario /
+                      Horario</p>
+                    <p class="text-xl font-black uppercase tracking-tight text-white leading-tight">
+                      {{ a.performances[0].stage.name }}
+                    </p>
+                    <p class="text-xs font-bold uppercase tracking-widest text-black/80 mt-1">
+                      {{ a.performances[0].startTime | date:'EEEE d MMMM' | uppercase }}
+                    </p>
+                  </div>
+                }
+
                 <div>
                   <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold">Género</p>
                   <p class="text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
@@ -67,14 +95,33 @@
             <div class="relative z-10">
               <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-3">Redes Sociales</p>
               <div class="flex gap-5">
+                @if (a.officialUrl) {
+                  <a [href]="a.officialUrl" target="_blank" class="hover:scale-125 transition-transform">
+                    <i class="bi bi-globe2 text-2xl text-black"></i>
+                  </a>
+                }
+
                 @if (a.instagramUrl) {
                   <a [href]="a.instagramUrl" target="_blank" class="hover:scale-125 transition-transform">
                     <i class="bi bi-instagram text-2xl text-black"></i>
                   </a>
                 }
+
+                @if (a.tiktokUrl) {
+                  <a [href]="a.tiktokUrl" target="_blank" class="hover:scale-125 transition-transform">
+                    <i class="bi bi-tiktok text-2xl text-black"></i>
+                  </a>
+                }
+
                 @if (a.youtubeUrl) {
                   <a [href]="a.youtubeUrl" target="_blank" class="hover:scale-125 transition-transform">
                     <i class="bi bi-youtube text-2xl text-black"></i>
+                  </a>
+                }
+
+                @if (a.tidalUrl) {
+                  <a [href]="a.tidalUrl" target="_blank" class="hover:scale-125 transition-transform">
+                    <i class="fa-brands fa-tidal text-2xl text-black"></i>
                   </a>
                 }
               </div>
@@ -105,21 +152,7 @@
             </div>
           }
         </div>
-
       </div>
-
-      @if (a.images && a.images.length > 1) {
-        <div class="mt-20">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @for (img of a.images.slice(1); track img.id) {
-              <div class="aspect-video overflow-hidden border border-white/10 group">
-                <img [src]="baseUrl + '/' + img.imageUrl + '_thumb.webp'"
-                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-50 group-hover:opacity-100">
-              </div>
-            }
-          </div>
-        </div>
-      }
     </div>
   }
 </div>

@@ -1,3 +1,5 @@
+import {Performance} from './lineup.model';
+
 export interface ArtistImage {
   id: number;
   imageUrl: string;
@@ -12,9 +14,12 @@ export interface Artist {
   country: string;
   logo: string;
   description?: string;
-  youtubeUrl?: string;
-  spotifyUrl?: string;
+  officialUrl?: string;
   instagramUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+  tidalUrl?: string;
+  spotifyUrl?: string;
   images: ArtistImage[];
-  performances?: any[];
+  performances?: Performance[];
 }
