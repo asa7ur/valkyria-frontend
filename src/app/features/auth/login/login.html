@@ -1,48 +1,72 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12">
-  <div class="max-w-md w-full space-y-8 bg-gray-800 p-10 rounded-xl shadow-2xl border border-orange-500/20">
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-white uppercase tracking-widest">
-        Valkyr<span class="text-orange-500">Fest</span>
+<div class="min-h-screen bg-black flex items-center justify-center px-6 relative overflow-hidden">
+
+  <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-600 blur-[120px] rounded-full"></div>
+  </div>
+
+  <div class="w-full max-w-md z-10">
+    <div class="mb-12">
+      <h2 class="text-6xl font-black text-white uppercase italic leading-none">
+        Join the <br>
+        <span class="text-red-600">Horde</span>
       </h2>
-      <p class="mt-2 text-center text-sm text-gray-400">
-        Ingresa a la zona VIP
-      </p>
+      <div class="h-2 w-24 bg-red-600 mt-4"></div>
     </div>
 
-    <form class="mt-8 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div class="mb-4">
-          <label for="username" class="sr-only">Usuario</label>
-          <input formControlName="username" id="username" type="text" required
-                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-700 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                 placeholder="Nombre de usuario">
-        </div>
-        <div>
-          <label for="password" class="sr-only">Contraseña</label>
-          <input formControlName="password" id="password" type="password" required
-                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-700 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                 placeholder="Contraseña">
-        </div>
+    @if (errorMessage()) {
+      <div
+        class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          Username / Email
+        </label>
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="your_username"
+          class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
+        >
       </div>
 
-      @if (errorMessage()) {
-        <div class="text-red-500 text-sm text-center font-medium bg-red-500/10 py-2 rounded">
-          {{ errorMessage() }}
-        </div>
-      }
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          Password
+        </label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
+        >
+      </div>
 
-      <div>
-        <button type="submit" [disabled]="loginForm.invalid || isLoading()"
-                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-black bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-all uppercase">
-          {{ isLoading() ? 'Procesando...' : 'Entrar' }}
+      <div class="pt-4">
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid || isLoading()"
+          class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-black transition-all cursor-pointer flex justify-between items-center px-8 group"
+        >
+          <span>{{ isLoading() ? 'Authenticating...' : 'Login Now' }}</span>
+          @if (!isLoading()) {
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5 transform group-hover:translate-x-2 transition-transform" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          }
         </button>
       </div>
     </form>
 
-    <div class="text-center">
-      <a routerLink="/" class="text-orange-400 hover:text-orange-300 text-sm font-medium">
-        ← Volver al inicio
-      </a>
+    <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+      <a routerLink="/" class="text-white/30 hover:text-white transition-colors">← Back to Home</a>
     </div>
   </div>
 </div>

@@ -6,39 +6,39 @@
     VALKYRFEST
   </a>
 
-  <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-white/80">
+  <div class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-white/80">
     <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
        class="hover:text-white transition-colors cursor-pointer">Lineup</a>
     <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
        class="hover:text-white transition-colors cursor-pointer">Artists</a>
-    <a routerLink="/purchase" routerLinkActive="text-red-600 !text-white"
-       class="hover:text-white transition-colors cursor-pointer">Tickets</a>
+
+    <button
+      routerLink="/purchase"
+      class="bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all cursor-pointer ml-2">
+      Buy Tickets
+    </button>
   </div>
 
-  <div class="flex items-center gap-4">
+  <div class="flex items-center gap-6">
 
     @if (authService.currentUser()) {
-      <div class="hidden md:flex items-center gap-4">
-        <span class="text-[10px] text-white/50 uppercase tracking-widest font-bold">
-          Hi, <span class="text-white">{{ authService.currentUser()?.username }}</span>
-        </span>
+      <div class="hidden md:flex items-center gap-6">
+        <a routerLink="/orders" routerLinkActive="text-white"
+           class="text-[10px] text-white/50 uppercase tracking-widest font-bold hover:text-white transition-colors cursor-pointer">
+          My Orders
+        </a>
+
         <button (click)="onLogout()"
-                class="text-[10px] font-bold uppercase tracking-widest text-white/80 hover:text-red-600 transition-colors cursor-pointer">
+                class="text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors cursor-pointer">
           Logout
         </button>
       </div>
     } @else {
       <a routerLink="/login"
-         class="hidden md:block text-xs font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer mr-2">
+         class="hidden md:block text-xs font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer">
         Login
       </a>
     }
-
-    <button
-      routerLink="/purchase"
-      class="hidden md:block bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
-      Buy Tickets
-    </button>
 
     <button
       (click)="toggleMenu()"
@@ -62,13 +62,22 @@
          class="text-2xl font-black uppercase tracking-tighter text-white">Lineup</a>
       <a routerLink="/artists" routerLinkActive="text-red-600" (click)="closeMenu()"
          class="text-2xl font-black uppercase tracking-tighter text-white">Artists</a>
-      <a routerLink="/purchase" routerLinkActive="text-red-600" (click)="closeMenu()"
-         class="text-2xl font-black uppercase tracking-tighter text-white">Tickets</a>
+
+      <button
+        routerLink="/purchase"
+        (click)="closeMenu()"
+        class="bg-white text-black w-full py-4 text-sm font-bold uppercase tracking-widest">
+        Buy Tickets Now
+      </button>
 
       <div class="h-px bg-white/10 my-2"></div>
 
       @if (authService.currentUser()) {
         <div class="flex flex-col gap-4">
+          <a routerLink="/orders" (click)="closeMenu()"
+             class="text-xl font-black uppercase tracking-tighter text-white/70 hover:text-white">
+            My Orders
+          </a>
           <span class="text-sm text-white/50 uppercase font-bold tracking-widest">
             User: {{ authService.currentUser()?.username }}
           </span>
@@ -81,13 +90,6 @@
         <a routerLink="/login" (click)="closeMenu()"
            class="text-2xl font-black uppercase tracking-tighter text-white">Login</a>
       }
-
-      <button
-        routerLink="/purchase"
-        (click)="closeMenu()"
-        class="bg-white text-black w-full py-4 text-sm font-bold uppercase tracking-widest mt-4">
-        Buy Tickets Now
-      </button>
     </div>
   }
 </nav>
