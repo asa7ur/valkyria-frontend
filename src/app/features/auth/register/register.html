@@ -1,0 +1,108 @@
+<div class="min-h-screen bg-black flex items-center justify-center py-12 px-6 relative overflow-hidden">
+
+  <div class="absolute top-0 right-0 w-full h-full opacity-20 pointer-events-none">
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-600 blur-[120px] rounded-full"></div>
+  </div>
+
+  <div class="w-full max-w-2xl z-10">
+    <div class="mb-10 text-center md:text-left">
+      <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic leading-none">
+        Join the <br>
+        <span class="text-red-600">Valkyries</span>
+      </h2>
+      <div class="h-2 w-24 bg-red-600 mt-4 mx-auto md:mx-0"></div>
+    </div>
+
+    @if (errorMessage()) {
+      <div
+        class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div
+        class="bg-green-600/20 border border-green-600 text-green-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest text-center">
+        {{ successMessage() }}
+      </div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">First
+          Name</label>
+        <input type="text" formControlName="firstName"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Last
+          Name</label>
+        <input type="text" formControlName="lastName"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="relative group md:col-span-2">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Email
+          Address</label>
+        <input type="email" formControlName="email"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Phone</label>
+        <input type="text" formControlName="phone"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Birth
+          Date</label>
+        <input type="date" formControlName="birthDate"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark">
+      </div>
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Password</label>
+        <input type="password" formControlName="password"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="relative group">
+        <label
+          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Confirm
+          Password</label>
+        <input type="password" formControlName="confirmPassword"
+               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+      </div>
+
+      <div class="md:col-span-2 pt-6">
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid || isLoading()"
+          class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 transition-all cursor-pointer flex justify-between items-center px-8"
+        >
+          <span>{{ isLoading() ? 'Processing...' : 'Register as Warrior' }}</span>
+
+          @if (!isLoading()) {
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          }
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+      <a routerLink="/login" class="text-white/30 hover:text-white transition-colors">← Back to Login</a>
+    </div>
+  </div>
+</div>
