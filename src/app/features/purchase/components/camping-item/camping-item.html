@@ -1,53 +1,63 @@
-<div [formGroup]="campingForm" class="row g-3 mb-4 p-4 border border-white/10 rounded-lg bg-black/40">
-  <div class="col-md-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Nombre</label>
-    <input type="text" formControlName="firstName"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-  </div>
+<div [formGroup]="campingForm" class="bg-zinc-900/50 border border-white/10 p-6 md:p-8 relative group animate-in">
+  <button type="button"
+          (click)="remove.emit()"
+          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform z-10 shadow-lg">
+    <i class="bi bi-x-lg"></i>
+  </button>
 
-  <div class="col-md-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Apellido</label>
-    <input type="text" formControlName="lastName"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre del Huésped</label>
+      <input type="text" formControlName="firstName"
+             [class.border-red-600]="campingForm.get('firstName')?.invalid && campingForm.get('firstName')?.touched"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+    </div>
 
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Tipo Doc.</label>
-    <select formControlName="documentType"
-            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-      <option value="">-- Doc --</option>
-      @for (type of documentTypes; track type) {
-        <option [value]="type">{{ type }}</option>
-      }
-    </select>
-  </div>
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
+      <input type="text" formControlName="lastName"
+             [class.border-red-600]="campingForm.get('lastName')?.invalid && campingForm.get('lastName')?.touched"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+    </div>
 
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Nº Documento</label>
-    <input type="text" formControlName="documentNumber"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-  </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-1">
+        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
+        <select formControlName="documentType"
+                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer">
+          @for (type of documentTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
+        <input type="text" formControlName="documentNumber"
+               [class.border-red-600]="campingForm.get('documentNumber')?.invalid && campingForm.get('documentNumber')?.touched"
+               class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+      </div>
+    </div>
 
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Alojamiento</label>
-    <select formControlName="campingTypeId"
-            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-      <option value="">-- Selecciona --</option>
-      @for (ct of campingTypes; track ct.id) {
-        <option [value]="ct.id">{{ ct.name }} ({{ ct.price }}€)</option>
-      }
-    </select>
-  </div>
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
+      <input type="date" formControlName="birthDate"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors scheme-dark">
+    </div>
 
-  <div class="col-md-3 mt-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Fecha Nacimiento</label>
-    <input type="date" formControlName="birthDate"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none" required>
-  </div>
-
-  <div class="col-md-1 d-flex align-items-end ms-auto mt-3">
-    <button type="button" class="btn btn-outline-danger w-100" (click)="remove.emit()">
-      <i class="bi bi-trash"></i>
-    </button>
+    <div class="md:col-span-2 space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo de Alojamiento</label>
+      <div class="relative">
+        <select formControlName="campingTypeId"
+                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors font-bold italic appearance-none cursor-pointer">
+          <option value="" disabled selected>-- Selecciona tu zona de descanso --</option>
+          @for (ct of campingTypes; track ct.id) {
+            <option [value]="ct.id">{{ ct.name | uppercase }} — {{ ct.price }}€</option>
+          }
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white/20">
+          <i class="bi bi-chevron-down"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

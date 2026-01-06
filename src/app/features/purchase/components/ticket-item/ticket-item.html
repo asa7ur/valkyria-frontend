@@ -1,47 +1,55 @@
-<div [formGroup]="ticketForm" class="row g-3 mb-4 p-4 border border-white/10 rounded-lg bg-black/40">
-  <div class="col-md-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Nombre</label>
-    <input type="text" formControlName="firstName"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-  </div>
-  <div class="col-md-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Apellido</label>
-    <input type="text" formControlName="lastName"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-  </div>
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Tipo Doc.</label>
-    <select formControlName="documentType"
-            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-      <option value="">-- Doc --</option>
-      @for (type of documentTypes; track type) {
-        <option [value]="type">{{ type }}</option>
-      }
-    </select>
-  </div>
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Nº Documento</label>
-    <input type="text" formControlName="documentNumber"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-  </div>
-  <div class="col-md-2">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Entrada</label>
-    <select formControlName="ticketTypeId"
-            class="form-select bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-      <option value="">-- Selecciona --</option>
-      @for (tt of ticketTypes; track tt.id) {
-        <option [value]="tt.id">{{ tt.name }} ({{ tt.price }}€)</option>
-      }
-    </select>
-  </div>
-  <div class="col-md-3 mt-3">
-    <label class="form-label text-xs uppercase font-bold text-white/60">Fecha Nacimiento</label>
-    <input type="date" formControlName="birthDate"
-           class="form-control bg-dark text-white border-white/20 focus:border-red-600 shadow-none">
-  </div>
-  <div class="col-md-1 d-flex align-items-end ms-auto mt-3">
-    <button type="button" class="btn btn-outline-danger w-100" (click)="remove.emit()">
-      <i class="bi bi-trash"></i>
-    </button>
+<div [formGroup]="ticketForm" class="bg-zinc-900/50 border border-white/10 p-6 md:p-8 relative group">
+  <button type="button"
+          (click)="remove.emit()"
+          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform">
+    <i class="bi bi-x-lg"></i>
+  </button>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre</label>
+      <input type="text" formControlName="firstName"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+    </div>
+
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
+      <input type="text" formControlName="lastName"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-1">
+        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
+        <select formControlName="documentType"
+                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none">
+          @for (type of documentTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
+        <input type="text" formControlName="documentNumber"
+               class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+      </div>
+    </div>
+
+    <div class="space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
+      <input type="date" formControlName="birthDate"
+             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors color-white">
+    </div>
+
+    <div class="md:col-span-2 space-y-1">
+      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Selecciona tu Entrada</label>
+      <select formControlName="ticketTypeId"
+              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors font-bold italic appearance-none">
+        <option value="" disabled>-- Elige una opción --</option>
+        @for (tt of ticketTypes; track tt.id) {
+          <option [value]="tt.id">{{ tt.name }} — {{ tt.price }}€</option>
+        }
+      </select>
+    </div>
   </div>
 </div>

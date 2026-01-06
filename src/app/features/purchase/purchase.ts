@@ -86,10 +86,10 @@ export class Purchase implements OnInit {
     const campingGroup = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      documentType: ['', Validators.required],
-      documentNumber: ['', Validators.required],
+      documentType: [DocumentType.DNI, Validators.required], // Valor por defecto lógico
+      documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9A-Z]{8,9}$/i)]], // Validación básica de doc
       birthDate: ['', Validators.required],
-      campingTypeId: [null, Validators.required]
+      campingTypeId: ['', Validators.required]
     });
     this.campings.push(campingGroup);
   }
@@ -103,16 +103,20 @@ export class Purchase implements OnInit {
       const orderData = this.purchaseForm.value;
       this.orderService.createOrder(orderData).subscribe({
         next: (response) => {
-          console.log('Pedido creado con éxito', response);
-          this.router.navigate(['/purchase/success']); // Ajusta según tu ruta de éxito
+          this.router.navigate(['/purchase/success']);
         },
         error: (err) => {
+          // Mejor manejo de errores visual
           console.error('Error al procesar la orden:', err);
-          alert('Hubo un problema al tramitar tu pedido.');
+          alert('Hubo un problema al tramitar tu pedido. Por favor, revisa los datos.');
         }
       });
     } else {
+      // Esto asegura que todos los campos inválidos se marquen en rojo inmediatamente
       this.purchaseForm.markAllAsTouched();
+      // Opcional: scroll al primer error
+      const firstInvalid = document.querySelector('.ng-invalid');
+      firstInvalid?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
   }
 }
