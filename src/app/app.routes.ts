@@ -9,6 +9,8 @@ import {Login} from './features/auth/login/login';
 import {authGuard} from './core/guards/auth.guard';
 import {Checkout} from './features/purchase/pages/checkout/checkout';
 import {Success} from './features/purchase/pages/success/success';
+import {Cancel} from './features/purchase/pages/cancel/cancel';
+import {MyOrders} from './features/profile/pages/my-orders/my-orders';
 
 export const routes: Routes = [
   {
@@ -23,12 +25,14 @@ export const routes: Routes = [
       {path: 'lineup', component: Lineup},
       {path: 'artists', component: Artists},
       {path: 'artists/:id', component: ArtistDetail},
+      {path: 'orders', component: MyOrders},
       {
         path: 'purchase',
         children: [
           {path: '', component: Purchase},
           {path: 'checkout', component: Checkout},
           {path: 'success', component: Success},
+          {path: 'cancel', component: Cancel}
         ]
       },
     ]

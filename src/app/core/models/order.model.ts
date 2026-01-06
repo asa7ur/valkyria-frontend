@@ -26,3 +26,18 @@ export interface OrderRequest {
   tickets: TicketOrder[];
   campings: CampingOrder[];
 }
+
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  CANCELLED = 'CANCELLED'
+}
+
+export interface OrderResponse {
+  id: number;
+  orderDate: string;
+  totalPrice: number;
+  status: OrderStatus;
+  tickets: TicketOrder[];
+  campings: CampingOrder[];
+}

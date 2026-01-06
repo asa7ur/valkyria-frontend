@@ -1,0 +1,42 @@
+<div class="min-h-screen bg-black flex items-center justify-center px-6">
+  <div class="max-w-2xl w-full text-center space-y-8 animate-in">
+
+    <div class="flex justify-center">
+      <div
+        class="w-24 h-24 border-4 border-red-600 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.3)]">
+        <i class="bi bi-x-lg text-red-600 text-5xl"></i>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h1 class="text-6xl md:text-7xl font-black text-white uppercase italic tracking-tighter">
+        Pago Cancelado
+      </h1>
+      <p class="text-white/50 text-xl font-bold uppercase tracking-[0.2em]">
+        El proceso de compra se ha detenido
+      </p>
+    </div>
+
+    <div class="bg-zinc-900 border border-white/10 p-8 space-y-6">
+      <p class="text-white/70 text-lg">
+        No se ha realizado ningún cargo en tu cuenta. Si has tenido algún problema con el método de pago, puedes volver
+        a intentarlo ahora mismo.
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row gap-4">
+        <a routerLink="/purchase/checkout"
+           class="flex-1 bg-white text-black py-4 text-lg font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all text-center">
+          Reintentar Pago
+        </a>
+        <a routerLink="/"
+           class="flex-1 border border-white/20 text-white py-4 text-lg font-black uppercase tracking-widest hover:bg-white/10 transition-all text-center">
+          Volver al Inicio
+        </a>
+      </div>
+    </div>
+
+    <p class="text-white/20 text-xs uppercase font-bold tracking-widest italic">
+      La arena te espera cuando estés listo // Valkyrfest 2026
+    </p>
+  </div>
+</div>
