@@ -28,4 +28,8 @@ export class OrderService {
   createOrder(order: OrderRequest): Observable<{ url: string }> {
     return this.http.post<{ url: string }>(this.apiUrl, order);
   }
+
+  clearOrder() {
+    this.currentOrder.set(null);
+  }
 }

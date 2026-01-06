@@ -8,6 +8,7 @@ import {Purchase} from './features/purchase/purchase';
 import {Login} from './features/auth/login/login';
 import {authGuard} from './core/guards/auth.guard';
 import {Checkout} from './features/purchase/pages/checkout/checkout';
+import {Success} from './features/purchase/pages/success/success';
 
 export const routes: Routes = [
   {
@@ -24,10 +25,12 @@ export const routes: Routes = [
       {path: 'artists/:id', component: ArtistDetail},
       {
         path: 'purchase',
-        component: Purchase,
-        canActivate: [authGuard]
+        children: [
+          {path: '', component: Purchase},
+          {path: 'checkout', component: Checkout},
+          {path: 'success', component: Success},
+        ]
       },
-      {path: 'purchase/checkout', component: Checkout},
     ]
   }
 ];
