@@ -7,6 +7,7 @@ import {ArtistDetail} from './features/artists/pages/artist-detail/artist-detail
 import {Purchase} from './features/purchase/purchase';
 import {Login} from './features/auth/login/login';
 import {authGuard} from './core/guards/auth.guard';
+import {Checkout} from './features/purchase/pages/checkout/checkout';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,7 @@ export const routes: Routes = [
         component: Purchase,
         canActivate: [authGuard]
       },
+      {path: 'purchase/checkout', component: Checkout},
     ]
   }
 ];

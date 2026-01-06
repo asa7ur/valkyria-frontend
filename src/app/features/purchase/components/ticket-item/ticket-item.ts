@@ -11,8 +11,10 @@ import {DocumentType} from '../../../../core/models/order.model';
   templateUrl: './ticket-item.html',
 })
 export class TicketItem {
+  // Recibe el grupo de controles específico para este ticket
   @Input({required: true}) ticketForm!: FormGroup;
   @Input({required: true}) ticketTypes: TicketType[] = [];
   @Input({required: true}) documentTypes: DocumentType[] = [];
+  // Notifica al padre si se pulsa el botón de borrar
   @Output() remove = new EventEmitter<void>();
 }

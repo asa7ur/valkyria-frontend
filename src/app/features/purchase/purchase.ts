@@ -35,8 +35,7 @@ export class Purchase implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadData();
-    // Agregamos un ticket por defecto para que la pantalla no aparezca vacía
-    this.addTicket();
+    this.addTicket(); // Empezamos con uno
   }
 
   private initForm(): void {
@@ -47,15 +46,8 @@ export class Purchase implements OnInit {
   }
 
   private loadData(): void {
-    this.ticketService.getTicketTypes().subscribe({
-      next: (types) => this.ticketTypes = types,
-      error: (err) => console.error('Error cargando tipos de tickets', err)
-    });
-
-    this.ticketService.getCampingTypes().subscribe({
-      next: (types) => this.campingTypes = types,
-      error: (err) => console.error('Error cargando tipos de camping', err)
-    });
+    this.ticketService.getTicketTypes().subscribe(types => this.ticketTypes = types);
+    this.ticketService.getCampingTypes().subscribe(types => this.campingTypes = types);
   }
 
   get tickets(): FormArray {
@@ -73,6 +65,7 @@ export class Purchase implements OnInit {
       documentType: ['', Validators.required],
       documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
+      // CAMBIO: Debe ser ticketTypeId para que el Backend lo reconozca
       ticketTypeId: [null, Validators.required]
     });
     this.tickets.push(ticketGroup);
@@ -86,10 +79,11 @@ export class Purchase implements OnInit {
     const campingGroup = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      documentType: [DocumentType.DNI, Validators.required], // Valor por defecto lógico
-      documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9A-Z]{8,9}$/i)]], // Validación básica de doc
+      documentType: ['', Validators.required],
+      documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
-      campingTypeId: ['', Validators.required]
+      // CAMBIO: Debe ser campingTypeId
+      campingTypeId: [null, Validators.required]
     });
     this.campings.push(campingGroup);
   }
@@ -100,21 +94,13 @@ export class Purchase implements OnInit {
 
   onSubmit(): void {
     if (this.purchaseForm.valid) {
-      const orderData = this.purchaseForm.value;
-      this.orderService.createOrder(orderData).subscribe({
-        next: (response) => {
-          this.router.navigate(['/purchase/success']);
-        },
-        error: (err) => {
-          // Mejor manejo de errores visual
-          console.error('Error al procesar la orden:', err);
-          alert('Hubo un problema al tramitar tu pedido. Por favor, revisa los datos.');
-        }
-      });
+      // 1. Guardamos los datos en el servicio (el "carrito")
+      this.orderService.setOrder(this.purchaseForm.value);
+
+      // 2. Navegamos a la vista de resumen (Checkout)
+      this.router.navigate(['/purchase/checkout']);
     } else {
-      // Esto asegura que todos los campos inválidos se marquen en rojo inmediatamente
       this.purchaseForm.markAllAsTouched();
-      // Opcional: scroll al primer error
       const firstInvalid = document.querySelector('.ng-invalid');
       firstInvalid?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }

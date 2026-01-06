@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OrderRequest} from '../models/order.model';
 import {Observable} from 'rxjs';
@@ -10,17 +10,22 @@ export class OrderService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/orders';
 
-  private currentOrder: OrderRequest | null = null;
+  // Usamos un signal para que cualquier componente sepa si hay un pedido pendiente
+  private currentOrder = signal<OrderRequest | null>(null);
 
   setOrder(order: OrderRequest) {
-    this.currentOrder = order;
+    this.currentOrder.set(order);
   }
 
-  getOrder(): OrderRequest | null {
-    return this.currentOrder;
+  getOrder() {
+    return this.currentOrder();
   }
 
-  createOrder(order: OrderRequest): Observable<any> {
-    return this.http.post<any>(this.apiUrl, order);
+  /**
+   * Envía el formulario de compra al servidor.
+   * El servidor responderá con el ID del pedido o la URL de Stripe.
+   */
+  createOrder(order: OrderRequest): Observable<{ url: string }> {
+    return this.http.post<{ url: string }>(this.apiUrl, order);
   }
 }
