@@ -11,11 +11,21 @@ import {Checkout} from './features/purchase/pages/checkout/checkout';
 import {Success} from './features/purchase/pages/success/success';
 import {Cancel} from './features/purchase/pages/cancel/cancel';
 import {MyOrders} from './features/profile/pages/my-orders/my-orders';
+import {Register} from './features/auth/register/register';
+import {Confirm} from './features/auth/confirm/confirm';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: Login
+  },
+  {
+    path: 'register',
+    component: Register
+  },
+  {
+    path: 'confirm-registration',
+    component: Confirm
   },
   {
     path: '',

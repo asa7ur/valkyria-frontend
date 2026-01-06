@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "valkyrfest-frontend": {
+    "valkyria-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -58,10 +58,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "valkyrfest-frontend:build:production"
+              "buildTarget": "valkyria-frontend:build:production"
             },
             "development": {
-              "buildTarget": "valkyrfest-frontend:build:development"
+              "buildTarget": "valkyria-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

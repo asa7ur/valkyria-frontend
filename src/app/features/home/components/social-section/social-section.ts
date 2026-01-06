@@ -8,9 +8,9 @@ import {Component, signal} from '@angular/core';
 })
 export class SocialSection {
   protected readonly socialNetworks = signal([
-    {name: 'Instagram', handle: '@valkyrfest', color: 'hover:text-pink-500'},
-    {name: 'TikTok', handle: '@valkyrfest_oficial', color: 'hover:text-cyan-400'},
-    {name: 'Facebook', handle: 'Valkyrfest Sevilla', color: 'hover:text-blue-600'},
-    {name: 'Youtube', handle: 'Valkyrfest TV', color: 'hover:text-red-600'}
+    {name: 'Instagram', handle: '@valkyria', color: 'hover:text-pink-500'},
+    {name: 'TikTok', handle: '@valkyria_oficial', color: 'hover:text-cyan-400'},
+    {name: 'Facebook', handle: 'Valkyria Sevilla', color: 'hover:text-blue-600'},
+    {name: 'Youtube', handle: 'Valkyria TV', color: 'hover:text-red-600'}
   ]);
 }
