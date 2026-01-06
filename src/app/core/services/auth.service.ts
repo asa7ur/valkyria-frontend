@@ -18,7 +18,9 @@ export class AuthService {
    * Procesa la respuesta que contiene el JWT y los datos del usuario.
    */
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials, {
+      withCredentials: true // <--- Necesario para recibir la cookie 'jwt' del backend
+    }).pipe(
       tap(response => {
         this.saveSession(response);
       })
