@@ -14,12 +14,9 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Señales para manejar el estado de la interfaz
   errorMessage = signal<string | null>(null);
   isLoading = signal<boolean>(false);
 
-  // Definición del formulario reactivo
-  // Asegúrate de que en el HTML uses formControlName="username"
   loginForm = this.fb.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(4)]]
@@ -33,9 +30,20 @@ export class Login {
       const credentials = this.loginForm.value as any;
 
       this.authService.login(credentials).subscribe({
-        next: () => {
-          // Redirección al inicio tras un login exitoso
-          this.router.navigate(['/']);
+        next: (response) => {
+          // Extraemos los nombres de los roles del array de objetos
+          const roles = response.roles.map(r => r.authority);
+
+          const isAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_MANAGER');
+
+          if (isAdmin) {
+            // REDIRECCIÓN EXTERNA: Forzamos al navegador a ir al servidor de Thymeleaf
+            // La cookie 'jwt' ya se habrá guardado gracias a allowCredentials: true
+            window.location.href = 'http://localhost:8080/admin/dashboard';
+          } else {
+            // REDIRECCIÓN INTERNA: Seguimos dentro de la aplicación Angular
+            this.router.navigate(['/']);
+          }
         },
         error: (err) => {
           this.isLoading.set(false);
@@ -44,7 +52,6 @@ export class Login {
         }
       });
     } else {
-      // Si el formulario no es válido, marcamos los campos para mostrar errores
       this.loginForm.markAllAsTouched();
     }
   }
