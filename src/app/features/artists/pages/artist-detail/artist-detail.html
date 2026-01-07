@@ -22,13 +22,18 @@
                  [alt]="a.name"
                  class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-75"
                  [ngClass]="{
-                   'opacity-100 z-10': $index === currentImageIndex(),
-                   'opacity-0 z-0': $index !== currentImageIndex()
-                 }">
+             'opacity-100 z-10': $index === currentImageIndex(),
+             'opacity-0 z-0': $index !== currentImageIndex()
+           }">
           }
-        } @else {
+        } @else if (a.logo) {
           <img [src]="baseUrl + '/' + a.logo + '_full.webp'"
                class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 z-10">
+        } @else {
+          <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-800 z-10">
+            <i class="bi bi-person-bounding-box text-9xl"></i>
+            <span class="text-xs uppercase tracking-[0.3em] mt-4 opacity-40">Sin Imagen</span>
+          </div>
         }
 
         @if (a.images.length > 1) {
