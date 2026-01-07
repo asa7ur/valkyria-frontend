@@ -1,11 +1,13 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterModule} from '@angular/router';
-import {OrderService} from '../../../../core/services/order.service';
-import {TicketService} from '../../../../core/services/ticket.service';
-import {TicketType, CampingType} from '../../../../core/models/ticket.model';
-import {OrderRequest} from '../../../../core/models/order.model';
-import {forkJoin} from 'rxjs'; // Importante para sincronizar
+import {forkJoin} from 'rxjs';
+
+// Núcleo: Importaciones con nombres descriptivos
+import {CheckoutLogic} from '../../../../core/services/checkout-logic';
+import {TicketProvider} from '../../../../core/services/ticket-provider';
+import {TicketType, CampingType} from '../../../../core/models/ticket-types';
+import {OrderRequest} from '../../../../core/models/order-schema';
 
 @Component({
   selector: 'app-checkout',
@@ -14,34 +16,36 @@ import {forkJoin} from 'rxjs'; // Importante para sincronizar
   templateUrl: './checkout.html'
 })
 export class Checkout implements OnInit {
-  private orderService = inject(OrderService);
-  private ticketService = inject(TicketService);
+  // Variables de instancia con nombres limpios
+  private cart = inject(CheckoutLogic);
+  private provider = inject(TicketProvider);
   private router = inject(Router);
 
   order: OrderRequest | null = null;
   ticketTypes: TicketType[] = [];
   campingTypes: CampingType[] = [];
   total = 0;
-  isLoading = true; // Nueva variable para controlar el estado global
+  isLoading = true;
 
   ngOnInit() {
-    this.order = this.orderService.getOrder();
+    // Obtenemos el estado actual del "carrito" desde la lógica de checkout
+    this.order = this.cart.getOrder();
 
     if (!this.order || (this.order.tickets.length === 0 && this.order.campings.length === 0)) {
       this.router.navigate(['/purchase']);
       return;
     }
 
-    // Cargamos AMBOS tipos (Tickets y Campings) a la vez
+    // Cargamos los datos maestros a través del proveedor
     forkJoin({
-      tickets: this.ticketService.getTicketTypes(),
-      campings: this.ticketService.getCampingTypes()
+      tickets: this.provider.getTicketTypes(),
+      campings: this.provider.getCampingTypes()
     }).subscribe({
       next: (res) => {
         this.ticketTypes = res.tickets;
         this.campingTypes = res.campings;
         this.calculateTotal();
-        this.isLoading = false; // Ya tenemos todo, quitamos el cargando
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error al cargar datos', err);
@@ -66,7 +70,7 @@ export class Checkout implements OnInit {
     this.total = subtotal;
   }
 
-  getTicketName(id: any): string { // Cambiamos a 'any' para evitar errores de compilación al recibir el string del form
+  getTicketName(id: any): string {
     const found = this.ticketTypes.find(t => Number(t.id) === Number(id));
     return found ? found.name : 'Ticket no encontrado';
   }
@@ -81,14 +85,16 @@ export class Checkout implements OnInit {
       if (type === 'ticket') this.order.tickets.splice(index, 1);
       else this.order.campings.splice(index, 1);
 
-      this.orderService.setOrder(this.order);
+      // Actualizamos el estado persistente en la lógica de checkout
+      this.cart.setOrder(this.order);
       this.calculateTotal();
     }
   }
 
   confirmAndPay() {
     if (this.order) {
-      this.orderService.createOrder(this.order).subscribe({
+      // Delegamos la creación del pedido a la lógica de negocio
+      this.cart.createOrder(this.order).subscribe({
         next: (res) => window.location.href = res.url,
         error: (err) => alert(err.error?.message || 'Error al procesar el pago')
       });

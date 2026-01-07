@@ -1,7 +1,7 @@
 import {Component, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import {AuthService} from '../../../core/services/auth.service';
+import {AuthManager} from '../../../core/services/auth-manager';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import {AuthService} from '../../../core/services/auth.service';
 })
 export class Login {
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  private auth = inject(AuthManager);
   private router = inject(Router);
 
   errorMessage = signal<string | null>(null);
@@ -29,7 +29,7 @@ export class Login {
 
       const credentials = this.loginForm.value as any;
 
-      this.authService.login(credentials).subscribe({
+      this.auth.login(this.loginForm.value as any).subscribe({
         next: (response) => {
           // Extraemos los nombres de los roles del array de objetos
           const roles = response.roles.map(r => r.authority);

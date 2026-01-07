@@ -1,6 +1,6 @@
 import {Component, signal, inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Artist} from '../../../../core/models/artist.model';
+import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 
 @Component({

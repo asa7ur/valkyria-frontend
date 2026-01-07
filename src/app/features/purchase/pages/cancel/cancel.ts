@@ -8,5 +8,5 @@ import {RouterModule} from '@angular/router';
   templateUrl: './cancel.html'
 })
 export class Cancel {
-  // No limpiamos el OrderService aquí para que el usuario pueda reintentar
+  // No limpiamos el CheckoutLogic aquí para que el usuario pueda reintentar
 }

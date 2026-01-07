@@ -1,10 +1,11 @@
 import {Component, inject, input, signal, OnInit} from '@angular/core';
 import {CommonModule, Location} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {ArtistService} from '../../../../core/services/artist.service';
-import {Artist} from '../../../../core/models/artist.model';
-import {LineupService} from '../../../../core/services/lineup.service';
 import {forkJoin} from 'rxjs';
+
+import {ArtistApi} from '../../../../core/services/artist-api';
+import {LineupClient} from '../../../../core/services/lineup-client';
+import {Artist} from '../../../../core/models/artist';
 
 @Component({
   selector: 'app-artist-detail',
@@ -13,8 +14,8 @@ import {forkJoin} from 'rxjs';
   templateUrl: './artist-detail.html',
 })
 export class ArtistDetail implements OnInit {
-  private artistService = inject(ArtistService);
-  private lineupService = inject(LineupService);
+  private api = inject(ArtistApi);
+  private lineup = inject(LineupClient);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
 
@@ -26,13 +27,13 @@ export class ArtistDetail implements OnInit {
   protected currentImageIndex = signal(0);
 
   ngOnInit() {
-    // Cargamos el artista y el lineup completo simultáneamente para cruzar los datos
+    // La lógica permanece igual, aprovechando la reactividad de Angular
     forkJoin({
-      artist: this.artistService.getArtistById(this.id()),
-      allPerformances: this.lineupService.getLineup()
+      artist: this.api.getArtistById(this.id()),
+      allPerformances: this.lineup.getLineup()
     }).subscribe({
       next: ({artist, allPerformances}) => {
-        // Buscamos las actuaciones que corresponden a este artista si no vienen incluidas
+        // Vinculamos las actuaciones (performances) al objeto artista
         if (!artist.performances || artist.performances.length === 0) {
           artist.performances = allPerformances.filter(p => p.artist.id === artist.id);
         }

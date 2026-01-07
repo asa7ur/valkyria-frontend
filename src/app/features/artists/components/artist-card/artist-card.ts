@@ -1,6 +1,6 @@
 import {Component, computed, input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Artist} from '../../../../core/models/artist.model';
+import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 
 @Component({

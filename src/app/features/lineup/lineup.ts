@@ -1,18 +1,21 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LineupService} from '../../core/services/lineup.service';
-import {Performance, FESTIVAL_DAYS} from '../../core/models/lineup.model';
-import {getFestivalDate} from '../../shared/utils/date-utils';
 import {RouterLink} from '@angular/router';
+
+// Núcleo: Importaciones con nombres descriptivos y sin sufijos
+import {LineupClient} from '../../core/services/lineup-client';
+import {Performance, FESTIVAL_DAYS} from '../../core/models/performance';
+import {getFestivalDate} from '../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-lineup',
-  standalone: true, // Asumiendo que usas standalone
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './lineup.html',
 })
 export class Lineup implements OnInit {
-  private lineupService = inject(LineupService);
+  // Inyección del cliente de datos con un nombre de variable corto
+  private client = inject(LineupClient);
 
   private allPerformances = signal<Performance[]>([]);
   protected selectedDay = signal<string>('ALL');
@@ -20,7 +23,10 @@ export class Lineup implements OnInit {
   protected readonly days = FESTIVAL_DAYS;
   protected readonly Object = Object;
 
-  // Lógica de agrupamiento extraída a una propiedad computada limpia
+  /**
+   * Lógica computada para agrupar las actuaciones por fecha y escenario.
+   * Se actualiza automáticamente cuando cambia el día seleccionado o los datos.
+   */
   protected groupedLineup = computed(() => {
     const performances = this.allPerformances();
     const dayFilter = this.selectedDay();
@@ -29,6 +35,7 @@ export class Lineup implements OnInit {
     performances.forEach(p => {
       const dateKey = getFestivalDate(p.startTime);
 
+      // Filtrado por día
       if (dayFilter !== 'ALL' && dateKey !== dayFilter) return;
 
       if (!grouped[dateKey]) grouped[dateKey] = {};
@@ -40,21 +47,31 @@ export class Lineup implements OnInit {
     return grouped;
   });
 
+  /**
+   * Obtiene las fechas agrupadas y ordenadas para las pestañas de la UI.
+   */
   protected getGroupedDates = computed(() =>
     Object.keys(this.groupedLineup()).sort()
   );
 
   ngOnInit() {
-    this.lineupService.getLineup().subscribe({
+    // Uso del 'client' para obtener la programación del festival
+    this.client.getLineup().subscribe({
       next: (data) => this.allPerformances.set(data),
       error: (err) => console.error('Error fetching lineup:', err)
     });
   }
 
+  /**
+   * Devuelve la etiqueta amigable (ej: "WED 13") para una fecha técnica.
+   */
   getDayLabel(date: string): string {
     return this.days.find(d => d.date === date)?.label || date;
   }
 
+  /**
+   * Actualiza el signal del día seleccionado para filtrar la vista.
+   */
   setDay(date: string) {
     this.selectedDay.set(date);
   }

@@ -1,12 +1,12 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Performance} from '../models/lineup.model';
+import {Performance} from '../models/performance';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LineupService {
+export class LineupClient {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/performances';
 

@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {CampingType} from '../../../../core/models/ticket.model';
-import {DocumentType} from '../../../../core/models/order.model';
+import {CampingType} from '../../../../core/models/ticket-types';
+import {DocumentType} from '../../../../core/models/order-schema';
 
 @Component({
   selector: 'app-camping-item',

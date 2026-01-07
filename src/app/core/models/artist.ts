@@ -1,4 +1,4 @@
-import {Performance} from './lineup.model';
+import {Performance} from './performance';
 
 export interface ArtistImage {
   id: number;

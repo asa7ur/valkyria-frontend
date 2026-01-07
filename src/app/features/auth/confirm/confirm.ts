@@ -1,15 +1,16 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {AuthService} from '../../../core/services/auth.service';
+import {AuthManager} from '../../../core/services/auth-manager';
 
 @Component({
   selector: 'app-confirm',
+  standalone: true,
   imports: [RouterLink],
   templateUrl: './confirm.html'
 })
 export class Confirm implements OnInit {
   private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
+  private auth = inject(AuthManager);
 
   status = signal<'loading' | 'success' | 'error'>('loading');
   message = signal<string>('Verifying your warrior status...');
@@ -19,7 +20,8 @@ export class Confirm implements OnInit {
     const token = this.route.snapshot.queryParamMap.get('token');
 
     if (token) {
-      this.authService.confirmAccount(token).subscribe({
+      // Delegamos la confirmación de cuenta al AuthManager
+      this.auth.confirmAccount(token).subscribe({
         next: () => {
           this.status.set('success');
           this.message.set('Your account has been activated. Welcome to the Horde!');

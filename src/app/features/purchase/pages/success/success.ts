@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {OrderService} from '../../../../core/services/order.service';
+import {CheckoutLogic} from '../../../../core/services/checkout-logic';
 
 @Component({
   selector: 'app-success',
@@ -10,11 +10,11 @@ import {OrderService} from '../../../../core/services/order.service';
   templateUrl: './success.html'
 })
 export class Success implements OnInit {
-  private orderService = inject(OrderService);
+  private checkout = inject(CheckoutLogic);
 
   ngOnInit() {
     // Limpiamos el pedido del estado global una vez completado
-    // Necesitaremos añadir este método en el OrderService
-    this.orderService.clearOrder();
+    // Necesitaremos añadir este método en el CheckoutLogic
+    this.checkout.clearOrder();
   }
 }

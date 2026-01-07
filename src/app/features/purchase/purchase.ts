@@ -2,12 +2,16 @@ import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
+
+// Componentes locales
 import {TicketItem} from './components/ticket-item/ticket-item';
 import {CampingItem} from './components/camping-item/camping-item';
-import {TicketService} from '../../core/services/ticket.service';
-import {OrderService} from '../../core/services/order.service';
-import {CampingType, TicketType} from '../../core/models/ticket.model';
-import {DocumentType} from '../../core/models/order.model';
+
+// Núcleo: Nombres descriptivos sin sufijos técnicos
+import {TicketProvider} from '../../core/services/ticket-provider';
+import {CheckoutLogic} from '../../core/services/checkout-logic';
+import {CampingType, TicketType} from '../../core/models/ticket-types';
+import {DocumentType} from '../../core/models/order-schema';
 
 @Component({
   selector: 'app-purchase',
@@ -23,8 +27,8 @@ import {DocumentType} from '../../core/models/order.model';
 })
 export class Purchase implements OnInit {
   private fb = inject(FormBuilder);
-  private ticketService = inject(TicketService);
-  private orderService = inject(OrderService);
+  private provider = inject(TicketProvider);
+  private cart = inject(CheckoutLogic);
   private router = inject(Router);
 
   purchaseForm!: FormGroup;
@@ -35,7 +39,7 @@ export class Purchase implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadData();
-    this.addTicket(); // Empezamos con uno
+    this.addTicket(); // Iniciamos con un ticket por defecto
   }
 
   private initForm(): void {
@@ -46,8 +50,9 @@ export class Purchase implements OnInit {
   }
 
   private loadData(): void {
-    this.ticketService.getTicketTypes().subscribe(types => this.ticketTypes = types);
-    this.ticketService.getCampingTypes().subscribe(types => this.campingTypes = types);
+    // Uso del 'provider' de datos
+    this.provider.getTicketTypes().subscribe(types => this.ticketTypes = types);
+    this.provider.getCampingTypes().subscribe(types => this.campingTypes = types);
   }
 
   get tickets(): FormArray {
@@ -65,7 +70,6 @@ export class Purchase implements OnInit {
       documentType: ['', Validators.required],
       documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
-      // CAMBIO: Debe ser ticketTypeId para que el Backend lo reconozca
       ticketTypeId: [null, Validators.required]
     });
     this.tickets.push(ticketGroup);
@@ -82,7 +86,6 @@ export class Purchase implements OnInit {
       documentType: ['', Validators.required],
       documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
-      // CAMBIO: Debe ser campingTypeId
       campingTypeId: [null, Validators.required]
     });
     this.campings.push(campingGroup);
@@ -94,10 +97,10 @@ export class Purchase implements OnInit {
 
   onSubmit(): void {
     if (this.purchaseForm.valid) {
-      // 1. Guardamos los datos en el servicio (el "carrito")
-      this.orderService.setOrder(this.purchaseForm.value);
+      // Guardamos los datos en la lógica del 'cart' (carrito)
+      this.cart.setOrder(this.purchaseForm.value);
 
-      // 2. Navegamos a la vista de resumen (Checkout)
+      // Navegación a la vista de Checkout
       this.router.navigate(['/purchase/checkout']);
     } else {
       this.purchaseForm.markAllAsTouched();

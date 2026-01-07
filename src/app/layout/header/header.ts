@@ -1,6 +1,6 @@
 import {Component, inject, signal} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {AuthService} from '../../core/services/auth.service';
+import {AuthManager} from '../../core/services/auth-manager';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ import {AuthService} from '../../core/services/auth.service';
   styles: ``,
 })
 export class Header {
-  public authService = inject(AuthService);
+  public auth = inject(AuthManager);
   private router = inject(Router);
 
   isMenuOpen = signal(false);
@@ -23,7 +23,7 @@ export class Header {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.auth.logout();
     this.router.navigate(['/']);
   }
 }

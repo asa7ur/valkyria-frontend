@@ -21,7 +21,7 @@
 
   <div class="flex items-center gap-6">
 
-    @if (authService.currentUser()) {
+    @if (auth.currentUser()) {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/orders" routerLinkActive="text-white"
            class="text-[10px] text-white/50 uppercase tracking-widest font-bold hover:text-white transition-colors cursor-pointer">
@@ -65,7 +65,7 @@
       class="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 py-8 px-6 flex flex-col gap-6 md:hidden animate-in fade-in slide-in-from-top-4 duration-300">
 
       <a routerLink="/lineup" routerLinkActive="text-red-600" (click)="closeMenu()"
-         class="text-2xl font-black uppercase tracking-tighter text-white">Lineup</a>
+         class="text-2xl font-black uppercase tracking-tighter text-white">LineupClient</a>
       <a routerLink="/artists" routerLinkActive="text-red-600" (click)="closeMenu()"
          class="text-2xl font-black uppercase tracking-tighter text-white">Artists</a>
 
@@ -78,14 +78,14 @@
 
       <div class="h-px bg-white/10 my-2"></div>
 
-      @if (authService.currentUser()) {
+      @if (auth.currentUser()) {
         <div class="flex flex-col gap-4">
           <a routerLink="/orders" (click)="closeMenu()"
              class="text-xl font-black uppercase tracking-tighter text-white/70 hover:text-white">
             My Orders
           </a>
           <span class="text-sm text-white/50 uppercase font-bold tracking-widest">
-            User: {{ authService.currentUser()?.username }}
+            User: {{ auth.currentUser()?.username }}
           </span>
           <button (click)="onLogout(); closeMenu()"
                   class="text-left text-xl font-black uppercase tracking-tighter text-red-600">

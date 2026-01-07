@@ -1,14 +1,14 @@
 import {Injectable, inject, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
-import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth.model';
+import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth-payments';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthManager {
   private http = inject(HttpClient);
-  // Base URL que coincide con @RequestMapping("/api/auth") de tu controlador
+  // Base URL que coincide con @RequestMapping("/api/sessionGate") de tu controlador
   private apiUrl = 'http://localhost:8080/api/auth';
 
   currentUser = signal<AuthResponse | null>(this.getUserFromStorage());

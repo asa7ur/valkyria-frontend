@@ -1,12 +1,12 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {OrderRequest, OrderResponse} from '../models/order.model';
+import {OrderRequest, OrderResponse} from '../models/order-schema';
 import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService {
+export class CheckoutLogic {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/orders';
 

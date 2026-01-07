@@ -1,10 +1,10 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of, tap} from 'rxjs'; // Añadimos 'of' y 'tap'
-import {CampingType, TicketType} from '../models/ticket.model';
+import {CampingType, TicketType} from '../models/ticket-types';
 
 @Injectable({providedIn: 'root'})
-export class TicketService {
+export class TicketProvider {
   private http = inject(HttpClient);
   private ticketApiUrl = 'http://localhost:8080/api/ticket-types';
   private campingApiUrl = 'http://localhost:8080/api/camping-types';
