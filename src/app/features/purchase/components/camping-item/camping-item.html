@@ -1,7 +1,7 @@
 <div [formGroup]="campingForm" class="bg-zinc-900/50 border border-white/10 p-6 md:p-8 relative group animate-in">
   <button type="button"
           (click)="remove.emit()"
-          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform z-10 shadow-lg">
+          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform z-10">
     <i class="bi bi-x-lg"></i>
   </button>
 
@@ -23,12 +23,18 @@
     <div class="grid grid-cols-2 gap-4">
       <div class="space-y-1">
         <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
-        <select formControlName="documentType"
-                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer">
-          @for (type of documentTypes; track type) {
-            <option [value]="type">{{ type }}</option>
-          }
-        </select>
+        <div class="relative">
+          <select formControlName="documentType"
+                  class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer font-bold">
+            <option value="" disabled selected>Tipo Doc.</option>
+            @for (type of documentTypes; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+          <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white/20">
+            <i class="bi bi-chevron-down"></i>
+          </div>
+        </div>
       </div>
       <div class="space-y-1">
         <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>

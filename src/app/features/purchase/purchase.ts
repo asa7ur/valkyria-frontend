@@ -70,7 +70,7 @@ export class Purchase implements OnInit {
       documentType: ['', Validators.required],
       documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
-      ticketTypeId: [null, Validators.required]
+      ticketTypeId: ['', Validators.required]
     });
     this.tickets.push(ticketGroup);
   }
@@ -86,7 +86,7 @@ export class Purchase implements OnInit {
       documentType: ['', Validators.required],
       documentNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
-      campingTypeId: [null, Validators.required]
+      campingTypeId: ['', Validators.required]
     });
     this.campings.push(campingGroup);
   }
