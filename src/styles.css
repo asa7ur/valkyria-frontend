@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* --- ESTILOS BASE DE ESTRUCTURA --- */
+
+html {
+  min-height: 100%;
+}
+
+body {
+  @apply text-white antialiased;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+  url('../public/bg.jpg');
+
+  /* Crucial: mantiene la imagen fija detrás del contenido */
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #000;
+  min-height: 100vh;
+  margin: 0;
+}
+
 /* --- ANIMACIONES GENERALES --- */
 
 @keyframes fadeInUp {
@@ -27,7 +48,7 @@
     opacity: 0;
   }
   to {
-    opacity: 0.6; /* Coincide con la opacidad de tu hero-section.html */
+    opacity: 0.6;
   }
 }
 
@@ -52,21 +73,6 @@
   animation: videoFade 2.5s ease-in-out forwards;
 }
 
-/* --- ESTILOS GLOBALES --- */
-
-body {
-  @apply text-white antialiased;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-  url('../public/bg.jpg');
-
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #000;
-  min-height: 100vh;
-}
-
 /* --- PANTALLA DE CARGA (SPLASH SCREEN) --- */
 
 .splash-screen {
@@ -76,7 +82,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Mismo fondo que el body para transición fluida */
   background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
   url('../public/bg.jpg');
   background-size: cover;
@@ -107,18 +112,17 @@ body {
   opacity: 1;
 }
 
-/* Ocultar contenido mientras el splash está activo y no ha empezado a desvanecerse */
 .hidden-content {
   opacity: 0;
 }
 
+/* --- MARQUEE --- */
+
 @keyframes marquee {
   0% {
-    /* Forzamos aceleración por hardware */
     transform: translate3d(0, 0, 0);
   }
   100% {
-    /* Se desplaza exactamente el ancho de un bloque (50% del total) */
     transform: translate3d(-50%, 0, 0);
   }
 }
@@ -126,7 +130,6 @@ body {
 .animate-marquee {
   display: flex;
   width: max-content;
-  /* Aumentamos a 60s o más para que no vaya muy rápido al haber más texto */
   animation: marquee 60s linear infinite;
   will-change: transform;
 }
