@@ -95,14 +95,13 @@ ng test
 
 ## 📜 Available Scripts
 
-Below is a list of common scripts defined in the package.json:
+Below is a list of common scripts defined in the `package.json`:
 
-```text
-Command Description
-npm run start Starts the development server using ng serve.
-npm run build Builds the application for production.
-npm run watch Builds in development mode with active file watching.
-npm run test Executes the unit test suite.
-```
+| Command         | Description                                           |
+|:----------------|:------------------------------------------------------|
+| `npm run start` | Starts the development server using `ng serve`.       |
+| `npm run build` | Builds the application for production.                |
+| `npm run watch` | Builds in development mode with active file watching. |
+| `npm run test`  | Executes the unit test suite.                         |
 
 Note: This project was generated with Angular CLI version 21.0.4.
