@@ -1,1 +1,9 @@
-<router-outlet/>
+@if (showSplash()) {
+  <div class="splash-screen">
+    <img src="../public/logo.png" alt="Valkyria Logo" class="pulse-logo">
+  </div>
+}
+
+<div [class.hidden-content]="showSplash()">
+  <router-outlet/>
+</div>

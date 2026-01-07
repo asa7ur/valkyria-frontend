@@ -29,3 +29,42 @@ body {
 
   min-height: 100vh;
 }
+
+/* Pantalla de carga a pantalla completa */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Usamos el mismo fondo que el body para que sea fluido */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+  url('../public/bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Animación del Logo */
+.pulse-logo {
+  width: 200px; /* Ajusta según tu logo */
+  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.2));
+  animation: logoPulse 2s infinite ease-in-out;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Ocultar el contenido principal mientras carga para evitar saltos */
+.hidden-content {
+  opacity: 0;
+  visibility: hidden;
+}
