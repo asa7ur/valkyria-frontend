@@ -110,5 +110,4 @@ body {
 /* Ocultar contenido mientras el splash está activo y no ha empezado a desvanecerse */
 .hidden-content {
   opacity: 0;
-  visibility: hidden;
 }
