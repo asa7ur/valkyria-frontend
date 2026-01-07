@@ -18,7 +18,14 @@
 
 body {
   @apply text-white antialiased;
-  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-  url('/bg.jpg') center / cover no-repeat fixed #000;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+  url('../public/bg.jpg');
+
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #000;
+
   min-height: 100vh;
 }
