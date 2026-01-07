@@ -7,11 +7,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css">
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+    }
+
+    .loading-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      background-color: #000;
+    }
+  </style>
 </head>
 <body>
 <app-root>
   <div class="loading-wrapper">
-    <img src="../public/logo.png" alt="Cargando..." class="pulse-logo">
+    <img src="../public/logo.png" alt="" class="pulse-logo" style="width: 200px;">
   </div>
 </app-root>
 </body>

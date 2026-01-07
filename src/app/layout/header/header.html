@@ -1,10 +1,12 @@
 <nav
   class="fixed top-0 z-50 w-full px-6 py-4 flex justify-between items-center bg-black/20 backdrop-blur-md border-b border-white/10">
 
-  <a routerLink="/" (click)="closeMenu()"
-     class="text-2xl font-black tracking-tighter text-white hover:text-red-600 transition-colors cursor-pointer relative z-50">
-    VALKYRIA
-  </a>
+  <div class="md:flex-1 flex items-center">
+    <a routerLink="/" (click)="closeMenu()"
+       class="text-2xl font-black tracking-tighter text-white hover:text-red-600 transition-colors cursor-pointer relative z-50">
+      VALKYRIA
+    </a>
+  </div>
 
   <div class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-white/80">
     <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
@@ -17,7 +19,7 @@
     </button>
   </div>
 
-  <div class="flex items-center gap-6">
+  <div class="flex items-center justify-end gap-6 md:flex-1">
     @if (auth.currentUser()) {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/orders" routerLinkActive="text-white"
@@ -52,43 +54,4 @@
     </button>
   </div>
 
-  <div
-    (click)="closeMenu()"
-    [class]="'fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 md:hidden cursor-pointer ' + (isMenuOpen() ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')">
-  </div>
-
-  <div
-    [class]="'fixed top-0 right-0 h-screen w-[80%] max-w-sm bg-black/95 backdrop-blur-2xl border-l border-white/10 p-10 pt-32 flex flex-col gap-8 md:hidden transition-transform duration-500 ease-in-out ' + (isMenuOpen() ? 'translate-x-0 shadow-2xl' : 'translate-x-full')">
-
-    <a routerLink="/lineup" routerLinkActive="text-red-600" (click)="closeMenu()"
-       class="text-3xl font-black uppercase tracking-tighter text-white hover:text-red-600 transition-colors cursor-pointer">Lineup</a>
-
-    <a routerLink="/artists" routerLinkActive="text-red-600" (click)="closeMenu()"
-       class="text-3xl font-black uppercase tracking-tighter text-white hover:text-red-600 transition-colors cursor-pointer">Artists</a>
-
-    <button routerLink="/purchase" (click)="closeMenu()"
-            class="bg-white text-black w-full py-4 text-sm font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all cursor-pointer">
-      Buy Tickets Now
-    </button>
-
-    <div class="h-px bg-white/10 my-4"></div>
-
-    @if (auth.currentUser()) {
-      <div class="flex flex-col gap-6">
-        <a routerLink="/orders" (click)="closeMenu()"
-           class="text-xl font-black uppercase tracking-tighter text-white/70 hover:text-white cursor-pointer">My
-          Orders</a>
-
-        <button (click)="onLogout(); closeMenu()"
-                class="text-left text-xl font-black uppercase tracking-tighter text-red-600 hover:text-red-400 transition-colors cursor-pointer">
-          Logout
-        </button>
-      </div>
-    } @else {
-      <a routerLink="/login" (click)="closeMenu()"
-         class="text-3xl font-black uppercase tracking-tighter text-white cursor-pointer">Login</a>
-      <a routerLink="/register" (click)="closeMenu()"
-         class="text-3xl font-black uppercase tracking-tighter text-red-600 cursor-pointer">Register</a>
-    }
-  </div>
 </nav>
