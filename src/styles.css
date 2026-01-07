@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-/* ... tus animaciones existentes ... */
+/* --- ANIMACIONES GENERALES --- */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -12,44 +13,22 @@
   }
 }
 
-.animate-in {
-  animation: fadeInUp 0.6s ease-out forwards;
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
-body {
-  @apply text-white antialiased;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-  url('../public/bg.jpg');
-
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #000;
-
-  min-height: 100vh;
-}
-
-/* Pantalla de carga a pantalla completa */
-.splash-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* Usamos el mismo fondo que el body para que sea fluido */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-  url('../public/bg.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* Animación del Logo */
-.pulse-logo {
-  width: 200px; /* Ajusta según tu logo */
-  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.2));
-  animation: logoPulse 2s infinite ease-in-out;
+@keyframes videoFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6; /* Coincide con la opacidad de tu hero-section.html */
+  }
 }
 
 @keyframes logoPulse {
@@ -63,7 +42,72 @@ body {
   }
 }
 
-/* Ocultar el contenido principal mientras carga para evitar saltos */
+/* --- CLASES DE ANIMACIÓN --- */
+
+.animate-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-video {
+  animation: videoFade 2.5s ease-in-out forwards;
+}
+
+/* --- ESTILOS GLOBALES --- */
+
+body {
+  @apply text-white antialiased;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+  url('../public/bg.jpg');
+
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #000;
+  min-height: 100vh;
+}
+
+/* --- PANTALLA DE CARGA (SPLASH SCREEN) --- */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Mismo fondo que el body para transición fluida */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+  url('../public/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pulse-logo {
+  width: 200px;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.2));
+  animation: logoPulse 2s infinite ease-in-out;
+}
+
+/* --- TRANSICIÓN DE CONTENIDO PRINCIPAL --- */
+
+.main-content {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.main-content-fade {
+  opacity: 1;
+}
+
+/* Ocultar contenido mientras el splash está activo y no ha empezado a desvanecerse */
 .hidden-content {
   opacity: 0;
   visibility: hidden;

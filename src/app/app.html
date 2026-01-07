@@ -1,9 +1,11 @@
 @if (showSplash()) {
-  <div class="splash-screen">
-    <img src="../public/logo.png" alt="Valkyria Logo" class="pulse-logo">
+  <div class="splash-screen" [class.fade-out]="isFadingOut()">
+    <img src="/logo.png" alt="Valkyria Logo" class="pulse-logo">
   </div>
 }
 
-<div [class.hidden-content]="showSplash()">
+<div [class.hidden-content]="showSplash() && !isFadingOut()"
+     [class.main-content-fade]="isFadingOut()"
+     class="main-content">
   <router-outlet/>
 </div>
