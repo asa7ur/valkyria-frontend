@@ -9,7 +9,7 @@
           <button
             (click)="setDay(day.date)"
             [class.text-red-600]="selectedDay() === day.date"
-            class="text-xl md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors">
+            class="text-xl md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors cursor-pointer">
             {{ day.label }}
           </button>
         }

@@ -2,12 +2,12 @@
   [routerLink]="['/artists', artist().id]"
   class="group relative cursor-pointer bg-zinc-950 overflow-hidden rounded-sm border border-zinc-900 hover:border-red-600/40 transition-all duration-500"
 >
-  <div class="relative aspect-video overflow-hidden bg-zinc-900">
+  <div class="relative aspect-16/10 overflow-hidden bg-zinc-900">
     @if (displayImage()) {
       <img
         [src]="displayImage()"
         [alt]="artist().name"
-        class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 transition-all duration-1000 ease-out"
+        class="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 ease-out"
       />
     } @else {
       <div class="flex items-center justify-center h-full text-zinc-800">
@@ -16,7 +16,7 @@
     }
 
     <div
-      class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 transition-opacity duration-500"></div>
+      class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent opacity-80 transition-opacity duration-500"></div>
 
     <div class="absolute bottom-0 left-0 right-0 p-4">
       <h4
