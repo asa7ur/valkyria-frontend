@@ -1,13 +1,11 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
+import {forkJoin} from 'rxjs';
 
-// Componentes locales
 import {TicketItem} from './components/ticket-item/ticket-item';
 import {CampingItem} from './components/camping-item/camping-item';
-
-// Núcleo: Nombres descriptivos sin sufijos técnicos
 import {TicketProvider} from '../../core/services/ticket-provider';
 import {CheckoutLogic} from '../../core/services/checkout-logic';
 import {CampingType, TicketType} from '../../core/models/ticket-types';
@@ -16,13 +14,7 @@ import {DocumentType} from '../../core/models/order-schema';
 @Component({
   selector: 'app-purchase',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    TicketItem,
-    CampingItem
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TicketItem, CampingItem],
   templateUrl: './purchase.html',
 })
 export class Purchase implements OnInit {
@@ -31,6 +23,7 @@ export class Purchase implements OnInit {
   private cart = inject(CheckoutLogic);
   private router = inject(Router);
 
+  protected isLoading = signal<boolean>(true);
   purchaseForm!: FormGroup;
   ticketTypes: TicketType[] = [];
   campingTypes: CampingType[] = [];
@@ -39,7 +32,7 @@ export class Purchase implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadData();
-    this.addTicket(); // Iniciamos con un ticket por defecto
+    this.addTicket();
   }
 
   private initForm(): void {
@@ -50,9 +43,22 @@ export class Purchase implements OnInit {
   }
 
   private loadData(): void {
-    // Uso del 'provider' de datos
-    this.provider.getTicketTypes().subscribe(types => this.ticketTypes = types);
-    this.provider.getCampingTypes().subscribe(types => this.campingTypes = types);
+    this.isLoading.set(true);
+    // Esperamos a que ambas peticiones terminen
+    forkJoin({
+      tickets: this.provider.getTicketTypes(),
+      campings: this.provider.getCampingTypes()
+    }).subscribe({
+      next: (res) => {
+        this.ticketTypes = res.tickets;
+        this.campingTypes = res.campings;
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error cargando tipos de entradas:', err);
+        this.isLoading.set(false);
+      }
+    });
   }
 
   get tickets(): FormArray {
@@ -97,15 +103,10 @@ export class Purchase implements OnInit {
 
   onSubmit(): void {
     if (this.purchaseForm.valid) {
-      // Guardamos los datos en la lógica del 'cart' (carrito)
       this.cart.setOrder(this.purchaseForm.value);
-
-      // Navegación a la vista de Checkout
       this.router.navigate(['/purchase/checkout']);
     } else {
       this.purchaseForm.markAllAsTouched();
-      const firstInvalid = document.querySelector('.ng-invalid');
-      firstInvalid?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
   }
 }

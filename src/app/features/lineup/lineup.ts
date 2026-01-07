@@ -14,19 +14,16 @@ import {getFestivalDate} from '../../shared/utils/date-utils';
   templateUrl: './lineup.html',
 })
 export class Lineup implements OnInit {
-  // Inyección del cliente de datos con un nombre de variable corto
   private client = inject(LineupClient);
 
+  // Signal para el estado de carga
+  protected isLoading = signal<boolean>(true);
   private allPerformances = signal<Performance[]>([]);
   protected selectedDay = signal<string>('ALL');
 
   protected readonly days = FESTIVAL_DAYS;
   protected readonly Object = Object;
 
-  /**
-   * Lógica computada para agrupar las actuaciones por fecha y escenario.
-   * Se actualiza automáticamente cuando cambia el día seleccionado o los datos.
-   */
   protected groupedLineup = computed(() => {
     const performances = this.allPerformances();
     const dayFilter = this.selectedDay();
@@ -34,44 +31,37 @@ export class Lineup implements OnInit {
 
     performances.forEach(p => {
       const dateKey = getFestivalDate(p.startTime);
-
-      // Filtrado por día
       if (dayFilter !== 'ALL' && dateKey !== dayFilter) return;
-
       if (!grouped[dateKey]) grouped[dateKey] = {};
       if (!grouped[dateKey][p.stage.name]) grouped[dateKey][p.stage.name] = [];
-
       grouped[dateKey][p.stage.name].push(p);
     });
 
     return grouped;
   });
 
-  /**
-   * Obtiene las fechas agrupadas y ordenadas para las pestañas de la UI.
-   */
   protected getGroupedDates = computed(() =>
     Object.keys(this.groupedLineup()).sort()
   );
 
   ngOnInit() {
-    // Uso del 'client' para obtener la programación del festival
+    this.isLoading.set(true);
     this.client.getLineup().subscribe({
-      next: (data) => this.allPerformances.set(data),
-      error: (err) => console.error('Error fetching lineup:', err)
+      next: (data) => {
+        this.allPerformances.set(data);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching lineup:', err);
+        this.isLoading.set(false);
+      }
     });
   }
 
-  /**
-   * Devuelve la etiqueta amigable (ej: "WED 13") para una fecha técnica.
-   */
   getDayLabel(date: string): string {
     return this.days.find(d => d.date === date)?.label || date;
   }
 
-  /**
-   * Actualiza el signal del día seleccionado para filtrar la vista.
-   */
   setDay(date: string) {
     this.selectedDay.set(date);
   }

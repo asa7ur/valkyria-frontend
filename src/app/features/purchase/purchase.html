@@ -5,72 +5,62 @@
       Reserva tu sitio en Valhalla
     </h1>
 
-    <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()" class="space-y-12">
-
-      <section>
-        <div class="flex justify-between items-end mb-6">
-          <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
-            <span class="text-red-600 mr-3">//</span> Entradas
-          </h2>
-          <button type="button"
-                  (click)="addTicket()"
-                  class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
-            + Añadir Asistente
-          </button>
-        </div>
-
-        <div class="space-y-4">
-          @for (ticketGroup of tickets.controls; track $index) {
-            <app-ticket-item
-              [ticketForm]="$any(ticketGroup)"
-              [ticketTypes]="ticketTypes"
-              [documentTypes]="documentTypes"
-              (remove)="removeTicket($index)">
-            </app-ticket-item>
-          }
-          @if (tickets.length === 0) {
-            <div class="border border-dashed border-white/20 p-12 text-center">
-              <p class="text-white/40 uppercase tracking-widest italic font-bold">No hay entradas seleccionadas</p>
-            </div>
-          }
-        </div>
-      </section>
-
-      <section>
-        <div class="flex justify-between items-end mb-6">
-          <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
-            <span class="text-red-600 mr-3">//</span> Camping
-          </h2>
-          <button type="button"
-                  (click)="addCamping()"
-                  class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
-            + Añadir Reserva
-          </button>
-        </div>
-
-        <div class="space-y-4">
-          @for (campingGroup of campings.controls; track $index) {
-            <app-camping-item
-              [campingForm]="$any(campingGroup)"
-              [campingTypes]="campingTypes"
-              [documentTypes]="documentTypes"
-              (remove)="removeCamping($index)">
-            </app-camping-item>
-          }
-        </div>
-      </section>
-
-      <div class="pt-8 border-t border-white/10 flex flex-col gap-4">
-        <button type="submit"
-                [disabled]="purchaseForm.invalid"
-                class="w-full bg-white text-black py-6 text-xl font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-20 disabled:hover:bg-white disabled:hover:text-black transition-all cursor-pointer">
-          Confirmar y Pagar
-        </button>
-        <a routerLink="/"
-           class="text-center text-white/50 uppercase text-xs font-bold tracking-widest hover:text-white transition-colors">
-          ⟨ Volver al Inicio
-        </a>
+    @if (isLoading()) {
+      <div class="flex flex-col items-center justify-center py-32">
+        <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
+        <p class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">Preparando las credenciales...</p>
       </div>
-    </form>
+    } @else {
+      <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()" class="space-y-12">
+        <section>
+          <div class="flex justify-between items-end mb-6">
+            <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
+              <span class="text-red-600 mr-3">//</span> Entradas
+            </h2>
+            <button type="button" (click)="addTicket()"
+                    class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
+              + Añadir Asistente
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            @for (ticketGroup of tickets.controls; track $index) {
+              <app-ticket-item [ticketForm]="$any(ticketGroup)" [ticketTypes]="ticketTypes"
+                               [documentTypes]="documentTypes" (remove)="removeTicket($index)"></app-ticket-item>
+            }
+          </div>
+        </section>
+
+        <section>
+          <div class="flex justify-between items-end mb-6">
+            <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
+              <span class="text-red-600 mr-3">//</span> Camping
+            </h2>
+            <button type="button" (click)="addCamping()"
+                    class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
+              + Añadir Reserva
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            @for (campingGroup of campings.controls; track $index) {
+              <app-camping-item [campingForm]="$any(campingGroup)" [campingTypes]="campingTypes"
+                                [documentTypes]="documentTypes" (remove)="removeCamping($index)"></app-camping-item>
+            }
+          </div>
+        </section>
+
+        <div class="pt-8 border-t border-white/10 flex flex-col gap-4">
+          <button type="submit" [disabled]="purchaseForm.invalid"
+                  class="w-full bg-white text-black py-6 text-xl font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-20 transition-all cursor-pointer">
+            Confirmar y Pagar
+          </button>
+          <a routerLink="/"
+             class="text-center text-zinc-500 uppercase text-xs font-bold tracking-widest hover:text-white transition-colors">
+            ⟨ Volver al Inicio
+          </a>
+        </div>
+      </form>
+    }
   </div>
 </div>

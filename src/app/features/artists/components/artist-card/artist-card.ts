@@ -7,7 +7,9 @@ import {RouterLink} from '@angular/router';
   selector: 'app-artist-card',
   imports: [CommonModule, RouterLink],
   templateUrl: './artist-card.html',
-  styles: ``,
+  host: {
+    'class': 'block animate-in'
+  }
 })
 export class ArtistCard {
   artist = input.required<Artist>();
@@ -16,13 +18,10 @@ export class ArtistCard {
 
   protected displayImage = computed(() => {
     const images = this.artist().images;
-
     if (images && images.length > 0) {
-      // Retornamos la primera con el formato optimizado
+      // Usamos el formato optimizado thumb
       return `${this.baseUrl}/${images[0].imageUrl}_thumb.webp`;
     }
-
-    // Si no hay imágenes, devolvemos null para controlar el icono en el HTML
     return null;
   });
 }

@@ -1,30 +1,38 @@
 <div
   [routerLink]="['/artists', artist().id]"
-  class="group cursor-pointer bg-gray-900/50 p-6 rounded-sm border border-gray-800 hover:border-red-600 transition-all">
-
-  <div class="aspect-4/3 overflow-hidden mb-6 bg-black flex items-center justify-center">
+  class="group relative cursor-pointer bg-zinc-950 overflow-hidden rounded-sm border border-zinc-900 hover:border-red-600/40 transition-all duration-500"
+>
+  <div class="relative aspect-video overflow-hidden bg-zinc-900">
     @if (displayImage()) {
-      <img [src]="displayImage()"
-           [alt]="artist().name"
-           class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
+      <img
+        [src]="displayImage()"
+        [alt]="artist().name"
+        class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 transition-all duration-1000 ease-out"
+      />
     } @else {
-      <div class="flex flex-col items-center justify-center text-gray-800 group-hover:text-red-600 transition-colors">
-        <i class="bi bi-person-fill text-7xl"></i>
-        <span class="text-[10px] uppercase tracking-widest mt-2 opacity-50">No Image</span>
+      <div class="flex items-center justify-center h-full text-zinc-800">
+        <i class="bi bi-person-fill text-5xl"></i>
       </div>
     }
-  </div>
 
-  <div class="flex justify-between items-start">
-    <div>
-      <h4 class="text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 transition-opacity duration-500"></div>
+
+    <div class="absolute bottom-0 left-0 right-0 p-4">
+      <h4
+        class="text-xl md:text-2xl font-black uppercase leading-none tracking-tighter text-white group-hover:text-red-600 transition-colors duration-300">
         {{ artist().name }}
       </h4>
-      <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1">
-        {{ artist().genre }} • {{ artist().country }}
-      </p>
+
+      <div class="flex items-center gap-2 mt-1.5 text-zinc-400 overflow-hidden">
+        <span class="text-[9px] uppercase tracking-[0.2em] font-bold">
+          {{ artist().genre }}
+        </span>
+        <span class="w-1 h-1 rounded-full bg-red-600/50"></span>
+        <span class="text-[9px] uppercase tracking-[0.2em] font-bold">
+          {{ artist().country }}
+        </span>
+      </div>
     </div>
   </div>
-
-  <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-4"></div>
 </div>

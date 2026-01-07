@@ -4,7 +4,7 @@
     <header class="mb-16 text-center">
       <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
 
-      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 border-y border-gray-800 py-6">
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 border-y border-zinc-800 py-6">
         @for (day of days; track day.date) {
           <button
             (click)="setDay(day.date)"
@@ -16,48 +16,56 @@
       </nav>
     </header>
 
-    <div class="space-y-32">
-      @for (date of getGroupedDates(); track date) {
-        <section class="animate-in fade-in duration-700">
-          <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
-            {{ getDayLabel(date) }}
-          </h2>
+    @if (isLoading()) {
+      <div class="flex flex-col items-center justify-center py-32">
+        <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
+        <p class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">Abriendo las puertas del
+          Valhalla...</p>
+      </div>
+    } @else {
+      <div class="space-y-32">
+        @for (date of getGroupedDates(); track date) {
+          <section class="animate-in fade-in duration-700">
+            <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
+              {{ getDayLabel(date) }}
+            </h2>
 
-          <div class="space-y-16">
-            @for (stageName of Object.keys(groupedLineup()[date]); track stageName) {
-              <div>
-                <h3 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-8 border-b border-gray-900 pb-2">
-                  {{ stageName }}
-                </h3>
+            <div class="space-y-16">
+              @for (stageName of Object.keys(groupedLineup()[date]); track stageName) {
+                <div>
+                  <h3 class="text-xs uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-zinc-900 pb-2">
+                    {{ stageName }}
+                  </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
-                  @for (perf of groupedLineup()[date][stageName]; track perf.id) {
-                    <div [routerLink]="['/artists', perf.artist.id]" class="group cursor-pointer">
-                      <div class="flex items-baseline justify-between mb-2">
-                        <span class="text-red-600 font-mono text-sm">
-                          {{ perf.startTime | date:'HH:mm' }}
-                        </span>
-                        <span class="text-gray-600 text-[10px] uppercase tracking-widest">
-                          {{ perf.artist.genre }}
-                        </span>
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
+                    @for (perf of groupedLineup()[date][stageName]; track perf.id) {
+                      <div [routerLink]="['/artists', perf.artist.id]" class="group cursor-pointer">
+                        <div class="flex items-baseline justify-between mb-2">
+                          <span class="text-red-600 font-mono text-sm">
+                            {{ perf.startTime | date:'HH:mm' }}
+                          </span>
+                          <span class="text-zinc-600 text-[10px] uppercase tracking-widest">
+                            {{ perf.artist.genre }}
+                          </span>
+                        </div>
+                        <h4
+                          class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
+                          {{ perf.artist.name }}
+                        </h4>
+                        <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
                       </div>
-                      <h4
-                        class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
-                        {{ perf.artist.name }}
-                      </h4>
-                      <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
-                    </div>
-                  }
+                    }
+                  </div>
                 </div>
-              </div>
-            }
+              }
+            </div>
+          </section>
+        } @empty {
+          <div class="text-center py-20 text-zinc-500 italic">
+            No hay actuaciones programadas. Revisa la conexión con el backend.
           </div>
-        </section>
-      } @empty {
-        <div class="text-center py-20 text-gray-500 italic">
-          No hay actuaciones programadas. Revisa la conexión con el backend.
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 </div>
