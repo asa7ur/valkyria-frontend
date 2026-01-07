@@ -111,3 +111,25 @@ body {
 .hidden-content {
   opacity: 0;
 }
+
+/* src/styles.css */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex; /* Usamos flex para control total */
+  width: max-content; /* Obligamos a que el ancho sea el del contenido */
+  animation: marquee 30s linear infinite; /* Un poco más lento suele quedar mejor */
+  will-change: transform; /* Mejora el rendimiento */
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

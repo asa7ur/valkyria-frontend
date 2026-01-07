@@ -4,29 +4,29 @@
       Tickets
     </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       @for (ticket of tickets(); track ticket.id; let i = $index) {
         <div
           [class]="i < 2
-            ? 'lg:col-span-2 p-10 lg:p-12 min-h-112.5 border-red-600/40 bg-linear-to-br from-red-950/20 to-transparent'
-            : 'col-span-1 p-8 aspect-3/4 border-white/20'"
+            ? 'col-span-2 lg:col-span-2 p-6 md:p-10 lg:p-12 min-h-[350px] md:min-h-112.5 border-red-600/40 bg-linear-to-br from-red-950/20 to-transparent'
+            : 'col-span-1 p-5 md:p-8 aspect-[4/5] md:aspect-3/4 border-white/20'"
           class="border flex flex-col justify-between hover:bg-white hover:text-black transition-all duration-500 group relative overflow-hidden">
 
           @if (i < 2) {
             <span
-              class="absolute top-6 right-6 text-[10px] font-bold border border-red-600 text-red-600 px-2 py-1 uppercase tracking-tighter">
+              class="absolute top-4 right-4 md:top-6 md:right-6 text-[9px] md:text-[10px] font-bold border border-red-600 text-red-600 px-2 py-1 uppercase tracking-tighter">
               Full Experience
             </span>
           }
 
           <div>
             <p
-              [class]="i < 2 ? 'text-sm mb-4' : 'text-xs mb-2'"
-              class="font-bold tracking-[0.3em] text-gray-500 group-hover:text-gray-400">
+              [class]="i < 2 ? 'text-xs md:text-sm mb-2 md:mb-4' : 'text-[10px] md:text-xs mb-1 md:mb-2'"
+              class="font-bold tracking-[0.2em] md:tracking-[0.3em] text-gray-500 group-hover:text-gray-400">
               {{ i < 2 ? '4 DAYS PASS' : '1 DAY ACCESS' }}
             </p>
             <h3
-              [class]="i < 2 ? 'text-5xl lg:text-6xl' : 'text-3xl'"
+              [class]="i < 2 ? 'text-4xl md:text-5xl lg:text-6xl' : 'text-xl md:text-3xl'"
               class="font-black uppercase leading-none italic">
               {{ ticket.name }}
             </h3>
@@ -34,13 +34,13 @@
 
           <div class="mt-auto">
             <p
-              [class]="i < 2 ? 'text-6xl mb-8' : 'text-4xl mb-8'"
+              [class]="i < 2 ? 'text-5xl md:text-6xl mb-6 md:mb-8' : 'text-3xl md:text-4xl mb-4 md:mb-8'"
               class="font-light group-hover:font-bold transition-all">
               {{ ticket.price }}€
             </p>
 
             <button
-              class="w-full border border-current py-4 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors cursor-pointer">
+              class="w-full border border-current py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors cursor-pointer">
               BUY NOW
             </button>
           </div>

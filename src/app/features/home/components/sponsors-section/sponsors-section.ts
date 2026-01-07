@@ -1,21 +1,22 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, signal, OnInit} from '@angular/core';
+import {SponsorApi} from '../../../../core/services/sponsor-api';
+import {Sponsor} from '../../../../core/models/sponsor';
 
 @Component({
   selector: 'app-sponsors-section',
+  standalone: true,
   imports: [],
   templateUrl: './sponsors-section.html',
-  styles: ``,
 })
-export class SponsorsSection {
-  protected readonly sponsors = signal([
-    {name: 'NOSDO AYUNTAMIENTO DE SEVILLA'},
-    {name: 'Rock'},
-    {name: 'Carrefour'},
-    {name: 'Cruzcampo'},
-    {name: 'BARCELÓ'},
-    {name: 'TIDAL'},
-    {name: 'Red Bull'},
-    {name: 'Burn'},
-    {name: 'ABSOLUT VODKA'}
-  ]);
+export class SponsorsSection implements OnInit {
+  private sponsorApi = inject(SponsorApi);
+
+  protected readonly sponsors = signal<Sponsor[]>([]);
+
+  ngOnInit(): void {
+    this.sponsorApi.getSponsors().subscribe({
+      next: (data) => this.sponsors.set(data),
+      error: (err) => console.error('Error cargando sponsors', err)
+    });
+  }
 }

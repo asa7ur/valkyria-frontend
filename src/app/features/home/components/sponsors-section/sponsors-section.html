@@ -3,15 +3,31 @@
     <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-16">Sponsors</h2>
 
     <div
-      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-16 gap-x-8 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
-      @for (sponsor of sponsors(); track sponsor.name) {
-        <div class="group cursor-help text-center">
-          <span
-            class="text-xl md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
-            {{ sponsor.name }}
-          </span>
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-16 gap-x-12 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
+
+      @for (sponsor of sponsors(); track sponsor.id) {
+        <div class="group cursor-help text-center w-full flex items-center justify-center">
+
+          @if (sponsor.image) {
+            <img
+              [src]="'http://localhost:8080/uploads/sponsors/' + sponsor.image"
+              [alt]="sponsor.name"
+              class="max-h-12 md:max-h-16 w-auto grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 object-contain"
+            >
+          } @else {
+            <span
+              class="text-xl md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
+              {{ sponsor.name }}
+            </span>
+          }
+
+        </div>
+      } @empty {
+        <div class="col-span-full py-10 text-gray-600 italic">
+          No hay patrocinadores disponibles en este momento.
         </div>
       }
+
     </div>
   </div>
 </section>

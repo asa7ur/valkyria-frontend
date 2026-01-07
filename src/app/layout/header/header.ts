@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, signal, HostListener, ElementRef} from '@angular/core'; // Añadido HostListener y ElementRef
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthManager} from '../../core/services/auth-manager';
 
@@ -6,11 +6,11 @@ import {AuthManager} from '../../core/services/auth-manager';
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
-  styles: ``,
 })
 export class Header {
   public auth = inject(AuthManager);
   private router = inject(Router);
+  private elementRef = inject(ElementRef);
 
   isMenuOpen = signal(false);
 
@@ -20,6 +20,14 @@ export class Header {
 
   closeMenu() {
     this.isMenuOpen.set(false);
+  }
+
+  // Cierra el menú si se hace clic fuera del componente Header
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.isMenuOpen() && !this.elementRef.nativeElement.contains(event.target)) {
+      this.closeMenu();
+    }
   }
 
   onLogout() {

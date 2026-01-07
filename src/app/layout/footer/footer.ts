@@ -1,14 +1,38 @@
 import {Component, signal} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
-  templateUrl: './footer.html',
-  styles: ``,
+  imports: [RouterLink],
+  templateUrl: './footer.html'
 })
 export class Footer {
-  protected readonly currentYear = signal(new Date().getFullYear());
+  protected readonly currentYear = new Date().getFullYear();
 
-  protected readonly infoLinks = signal(['General Info', 'Ticketing', 'FAQ']);
-  protected readonly legalLinks = signal(['Legal Notice', 'General Terms & Conditions']);
+  protected readonly footerLinks = signal([
+    {
+      title: 'Festival',
+      links: [
+        {label: 'Line-up', path: '/lineup'},
+        {label: 'Artists', path: '/artists'},
+        {label: 'Tickets', path: '/purchase'}
+      ]
+    },
+    {
+      title: 'Experience',
+      links: [
+        {label: 'Camping', path: '/camping'},
+        {label: 'Info', path: '/info'},
+        {label: 'Sponsors', path: '/sponsors'}
+      ]
+    },
+    {
+      title: 'Legal',
+      links: [
+        {label: 'Privacy Policy', path: '/privacy'},
+        {label: 'Terms & Conditions', path: '/terms'},
+        {label: 'Cookies', path: '/cookies'}
+      ]
+    }
+  ]);
 }
