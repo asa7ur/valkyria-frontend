@@ -1,6 +1,8 @@
 <section class="text-white py-24 overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 mb-12">
-    <h2 class="text-5xl font-black uppercase tracking-tighter italic">Experience the Festival</h2>
+    <h2 i18n="@@home.experience.title" class="text-5xl font-black uppercase tracking-tighter italic">
+      Vive el Festival
+    </h2>
   </div>
 
   <div class="relative w-full h-[60vh] md:h-[80vh]">
@@ -11,7 +13,8 @@
         <div class="min-w-full h-full">
           <img [src]="image"
                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-               alt="Festival experience">
+               i18n-alt="@@home.experience.imgAlt"
+               alt="Experiencia del festival">
         </div>
       }
     </div>

@@ -163,6 +163,72 @@
           <context context-type="linenumber">47,50</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="home.hero.videoFallback" datatype="html">
+        <source>Tu navegador no soporta videos.</source>
+      </trans-unit>
+      <trans-unit id="home.hero.date" datatype="html">
+        <source>22-25 de Julio, 2026 • Sevilla</source>
+      </trans-unit>
+      <trans-unit id="home.hero.title" datatype="html">
+        <source>Valkyria</source>
+      </trans-unit>
+      <trans-unit id="home.hero.buyTickets" datatype="html">
+        <source>Comprar Entradas</source>
+      </trans-unit>
+      <trans-unit id="home.info.locationValue" datatype="html">
+        <source>Sevilla</source>
+      </trans-unit>
+      <trans-unit id="home.info.locationLabel" datatype="html">
+        <source>Lugar</source>
+      </trans-unit>
+      <trans-unit id="home.info.durationValue" datatype="html">
+        <source>4 Días</source>
+      </trans-unit>
+      <trans-unit id="home.info.durationLabel" datatype="html">
+        <source>Duración</source>
+      </trans-unit>
+      <trans-unit id="home.info.artistsCount" datatype="html">
+        <source>+100</source>
+      </trans-unit>
+      <trans-unit id="home.info.artistsLabel" datatype="html">
+        <source>Artistas</source>
+      </trans-unit>
+      <trans-unit id="home.lineup.title" datatype="html">
+        <source>Line-up 2026</source>
+      </trans-unit>
+      <trans-unit id="home.lineup.moreArtists" datatype="html">
+        <source>y más artistas por confirmar</source>
+      </trans-unit>
+      <trans-unit id="home.tickets.title" datatype="html">
+        <source>Entradas</source>
+      </trans-unit>
+      <trans-unit id="home.tickets.fullExperience" datatype="html">
+        <source>Experiencia Completa</source>
+      </trans-unit>
+      <trans-unit id="home.tickets.pass4Days" datatype="html">
+        <source>ABONO 4 DÍAS</source>
+      </trans-unit>
+      <trans-unit id="home.tickets.access1Day" datatype="html">
+        <source>ACCESO 1 DÍA</source>
+      </trans-unit>
+      <trans-unit id="home.tickets.buyNow" datatype="html">
+        <source>COMPRAR AHORA</source>
+      </trans-unit>
+      <trans-unit id="home.experience.title" datatype="html">
+        <source>Vive el Festival</source>
+      </trans-unit>
+      <trans-unit id="home.experience.imgAlt" datatype="html">
+        <source>Experiencia del festival</source>
+      </trans-unit>
+      <trans-unit id="home.social.followUs" datatype="html">
+        <source>Síguenos</source>
+      </trans-unit>
+      <trans-unit id="home.sponsors.title" datatype="html">
+        <source>Patrocinadores</source>
+      </trans-unit>
+      <trans-unit id="home.sponsors.empty" datatype="html">
+        <source>No hay patrocinadores disponibles en este momento.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

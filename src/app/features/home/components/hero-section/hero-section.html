@@ -9,20 +9,21 @@
     <source
       src="https://fra1.digitaloceanspaces.com/hellfest-bucket/intro_2026_ebde32b292.mp4"
       type="video/mp4">
-    Tu navegador no soporta videos.
+    <span i18n="@@home.hero.videoFallback">Tu navegador no soporta videos.</span>
   </video>
 
   <div class="absolute inset-0 z-1 bg-linear-to-b from-black/40 via-transparent via-70% to-black"></div>
 
   <div class="relative z-10 text-center text-white px-4">
-    <p class="text-xl md:text-2xl font-light tracking-[0.3em] mb-4 uppercase">
-      21-24 July 2026 • Sevilla
+    <p i18n="@@home.hero.date" class="text-xl md:text-2xl font-light tracking-[0.3em] mb-4 uppercase">
+      21-24 de Julio, 2026 • Sevilla
     </p>
-    <h1 class="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">
+    <h1 i18n="@@home.hero.title" class="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">
       Valkyria
     </h1>
     <button
       [routerLink]="['/purchase']"
+      i18n="@@home.hero.buyTickets"
       class="bg-red-600 hover:bg-white hover:text-black text-white px-12 py-5 text-sm font-black uppercase tracking-[0.3em] transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-2xl cursor-pointer">
       Comprar Entradas
     </button>
