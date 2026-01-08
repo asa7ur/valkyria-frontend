@@ -72,12 +72,12 @@ export class Checkout implements OnInit {
 
   getTicketName(id: any): string {
     const found = this.ticketTypes.find(t => Number(t.id) === Number(id));
-    return found ? found.name : 'Ticket no encontrado';
+    return found ? found.name : $localize`:@@checkout.error.ticketNotFound:Ticket no encontrado`;
   }
 
   getCampingName(id: any): string {
     const found = this.campingTypes.find(c => Number(c.id) === Number(id));
-    return found ? found.name : 'Camping no encontrado';
+    return found ? found.name : $localize`:@@checkout.error.campingNotFound:Camping no encontrado`;
   }
 
   removeItem(type: 'ticket' | 'camping', index: number) {
@@ -96,7 +96,7 @@ export class Checkout implements OnInit {
       // Delegamos la creación del pedido a la lógica de negocio
       this.cart.createOrder(this.order).subscribe({
         next: (res) => window.location.href = res.url,
-        error: (err) => alert(err.error?.message || 'Error al procesar el pago')
+        error: (err) => alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`)
       });
     }
   }

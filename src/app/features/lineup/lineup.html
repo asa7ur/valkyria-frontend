@@ -2,7 +2,7 @@
   <div class="max-w-7xl mx-auto">
 
     <header class="mb-16 text-center">
-      <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
+      <h1 i18n="@@lineup.title" class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
 
       <nav class="flex flex-wrap justify-center gap-4 md:gap-8 border-y border-zinc-800 py-6">
         @for (day of days; track day.date) {
@@ -19,8 +19,9 @@
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
-        <p class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">Abriendo las puertas del
-          Valhalla...</p>
+        <p i18n="@@lineup.loading" class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
+          Abriendo las puertas del Valhalla...
+        </p>
       </div>
     } @else {
       <div class="space-y-32">
@@ -61,7 +62,7 @@
             </div>
           </section>
         } @empty {
-          <div class="text-center py-20 text-zinc-500 italic">
+          <div i18n="@@lineup.empty" class="text-center py-20 text-zinc-500 italic">
             No hay actuaciones programadas. Revisa la conexión con el backend.
           </div>
         }

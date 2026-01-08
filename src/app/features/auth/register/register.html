@@ -6,9 +6,9 @@
 
   <div class="w-full max-w-2xl z-10">
     <div class="mb-10 text-center md:text-left">
-      <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic leading-none">
-        Join the <br>
-        <span class="text-red-600">Valkyries</span>
+      <h2 i18n="@@register.title" class="text-5xl md:text-7xl font-black text-white uppercase italic leading-none">
+        Únete a las <br>
+        <span class="text-red-600">Valkirias</span>
       </h2>
       <div class="h-2 w-24 bg-red-600 mt-4 mx-auto md:mx-0"></div>
     </div>
@@ -30,55 +30,64 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">First
-          Name</label>
+        <label i18n="@@register.label.firstName"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Nombre
+        </label>
         <input type="text" formControlName="firstName"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Last
-          Name</label>
+        <label i18n="@@register.label.lastName"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Apellidos
+        </label>
         <input type="text" formControlName="lastName"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
 
       <div class="relative group md:col-span-2">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Email
-          Address</label>
+        <label i18n="@@register.label.email"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Correo Electrónico
+        </label>
         <input type="email" formControlName="email"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Phone</label>
+        <label i18n="@@register.label.phone"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Teléfono
+        </label>
         <input type="text" formControlName="phone"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Birth
-          Date</label>
+        <label i18n="@@register.label.birthDate"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Fecha de Nacimiento
+        </label>
         <input type="date" formControlName="birthDate"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark">
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Password</label>
+        <label i18n="@@register.label.password"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Contraseña
+        </label>
         <input type="password" formControlName="password"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">Confirm
-          Password</label>
+        <label i18n="@@register.label.confirmPassword"
+               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
+          Confirmar Contraseña
+        </label>
         <input type="password" formControlName="confirmPassword"
                class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
       </div>
@@ -89,7 +98,13 @@
           [disabled]="registerForm.invalid || isLoading()"
           class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 transition-all cursor-pointer flex justify-between items-center px-8"
         >
-          <span>{{ isLoading() ? 'Processing...' : 'Register as Warrior' }}</span>
+          <span>
+            @if (isLoading()) {
+              <ng-container i18n="@@register.btn.processing">Procesando...</ng-container>
+            } @else {
+              <ng-container i18n="@@register.btn.submit">Registrarse como Guerrero</ng-container>
+            }
+          </span>
 
           @if (!isLoading()) {
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -102,7 +117,8 @@
     </form>
 
     <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-      <a routerLink="/login" class="text-white/30 hover:text-white transition-colors">← Back to Login</a>
+      <a routerLink="/login" i18n="@@register.link.backLogin" class="text-white/30 hover:text-white transition-colors">←
+        Volver al Inicio de Sesión</a>
     </div>
   </div>
 </div>

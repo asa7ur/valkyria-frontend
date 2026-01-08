@@ -130,62 +130,38 @@
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="nav.lineup" datatype="html">
-        <source>Lineup</source>
-        <target>Lineup</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">14,15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.artists" datatype="html">
-        <source>Artistas</source>
-        <target>Artists</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">17,18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.buyTickets" datatype="html">
-        <source> Comprar Entradas </source>
-        <target> Buy Tickets </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">21,23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.myOrders" datatype="html">
-        <source> Mis Pedidos </source>
-        <target> My Orders </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">31,33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.logout" datatype="html">
-        <source> Cerrar Sesión </source>
-        <target> Logout </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">36,37</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.login" datatype="html">
-        <source>Iniciar Sesión</source>
-        <target>Login</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">44,45</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="nav.register" datatype="html">
-        <source>Registrarse</source>
-        <target>Register</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/layout/header/header.html</context>
-          <context context-type="linenumber">47,50</context>
-        </context-group>
-      </trans-unit>
+     <trans-unit id="nav.lineup" datatype="html">
+       <source>Lineup</source>
+       <target>Lineup</target>
+     </trans-unit>
+     <trans-unit id="nav.artists" datatype="html">
+       <source>Artistas</source>
+       <target>Artists</target>
+     </trans-unit>
+     <trans-unit id="nav.buyTickets" datatype="html">
+       <source> Comprar Entradas </source>
+       <target> Buy Tickets </target>
+     </trans-unit>
+     <trans-unit id="nav.myOrders" datatype="html">
+       <source> Mis Pedidos </source>
+       <target> My Orders </target>
+     </trans-unit>
+     <trans-unit id="nav.logout" datatype="html">
+       <source> Cerrar Sesión </source>
+       <target> Logout </target>
+     </trans-unit>
+     <trans-unit id="nav.login" datatype="html">
+       <source>Iniciar Sesión</source>
+       <target>Login</target>
+     </trans-unit>
+     <trans-unit id="nav.register" datatype="html">
+       <source>Registrarse</source>
+       <target>Register</target>
+     </trans-unit>
+     <trans-unit id="nav.languageToggle" datatype="html">
+       <source>Cambiar Idioma</source>
+       <target>Switch Language</target>
+     </trans-unit>
       <trans-unit id="home.hero.videoFallback" datatype="html">
         <source>Tu navegador no soporta videos.</source>
         <target>Your browser does not support videos.</target>
@@ -273,6 +249,442 @@
       <trans-unit id="home.sponsors.empty" datatype="html">
         <source>No hay patrocinadores disponibles en este momento.</source>
         <target>No sponsors available at this time.</target>
+      </trans-unit>
+      <trans-unit id="login.title" datatype="html">
+        <source>Únete a la <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Horda<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <target>Join the <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Horde<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="login.label.username" datatype="html">
+        <source>Usuario / Correo Electrónico</source>
+        <target>Username / Email Address</target>
+      </trans-unit>
+      <trans-unit id="login.placeholder.username" datatype="html">
+        <source>tu_usuario</source>
+        <target>your_username</target>
+      </trans-unit>
+      <trans-unit id="login.label.password" datatype="html">
+        <source>Contraseña</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="login.btn.authenticating" datatype="html">
+        <source>Autenticando...</source>
+        <target>Authenticating...</target>
+      </trans-unit>
+      <trans-unit id="login.btn.submit" datatype="html">
+        <source>Iniciar Sesión</source>
+        <target>Login Now</target>
+      </trans-unit>
+      <trans-unit id="login.link.backHome" datatype="html">
+        <source>← Volver al Inicio</source>
+        <target>← Back to Home</target>
+      </trans-unit>
+      <trans-unit id="login.text.newHere" datatype="html">
+        <source>¿Eres nuevo?</source>
+        <target>New here?</target>
+      </trans-unit>
+      <trans-unit id="login.link.register" datatype="html">
+        <source>Crear Cuenta →</source>
+        <target>Create Account →</target>
+      </trans-unit>
+      <trans-unit id="login.error.invalidCredentials" datatype="html">
+        <source>Credenciales incorrectas o error de conexión</source>
+        <target>Invalid credentials or connection error</target>
+      </trans-unit>
+      <trans-unit id="register.title" datatype="html">
+        <source>Únete a las <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Valkirias<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <target>Join the <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Valkyries<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="register.label.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>First Name</target>
+      </trans-unit>
+      <trans-unit id="register.label.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Last Name</target>
+      </trans-unit>
+      <trans-unit id="register.label.email" datatype="html">
+        <source>Correo Electrónico</source>
+        <target>Email Address</target>
+      </trans-unit>
+      <trans-unit id="register.label.phone" datatype="html">
+        <source>Teléfono</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="register.label.birthDate" datatype="html">
+        <source>Fecha de Nacimiento</source>
+        <target>Birth Date</target>
+      </trans-unit>
+      <trans-unit id="register.label.password" datatype="html">
+        <source>Contraseña</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="register.label.confirmPassword" datatype="html">
+        <source>Confirmar Contraseña</source>
+        <target>Confirm Password</target>
+      </trans-unit>
+      <trans-unit id="register.btn.processing" datatype="html">
+        <source>Procesando...</source>
+        <target>Processing...</target>
+      </trans-unit>
+      <trans-unit id="register.btn.submit" datatype="html">
+        <source>Registrarse como Guerrero</source>
+        <target>Register as Warrior</target>
+      </trans-unit>
+      <trans-unit id="register.link.backLogin" datatype="html">
+        <source>← Volver al Inicio de Sesión</source>
+        <target>← Back to Login</target>
+      </trans-unit>
+      <trans-unit id="register.success.checkEmail" datatype="html">
+        <source>Revisa tu correo para activar la cuenta</source>
+        <target>Check your email to activate account</target>
+      </trans-unit>
+      <trans-unit id="register.error.default" datatype="html">
+        <source>Error durante el registro</source>
+        <target>Error during registration</target>
+      </trans-unit>
+      <trans-unit id="confirm.title" datatype="html">
+        <source>Verificación de <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Cuenta<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <target>Account <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600&quot;&gt;"/>Verification<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="confirm.link.login" datatype="html">
+        <source>Continuar al Inicio de Sesión</source>
+        <target>Proceed to Login</target>
+      </trans-unit>
+      <trans-unit id="confirm.link.register" datatype="html">
+        <source>Intentar Registrarse de Nuevo</source>
+        <target>Try Registering Again</target>
+      </trans-unit>
+      <trans-unit id="confirm.msg.loading" datatype="html">
+        <source>Verificando tu estado de guerrero...</source>
+        <target>Verifying your warrior status...</target>
+      </trans-unit>
+      <trans-unit id="confirm.msg.success" datatype="html">
+        <source>Tu cuenta ha sido activada. ¡Bienvenido a la Horda!</source>
+        <target>Your account has been activated. Welcome to the Horde!</target>
+      </trans-unit>
+      <trans-unit id="confirm.msg.error.invalid" datatype="html">
+        <source>El enlace de activación no es válido o ha expirado.</source>
+        <target>The activation link is invalid or has expired.</target>
+      </trans-unit>
+      <trans-unit id="confirm.msg.error.noToken" datatype="html">
+        <source>No se encontró ningún token de activación.</source>
+        <target>No activation token found.</target>
+      </trans-unit>
+      <trans-unit id="lineup.title" datatype="html">
+        <source>Line-up</source>
+        <target>Line-up</target>
+      </trans-unit>
+      <trans-unit id="lineup.loading" datatype="html">
+        <source>Abriendo las puertas del Valhalla...</source>
+        <target>Opening the gates of Valhalla...</target>
+      </trans-unit>
+      <trans-unit id="lineup.empty" datatype="html">
+        <source>No hay actuaciones programadas. Revisa la conexión con el backend.</source>
+        <target>No performances scheduled. Check backend connection.</target>
+      </trans-unit>
+      <trans-unit id="lineup.day.all" datatype="html">
+        <source>TODOS</source>
+        <target>ALL</target>
+      </trans-unit>
+      <trans-unit id="lineup.day.wed13" datatype="html">
+        <source>MIÉ 13</source>
+        <target>WED 13</target>
+      </trans-unit>
+      <trans-unit id="lineup.day.thu14" datatype="html">
+        <source>JUE 14</source>
+        <target>THU 14</target>
+      </trans-unit>
+      <trans-unit id="lineup.day.fri15" datatype="html">
+        <source>VIE 15</source>
+        <target>FRI 15</target>
+      </trans-unit>
+      <trans-unit id="lineup.day.sat16" datatype="html">
+        <source>SÁB 16</source>
+        <target>SAT 16</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.loading" datatype="html">
+        <source>Cargando Perfil...</source>
+        <target>Loading Profile...</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.back" datatype="html">
+        <source>← VOLVER</source>
+        <target>← BACK</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.noImage" datatype="html">
+        <source>Sin Imagen</source>
+        <target>No Image</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.infoTitle" datatype="html">
+        <source>Información del Artista</source>
+        <target>Artist Info</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.stageSchedule" datatype="html">
+        <source>Escenario / Horario</source>
+        <target>Stage / Schedule</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.genre" datatype="html">
+        <source>Género</source>
+        <target>Genre</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.origin" datatype="html">
+        <source>Procedencia</source>
+        <target>Origin</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.socials" datatype="html">
+        <source>Redes Sociales</source>
+        <target>Social Media</target>
+      </trans-unit>
+      <trans-unit id="artist.detail.bio" datatype="html">
+        <source>Biografía</source>
+        <target>Biography</target>
+      </trans-unit>
+      <trans-unit id="artists.title" datatype="html">
+        <source>Artistas</source>
+        <target>Artists</target>
+      </trans-unit>
+      <trans-unit id="artists.search.placeholder" datatype="html">
+        <source>BUSCAR ARTISTA...</source>
+        <target>SEARCH ARTIST...</target>
+      </trans-unit>
+      <trans-unit id="artists.search.total" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ filteredArtists().length }}"/> TOTAL</source>
+        <target><x id="INTERPOLATION" equiv-text="{{ filteredArtists().length }}"/> TOTAL</target>
+      </trans-unit>
+      <trans-unit id="artists.loading" datatype="html">
+        <source>Cargando Artistas...</source>
+        <target>Loading Artists...</target>
+      </trans-unit>
+      <trans-unit id="artists.empty" datatype="html">
+        <source>No se han encontrado artistas con ese nombre.</source>
+        <target>No artists found with that name.</target>
+      </trans-unit>
+      <trans-unit id="artists.loadMore.btn" datatype="html">
+        <source>CARGAR MÁS ARTISTAS</source>
+        <target>LOAD MORE ARTISTS</target>
+      </trans-unit>
+      <trans-unit id="artists.loadMore.showing" datatype="html">
+        <source>MOSTRANDO <x id="INTERPOLATION" equiv-text="{{ visibleArtists().length }}"/> DE <x id="INTERPOLATION_1" equiv-text="{{ filteredArtists().length }}"/></source>
+        <target>SHOWING <x id="INTERPOLATION" equiv-text="{{ visibleArtists().length }}"/> OF <x id="INTERPOLATION_1" equiv-text="{{ filteredArtists().length }}"/></target>
+      </trans-unit>
+      <trans-unit id="profile.orders.title" datatype="html">
+        <source>Mis Pedidos</source>
+        <target>My Orders</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.loading" datatype="html">
+        <source>Cargando tu historial...</source>
+        <target>Loading your history...</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.empty.message" datatype="html">
+        <source>Aún no has realizado ningún pedido</source>
+        <target>You haven't placed any orders yet</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.empty.btn" datatype="html">
+        <source>Comprar Tickets Ahora</source>
+        <target>Buy Tickets Now</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.item.idLabel" datatype="html">
+        <source>Pedido #<x id="INTERPOLATION" equiv-text="{{ order.id }}"/></source>
+        <target>Order #<x id="INTERPOLATION" equiv-text="{{ order.id }}"/></target>
+      </trans-unit>
+      <trans-unit id="profile.orders.item.statusLabel" datatype="html">
+        <source>Estado</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.status.paid" datatype="html">
+        <source>PAGADO</source>
+        <target>PAID</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.status.pending" datatype="html">
+        <source>PENDIENTE</source>
+        <target>PENDING</target>
+      </trans-unit>
+      <trans-unit id="profile.orders.item.detailsBtn" datatype="html">
+        <source>Ver Detalles</source>
+        <target>View Details</target>
+      </trans-unit>
+      <trans-unit id="purchase.title" datatype="html">
+        <source>Reserva tu sitio en Valhalla</source>
+        <target>Book your spot in Valhalla</target>
+      </trans-unit>
+      <trans-unit id="purchase.loading" datatype="html">
+        <source>Preparando las credenciales...</source>
+        <target>Preparing credentials...</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.sectionTitle" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600 mr-3&quot;&gt;"/>//<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Entradas</source>
+        <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600 mr-3&quot;&gt;"/>//<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Tickets</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.addBtn" datatype="html">
+        <source>+ Añadir Asistente</source>
+        <target>+ Add Attendee</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.sectionTitle" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600 mr-3&quot;&gt;"/>//<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Camping</source>
+        <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-red-600 mr-3&quot;&gt;"/>//<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Camping</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.addBtn" datatype="html">
+        <source>+ Añadir Reserva</source>
+        <target>+ Add Booking</target>
+      </trans-unit>
+      <trans-unit id="purchase.submitBtn" datatype="html">
+        <source>Confirmar y Pagar</source>
+        <target>Confirm and Pay</target>
+      </trans-unit>
+      <trans-unit id="purchase.backLink" datatype="html">
+        <source>⟨ Volver al Inicio</source>
+        <target>⟨ Back to Home</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.firstName" datatype="html">
+        <source>Nombre del Huésped</source>
+        <target>Guest First Name</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Last Name</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.docTypeLabel" datatype="html">
+        <source>Tipo Doc.</source>
+        <target>Doc. Type</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.docTypePlaceholder" datatype="html">
+        <source>Tipo Doc.</source>
+        <target>Doc. Type</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.docNumber" datatype="html">
+        <source>Nº Documento</source>
+        <target>Document No.</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.birthDate" datatype="html">
+        <source>Fecha Nacimiento</source>
+        <target>Birth Date</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.accommodationType" datatype="html">
+        <source>Tipo de Alojamiento</source>
+        <target>Accommodation Type</target>
+      </trans-unit>
+      <trans-unit id="purchase.camping.item.selectAccommodation" datatype="html">
+        <source>-- Selecciona tu zona de descanso --</source>
+        <target>-- Select your rest area --</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.firstName" datatype="html">
+        <source>Nombre</source>
+        <target>First Name</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.lastName" datatype="html">
+        <source>Apellidos</source>
+        <target>Last Name</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.docTypeLabel" datatype="html">
+        <source>Tipo Doc.</source>
+        <target>Doc. Type</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.docTypePlaceholder" datatype="html">
+        <source>Tipo Doc.</source>
+        <target>Doc. Type</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.docNumber" datatype="html">
+        <source>Nº Documento</source>
+        <target>Document No.</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.birthDate" datatype="html">
+        <source>Fecha Nacimiento</source>
+        <target>Birth Date</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.selectTicketLabel" datatype="html">
+        <source>Selecciona tu Entrada</source>
+        <target>Select your Ticket</target>
+      </trans-unit>
+      <trans-unit id="purchase.tickets.item.selectTicketPlaceholder" datatype="html">
+        <source>-- Selecciona el tipo de acceso --</source>
+        <target>-- Select access type --</target>
+      </trans-unit>
+      <trans-unit id="checkout.title" datatype="html">
+        <source>Resumen del Pedido</source>
+        <target>Order Summary</target>
+      </trans-unit>
+      <trans-unit id="checkout.loading" datatype="html">
+        <source>Cargando tus datos y reservas de camping...</source>
+        <target>Loading your data and camping reservations...</target>
+      </trans-unit>
+      <trans-unit id="checkout.tickets.sectionTitle" datatype="html">
+        <source>// Tus Entradas</source>
+        <target>// Your Tickets</target>
+      </trans-unit>
+      <trans-unit id="checkout.item.removeBtn" datatype="html">
+        <source>Eliminar</source>
+        <target>Remove</target>
+      </trans-unit>
+      <trans-unit id="checkout.camping.sectionTitle" datatype="html">
+        <source>// Reservas Camping</source>
+        <target>// Camping Reservations</target>
+      </trans-unit>
+      <trans-unit id="checkout.total.label" datatype="html">
+        <source>Importe Total</source>
+        <target>Total Amount</target>
+      </trans-unit>
+      <trans-unit id="checkout.submitBtn" datatype="html">
+        <source>Finalizar y Pagar</source>
+        <target>Finish and Pay</target>
+      </trans-unit>
+      <trans-unit id="checkout.backLink" datatype="html">
+        <source>⟨ Volver y editar datos</source>
+        <target>⟨ Go back and edit data</target>
+      </trans-unit>
+      <trans-unit id="checkout.error.ticketNotFound" datatype="html">
+        <source>Ticket no encontrado</source>
+        <target>Ticket not found</target>
+      </trans-unit>
+      <trans-unit id="checkout.error.campingNotFound" datatype="html">
+        <source>Camping no encontrado</source>
+        <target>Camping not found</target>
+      </trans-unit>
+      <trans-unit id="checkout.error.paymentProcessing" datatype="html">
+        <source>Error al procesar el pago</source>
+        <target>Error processing payment</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.title" datatype="html">
+        <source>Pago Cancelado</source>
+        <target>Payment Cancelled</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.subtitle" datatype="html">
+        <source>El proceso de compra se ha detenido</source>
+        <target>The purchase process has been stopped</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.description" datatype="html">
+        <source>No se ha realizado ningún cargo en tu cuenta. Si has tenido algún problema con el método de pago, puedes volver a intentarlo ahora mismo.</source>
+        <target>No charges have been made to your account. If you had an issue with the payment method, you can try again right now.</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.retryBtn" datatype="html">
+        <source>Reintentar Pago</source>
+        <target>Retry Payment</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.homeBtn" datatype="html">
+        <source>Volver al Inicio</source>
+        <target>Back to Home</target>
+      </trans-unit>
+      <trans-unit id="purchase.cancel.footerText" datatype="html">
+        <source>La arena te espera cuando estés listo // Valkyria 2026</source>
+        <target>The arena awaits you when you are ready // Valkyria 2026</target>
+      </trans-unit>
+      <trans-unit id="purchase.success.title" datatype="html">
+        <source>¡Victoria!</source>
+        <target>Victory!</target>
+      </trans-unit>
+      <trans-unit id="purchase.success.subtitle" datatype="html">
+        <source>Pago procesado correctamente</source>
+        <target>Payment processed successfully</target>
+      </trans-unit>
+      <trans-unit id="purchase.success.description" datatype="html">
+        <source>Tus entradas han sido reservadas. Recibirás un correo electrónico con los detalles del pedido y tus códigos de acceso al festival.</source>
+        <target>Your tickets have been reserved. You will receive an email with the order details and your access codes for the festival.</target>
+      </trans-unit>
+      <trans-unit id="purchase.success.homeBtn" datatype="html">
+        <source>Volver al Inicio</source>
+        <target>Back to Home</target>
+      </trans-unit>
+      <trans-unit id="purchase.success.footerText" datatype="html">
+        <source>Nos vemos en el Valhalla // Valkyria 2026</source>
+        <target>See you in Valhalla // Valkyria 2026</target>
       </trans-unit>
     </body>
   </file>

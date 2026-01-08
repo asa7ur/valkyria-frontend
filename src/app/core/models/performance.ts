@@ -25,9 +25,9 @@ export interface DayOption {
 }
 
 export const FESTIVAL_DAYS: DayOption[] = [
-  {label: 'ALL', date: 'ALL'},
-  {label: 'WED 13', date: '2025-08-13'},
-  {label: 'THU 14', date: '2025-08-14'},
-  {label: 'FRI 15', date: '2025-08-15'},
-  {label: 'SAT 16', date: '2025-08-16'}
+  {label: $localize`:@@lineup.day.all:TODOS`, date: 'ALL'},
+  {label: $localize`:@@lineup.day.wed13:MIÉ 13`, date: '2025-08-13'},
+  {label: $localize`:@@lineup.day.thu14:JUE 14`, date: '2025-08-14'},
+  {label: $localize`:@@lineup.day.fri15:VIE 15`, date: '2025-08-15'},
+  {label: $localize`:@@lineup.day.sat16:SÁB 16`, date: '2025-08-16'}
 ];

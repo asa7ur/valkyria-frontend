@@ -47,7 +47,7 @@ export class Login {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set('Credenciales incorrectas o error de conexión');
+          this.errorMessage.set($localize`:@@login.error.invalidCredentials:Credenciales incorrectas o error de conexión`);
           console.error('Login error:', err);
         }
       });

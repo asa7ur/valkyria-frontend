@@ -15,14 +15,16 @@
     <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
        i18n="@@nav.artists"
        class="hover:text-white transition-colors cursor-pointer">Artistas</a>
+
     <button routerLink="/purchase"
             i18n="@@nav.buyTickets"
-            class="bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all cursor-pointer ml-2">
+            class="bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all cursor-pointer">
       Comprar Entradas
     </button>
   </div>
 
   <div class="flex items-center justify-end gap-6 md:flex-1">
+
     @if (auth.currentUser()) {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/orders" routerLinkActive="text-white"
@@ -47,6 +49,13 @@
            class="text-xs font-bold uppercase tracking-widest text-red-600 hover:text-white transition-colors cursor-pointer border border-red-600/30 px-3 py-1">Registrarse</a>
       </div>
     }
+
+    <button (click)="switchLanguage()"
+            class="hidden md:flex items-center gap-2 px-3 py-1 border border-white/20 hover:border-red-600 transition-all text-[10px] font-black uppercase tracking-widest cursor-pointer group">
+      <span [class.text-red-600]="locale === 'es'">ES</span>
+      <span class="text-white/20">|</span>
+      <span [class.text-red-600]="locale === 'en'">EN</span>
+    </button>
 
     <button
       (click)="toggleMenu()"
