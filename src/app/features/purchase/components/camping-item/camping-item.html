@@ -7,14 +7,16 @@
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre del Huésped</label>
+      <label i18n="@@purchase.camping.item.firstName"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre del Huésped</label>
       <input type="text" formControlName="firstName"
              [class.border-red-600]="campingForm.get('firstName')?.invalid && campingForm.get('firstName')?.touched"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
     </div>
 
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
+      <label i18n="@@purchase.camping.item.lastName"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
       <input type="text" formControlName="lastName"
              [class.border-red-600]="campingForm.get('lastName')?.invalid && campingForm.get('lastName')?.touched"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
@@ -22,11 +24,12 @@
 
     <div class="grid grid-cols-2 gap-4">
       <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
+        <label i18n="@@purchase.camping.item.docTypeLabel"
+               class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
         <div class="relative">
           <select formControlName="documentType"
                   class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer font-bold">
-            <option value="" disabled selected>Tipo Doc.</option>
+            <option i18n="@@purchase.camping.item.docTypePlaceholder" value="" disabled selected>Tipo Doc.</option>
             @for (type of documentTypes; track type) {
               <option [value]="type">{{ type }}</option>
             }
@@ -37,7 +40,8 @@
         </div>
       </div>
       <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
+        <label i18n="@@purchase.camping.item.docNumber"
+               class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
         <input type="text" formControlName="documentNumber"
                [class.border-red-600]="campingForm.get('documentNumber')?.invalid && campingForm.get('documentNumber')?.touched"
                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
@@ -45,17 +49,21 @@
     </div>
 
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
+      <label i18n="@@purchase.camping.item.birthDate"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
       <input type="date" formControlName="birthDate"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors scheme-dark">
     </div>
 
     <div class="md:col-span-2 space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo de Alojamiento</label>
+      <label i18n="@@purchase.camping.item.accommodationType"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo de Alojamiento</label>
       <div class="relative">
         <select formControlName="campingTypeId"
                 class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors font-bold italic appearance-none cursor-pointer">
-          <option value="" disabled selected>-- Selecciona tu zona de descanso --</option>
+          <option i18n="@@purchase.camping.item.selectAccommodation" value="" disabled selected>-- Selecciona tu zona de
+            descanso --
+          </option>
           @for (ct of campingTypes; track ct.id) {
             <option [value]="ct.id">{{ ct.name | uppercase }} — {{ ct.price }}€</option>
           }

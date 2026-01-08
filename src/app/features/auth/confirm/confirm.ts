@@ -13,7 +13,7 @@ export class Confirm implements OnInit {
   private auth = inject(AuthManager);
 
   status = signal<'loading' | 'success' | 'error'>('loading');
-  message = signal<string>('Verifying your warrior status...');
+  message = signal<string>($localize`:@@confirm.msg.loading:Verificando tu estado de guerrero...`);
 
   ngOnInit() {
     // Extraemos el token de los parámetros de la URL (?token=...)
@@ -24,16 +24,16 @@ export class Confirm implements OnInit {
       this.auth.confirmAccount(token).subscribe({
         next: () => {
           this.status.set('success');
-          this.message.set('Your account has been activated. Welcome to the Horde!');
+          this.message.set($localize`:@@confirm.msg.success:Tu cuenta ha sido activada. ¡Bienvenido a la Horda!`);
         },
         error: (err) => {
           this.status.set('error');
-          this.message.set(err.error?.error || 'The activation link is invalid or has expired.');
+          this.message.set(err.error?.error || $localize`:@@confirm.msg.error.invalid:El enlace de activación no es válido o ha expirado.`);
         }
       });
     } else {
       this.status.set('error');
-      this.message.set('No activation token found.');
+      this.message.set($localize`:@@confirm.msg.error.noToken:No se encontró ningún token de activación.`);
     }
   }
 }

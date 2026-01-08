@@ -50,14 +50,13 @@ export class Register {
       this.auth.register(userData).subscribe({
         next: (res: any) => {
           this.isLoading.set(false);
-          this.successMessage.set(res.message || 'Check your email to activate account');
-
+          this.successMessage.set(res.message || $localize`:@@register.success.checkEmail:Revisa tu correo para activar la cuenta`);
           // Redirección al login tras un registro exitoso tras un breve retraso
           setTimeout(() => this.router.navigate(['/login']), 5000);
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err.error?.error || 'Error during registration');
+          this.errorMessage.set(err.error?.error || $localize`:@@register.error.default:Error durante el registro`);
           console.error('Registration error:', err);
         }
       });

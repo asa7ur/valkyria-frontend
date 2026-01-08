@@ -9,29 +9,31 @@
     </div>
 
     <div class="space-y-4">
-      <h1 class="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter">
+      <h1 i18n="@@purchase.success.title"
+          class="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter">
         ¡Victoria!
       </h1>
-      <p class="text-red-600 text-xl font-bold uppercase tracking-[0.3em]">
+      <p i18n="@@purchase.success.subtitle" class="text-red-600 text-xl font-bold uppercase tracking-[0.3em]">
         Pago procesado correctamente
       </p>
     </div>
 
     <div class="bg-zinc-900 border border-white/10 p-8 space-y-6">
-      <p class="text-white/70 text-lg leading-relaxed">
+      <p i18n="@@purchase.success.description" class="text-white/70 text-lg leading-relaxed">
         Tus entradas han sido reservadas. Recibirás un correo electrónico con los detalles del pedido y tus códigos de
         acceso al festival.
       </p>
 
       <div class="pt-4 flex flex-col gap-4">
         <a routerLink="/"
+           i18n="@@purchase.success.homeBtn"
            class="bg-white text-black py-4 text-lg font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
           Volver al Inicio
         </a>
       </div>
     </div>
 
-    <p class="text-white/20 text-xs uppercase font-bold tracking-widest">
+    <p i18n="@@purchase.success.footerText" class="text-white/20 text-xs uppercase font-bold tracking-widest">
       Nos vemos en el Valhalla // Valkyria 2026
     </p>
   </div>

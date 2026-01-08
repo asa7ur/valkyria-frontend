@@ -1,23 +1,25 @@
 <div class="min-h-screen pt-24 pb-12 px-6">
   <div class="max-w-4xl mx-auto animate-in">
-    <h1
-      class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-12 italic border-b-4 border-red-600 inline-block">
+    <h1 i18n="@@purchase.title"
+        class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-12 italic border-b-4 border-red-600 inline-block">
       Reserva tu sitio en Valhalla
     </h1>
 
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
-        <p class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">Preparando las credenciales...</p>
+        <p i18n="@@purchase.loading" class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">Preparando
+          las credenciales...</p>
       </div>
     } @else {
       <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()" class="space-y-12">
         <section>
           <div class="flex justify-between items-end mb-6">
-            <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
+            <h2 i18n="@@purchase.tickets.sectionTitle"
+                class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
               <span class="text-red-600 mr-3">//</span> Entradas
             </h2>
-            <button type="button" (click)="addTicket()"
+            <button type="button" (click)="addTicket()" i18n="@@purchase.tickets.addBtn"
                     class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
               + Añadir Asistente
             </button>
@@ -33,10 +35,11 @@
 
         <section>
           <div class="flex justify-between items-end mb-6">
-            <h2 class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
+            <h2 i18n="@@purchase.camping.sectionTitle"
+                class="text-3xl font-bold text-white uppercase tracking-widest flex items-center">
               <span class="text-red-600 mr-3">//</span> Camping
             </h2>
-            <button type="button" (click)="addCamping()"
+            <button type="button" (click)="addCamping()" i18n="@@purchase.camping.addBtn"
                     class="text-xs font-black uppercase tracking-widest bg-white text-black px-4 py-2 hover:bg-red-600 hover:text-white transition-all cursor-pointer">
               + Añadir Reserva
             </button>
@@ -51,11 +54,11 @@
         </section>
 
         <div class="pt-8 border-t border-white/10 flex flex-col gap-4">
-          <button type="submit" [disabled]="purchaseForm.invalid"
+          <button type="submit" [disabled]="purchaseForm.invalid" i18n="@@purchase.submitBtn"
                   class="w-full bg-white text-black py-6 text-xl font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-20 transition-all cursor-pointer">
             Confirmar y Pagar
           </button>
-          <a routerLink="/"
+          <a routerLink="/" i18n="@@purchase.backLink"
              class="text-center text-zinc-500 uppercase text-xs font-bold tracking-widest hover:text-white transition-colors">
             ⟨ Volver al Inicio
           </a>

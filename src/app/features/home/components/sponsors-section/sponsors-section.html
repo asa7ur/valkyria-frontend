@@ -1,6 +1,8 @@
 <section class="text-white py-24 px-6 border-t border-white/5">
   <div class="max-w-7xl mx-auto">
-    <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-16">Sponsors</h2>
+    <h2 i18n="@@home.sponsors.title" class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-16">
+      Patrocinadores
+    </h2>
 
     <div
       class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-16 gap-x-12 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
@@ -23,7 +25,7 @@
 
         </div>
       } @empty {
-        <div class="col-span-full py-10 text-gray-600 italic">
+        <div i18n="@@home.sponsors.empty" class="col-span-full py-10 text-gray-600 italic">
           No hay patrocinadores disponibles en este momento.
         </div>
       }

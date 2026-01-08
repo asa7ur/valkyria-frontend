@@ -7,14 +7,16 @@
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre</label>
+      <label i18n="@@purchase.tickets.item.firstName"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Nombre</label>
       <input type="text" formControlName="firstName"
              [class.border-red-600]="ticketForm.get('firstName')?.invalid && ticketForm.get('firstName')?.touched"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
     </div>
 
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
+      <label i18n="@@purchase.tickets.item.lastName"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Apellidos</label>
       <input type="text" formControlName="lastName"
              [class.border-red-600]="ticketForm.get('lastName')?.invalid && ticketForm.get('lastName')?.touched"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
@@ -22,11 +24,12 @@
 
     <div class="grid grid-cols-2 gap-4">
       <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
+        <label i18n="@@purchase.tickets.item.docTypeLabel"
+               class="text-[10px] font-black uppercase tracking-widest text-white/40">Tipo Doc.</label>
         <div class="relative">
           <select formControlName="documentType"
                   class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer font-bold">
-            <option value="" disabled selected>Tipo Doc.</option>
+            <option i18n="@@purchase.tickets.item.docTypePlaceholder" value="" disabled selected>Tipo Doc.</option>
             @for (type of documentTypes; track type) {
               <option [value]="type">{{ type }}</option>
             }
@@ -37,7 +40,8 @@
         </div>
       </div>
       <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
+        <label i18n="@@purchase.tickets.item.docNumber"
+               class="text-[10px] font-black uppercase tracking-widest text-white/40">Nº Documento</label>
         <input type="text" formControlName="documentNumber"
                [class.border-red-600]="ticketForm.get('documentNumber')?.invalid && ticketForm.get('documentNumber')?.touched"
                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
@@ -45,17 +49,21 @@
     </div>
 
     <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
+      <label i18n="@@purchase.tickets.item.birthDate"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Fecha Nacimiento</label>
       <input type="date" formControlName="birthDate"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors scheme-dark font-bold">
     </div>
 
     <div class="md:col-span-2 space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">Selecciona tu Entrada</label>
+      <label i18n="@@purchase.tickets.item.selectTicketLabel"
+             class="text-[10px] font-black uppercase tracking-widest text-white/40">Selecciona tu Entrada</label>
       <div class="relative">
         <select formControlName="ticketTypeId"
                 class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors font-bold italic appearance-none cursor-pointer">
-          <option value="" disabled selected>-- Selecciona el tipo de acceso --</option>
+          <option i18n="@@purchase.tickets.item.selectTicketPlaceholder" value="" disabled selected>-- Selecciona el
+            tipo de acceso --
+          </option>
           @for (tt of ticketTypes; track tt.id) {
             <option [value]="tt.id">{{ tt.name | uppercase }} — {{ tt.price }}€</option>
           }

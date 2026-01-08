@@ -6,9 +6,9 @@
 
   <div class="w-full max-w-md z-10">
     <div class="mb-12">
-      <h2 class="text-6xl font-black text-white uppercase italic leading-none">
-        Join the <br>
-        <span class="text-red-600">Horde</span>
+      <h2 i18n="@@login.title" class="text-6xl font-black text-white uppercase italic leading-none">
+        Únete a la <br>
+        <span class="text-red-600">Horda</span>
       </h2>
       <div class="h-2 w-24 bg-red-600 mt-4"></div>
     </div>
@@ -22,22 +22,23 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          Username / Email
+        <label i18n="@@login.label.username"
+               class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          Usuario / Correo Electrónico
         </label>
         <input
           type="text"
           formControlName="username"
-          placeholder="your_username"
+          i18n-placeholder="@@login.placeholder.username"
+          placeholder="tu_usuario"
           class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
         >
       </div>
 
       <div class="relative group">
-        <label
-          class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          Password
+        <label i18n="@@login.label.password"
+               class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          Contraseña
         </label>
         <input
           type="password"
@@ -53,7 +54,13 @@
           [disabled]="loginForm.invalid || isLoading()"
           class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-black transition-all cursor-pointer flex justify-between items-center px-8 group"
         >
-          <span>{{ isLoading() ? 'Authenticating...' : 'Login Now' }}</span>
+          <span>
+            @if (isLoading()) {
+              <ng-container i18n="@@login.btn.authenticating">Autenticando...</ng-container>
+            } @else {
+              <ng-container i18n="@@login.btn.submit">Iniciar Sesión</ng-container>
+            }
+          </span>
 
           @if (!isLoading()) {
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +74,12 @@
     </form>
 
     <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-      <a routerLink="/" class="text-white/30 hover:text-white transition-colors">← Back to Home</a>
+      <a routerLink="/" i18n="@@login.link.backHome" class="text-white/30 hover:text-white transition-colors">← Volver
+        al Inicio</a>
       <div class="flex gap-4">
-        <span class="text-white/20">New here?</span>
-        <a routerLink="/register" class="text-red-500 hover:text-white transition-colors">Create Account →</a>
+        <span i18n="@@login.text.newHere" class="text-white/20">¿Eres nuevo?</span>
+        <a routerLink="/register" i18n="@@login.link.register" class="text-red-500 hover:text-white transition-colors">Crear
+          Cuenta →</a>
       </div>
     </div>
   </div>

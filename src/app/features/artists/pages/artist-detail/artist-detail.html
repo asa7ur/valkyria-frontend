@@ -1,7 +1,8 @@
 <div class="min-h-screen bg-black text-white pt-32 pb-20 px-6">
   @if (loading()) {
     <div class="flex justify-center items-center h-64">
-      <div class="animate-pulse text-red-600 font-black tracking-widest uppercase text-center">
+      <div i18n="@@artist.detail.loading"
+           class="animate-pulse text-red-600 font-black tracking-widest uppercase text-center">
         Cargando Perfil...
       </div>
     </div>
@@ -9,6 +10,7 @@
     <div class="max-w-6xl mx-auto">
 
       <button (click)="goBack()"
+              i18n="@@artist.detail.back"
               class="mb-8 text-s font-bold uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer">
         <span class="text-xl">←</span> VOLVER
       </button>
@@ -32,7 +34,8 @@
         } @else {
           <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-800 z-10">
             <i class="bi bi-person-bounding-box text-9xl"></i>
-            <span class="text-xs uppercase tracking-[0.3em] mt-4 opacity-40">Sin Imagen</span>
+            <span i18n="@@artist.detail.noImage"
+                  class="text-xs uppercase tracking-[0.3em] mt-4 opacity-40">Sin Imagen</span>
           </div>
         }
 
@@ -67,16 +70,18 @@
             </div>
 
             <div class="relative z-10">
-              <h3
-                class="text-3xl font-black uppercase tracking-tighter mb-6 leading-none border-b border-black/20 pb-4">
-                Artist Info
+              <h3 i18n="@@artist.detail.infoTitle"
+                  class="text-3xl font-black uppercase tracking-tighter mb-6 leading-none border-b border-black/20 pb-4">
+                Información del Artista
               </h3>
 
               <div class="space-y-6 mb-8">
                 @if (a.performances && a.performances.length > 0) {
                   <div class="bg-black/10 p-4 -mx-4 border-l-4 border-black/30 mb-6">
-                    <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-1">Escenario /
-                      Horario</p>
+                    <p i18n="@@artist.detail.stageSchedule"
+                       class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-1">
+                      Escenario / Horario
+                    </p>
                     <p class="text-xl font-black uppercase tracking-tight text-white leading-tight">
                       {{ a.performances[0].stage.name }}
                     </p>
@@ -87,18 +92,21 @@
                 }
 
                 <div>
-                  <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold">Género</p>
+                  <p i18n="@@artist.detail.genre" class="text-[10px] uppercase tracking-widest text-black/60 font-bold">
+                    Género</p>
                   <p class="text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
                 </div>
                 <div>
-                  <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold">Procedencia</p>
+                  <p i18n="@@artist.detail.origin"
+                     class="text-[10px] uppercase tracking-widest text-black/60 font-bold">Procedencia</p>
                   <p class="text-lg font-black uppercase tracking-tight">{{ a.country }}</p>
                 </div>
               </div>
             </div>
 
             <div class="relative z-10">
-              <p class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-3">Redes Sociales</p>
+              <p i18n="@@artist.detail.socials"
+                 class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-3">Redes Sociales</p>
               <div class="flex items-center gap-5">
                 @if (a.officialUrl) {
                   <a [href]="a.officialUrl" target="_blank" class="hover:scale-125 transition-transform">
@@ -138,7 +146,7 @@
           <div>
             <div class="flex items-center gap-4 mb-6">
               <div class="h-px flex-1 bg-red-600"></div>
-              <span class="text-xs font-black uppercase tracking-[0.4em] text-red-600">Biografía</span>
+              <span i18n="@@artist.detail.bio" class="text-xs font-black uppercase tracking-[0.4em] text-red-600">Biografía</span>
             </div>
 
             <p
