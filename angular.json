@@ -8,6 +8,12 @@
   "projects": {
     "valkyria-frontend": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": "es",
+        "locales": {
+          "en": "src/locale/messages.en.xlf"
+        }
+      },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
@@ -28,7 +34,15 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.css"
-            ]
+            ],
+            "polyfills": [
+              "@angular/localize/init"
+            ],
+            "localize": [
+              "es",
+              "en"
+            ],
+            "outputPath": "dist/valkyria-frontend"
           },
           "configurations": {
             "production": {
@@ -50,6 +64,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "en": {
+              "localize": [
+                "en"
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -62,6 +81,9 @@
             },
             "development": {
               "buildTarget": "valkyria-frontend:build:development"
+            },
+            "en": {
+              "buildTarget": "valkyria-frontend:build:en"
             }
           },
           "defaultConfiguration": "development"

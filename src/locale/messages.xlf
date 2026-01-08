@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="es" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="footer.description" datatype="html">
+        <source> El caos se une a la música en el corazón de Sevilla. Prepárate para la experiencia definitiva. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.html</context>
+          <context context-type="linenumber">31,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.joinUs" datatype="html">
+        <source>Únete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.emailPlaceholder" datatype="html">
+        <source>CORREO ELECTRÓNICO</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.copyright" datatype="html">
+        <source>© <x id="INTERPOLATION" equiv-text="{{ currentYear }}"/> VALKYRIA FESTIVAL. TODOS LOS DERECHOS RESERVADOS.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.html</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.category.festival" datatype="html">
+        <source>Festival</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.lineup" datatype="html">
+        <source>Lineup</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.artists" datatype="html">
+        <source>Artistas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.tickets" datatype="html">
+        <source>Entradas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.category.experience" datatype="html">
+        <source>Experiencia</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.camping" datatype="html">
+        <source>Camping</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.info" datatype="html">
+        <source>Información</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.sponsors" datatype="html">
+        <source>Patrocinadores</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.category.legal" datatype="html">
+        <source>Legal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.privacy" datatype="html">
+        <source>Política de Privacidad</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.terms" datatype="html">
+        <source>Términos y Condiciones</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.link.cookies" datatype="html">
+        <source>Cookies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.lineup" datatype="html">
+        <source>Lineup</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.artists" datatype="html">
+        <source>Artistas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.buyTickets" datatype="html">
+        <source> Comprar Entradas </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.myOrders" datatype="html">
+        <source> Mis Pedidos </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">31,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.logout" datatype="html">
+        <source> Cerrar Sesión </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.login" datatype="html">
+        <source>Iniciar Sesión</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.register" datatype="html">
+        <source>Registrarse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">47,50</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

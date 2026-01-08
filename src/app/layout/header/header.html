@@ -10,12 +10,15 @@
 
   <div class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-white/80">
     <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
+       i18n="@@nav.lineup"
        class="hover:text-white transition-colors cursor-pointer">Lineup</a>
     <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
-       class="hover:text-white transition-colors cursor-pointer">Artists</a>
+       i18n="@@nav.artists"
+       class="hover:text-white transition-colors cursor-pointer">Artistas</a>
     <button routerLink="/purchase"
+            i18n="@@nav.buyTickets"
             class="bg-white text-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all cursor-pointer ml-2">
-      Buy Tickets
+      Comprar Entradas
     </button>
   </div>
 
@@ -23,20 +26,25 @@
     @if (auth.currentUser()) {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/orders" routerLinkActive="text-white"
+           i18n="@@nav.myOrders"
            class="text-[10px] text-white/50 uppercase tracking-widest font-bold hover:text-white transition-colors cursor-pointer">
-          My Orders
+          Mis Pedidos
         </a>
         <button (click)="onLogout()"
+                i18n="@@nav.logout"
                 class="text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors cursor-pointer">
-          Logout
+          Cerrar Sesión
         </button>
       </div>
     } @else {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/login"
-           class="text-xs font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer">Login</a>
+           i18n="@@nav.login"
+           class="text-xs font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer">Iniciar
+          Sesión</a>
         <a routerLink="/register"
-           class="text-xs font-bold uppercase tracking-widest text-red-600 hover:text-white transition-colors cursor-pointer border border-red-600/30 px-3 py-1">Register</a>
+           i18n="@@nav.register"
+           class="text-xs font-bold uppercase tracking-widest text-red-600 hover:text-white transition-colors cursor-pointer border border-red-600/30 px-3 py-1">Registrarse</a>
       </div>
     }
 
@@ -53,5 +61,4 @@
       </div>
     </button>
   </div>
-
 </nav>
