@@ -1,4 +1,4 @@
-import {Component, inject, signal, HostListener, ElementRef, LOCALE_ID} from '@angular/core';
+import {Component, inject, signal, HostListener, ElementRef, LOCALE_ID, effect} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthManager} from '../../core/services/auth-manager';
 
@@ -14,7 +14,19 @@ export class Header {
   private elementRef = inject(ElementRef);
   protected locale = inject(LOCALE_ID);
 
+  // Signal para el estado del menú
   isMenuOpen = signal(false);
+
+  constructor() {
+    // Bloquea el scroll del fondo cuando el sidebar está abierto
+    effect(() => {
+      if (this.isMenuOpen()) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
 
   toggleMenu() {
     this.isMenuOpen.update(state => !state);
@@ -24,6 +36,7 @@ export class Header {
     this.isMenuOpen.set(false);
   }
 
+  // Cierra el menú si se hace clic fuera del sidebar
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.isMenuOpen() && !this.elementRef.nativeElement.contains(event.target)) {
@@ -33,10 +46,10 @@ export class Header {
 
   onLogout() {
     this.auth.logout();
+    this.closeMenu();
     this.router.navigate(['/']);
   }
 
-  // Método para alternar entre idiomas redirigiendo la URL
   switchLanguage() {
     const newLocale = this.locale === 'es' ? 'en' : 'es';
     const currentPath = window.location.pathname;
@@ -47,7 +60,6 @@ export class Header {
     } else if (currentPath.startsWith('/en/')) {
       newPath = currentPath.replace('/en/', `/${newLocale}/`);
     } else {
-      // Caso base si no hay prefijo en la URL (ej: localhost:4200)
       newPath = `/${newLocale}${currentPath}`;
     }
 

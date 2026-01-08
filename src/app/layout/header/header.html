@@ -24,7 +24,6 @@
   </div>
 
   <div class="flex items-center justify-end gap-6 md:flex-1">
-
     @if (auth.currentUser()) {
       <div class="hidden md:flex items-center gap-6">
         <a routerLink="/orders" routerLinkActive="text-white"
@@ -71,3 +70,68 @@
     </button>
   </div>
 </nav>
+
+<div
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden"
+  [class.opacity-100]="isMenuOpen()"
+  [class.opacity-0]="!isMenuOpen()"
+  [class.pointer-events-auto]="isMenuOpen()"
+  [class.pointer-events-none]="!isMenuOpen()"
+  (click)="closeMenu()">
+</div>
+
+<aside
+  class="fixed top-0 right-0 h-full w-70 bg-neutral-950 z-40 shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden border-l border-white/10"
+  [class.translate-x-0]="isMenuOpen()"
+  [class.translate-x-full]="!isMenuOpen()">
+
+  <div class="flex flex-col h-full pt-24 pb-8 px-6">
+    <div class="flex flex-col gap-6">
+      <a routerLink="/lineup" (click)="closeMenu()" routerLinkActive="text-red-600"
+         i18n="@@nav.lineup"
+         class="text-xl font-bold uppercase tracking-widest text-white/90">Lineup</a>
+
+      <a routerLink="/artists" (click)="closeMenu()" routerLinkActive="text-red-600"
+         i18n="@@nav.artists"
+         class="text-xl font-bold uppercase tracking-widest text-white/90">Artistas</a>
+
+      <button routerLink="/purchase" (click)="closeMenu()"
+              i18n="@@nav.buyTickets"
+              class="w-full bg-white text-black py-3 text-xs font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all cursor-pointer">
+        Comprar Entradas
+      </button>
+    </div>
+
+    <div class="h-px bg-white/5 my-8"></div>
+
+    <div class="flex flex-col gap-5">
+      @if (auth.currentUser()) {
+        <a routerLink="/orders" (click)="closeMenu()"
+           i18n="@@nav.myOrders"
+           class="text-xs font-bold uppercase tracking-widest text-white/50">Mis Pedidos</a>
+
+        <button (click)="onLogout()"
+                i18n="@@nav.logout"
+                class="text-xs font-bold uppercase tracking-widest text-red-500 text-left cursor-pointer">Cerrar Sesión
+        </button>
+      } @else {
+        <a routerLink="/login" (click)="closeMenu()"
+           i18n="@@nav.login"
+           class="text-xs font-bold uppercase tracking-widest text-white/50 cursor-pointer">Iniciar Sesión</a>
+
+        <a routerLink="/register" (click)="closeMenu()"
+           i18n="@@nav.register"
+           class="text-xs font-bold uppercase tracking-widest text-red-600 border border-red-600/20 px-4 py-2 w-fit cursor-pointer">Registrarse</a>
+      }
+    </div>
+
+    <div class="mt-auto">
+      <button (click)="switchLanguage()"
+              class="flex items-center gap-4 px-4 py-2 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/80 cursor-pointer">
+        <span [class.text-red-600]="locale === 'es'">ES</span>
+        <span class="text-white/10">|</span>
+        <span [class.text-red-600]="locale === 'en'">EN</span>
+      </button>
+    </div>
+  </div>
+</aside>
