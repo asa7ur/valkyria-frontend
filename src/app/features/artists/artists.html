@@ -43,7 +43,7 @@
         <div class="flex justify-center">
           <button
             (click)="loadMore()"
-            class="group relative px-12 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300">
+            class="group relative px-12 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 cursor-pointer">
             <span i18n="@@artists.loadMore.btn">CARGAR MÁS ARTISTAS</span>
             <span i18n="@@artists.loadMore.showing" class="block text-[10px] font-mono mt-1 opacity-50">
               MOSTRANDO {{ visibleArtists().length }} DE {{ filteredArtists().length }}
