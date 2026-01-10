@@ -69,7 +69,10 @@
             "en": {
               "localize": [
                 "en"
-              ]
+              ],
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"
