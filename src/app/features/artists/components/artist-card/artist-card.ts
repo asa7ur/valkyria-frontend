@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-artist-card',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './artist-card.html',
   host: {
