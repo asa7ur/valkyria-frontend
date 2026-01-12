@@ -163,7 +163,7 @@
         <source>Duración</source>
       </trans-unit>
       <trans-unit id="home.info.artistsCount" datatype="html">
-        <source>+100</source>
+        <source>+75</source>
       </trans-unit>
       <trans-unit id="home.info.artistsLabel" datatype="html">
         <source>Artistas</source>
@@ -307,16 +307,16 @@
         <source>TODOS</source>
       </trans-unit>
       <trans-unit id="lineup.day.wed5" datatype="html">
-        <source>MIÉ 13</source>
+        <source>MIÉ 5</source>
       </trans-unit>
       <trans-unit id="lineup.day.thu6" datatype="html">
-        <source>JUE 14</source>
+        <source>JUE 6</source>
       </trans-unit>
       <trans-unit id="lineup.day.fri7" datatype="html">
-        <source>VIE 15</source>
+        <source>VIE 7</source>
       </trans-unit>
       <trans-unit id="lineup.day.sat8" datatype="html">
-        <source>SÁB 16</source>
+        <source>SÁB 8</source>
       </trans-unit>
       <trans-unit id="artist.detail.loading" datatype="html">
         <source>Cargando Perfil...</source>

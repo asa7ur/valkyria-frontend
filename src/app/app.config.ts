@@ -1,5 +1,5 @@
 import {ApplicationConfig, provideBrowserGlobalErrorListeners} from '@angular/core';
-import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router'; // Importa withInMemoryScrolling
+import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';

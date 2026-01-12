@@ -1,29 +1,36 @@
 <section class="text-white py-24 px-6">
   <div class="max-w-7xl mx-auto">
-    <h2 i18n="@@home.tickets.title" class="text-5xl font-black uppercase tracking-tighter mb-16 italic">
-      Entradas
-    </h2>
+    <div class="flex items-center gap-4 mb-12">
+      <h2 i18n="@@home.tickets.title"
+          class="text-s uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+        Entradas
+      </h2>
+      <div class="h-px w-full bg-white/10"></div>
+    </div>
 
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       @for (ticket of tickets(); track ticket.id; let i = $index) {
         <div
           [class]="i < 2
-            ? 'col-span-2 lg:col-span-2 p-6 md:p-10 lg:p-12 min-h-87.5 md:min-h-112.5 border-red-600/40 bg-linear-to-br from-red-950/20 to-transparent'
-            : 'col-span-1 p-5 md:p-8 aspect-4/5 md:aspect-3/4 border-white/20'"
-          class="border flex flex-col justify-between hover:bg-white hover:text-black transition-all duration-500 group relative overflow-hidden">
+            ? 'col-span-2 lg:col-span-2 p-6 md:p-10 lg:p-12 min-h-87.5 md:min-h-112.5 border-red-600/60 bg-linear-to-br from-red-950/30 via-black/20 to-transparent'
+            : 'col-span-1 p-5 md:p-8 aspect-4/5 md:aspect-3/4 border-red-900/40'"
+          class="border flex flex-col justify-between hover:bg-red-600 hover:text-black hover:border-red-600 transition-all duration-500 group relative overflow-hidden backdrop-blur-sm">
+
+          <div
+            class="absolute inset-0 bg-linear-to-t from-red-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
           @if (i < 2) {
             <span
               i18n="@@home.tickets.fullExperience"
-              class="absolute top-4 right-4 md:top-6 md:right-6 text-[9px] md:text-[10px] font-bold border border-red-600 text-red-600 px-2 py-1 uppercase tracking-tighter">
+              class="absolute top-4 right-4 md:top-6 md:right-6 text-[9px] md:text-[10px] font-bold border-2 border-red-600 text-red-600 px-3 py-1.5 uppercase tracking-tighter group-hover:bg-black group-hover:text-red-600 transition-all z-10 shadow-[0_0_10px_rgba(220,38,38,0.5)]">
               Experiencia Completa
             </span>
           }
 
-          <div>
+          <div class="relative z-10">
             <p
               [class]="i < 2 ? 'text-xs md:text-sm mb-2 md:mb-4' : 'text-[10px] md:text-xs mb-1 md:mb-2'"
-              class="font-bold tracking-[0.2em] md:tracking-[0.3em] text-gray-500 group-hover:text-gray-400">
+              class="font-bold tracking-[0.2em] md:tracking-[0.3em] text-gray-400 group-hover:text-black/70">
               @if (i < 2) {
                 <span i18n="@@home.tickets.pass4Days">ABONO 4 DÍAS</span>
               } @else {
@@ -31,23 +38,23 @@
               }
             </p>
             <h3
-              [class]="i < 2 ? 'text-4xl md:text-5xl lg:text-6xl' : 'text-xl md:text-3xl'"
-              class="font-black uppercase leading-none italic">
+              [class]="i < 2 ? 'text-4xl md:text-5xl mt-6' : 'text-xl md:text-3xl mt-4'"
+              class="font-black uppercase leading-none italic transition-transform duration-300">
               {{ ticket.name }}
             </h3>
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto relative z-10">
             <p
-              [class]="i < 2 ? 'text-5xl md:text-6xl mb-6 md:mb-8' : 'text-3xl md:text-4xl mb-4 md:mb-8'"
-              class="font-light group-hover:font-bold transition-all">
+              [class]="i < 2 ? 'text-4xl md:text-5xl mb-6 md:mb-8' : 'text-3xl md:text-4xl mb-4 md:mb-8'"
+              class="font-bold transition-all drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
               {{ ticket.price }}€
             </p>
 
             <button
               routerLink="/purchase"
               i18n="@@home.tickets.buyNow"
-              class="w-full border border-current py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors cursor-pointer">
+              class="w-full border-2 border-current py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-red-600 hover:border-black transition-all cursor-pointer shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.8)]">
               COMPRAR AHORA
             </button>
           </div>

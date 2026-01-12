@@ -26,10 +26,8 @@ export class Lineup implements OnInit {
 
   /**
    * Agrupa las actuaciones por fecha y luego por escenario.
-   * Incluye una mejora para ordenar las actuaciones cronológicamente.
    */
   protected groupedLineup = computed(() => {
-    // Primero ordenamos todas las actuaciones por hora de inicio
     const performances = [...this.allPerformances()].sort((a, b) =>
       a.startTime.localeCompare(b.startTime)
     );
@@ -40,7 +38,6 @@ export class Lineup implements OnInit {
     performances.forEach(p => {
       const dateKey = getFestivalDate(p.startTime);
 
-      // Filtro de día (comparación corregida con los ceros en performance.ts)
       if (dayFilter !== 'ALL' && dateKey !== dayFilter) return;
 
       if (!grouped[dateKey]) grouped[dateKey] = {};
@@ -56,6 +53,26 @@ export class Lineup implements OnInit {
     Object.keys(this.groupedLineup()).sort()
   );
 
+  /**
+   * Devuelve los nombres de los escenarios ordenados.
+   */
+  protected getOrderedStages(date: string): string[] {
+    const stages = Object.keys(this.groupedLineup()[date]);
+    const order = [
+      'Asgard del Sur',
+      'Valhalla de Triana',
+      'Fenrir del Al-Ándalus',
+      'Drakkar de Guadalquivir'
+    ];
+
+    return stages.sort((a, b) => {
+      const indexA = order.indexOf(a);
+      const indexB = order.indexOf(b);
+      // Si un escenario no está en la lista, se pone al final
+      return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+    });
+  }
+
   ngOnInit() {
     this.isLoading.set(true);
     this.client.getLineup().subscribe({
@@ -68,13 +85,6 @@ export class Lineup implements OnInit {
         this.isLoading.set(false);
       }
     });
-  }
-
-  /**
-   * Obtiene la etiqueta larga (ej: "MIÉRCOLES 5") para una fecha ISO.
-   */
-  getDayLabel(date: string): string {
-    return this.days.find(d => d.date === date)?.fullLabel || date;
   }
 
   /**
