@@ -71,10 +71,10 @@ export class Lineup implements OnInit {
   }
 
   /**
-   * Obtiene la etiqueta amigable (ej: "MIÉ 5") para una fecha ISO.
+   * Obtiene la etiqueta larga (ej: "MIÉRCOLES 5") para una fecha ISO.
    */
   getDayLabel(date: string): string {
-    return this.days.find(d => d.date === date)?.label || date;
+    return this.days.find(d => d.date === date)?.fullLabel || date;
   }
 
   /**

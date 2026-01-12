@@ -30,7 +30,6 @@
             <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
               {{ getDayLabel(date) }}
             </h2>
-
             <div class="space-y-16">
               @for (stageName of Object.keys(groupedLineup()[date]); track stageName) {
                 <div>

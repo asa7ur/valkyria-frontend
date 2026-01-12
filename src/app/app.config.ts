@@ -11,7 +11,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withComponentInputBinding(),
-      // Añade esta configuración aquí:
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled'
       })
