@@ -24,16 +24,28 @@ export class Lineup implements OnInit {
   protected readonly days = FESTIVAL_DAYS;
   protected readonly Object = Object;
 
+  /**
+   * Agrupa las actuaciones por fecha y luego por escenario.
+   * Incluye una mejora para ordenar las actuaciones cronológicamente.
+   */
   protected groupedLineup = computed(() => {
-    const performances = this.allPerformances();
+    // Primero ordenamos todas las actuaciones por hora de inicio
+    const performances = [...this.allPerformances()].sort((a, b) =>
+      a.startTime.localeCompare(b.startTime)
+    );
+
     const dayFilter = this.selectedDay();
     const grouped: { [date: string]: { [stage: string]: Performance[] } } = {};
 
     performances.forEach(p => {
       const dateKey = getFestivalDate(p.startTime);
+
+      // Filtro de día (comparación corregida con los ceros en performance.ts)
       if (dayFilter !== 'ALL' && dateKey !== dayFilter) return;
+
       if (!grouped[dateKey]) grouped[dateKey] = {};
       if (!grouped[dateKey][p.stage.name]) grouped[dateKey][p.stage.name] = [];
+
       grouped[dateKey][p.stage.name].push(p);
     });
 
@@ -58,10 +70,16 @@ export class Lineup implements OnInit {
     });
   }
 
+  /**
+   * Obtiene la etiqueta amigable (ej: "MIÉ 5") para una fecha ISO.
+   */
   getDayLabel(date: string): string {
     return this.days.find(d => d.date === date)?.label || date;
   }
 
+  /**
+   * Cambia el filtro del día seleccionado.
+   */
   setDay(date: string) {
     this.selectedDay.set(date);
   }

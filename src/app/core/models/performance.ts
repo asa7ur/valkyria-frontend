@@ -26,8 +26,8 @@ export interface DayOption {
 
 export const FESTIVAL_DAYS: DayOption[] = [
   {label: $localize`:@@lineup.day.all:TODOS`, date: 'ALL'},
-  {label: $localize`:@@lineup.day.wed5:MIÉ 5`, date: '2026-08-5'},
-  {label: $localize`:@@lineup.day.thu6:JUE 6`, date: '2026-08-6'},
-  {label: $localize`:@@lineup.day.fri7:VIE 7`, date: '2026-08-7'},
-  {label: $localize`:@@lineup.day.sat8:SÁB 8`, date: '2026-08-8'}
+  {label: $localize`:@@lineup.day.wed5:MIÉ 5`, date: '2026-08-05'},
+  {label: $localize`:@@lineup.day.thu6:JUE 6`, date: '2026-08-06'},
+  {label: $localize`:@@lineup.day.fri7:VIE 7`, date: '2026-08-07'},
+  {label: $localize`:@@lineup.day.sat8:SÁB 8`, date: '2026-08-08'}
 ];
