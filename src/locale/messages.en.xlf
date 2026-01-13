@@ -167,8 +167,8 @@
         <target>Your browser does not support videos.</target>
       </trans-unit>
       <trans-unit id="home.hero.date" datatype="html">
-        <source>21-24 July 2026 • Sevilla</source>
-        <target>July 21-24, 2026 • Seville</target>
+        <source>5-8 de Agosto, 2026 • Sevilla</source>
+        <target>August 5-8, 2026 • Seville</target>
       </trans-unit>
       <trans-unit id="home.hero.title" datatype="html">
         <source>Valkyria</source>
@@ -195,8 +195,8 @@
         <target>Duration</target>
       </trans-unit>
       <trans-unit id="home.info.artistsCount" datatype="html">
-        <source>+100</source>
-        <target>+100</target>
+        <source>+75</source>
+        <target>+75</target>
       </trans-unit>
       <trans-unit id="home.info.artistsLabel" datatype="html">
         <source>Artistas</source>
@@ -386,21 +386,21 @@
         <source>TODOS</source>
         <target>ALL</target>
       </trans-unit>
-      <trans-unit id="lineup.day.wed13" datatype="html">
-        <source>MIÉ 13</source>
-        <target>WED 13</target>
+      <trans-unit id="lineup.day.wed5" datatype="html">
+        <source>MIÉ 5</source>
+        <target>WED 5</target>
       </trans-unit>
-      <trans-unit id="lineup.day.thu14" datatype="html">
-        <source>JUE 14</source>
-        <target>THU 14</target>
+      <trans-unit id="lineup.day.thu6" datatype="html">
+        <source>JUE 6</source>
+        <target>THU 6</target>
       </trans-unit>
-      <trans-unit id="lineup.day.fri15" datatype="html">
-        <source>VIE 15</source>
-        <target>FRI 15</target>
+      <trans-unit id="lineup.day.fri7" datatype="html">
+        <source>VIE 7</source>
+        <target>FRI 7</target>
       </trans-unit>
-      <trans-unit id="lineup.day.sat16" datatype="html">
-        <source>SÁB 16</source>
-        <target>SAT 16</target>
+      <trans-unit id="lineup.day.sat8" datatype="html">
+        <source>SÁB 8</source>
+        <target>SAT 8</target>
       </trans-unit>
       <trans-unit id="artist.detail.loading" datatype="html">
         <source>Cargando Perfil...</source>

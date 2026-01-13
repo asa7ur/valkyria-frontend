@@ -20,14 +20,29 @@ export interface Performance {
 
 // Interfaz para manejar la selección de días en la UI
 export interface DayOption {
-  label: string;      // Ej: "WED 8"
-  date: string;       // Ej: "2026-07-08" (para filtrar)
+  label: string;      // Versión corta para el menú (Ej: "MIÉ 5")
+  date: string;       // "2026-08-05"
 }
 
 export const FESTIVAL_DAYS: DayOption[] = [
-  {label: $localize`:@@lineup.day.all:TODOS`, date: 'ALL'},
-  {label: $localize`:@@lineup.day.wed13:MIÉ 13`, date: '2025-08-13'},
-  {label: $localize`:@@lineup.day.thu14:JUE 14`, date: '2025-08-14'},
-  {label: $localize`:@@lineup.day.fri15:VIE 15`, date: '2025-08-15'},
-  {label: $localize`:@@lineup.day.sat16:SÁB 16`, date: '2025-08-16'}
+  {
+    label: $localize`:@@lineup.day.all:TODOS`,
+    date: 'ALL'
+  },
+  {
+    label: $localize`:@@lineup.day.wed5:MIÉ 5`,
+    date: '2026-08-05'
+  },
+  {
+    label: $localize`:@@lineup.day.thu6:JUE 6`,
+    date: '2026-08-06'
+  },
+  {
+    label: $localize`:@@lineup.day.fri7:VIE 7`,
+    date: '2026-08-07'
+  },
+  {
+    label: $localize`:@@lineup.day.sat8:SÁB 8`,
+    date: '2026-08-08'
+  }
 ];

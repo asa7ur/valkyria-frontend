@@ -142,7 +142,7 @@
         <source>Tu navegador no soporta videos.</source>
       </trans-unit>
       <trans-unit id="home.hero.date" datatype="html">
-        <source>22-25 de Julio, 2026 • Sevilla</source>
+        <source>5-8 de Agosto, 2026 • Sevilla</source>
       </trans-unit>
       <trans-unit id="home.hero.title" datatype="html">
         <source>Valkyria</source>
@@ -163,7 +163,7 @@
         <source>Duración</source>
       </trans-unit>
       <trans-unit id="home.info.artistsCount" datatype="html">
-        <source>+100</source>
+        <source>+75</source>
       </trans-unit>
       <trans-unit id="home.info.artistsLabel" datatype="html">
         <source>Artistas</source>
@@ -306,17 +306,17 @@
       <trans-unit id="lineup.day.all" datatype="html">
         <source>TODOS</source>
       </trans-unit>
-      <trans-unit id="lineup.day.wed13" datatype="html">
-        <source>MIÉ 13</source>
+      <trans-unit id="lineup.day.wed5" datatype="html">
+        <source>MIÉ 5</source>
       </trans-unit>
-      <trans-unit id="lineup.day.thu14" datatype="html">
-        <source>JUE 14</source>
+      <trans-unit id="lineup.day.thu6" datatype="html">
+        <source>JUE 6</source>
       </trans-unit>
-      <trans-unit id="lineup.day.fri15" datatype="html">
-        <source>VIE 15</source>
+      <trans-unit id="lineup.day.fri7" datatype="html">
+        <source>VIE 7</source>
       </trans-unit>
-      <trans-unit id="lineup.day.sat16" datatype="html">
-        <source>SÁB 16</source>
+      <trans-unit id="lineup.day.sat8" datatype="html">
+        <source>SÁB 8</source>
       </trans-unit>
       <trans-unit id="artist.detail.loading" datatype="html">
         <source>Cargando Perfil...</source>

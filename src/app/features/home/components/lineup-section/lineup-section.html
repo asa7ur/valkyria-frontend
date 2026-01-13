@@ -1,9 +1,12 @@
 <section class="text-white py-24 px-6">
   <div class="max-w-7xl mx-auto">
-    <h2 i18n="@@home.lineup.title"
-        class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-12 border-b border-gray-800 pb-4">
-      Line-up 2026
-    </h2>
+    <div class="flex items-center gap-4 mb-12">
+      <h2 i18n="@@home.lineup.title"
+          class="text-xs md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+        Line-up 2026
+      </h2>
+      <div class="h-px w-full bg-white/10"></div>
+    </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12 items-center">
       @for (artist of artists(); track artist.id) {

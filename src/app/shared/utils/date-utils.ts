@@ -1,11 +1,11 @@
 export function getFestivalDate(isoString: string): string {
   const date = new Date(isoString);
-  const hours = date.getHours();
-
-  // Si es antes de las 6 AM, se considera el día anterior para el lineup
-  if (hours < 6) {
+  if (date.getHours() < 6) {
     date.setDate(date.getDate() - 1);
   }
 
-  return date.toISOString().split('T')[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }

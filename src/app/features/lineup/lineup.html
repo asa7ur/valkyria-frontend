@@ -28,13 +28,13 @@
         @for (date of getGroupedDates(); track date) {
           <section class="animate-in fade-in duration-700">
             <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
-              {{ getDayLabel(date) }}
+              {{ date | date:'EEEE d' | uppercase }}
             </h2>
 
             <div class="space-y-16">
-              @for (stageName of Object.keys(groupedLineup()[date]); track stageName) {
+              @for (stageName of getOrderedStages(date); track stageName) {
                 <div>
-                  <h3 class="text-xs uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-zinc-900 pb-2">
+                  <h3 class="text-s uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-zinc-900 pb-2">
                     {{ stageName }}
                   </h3>
 

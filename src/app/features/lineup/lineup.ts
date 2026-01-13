@@ -24,16 +24,25 @@ export class Lineup implements OnInit {
   protected readonly days = FESTIVAL_DAYS;
   protected readonly Object = Object;
 
+  /**
+   * Agrupa las actuaciones por fecha y luego por escenario.
+   */
   protected groupedLineup = computed(() => {
-    const performances = this.allPerformances();
+    const performances = [...this.allPerformances()].sort((a, b) =>
+      a.startTime.localeCompare(b.startTime)
+    );
+
     const dayFilter = this.selectedDay();
     const grouped: { [date: string]: { [stage: string]: Performance[] } } = {};
 
     performances.forEach(p => {
       const dateKey = getFestivalDate(p.startTime);
+
       if (dayFilter !== 'ALL' && dateKey !== dayFilter) return;
+
       if (!grouped[dateKey]) grouped[dateKey] = {};
       if (!grouped[dateKey][p.stage.name]) grouped[dateKey][p.stage.name] = [];
+
       grouped[dateKey][p.stage.name].push(p);
     });
 
@@ -43,6 +52,26 @@ export class Lineup implements OnInit {
   protected getGroupedDates = computed(() =>
     Object.keys(this.groupedLineup()).sort()
   );
+
+  /**
+   * Devuelve los nombres de los escenarios ordenados.
+   */
+  protected getOrderedStages(date: string): string[] {
+    const stages = Object.keys(this.groupedLineup()[date]);
+    const order = [
+      'Asgard del Sur',
+      'Valhalla de Triana',
+      'Fenrir del Al-Ándalus',
+      'Drakkar de Guadalquivir'
+    ];
+
+    return stages.sort((a, b) => {
+      const indexA = order.indexOf(a);
+      const indexB = order.indexOf(b);
+      // Si un escenario no está en la lista, se pone al final
+      return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+    });
+  }
 
   ngOnInit() {
     this.isLoading.set(true);
@@ -58,10 +87,9 @@ export class Lineup implements OnInit {
     });
   }
 
-  getDayLabel(date: string): string {
-    return this.days.find(d => d.date === date)?.label || date;
-  }
-
+  /**
+   * Cambia el filtro del día seleccionado.
+   */
   setDay(date: string) {
     this.selectedDay.set(date);
   }
