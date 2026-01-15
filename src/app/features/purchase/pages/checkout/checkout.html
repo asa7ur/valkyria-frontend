@@ -57,6 +57,31 @@
           </section>
         }
 
+        @if (!currentUser()) {
+          <section class="bg-zinc-900 p-8 border-l-4 border-yellow-500">
+            <h2 i18n="@@checkout.guest.title" class="text-2xl font-bold text-white uppercase mb-4 tracking-tighter">
+              // Compra como Invitado
+            </h2>
+            <p i18n="@@checkout.guest.help" class="text-white/60 mb-6 text-sm">
+              No necesitas cuenta, pero dinos dónde enviarte las entradas:
+            </p>
+            <input
+              type="email"
+              [(ngModel)]="guestEmail"
+              placeholder="tu@email.com"
+              class="w-full bg-white/5 border border-white/10 p-4 text-white font-bold focus:border-red-600 outline-none transition-all"
+              required
+            />
+          </section>
+        } @else {
+          <section class="bg-zinc-900 p-8 border-l-4 border-green-500">
+            <p class="text-white font-bold uppercase">
+              <span i18n="@@checkout.loggedAs">Pedido a nombre de:</span>
+              <span class="text-red-500 ml-2">{{ currentUser()?.username }}</span>
+            </p>
+          </section>
+        }
+
         <div class="pt-12 flex flex-col md:flex-row justify-between items-end gap-8">
           <div>
             <p i18n="@@checkout.total.label" class="text-white/40 uppercase text-xs font-bold tracking-[0.3em] mb-2">
@@ -66,7 +91,7 @@
 
           <div class="flex flex-col gap-4 w-full md:w-auto">
             <button (click)="confirmAndPay()"
-                    [disabled]="total === 0"
+                    [disabled]="total === 0 || (!currentUser() && !guestEmail())"
                     i18n="@@checkout.submitBtn"
                     class="bg-white text-black hover:bg-red-600 hover:text-white px-16 py-6 text-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 cursor-pointer">
               Finalizar y Pagar

@@ -1,4 +1,4 @@
-import {HttpInterceptorFn, HttpErrorResponse} from '@angular/common/http';
+import {HttpInterceptorFn} from '@angular/common/http';
 
 export const auth: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('auth_token');

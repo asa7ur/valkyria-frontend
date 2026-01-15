@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterModule} from '@angular/router';
 import {forkJoin} from 'rxjs';
@@ -8,11 +8,12 @@ import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {TicketType, CampingType} from '../../../../core/models/ticket-types';
 import {OrderRequest} from '../../../../core/models/order-schema';
 import {AuthManager} from '../../../../core/services/auth-manager';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './checkout.html'
 })
 export class Checkout implements OnInit {
@@ -22,6 +23,7 @@ export class Checkout implements OnInit {
   private auth = inject(AuthManager);
 
   currentUser = this.auth.currentUser;
+  guestEmail = signal('');
 
   order: OrderRequest | null = null;
   ticketTypes: TicketType[] = [];
@@ -95,7 +97,15 @@ export class Checkout implements OnInit {
 
   confirmAndPay() {
     if (this.order) {
-      // Delegamos la creación del pedido a la lógica de negocio
+      // Si no está logueado, asignamos el email del invitado al pedido
+      if (!this.currentUser()) {
+        if (!this.guestEmail()) {
+          alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email para recibir tus entradas`);
+          return;
+        }
+        this.order.guestEmail = this.guestEmail();
+      }
+
       this.cart.createOrder(this.order).subscribe({
         next: (res) => window.location.href = res.url,
         error: (err) => alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`)
