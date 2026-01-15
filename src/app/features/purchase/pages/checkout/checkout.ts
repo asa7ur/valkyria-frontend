@@ -3,11 +3,11 @@ import {CommonModule} from '@angular/common';
 import {Router, RouterModule} from '@angular/router';
 import {forkJoin} from 'rxjs';
 
-// Núcleo: Importaciones con nombres descriptivos
 import {CheckoutLogic} from '../../../../core/services/checkout-logic';
 import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {TicketType, CampingType} from '../../../../core/models/ticket-types';
 import {OrderRequest} from '../../../../core/models/order-schema';
+import {AuthManager} from '../../../../core/services/auth-manager';
 
 @Component({
   selector: 'app-checkout',
@@ -16,10 +16,12 @@ import {OrderRequest} from '../../../../core/models/order-schema';
   templateUrl: './checkout.html'
 })
 export class Checkout implements OnInit {
-  // Variables de instancia con nombres limpios
   private cart = inject(CheckoutLogic);
   private provider = inject(TicketProvider);
   private router = inject(Router);
+  private auth = inject(AuthManager);
+
+  currentUser = this.auth.currentUser;
 
   order: OrderRequest | null = null;
   ticketTypes: TicketType[] = [];
