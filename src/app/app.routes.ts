@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {adminGuard} from './core/guards/admin';
 
 // Layouts y Páginas Principales
 import {MainLayout} from './layout/components/main-layout/main-layout';
@@ -22,6 +23,7 @@ import {Layout} from './features/admin/layout/layout';
 import {Dashboard} from './features/admin/dashboard/dashboard';
 import {Users} from './features/admin/users/users';
 import {UserEdit} from './features/admin/users/user-edit/user-edit';
+import {roleGuard} from './core/guards/role';
 
 export const routes: Routes = [
   {
@@ -38,12 +40,13 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [adminGuard],
     component: Layout,
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', component: Dashboard},
-      {path: 'users', component: Users},
-      {path: 'users/edit/:id', component: UserEdit}
+      {path: 'users', component: Users, canActivate: [roleGuard]},
+      {path: 'users/edit/:id', component: UserEdit, canActivate: [roleGuard]}
     ]
   },
   {
