@@ -39,7 +39,7 @@ export class Login {
           if (isAdmin) {
             // REDIRECCIÓN EXTERNA: Forzamos al navegador a ir al servidor de Thymeleaf
             // La cookie 'jwt' ya se habrá guardado gracias a allowCredentials: true
-            window.location.href = 'http://localhost:8080/admin/dashboard';
+            window.location.href = 'http://localhost:4200/admin/dashboard';
           } else {
             // REDIRECCIÓN INTERNA: Seguimos dentro de la aplicación Angular
             this.router.navigate(['/']);

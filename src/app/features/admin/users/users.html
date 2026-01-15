@@ -1,0 +1,60 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+    <h2 class="text-xl font-bold text-gray-800">Gestión de Usuarios</h2>
+    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+      {{ users.length }} Usuarios totales
+    </span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+      <tr>
+        <th class="px-6 py-4">Usuario</th>
+        <th class="px-6 py-4">Documento</th>
+        <th class="px-6 py-4">Roles</th>
+        <th class="px-6 py-4">Estado</th>
+        <th class="px-6 py-4 text-right">Acciones</th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @for (user of users; track user.id) {
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }}</div>
+              <div class="text-sm text-gray-500">{{ user.email }}</div>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-600">
+              <span class="font-mono">{{ user.documentType }}: {{ user.documentNumber }}</span>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex gap-1">
+                @for (role of user.roles; track role) {
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-medium">
+                  {{ role }}
+                </span>
+                }
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div [class]="user.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+                   class="px-3 py-1 rounded-full text-xs font-bold transition-all hover:opacity-75">
+                {{ user.enabled ? 'ACTIVO' : 'INACTIVO' }}
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right space-x-2">
+              <a [routerLink]="['/admin/users/edit', user.id]"
+                 class="text-indigo-600 hover:text-indigo-900 font-medium text-sm">
+                Editar
+              </a>
+              <button (click)="deleteUser(user.id)"
+                      class="text-red-600 hover:text-red-900 font-medium text-sm cursor-pointer">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

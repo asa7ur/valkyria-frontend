@@ -18,6 +18,10 @@ import {Login} from './features/auth/login/login';
 import {Register} from './features/auth/register/register';
 import {Confirm} from './features/auth/confirm/confirm';
 import {MyOrders} from './features/profile/pages/my-orders/my-orders';
+import {Layout} from './features/admin/layout/layout';
+import {Dashboard} from './features/admin/dashboard/dashboard';
+import {Users} from './features/admin/users/users';
+import {UserEdit} from './features/admin/users/user-edit/user-edit';
 
 export const routes: Routes = [
   {
@@ -31,6 +35,16 @@ export const routes: Routes = [
   {
     path: 'confirm-registration',
     component: Confirm
+  },
+  {
+    path: 'admin',
+    component: Layout,
+    children: [
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      {path: 'dashboard', component: Dashboard},
+      {path: 'users', component: Users},
+      {path: 'users/edit/:id', component: UserEdit}
+    ]
   },
   {
     path: '',
