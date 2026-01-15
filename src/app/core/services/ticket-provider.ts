@@ -6,8 +6,8 @@ import {CampingType, TicketType} from '../models/ticket-types';
 @Injectable({providedIn: 'root'})
 export class TicketProvider {
   private http = inject(HttpClient);
-  private ticketApiUrl = 'http://localhost:8080/api/ticket-types';
-  private campingApiUrl = 'http://localhost:8080/api/camping-types';
+  private ticketApiUrl = 'http://localhost:8080/api/v1/ticket-types';
+  private campingApiUrl = 'http://localhost:8080/api/v1/camping-types';
 
   // Variables para guardar los datos en memoria (Caché)
   private ticketTypesCache: TicketType[] | null = null;

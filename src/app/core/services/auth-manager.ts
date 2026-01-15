@@ -9,7 +9,7 @@ import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth-paymen
 export class AuthManager {
   private http = inject(HttpClient);
   // Base URL que coincide con @RequestMapping("/api/sessionGate") de tu controlador
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'http://localhost:8080/api/v1/auth';
 
   currentUser = signal<AuthResponse | null>(this.getUserFromStorage());
 
