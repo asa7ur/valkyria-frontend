@@ -15,7 +15,9 @@ export class SponsorsSection implements OnInit {
 
   ngOnInit(): void {
     this.sponsorApi.getSponsors().subscribe({
-      next: (data) => this.sponsors.set(data),
+      next: (response) => {
+        this.sponsors.set(response.content || []);
+      },
       error: (err) => console.error('Error cargando sponsors', err)
     });
   }
