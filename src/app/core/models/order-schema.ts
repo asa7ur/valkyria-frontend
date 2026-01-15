@@ -25,6 +25,7 @@ export interface CampingOrder {
 export interface OrderRequest {
   tickets: TicketOrder[];
   campings: CampingOrder[];
+  guestEmail?: string;
 }
 
 export enum OrderStatus {

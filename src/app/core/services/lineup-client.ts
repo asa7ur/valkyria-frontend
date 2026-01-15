@@ -8,9 +8,9 @@ import {Performance} from '../models/performance';
 })
 export class LineupClient {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/performances';
+  private apiUrl = 'http://localhost:8080/api/v1/performances';
 
   getLineup(): Observable<Performance[]> {
-    return this.http.get<Performance[]>(this.apiUrl);
+    return this.http.get<Performance[]>(`${this.apiUrl}/all`);
   }
 }

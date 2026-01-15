@@ -15,7 +15,7 @@ export class LineupSection implements OnInit {
   private readonly baseUrl = 'http://localhost:8080/uploads/artists/';
 
   ngOnInit() {
-    this.http.get<Artist[]>('http://localhost:8080/api/artists')
+    this.http.get<Artist[]>('http://localhost:8080/api/v1/artists/all')
       .subscribe({
         next: (data) => {
           const randomArtists = data

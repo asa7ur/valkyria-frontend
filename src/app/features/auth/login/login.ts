@@ -27,8 +27,6 @@ export class Login {
       this.isLoading.set(true);
       this.errorMessage.set(null);
 
-      const credentials = this.loginForm.value as any;
-
       this.auth.login(this.loginForm.value as any).subscribe({
         next: (response) => {
           // Extraemos los nombres de los roles del array de objetos
@@ -37,11 +35,8 @@ export class Login {
           const isAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_MANAGER');
 
           if (isAdmin) {
-            // REDIRECCIÓN EXTERNA: Forzamos al navegador a ir al servidor de Thymeleaf
-            // La cookie 'jwt' ya se habrá guardado gracias a allowCredentials: true
-            window.location.href = 'http://localhost:8080/admin/dashboard';
+            this.router.navigate(['/admin/dashboard']);
           } else {
-            // REDIRECCIÓN INTERNA: Seguimos dentro de la aplicación Angular
             this.router.navigate(['/']);
           }
         },

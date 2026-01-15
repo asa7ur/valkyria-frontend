@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class CheckoutLogic {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/orders';
+  private apiUrl = 'http://localhost:8080/api/v1/orders';
 
   // Usamos un signal para que cualquier componente sepa si hay un pedido pendiente
   private currentOrder = signal<OrderRequest | null>(null);

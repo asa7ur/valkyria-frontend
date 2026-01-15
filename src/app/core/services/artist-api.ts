@@ -6,10 +6,10 @@ import {Artist} from '../models/artist';
 @Injectable({providedIn: 'root'})
 export class ArtistApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/artists';
+  private apiUrl = 'http://localhost:8080/api/v1/artists';
 
   getArtists(): Observable<Artist[]> {
-    return this.http.get<Artist[]>(this.apiUrl);
+    return this.http.get<Artist[]>(`${this.apiUrl}/all`);
   }
 
   getArtistById(id: string): Observable<Artist> {

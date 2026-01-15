@@ -8,33 +8,33 @@
       <div class="h-px w-full bg-white/10"></div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-10">
       @for (social of socialNetworks(); track social.name) {
         <a href="#"
            [class]="social.hoverBorder + ' ' + social.hoverGlow"
-           class="group border border-white/10 p-8 flex flex-col justify-between hover:bg-white/2 transition-all duration-500 relative overflow-hidden h-48">
+           class="group border border-white/10 p-10 flex flex-col items-center justify-center text-center bg-linear-to-br from-red-950/60 to-transparent hover:bg-white/2 transition-all duration-500 relative overflow-hidden aspect-3/4 min-h-50">
 
           <i [class]="social.icon + ' ' + social.hoverText"
-             class="absolute -right-6 -top-6 text-8xl opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700 blur-[1px] group-hover:blur-0"></i>
+             class="absolute inset-0 flex items-center justify-center text-[12rem] opacity-0 group-hover:opacity-10 group-hover:scale-110 transition-all duration-700 blur-sm group-hover:blur-0 pointer-events-none">
+          </i>
 
-          <div class="flex items-center gap-3 relative z-10">
+          <div class="relative z-10 mb-6">
             <i [class]="social.icon + ' ' + social.hoverIcon"
-               class="text-xl text-gray-500 transition-colors duration-300"></i>
-            <span class="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
+               class="text-5xl lg:text-6xl text-gray-500 transition-colors duration-500 group-hover:scale-110"></i>
+          </div>
+
+          <div class="relative z-10">
+            <span
+              class="text-xs lg:text-sm uppercase tracking-[0.4em] text-gray-500 group-hover:text-white transition-colors duration-300">
               {{ social.name }}
             </span>
           </div>
 
-          <div class="mt-auto flex justify-between items-end relative z-10">
-            <h3 [class]="social.hoverText"
-                class="text-xl font-bold lowercase tracking-tight text-white transition-colors duration-300">
-              {{ social.handle }}
-            </h3>
-
+          <div class="absolute bottom-8 right-8 z-10">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                  [class]="social.hoverText"
-                 class="opacity-20 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                 class="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500">
               <path d="M7 7h10v10"/>
               <path d="M7 17L17 7"/>
             </svg>

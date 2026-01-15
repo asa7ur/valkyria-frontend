@@ -6,9 +6,9 @@ import {Sponsor} from '../models/sponsor';
 @Injectable({providedIn: 'root'})
 export class SponsorApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/sponsors';
+  private apiUrl = 'http://localhost:8080/api/v1/sponsors';
 
   getSponsors(): Observable<Sponsor[]> {
-    return this.http.get<Sponsor[]>(this.apiUrl);
+    return this.http.get<Sponsor[]>(`${this.apiUrl}/all`);
   }
 }
