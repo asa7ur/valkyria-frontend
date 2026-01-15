@@ -1,8 +1,10 @@
 <div class="flex h-screen bg-gray-100 font-sans text-slate-900">
   <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl">
     <div class="p-6">
-      <h2 class="text-2xl font-bold tracking-wider text-purple-400">VALKYRIA <span
-        class="text-xs text-gray-400 block uppercase">Admin Panel</span></h2>
+      <h2 class="text-2xl font-bold tracking-wider text-purple-400">
+        VALKYRIA
+        <span class="text-xs text-gray-400 block uppercase">Admin Panel</span>
+      </h2>
     </div>
 
     <nav class="flex-1 px-4 space-y-2 mt-4">
@@ -41,4 +43,39 @@
       </div>
     </section>
   </main>
+
+  @if (toast.message()) {
+    <div class="fixed bottom-6 right-6 z-[100] animate-in fade-in slide-in-from-bottom-4 duration-300">
+      <div [class]="toast.type() === 'success' ? 'bg-emerald-600 shadow-emerald-200' : 'bg-red-600 shadow-red-200'"
+           class="text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 min-w-[320px] border border-white/10">
+
+        @if (toast.type() === 'success') {
+          <div class="bg-white/20 p-1.5 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </div>
+        }
+
+        @if (toast.type() === 'error') {
+          <div class="bg-white/20 p-1.5 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </div>
+        }
+
+        <div class="flex flex-col">
+          <p class="font-bold text-sm tracking-wide uppercase opacity-80">
+            {{ toast.type() === 'success' ? 'Éxito' : 'Error' }}
+          </p>
+          <p class="font-medium text-white">{{ toast.message() }}</p>
+        </div>
+      </div>
+    </div>
+  }
 </div>

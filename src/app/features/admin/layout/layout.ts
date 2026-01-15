@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
-import {RouterOutlet, RouterLink, RouterLinkActive} from '@angular/router';
+import {Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {RouterOutlet, RouterLink, RouterLinkActive} from '@angular/router';
+import {ToastService} from '../../../core/services/toast'; // Importar
 
 @Component({
-  selector: 'app-layout',
+  selector: 'app-admin-layout',
+  standalone: true,
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
-  templateUrl: './layout.html',
-  styles: ``,
+  templateUrl: './layout.html'
 })
 export class Layout {
-
+  public toast = inject(ToastService);
 }

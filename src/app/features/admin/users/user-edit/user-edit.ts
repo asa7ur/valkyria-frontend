@@ -3,16 +3,18 @@ import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserApiService} from '../../../../core/services/user-api';
-import {UserRegistrationDTO} from '../../../../core/models/user';
+import {ToastService} from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-user-edit',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './user-edit.html'
 })
 export class UserEdit implements OnInit {
   private fb = inject(FormBuilder);
   private userApi = inject(UserApiService);
+  private toast = inject(ToastService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -49,22 +51,15 @@ export class UserEdit implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid && this.userId) {
-      const formValue = this.userForm.value;
-      const dto = {
-        email: formValue.email,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        birthDate: formValue.birthDate,
-        phone: formValue.phone,
-        password: formValue.password,
-        confirmPassword: formValue.confirmPassword
-      };
-
-      this.userApi.updateUser(this.userId, dto).subscribe({
-        next: () => this.router.navigate(['/admin/users']),
+      this.userApi.updateUser(this.userId, this.userForm.value).subscribe({
+        next: () => {
+          // Disparamos el toast de éxito
+          this.toast.show('Usuario actualizado correctamente', 'success');
+          this.router.navigate(['/admin/users']);
+        },
         error: (err) => {
-          console.error('Error al actualizar:', err);
-          // Aquí podrás ver qué campo exacto falló en la consola
+          this.toast.show('Error al actualizar el usuario', 'error');
+          console.error(err);
         }
       });
     }
