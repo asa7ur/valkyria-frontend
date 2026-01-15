@@ -14,13 +14,14 @@
           placeholder="BUSCAR ARTISTA..."
           class="w-full bg-transparent border-b-2 border-zinc-800 py-4 px-2 text-2xl font-bold uppercase tracking-widest focus:outline-none focus:border-red-600 transition-colors placeholder:text-zinc-700"
         >
-        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm">
-          {{ artists().length }} MOSTRADOS
+        <span i18n="@@artists.search.total"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm">
+          {{ filteredArtists().length }} TOTAL
         </span>
       </div>
     </header>
 
-    @if (isLoading() && artists().length === 0) {
+    @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
         <p i18n="@@artists.loading" class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
@@ -29,14 +30,12 @@
       </div>
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-        @for (artist of artists(); track artist.id) {
+        @for (artist of visibleArtists(); track artist.id) {
           <app-artist-card [artist]="artist"/>
         } @empty {
-          @if (!isLoading()) {
-            <div i18n="@@artists.empty" class="col-span-full text-center py-20 text-zinc-500 italic">
-              No se han encontrado artistas con ese nombre.
-            </div>
-          }
+          <div i18n="@@artists.empty" class="col-span-full text-center py-20 text-zinc-500 italic">
+            No se han encontrado artistas con ese nombre.
+          </div>
         }
       </div>
 
@@ -44,22 +43,11 @@
         <div class="flex justify-center">
           <button
             (click)="loadMore()"
-            [disabled]="isLoading()"
-            class="group relative px-12 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait">
-
-            <span i18n="@@artists.loadMore.btn">
-              @if (isLoading()) {
-                CARGANDO...
-              } @else {
-                CARGAR MÁS ARTISTAS
-              }
+            class="group relative px-12 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 cursor-pointer">
+            <span i18n="@@artists.loadMore.btn">CARGAR MÁS ARTISTAS</span>
+            <span i18n="@@artists.loadMore.showing" class="block text-[10px] font-mono mt-1 opacity-50">
+              MOSTRANDO {{ visibleArtists().length }} DE {{ filteredArtists().length }}
             </span>
-
-            @if (!isLoading()) {
-              <span class="block text-[10px] font-mono mt-1 opacity-50">
-                DESCUBRIR MÁS DEL LINE-UP
-              </span>
-            }
           </button>
         </div>
       }
