@@ -1,6 +1,7 @@
 import {Component, OnInit, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserApiService} from '../../../core/services/user-api';
+import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {User} from '../../../core/models/user';
 import {RouterLink} from '@angular/router';
 
@@ -11,6 +12,7 @@ import {RouterLink} from '@angular/router';
 })
 export class Users implements OnInit {
   private userApi = inject(UserApiService);
+  private confirmService = inject(ConfirmDialogService);
 
   users = signal<User[]>([]);
   isLoading = signal<boolean>(false);
@@ -33,8 +35,15 @@ export class Users implements OnInit {
     });
   }
 
-  deleteUser(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este usuario?')) {
+  async deleteUser(id: number): Promise<void> {
+    const confirmed = await this.confirmService.ask({
+      title: 'Eliminar Usuario',
+      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
+      btnOkText: 'Sí, eliminar',
+      btnCancelText: 'No, cancelar'
+    });
+
+    if (confirmed) {
       this.userApi.deleteUser(id).subscribe({
         next: () => {
           this.users.update(prevUsers => prevUsers.filter(u => u.id !== id));
