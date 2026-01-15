@@ -27,9 +27,7 @@ export class UserEdit implements OnInit {
       password: [''],
       confirmPassword: [''],
       birthDate: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      documentType: ['', [Validators.required]],
-      documentNumber: ['', [Validators.required]]
+      phone: ['', [Validators.required]]
     });
   }
 
@@ -51,10 +49,23 @@ export class UserEdit implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid && this.userId) {
-      const dto: UserRegistrationDTO = this.userForm.value;
+      const formValue = this.userForm.value;
+      const dto = {
+        email: formValue.email,
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        birthDate: formValue.birthDate,
+        phone: formValue.phone,
+        password: formValue.password,
+        confirmPassword: formValue.confirmPassword
+      };
+
       this.userApi.updateUser(this.userId, dto).subscribe({
         next: () => this.router.navigate(['/admin/users']),
-        error: (err) => console.error('Error al actualizar:', err)
+        error: (err) => {
+          console.error('Error al actualizar:', err);
+          // Aquí podrás ver qué campo exacto falló en la consola
+        }
       });
     }
   }

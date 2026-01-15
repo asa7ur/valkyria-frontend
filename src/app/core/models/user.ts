@@ -4,9 +4,7 @@ export interface User {
   lastName: string;
   email: string;
   birthDate: string;
-  phoneNumber: string;
-  documentType: string;
-  documentNumber: string;
+  phone: string;
   roles: string[];
   enabled: boolean;
 }
@@ -18,7 +16,5 @@ export interface UserRegistrationDTO {
   password?: string;
   confirmPassword?: string;
   birthDate: string;
-  phoneNumber: string;
-  documentType: string;
-  documentNumber: string;
+  phone: string;
 }
