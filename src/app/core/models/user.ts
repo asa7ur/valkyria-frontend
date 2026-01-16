@@ -8,3 +8,9 @@ export interface User {
   roles: string[];
   enabled: boolean;
 }
+
+export interface PasswordChange {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
