@@ -7,7 +7,6 @@ import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-artists',
-  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './artists.html'
 })
@@ -18,7 +17,6 @@ export class ArtistsAdmin implements OnInit {
   artists = signal<Artist[]>([]);
   isLoading = signal<boolean>(false);
 
-  // Señales para el estado de la paginación
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   totalElements = signal<number>(0);
@@ -32,7 +30,6 @@ export class ArtistsAdmin implements OnInit {
     this.isLoading.set(true);
     this.artistApi.getArtists(this.currentPage(), 10, this.searchTerm()).subscribe({
       next: (response) => {
-        // Asignación de datos desde el objeto Page de Spring
         this.artists.set(response.content || []);
         this.totalPages.set(response.page.totalPages || 0);
         this.totalElements.set(response.page.totalElements || 0);

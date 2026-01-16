@@ -61,24 +61,6 @@ export class Artists implements OnInit {
     });
   }
 
-  async deleteArtist(id: number): Promise<void> {
-    const confirmed = await this.confirmService.ask({
-      title: 'Eliminar Usuario',
-      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
-      btnOkText: 'Sí, eliminar',
-      btnCancelText: 'No, cancelar'
-    });
-
-    if (confirmed) {
-      this.api.deleteArtist(id).subscribe({
-        next: () => {
-          this.artists.update(prevArtists => prevArtists.filter(a => a.id !== id));
-        },
-        error: (err) => console.error('Error al eliminar:', err)
-      });
-    }
-  }
-
   updateSearch(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);

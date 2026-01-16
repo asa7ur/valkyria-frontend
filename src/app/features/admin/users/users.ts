@@ -17,7 +17,6 @@ export class UsersAdmin implements OnInit {
   users = signal<User[]>([]);
   isLoading = signal<boolean>(false);
 
-  // Señales para paginación y búsqueda
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   totalElements = signal<number>(0);
@@ -44,24 +43,6 @@ export class UsersAdmin implements OnInit {
     });
   }
 
-  async deleteUser(id: number): Promise<void> {
-    const confirmed = await this.confirmService.ask({
-      title: 'Eliminar Usuario',
-      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
-      btnOkText: 'Sí, eliminar',
-      btnCancelText: 'No, cancelar'
-    });
-
-    if (confirmed) {
-      this.userApi.deleteUser(id).subscribe({
-        next: () => {
-          this.users.update(prevUsers => prevUsers.filter(u => u.id !== id));
-        },
-        error: (err) => console.error('Error al eliminar:', err)
-      });
-    }
-  }
-
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
@@ -73,6 +54,24 @@ export class UsersAdmin implements OnInit {
     if (page >= 0 && page < this.totalPages()) {
       this.currentPage.set(page);
       this.loadUsers();
+    }
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    const confirmed = await this.confirmService.ask({
+      title: 'Eliminar Usuario',
+      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
+      btnOkText: 'Sí, eliminar',
+      btnCancelText: 'No, cancelar'
+    });
+
+    if (confirmed) {
+      this.userApi.deleteUser(id).subscribe({
+        next: () => {
+          this.loadUsers()
+        },
+        error: (err) => console.error('Error al eliminar:', err)
+      });
     }
   }
 }
