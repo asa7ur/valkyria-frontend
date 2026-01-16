@@ -1,7 +1,8 @@
 import {Injectable, inject} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {Artist} from '../models/artist';
+import {PageResponse} from '../models/page-response';
 
 @Injectable({providedIn: 'root'})
 export class ArtistApi {
@@ -12,10 +13,22 @@ export class ArtistApi {
     return this.http.get<Artist[]>(`${this.apiUrl}/all`);
   }
 
-  getArtists(): Observable<Artist[]> {
-    return this.http.get<any>(this.apiUrl).pipe(
-      map(response => response.content)
-    );
+  /**
+   * Obtiene artistas paginados y filtrados.
+   * @param page Número de página (0-based)
+   * @param size Cantidad de elementos por página
+   * @param search Término de búsqueda (mapeado a @RequestParam search en el backend)
+   */
+  getArtists(page: number = 0, size: number = 10, search: string = ''): Observable<PageResponse<Artist>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<PageResponse<Artist>>(this.apiUrl, {params});
   }
 
   getArtistById(id: string): Observable<Artist> {
