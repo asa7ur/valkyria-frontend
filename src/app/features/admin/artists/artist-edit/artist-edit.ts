@@ -85,6 +85,20 @@ export class ArtistEdit implements OnInit {
     }
   }
 
+  removeLogo() {
+    const currentArtist = this.artist();
+    if (currentArtist && currentArtist.logo) {
+      this.artistApi.deleteLogo(currentArtist.id).subscribe({
+        next: () => {
+          this.toast.show('Logo eliminado correctamente', 'success');
+          // Recargamos el artista para que la UI se actualice (logo será null)
+          this.loadArtist(currentArtist.id.toString());
+        },
+        error: () => this.toast.show('Error al eliminar el logo', 'error')
+      });
+    }
+  }
+
   removeImage(imageId: number) {
     this.artistApi.deleteImage(imageId).subscribe({
       next: () => {

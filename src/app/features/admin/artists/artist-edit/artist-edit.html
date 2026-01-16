@@ -22,9 +22,10 @@
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logo Principal</label>
           <div
-            class="relative group aspect-square w-full max-w-[240px] mx-auto bg-slate-950 rounded-3xl shadow-2xl border-4 border-white overflow-hidden flex items-center justify-center p-8">
+            class="relative group aspect-square w-full max-w-60 mx-auto bg-slate-950 rounded-3xl shadow-2xl border-4 border-white overflow-hidden flex items-center justify-center p-8">
             <img [src]="getImageUrl(artist()?.logo)"
-                 class="max-w-full max-h-full object-contain transition-transform group-hover:scale-110 duration-500">
+                 class="max-w-full max-h-full object-contain transition-transform group-hover:scale-110 duration-500"
+                 alt="logo">
 
             <label
               class="absolute inset-0 bg-purple-900/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center cursor-pointer transition-all backdrop-blur-sm">
@@ -60,7 +61,7 @@
             @for (img of artist()?.images; track img.id) {
               <div
                 class="relative group aspect-square bg-slate-200 rounded-xl overflow-hidden border border-white shadow-sm">
-                <img [src]="getImageUrl(img.imageUrl)" class="w-full h-full object-cover">
+                <img [src]="getImageUrl(img.imageUrl)" class="w-full h-full object-cover" alt="band image">
                 <button (click)="removeImage(img.id)"
                         class="absolute inset-0 bg-red-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
