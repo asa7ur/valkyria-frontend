@@ -10,7 +10,7 @@ import {RouterLink} from '@angular/router';
   imports: [CommonModule, RouterLink],
   templateUrl: './users.html'
 })
-export class Users implements OnInit {
+export class UsersAdmin implements OnInit {
   private userApi = inject(UserApiService);
   private confirmService = inject(ConfirmDialogService);
 
@@ -18,10 +18,6 @@ export class Users implements OnInit {
   isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.loadUsers();
-  }
-
-  loadUsers(): void {
     this.isLoading.set(true); // Empezamos a cargar
     this.userApi.getUsers().subscribe({
       next: (data) => {

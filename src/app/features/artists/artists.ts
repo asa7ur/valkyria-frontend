@@ -35,7 +35,7 @@ export class Artists implements OnInit {
 
   ngOnInit() {
     this.isLoading.set(true);
-    this.api.getArtists().subscribe({
+    this.api.getAllArtists().subscribe({
       next: (data) => {
         this.allArtists.set(data);
         this.isLoading.set(false);

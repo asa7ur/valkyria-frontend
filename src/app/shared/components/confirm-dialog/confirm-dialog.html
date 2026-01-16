@@ -21,11 +21,11 @@
 
       <div class="flex gap-3 p-4 bg-gray-50">
         <button (click)="confirmService.cancel()"
-                class="flex-1 px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors">
+                class="flex-1 px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
           {{ confirmService.options().btnCancelText }}
         </button>
         <button (click)="confirmService.confirm()"
-                class="flex-1 px-4 py-2.5 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 shadow-lg shadow-red-200 transition-all">
+                class="flex-1 px-4 py-2.5 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 shadow-lg shadow-red-200 transition-all cursor-pointer">
           {{ confirmService.options().btnOkText }}
         </button>
       </div>

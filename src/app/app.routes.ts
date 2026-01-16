@@ -1,29 +1,31 @@
 import {Routes} from '@angular/router';
 import {adminGuard} from './core/guards/admin';
+import {roleGuard} from './core/guards/role';
 
-// Layouts y Páginas Principales
+// Página Prinicpal
 import {MainLayout} from './layout/components/main-layout/main-layout';
 import {Home} from './features/home/home';
 import {Lineup} from './features/lineup/lineup';
 import {Artists} from './features/artists/artists';
 import {ArtistDetail} from './features/artists/pages/artist-detail/artist-detail';
-
-// Funcionalidades de Compra
+import {MyOrders} from './features/profile/pages/my-orders/my-orders';
 import {Purchase} from './features/purchase/purchase';
 import {Checkout} from './features/purchase/pages/checkout/checkout';
 import {Success} from './features/purchase/pages/success/success';
 import {Cancel} from './features/purchase/pages/cancel/cancel';
 
-// Autenticación y Perfil
+// Login
 import {Login} from './features/auth/login/login';
 import {Register} from './features/auth/register/register';
 import {Confirm} from './features/auth/confirm/confirm';
-import {MyOrders} from './features/profile/pages/my-orders/my-orders';
+
+// Página Admin
 import {Layout} from './features/admin/layout/layout';
 import {Dashboard} from './features/admin/dashboard/dashboard';
-import {Users} from './features/admin/users/users';
+import {UsersAdmin} from './features/admin/users/users';
 import {UserEdit} from './features/admin/users/user-edit/user-edit';
-import {roleGuard} from './core/guards/role';
+import {ArtistsAdmin} from './features/admin/artists/artists';
+
 
 export const routes: Routes = [
   {
@@ -45,8 +47,9 @@ export const routes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', component: Dashboard},
-      {path: 'users', component: Users, canActivate: [roleGuard]},
-      {path: 'users/edit/:id', component: UserEdit, canActivate: [roleGuard]}
+      {path: 'users', component: UsersAdmin, canActivate: [roleGuard]},
+      {path: 'users/edit/:id', component: UserEdit, canActivate: [roleGuard]},
+      {path: 'artists', component: ArtistsAdmin},
     ]
   },
   {

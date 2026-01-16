@@ -3,9 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, map} from 'rxjs';
 import {User} from '../models/user';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class UserApiService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/users';
