@@ -17,16 +17,29 @@ export class UsersAdmin implements OnInit {
   users = signal<User[]>([]);
   isLoading = signal<boolean>(false);
 
+  // Señales para paginación y búsqueda
+  currentPage = signal<number>(0);
+  totalPages = signal<number>(0);
+  totalElements = signal<number>(0);
+  searchTerm = signal<string>('');
+
   ngOnInit(): void {
-    this.isLoading.set(true); // Empezamos a cargar
-    this.userApi.getUsers().subscribe({
-      next: (data) => {
-        this.users.set(data || []);
-        this.isLoading.set(false); // Terminamos de cargar
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.isLoading.set(true);
+    this.userApi.getUsers(this.currentPage(), 10, this.searchTerm()).subscribe({
+      next: (response) => {
+        this.users.set(response.content || []);
+        this.totalPages.set(response.page.totalPages || 0);
+        this.totalElements.set(response.page.totalElements || 0);
+        this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Error al cargar usuarios:', err);
-        this.isLoading.set(false); // Terminamos incluso si hay error
+        this.isLoading.set(false);
+        this.users.set([]);
       }
     });
   }
@@ -46,6 +59,20 @@ export class UsersAdmin implements OnInit {
         },
         error: (err) => console.error('Error al eliminar:', err)
       });
+    }
+  }
+
+  onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchTerm.set(input.value);
+    this.currentPage.set(0); // Reiniciar a la primera página
+    this.loadUsers();
+  }
+
+  goToPage(page: number): void {
+    if (page >= 0 && page < this.totalPages()) {
+      this.currentPage.set(page);
+      this.loadUsers();
     }
   }
 }

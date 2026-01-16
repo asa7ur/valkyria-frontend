@@ -1,17 +1,24 @@
 import {Injectable, inject} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, map} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {User} from '../models/user';
+import {PageResponse} from '../models/page-response';
 
 @Injectable({providedIn: 'root'})
 export class UserApiService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/users';
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<any>(this.apiUrl).pipe(
-      map(response => response.content)
-    );
+  getUsers(page: number = 0, size: number = 10, search: string = ''): Observable<PageResponse<User>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<PageResponse<User>>(this.apiUrl, {params});
   }
 
   // Obtener un usuario por ID para cargar el formulario
