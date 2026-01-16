@@ -1,0 +1,183 @@
+<div class="max-w-6xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+      <div>
+        <h2 class="text-xl font-bold text-gray-800">Editar Artista</h2>
+        <p class="text-sm text-gray-500">{{ artist()?.name }} • ID: {{ artist()?.id }}</p>
+      </div>
+      <a routerLink="/admin/artists"
+         class="text-sm font-medium text-purple-600 hover:text-purple-800 flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Volver
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12">
+
+      <div class="lg:col-span-4 p-8 bg-slate-50 border-r border-gray-100 space-y-10">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logo Principal</label>
+          <div
+            class="relative group aspect-square w-full max-w-[240px] mx-auto bg-slate-950 rounded-3xl shadow-2xl border-4 border-white overflow-hidden flex items-center justify-center p-8">
+            <img [src]="getImageUrl(artist()?.logo)"
+                 class="max-w-full max-h-full object-contain transition-transform group-hover:scale-110 duration-500">
+
+            <label
+              class="absolute inset-0 bg-purple-900/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center cursor-pointer transition-all backdrop-blur-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white mb-2" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span class="text-white text-xs font-bold uppercase">Subir Logo</span>
+              <input type="file" class="hidden" (change)="onLogoChange($event)" accept="image/*">
+            </label>
+          </div>
+          <p class="text-center text-[10px] text-slate-400 mt-3 italic">Recomendado: Logo en blanco con transparencia
+            (PNG/SVG)</p>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Galería de Fotos</label>
+            <label
+              class="cursor-pointer bg-white border border-gray-200 p-1.5 rounded-lg hover:bg-purple-50 hover:border-purple-200 transition-all shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              <input type="file" class="hidden" (change)="onGalleryChange($event)" multiple accept="image/*">
+            </label>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            @for (img of artist()?.images; track img.id) {
+              <div
+                class="relative group aspect-square bg-slate-200 rounded-xl overflow-hidden border border-white shadow-sm">
+                <img [src]="getImageUrl(img.imageUrl)" class="w-full h-full object-cover">
+                <button (click)="removeImage(img.id)"
+                        class="absolute inset-0 bg-red-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                       stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8 p-8 lg:p-12">
+        <form [formGroup]="artistForm" (ngSubmit)="onSubmit()" class="space-y-8">
+
+          <div class="space-y-6">
+            <div class="flex items-center gap-3 border-b border-purple-100 pb-2">
+              <span class="w-2 h-6 bg-purple-500 rounded-full"></span>
+              <h3 class="font-bold text-gray-800 uppercase text-sm tracking-wider">Información de Artista</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Nombre Artístico</label>
+                <input type="text" formControlName="name"
+                       class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Email de Contacto</label>
+                <input type="email" formControlName="email"
+                       class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+                <input type="text" formControlName="phone"
+                       class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Género Musical</label>
+                <input type="text" formControlName="genre"
+                       class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">País / Origen</label>
+                <input type="text" formControlName="country"
+                       class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Descripción / Bio</label>
+                <textarea formControlName="description" rows="4"
+                          class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="flex items-center gap-3 border-b border-purple-100 pb-2">
+              <span class="w-2 h-6 bg-purple-500 rounded-full"></span>
+              <h3 class="font-bold text-gray-800 uppercase text-sm tracking-wider">Presencia Digital y RRSS</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">Web Oficial</label>
+                <input type="text" formControlName="officialUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">Instagram</label>
+                <input type="text" formControlName="instagramUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">Spotify</label>
+                <input type="text" formControlName="spotifyUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">TikTok</label>
+                <input type="text" formControlName="tiktokUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">YouTube</label>
+                <input type="text" formControlName="youtubeUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="relative">
+                <label class="text-xs font-semibold text-gray-500 ml-1">Tidal</label>
+                <input type="text" formControlName="tidalUrl"
+                       class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50">
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-10 flex justify-end gap-4">
+            <button type="button" routerLink="/admin/artists"
+                    class="px-8 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-2xl transition-all cursor-pointer">
+              Descartar
+            </button>
+            <button type="submit" [disabled]="artistForm.invalid || isLoading()"
+                    class="px-10 py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-purple-600 shadow-xl transition-all disabled:opacity-50 cursor-pointer flex items-center gap-2">
+              @if (isLoading()) {
+                <span class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+              }
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

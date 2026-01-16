@@ -25,6 +25,7 @@ import {Dashboard} from './features/admin/dashboard/dashboard';
 import {UsersAdmin} from './features/admin/users/users';
 import {UserEdit} from './features/admin/users/user-edit/user-edit';
 import {ArtistsAdmin} from './features/admin/artists/artists';
+import {ArtistEdit} from './features/admin/artists/artist-edit/artist-edit';
 
 
 export const routes: Routes = [
@@ -50,6 +51,7 @@ export const routes: Routes = [
       {path: 'users', component: UsersAdmin, canActivate: [roleGuard]},
       {path: 'users/edit/:id', component: UserEdit, canActivate: [roleGuard]},
       {path: 'artists', component: ArtistsAdmin},
+      {path: 'artists/edit/:id', component: ArtistEdit},
     ]
   },
   {

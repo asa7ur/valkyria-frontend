@@ -7,7 +7,6 @@ import {ToastService} from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-user-edit',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './user-edit.html'
 })
