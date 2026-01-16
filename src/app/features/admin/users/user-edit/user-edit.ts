@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, OnInit, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray} from '@angular/forms';
@@ -7,6 +7,7 @@ import {ToastService} from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-user-edit',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './user-edit.html'
 })
@@ -20,6 +21,7 @@ export class UserEdit implements OnInit {
   userForm: FormGroup;
   passwordForm: FormGroup;
   userId: number | null = null;
+  isLoading = signal(false);
 
   // Lista de roles disponibles en el sistema
   availableRoles = ['USER', 'MANAGER', 'ADMIN'];
@@ -28,11 +30,11 @@ export class UserEdit implements OnInit {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]], // Email ahora es editable
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
-      enabled: [true], // Campo para el estado
-      roles: this.fb.array([]) // Campo para roles (FormArray)
+      enabled: [true],
+      roles: this.fb.array([])
     });
 
     this.passwordForm = this.fb.group({
@@ -57,7 +59,6 @@ export class UserEdit implements OnInit {
             formattedUser.birthDate = user.birthDate.split('T')[0];
           }
 
-          // Limpiar roles actuales y rellenar según el usuario
           this.rolesArray.clear();
           this.availableRoles.forEach(role => {
             const isSelected = user.roles?.includes(role) || false;
@@ -78,7 +79,8 @@ export class UserEdit implements OnInit {
 
   onUpdateProfile() {
     if (this.userForm.valid && this.userId) {
-      // Mapeamos los booleanos del FormArray de vuelta a strings de roles
+      this.isLoading.set(true);
+
       const selectedRoleNames = this.userForm.value.roles
         .map((checked: boolean, i: number) => checked ? this.availableRoles[i] : null)
         .filter((v: any) => v !== null);
@@ -91,8 +93,10 @@ export class UserEdit implements OnInit {
       this.userApi.updateUser(this.userId, payload).subscribe({
         next: () => {
           this.toast.show('Usuario actualizado correctamente', 'success');
+          this.router.navigate(['/admin/users']);
         },
         error: (err) => {
+          this.isLoading.set(false);
           this.toast.show(err.error?.message || 'Error al actualizar', 'error');
         }
       });
