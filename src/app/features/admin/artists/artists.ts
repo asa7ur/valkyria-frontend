@@ -7,6 +7,7 @@ import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-artists',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './artists.html'
 })
@@ -17,7 +18,7 @@ export class ArtistsAdmin implements OnInit {
   artists = signal<Artist[]>([]);
   isLoading = signal<boolean>(false);
 
-  // Señales para los contadores
+  // Señales para el estado de la paginación
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   totalElements = signal<number>(0);
@@ -31,17 +32,14 @@ export class ArtistsAdmin implements OnInit {
     this.isLoading.set(true);
     this.artistApi.getArtists(this.currentPage(), 10, this.searchTerm()).subscribe({
       next: (response) => {
-        // El contenido de los artistas
-        this.artists.set(response.content);
-
-        // Accedemos a los datos dentro del objeto 'page'
-        this.totalPages.set(response.page.totalPages);
-        this.totalElements.set(response.page.totalElements);
-
+        // Asignación de datos desde el objeto Page de Spring
+        this.artists.set(response.content || []);
+        this.totalPages.set(response.page.totalPages || 0);
+        this.totalElements.set(response.page.totalElements || 0);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error:', err);
+        console.error('Error cargando artistas:', err);
         this.isLoading.set(false);
         this.artists.set([]);
       }
@@ -51,7 +49,7 @@ export class ArtistsAdmin implements OnInit {
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
-    this.currentPage.set(0);
+    this.currentPage.set(0); // Reiniciar a la primera página en cada búsqueda
     this.loadArtists();
   }
 
@@ -65,7 +63,7 @@ export class ArtistsAdmin implements OnInit {
   async deleteArtist(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
       title: 'Eliminar Artista',
-      message: '¿Estás seguro?',
+      message: '¿Estás seguro de que deseas eliminar este artista? Esta acción no se puede deshacer.',
       btnOkText: 'Eliminar',
       btnCancelText: 'Cancelar'
     });
@@ -73,7 +71,7 @@ export class ArtistsAdmin implements OnInit {
     if (confirmed) {
       this.artistApi.deleteArtist(id).subscribe({
         next: () => this.loadArtists(),
-        error: (err) => console.error(err)
+        error: (err) => console.error('Error al eliminar:', err)
       });
     }
   }

@@ -49,12 +49,8 @@
               </td>
               <td class="px-6 py-4">
                 <div class="flex flex-col gap-1">
-                  <div class="flex items-center text-sm text-gray-600">
-                    {{ artist.email }}
-                  </div>
-                  <div class="flex items-center text-sm text-indigo-600 font-medium">
-                    {{ artist.phone || 'Sin teléfono' }}
-                  </div>
+                  <div class="text-sm text-gray-600">{{ artist.email }}</div>
+                  <div class="text-sm text-indigo-600 font-medium">{{ artist.phone || 'Sin teléfono' }}</div>
                 </div>
               </td>
               <td class="px-6 py-4 font-bold text-gray-900">{{ artist.genre }}</td>
@@ -81,21 +77,21 @@
 
   <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50">
     <div class="text-sm text-gray-600">
-      Página <span class="font-semibold text-gray-900">{{ totalPages() > 0 ? currentPage() + 1 : 0 }}</span> de <span
-      class="font-semibold text-gray-900">{{ totalPages() }}</span>
+      Página <span class="font-semibold text-gray-900">{{ totalPages() > 0 ? currentPage() + 1 : 0 }}</span> de
+      <span class="font-semibold text-gray-900">{{ totalPages() }}</span>
     </div>
 
     <div class="flex gap-2">
       <button
         (click)="goToPage(currentPage() - 1)"
         [disabled]="currentPage() === 0 || totalPages() === 0"
-        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
         Anterior
       </button>
       <button
         (click)="goToPage(currentPage() + 1)"
         [disabled]="currentPage() >= totalPages() - 1 || totalPages() === 0"
-        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
         Siguiente
       </button>
     </div>

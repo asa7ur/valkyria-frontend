@@ -9,10 +9,6 @@ export class ArtistApi {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/artists';
 
-  getAllArtists(): Observable<Artist[]> {
-    return this.http.get<Artist[]>(`${this.apiUrl}/all`);
-  }
-
   /**
    * Obtiene artistas paginados y filtrados.
    * @param page Número de página (0-based)
