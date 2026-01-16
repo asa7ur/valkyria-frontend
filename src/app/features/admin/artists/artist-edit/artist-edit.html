@@ -23,6 +23,27 @@
           <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logo Principal</label>
           <div
             class="relative group aspect-square w-full max-w-60 mx-auto bg-slate-950 rounded-3xl shadow-2xl border-4 border-white overflow-hidden flex items-center justify-center p-8">
+
+            @if (artist()?.logo) {
+              <button (click)="$event.stopPropagation(); removeLogo()"
+                      class="absolute top-3 right-3 z-20 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 shadow-lg cursor-pointer"
+                      title="Eliminar logo">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            }
+
+            @if (isLogoLoading()) {
+              <div
+                class="absolute inset-0 bg-slate-900/80 z-20 flex flex-col items-center justify-center backdrop-blur-sm">
+                <span
+                  class="w-8 h-8 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></span>
+                <span class="text-[10px] text-white font-bold uppercase mt-2 tracking-widest">Subiendo...</span>
+              </div>
+            }
+
             <img [src]="getImageUrl(artist()?.logo)"
                  class="max-w-full max-h-full object-contain transition-transform group-hover:scale-110 duration-500"
                  alt="logo">
@@ -58,18 +79,26 @@
           </div>
 
           <div class="grid grid-cols-3 gap-3">
+
             @for (img of artist()?.images; track img.id) {
               <div
                 class="relative group aspect-square bg-slate-200 rounded-xl overflow-hidden border border-white shadow-sm">
                 <img [src]="getImageUrl(img.imageUrl)" class="w-full h-full object-cover" alt="band image">
                 <button (click)="removeImage(img.id)"
-                        class="absolute inset-0 bg-red-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                        class="absolute inset-0 bg-red-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
                        stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                   </svg>
                 </button>
+              </div>
+            }
+            @if (isGalleryLoading()) {
+              <div
+                class="aspect-square bg-purple-50 rounded-xl border-2 border-dashed border-purple-200 flex flex-col items-center justify-center animate-pulse">
+                <span
+                  class="w-6 h-6 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></span>
               </div>
             }
           </div>
