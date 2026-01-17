@@ -1,5 +1,15 @@
-<app-header/>
-<main class="min-h-[80vh]">
-  <router-outlet/>
-</main>
-<app-footer/>
+@if (showSplash()) {
+  <div class="splash-screen" [class.fade-out]="isFadingOut()">
+    <img src="/logo.png" alt="Valkyria Logo" class="pulse-logo">
+  </div>
+}
+
+<div [class.hidden-content]="showSplash() && !isFadingOut()"
+     [class.main-content-fade]="isFadingOut()"
+     class="main-content">
+  <app-header/>
+  <main class="min-h-[80vh]">
+    <router-outlet/>
+  </main>
+  <app-footer/>
+</div>

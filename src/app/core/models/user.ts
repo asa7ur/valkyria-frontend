@@ -9,12 +9,8 @@ export interface User {
   enabled: boolean;
 }
 
-export interface UserRegistrationDTO {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password?: string;
-  confirmPassword?: string;
-  birthDate: string;
-  phone: string;
+export interface PasswordChange {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }

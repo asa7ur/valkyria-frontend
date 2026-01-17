@@ -1,20 +1,20 @@
 import {Component, OnInit, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {UserApiService} from '../../../core/services/user-api';
+import {ArtistApi} from '../../../core/services/artist-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
-import {User} from '../../../core/models/user';
+import {Artist} from '../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-artists',
   imports: [CommonModule, RouterLink],
-  templateUrl: './users.html'
+  templateUrl: './artists.html'
 })
-export class UsersAdmin implements OnInit {
-  private userApi = inject(UserApiService);
+export class ArtistsAdmin implements OnInit {
+  private artistApi = inject(ArtistApi);
   private confirmService = inject(ConfirmDialogService);
 
-  users = signal<User[]>([]);
+  artists = signal<Artist[]>([]);
   isLoading = signal<boolean>(false);
 
   currentPage = signal<number>(0);
@@ -23,22 +23,22 @@ export class UsersAdmin implements OnInit {
   searchTerm = signal<string>('');
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadArtists();
   }
 
-  loadUsers(): void {
+  loadArtists(): void {
     this.isLoading.set(true);
-    this.userApi.getUsers(this.currentPage(), 10, this.searchTerm()).subscribe({
+    this.artistApi.getArtists(this.currentPage(), 10, this.searchTerm()).subscribe({
       next: (response) => {
-        this.users.set(response.content || []);
+        this.artists.set(response.content || []);
         this.totalPages.set(response.page.totalPages || 0);
         this.totalElements.set(response.page.totalElements || 0);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error al cargar usuarios:', err);
+        console.error('Error cargando artistas:', err);
         this.isLoading.set(false);
-        this.users.set([]);
+        this.artists.set([]);
       }
     });
   }
@@ -46,30 +46,28 @@ export class UsersAdmin implements OnInit {
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
-    this.currentPage.set(0); // Reiniciar a la primera página
-    this.loadUsers();
+    this.currentPage.set(0); // Reiniciar a la primera página en cada búsqueda
+    this.loadArtists();
   }
 
   goToPage(page: number): void {
     if (page >= 0 && page < this.totalPages()) {
       this.currentPage.set(page);
-      this.loadUsers();
+      this.loadArtists();
     }
   }
 
-  async deleteUser(id: number): Promise<void> {
+  async deleteArtist(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
-      title: 'Eliminar Usuario',
-      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
-      btnOkText: 'Sí, eliminar',
-      btnCancelText: 'No, cancelar'
+      title: 'Eliminar Artista',
+      message: '¿Estás seguro de que deseas eliminar este artista? Esta acción no se puede deshacer.',
+      btnOkText: 'Eliminar',
+      btnCancelText: 'Cancelar'
     });
 
     if (confirmed) {
-      this.userApi.deleteUser(id).subscribe({
-        next: () => {
-          this.loadUsers()
-        },
+      this.artistApi.deleteArtist(id).subscribe({
+        next: () => this.loadArtists(),
         error: (err) => console.error('Error al eliminar:', err)
       });
     }
