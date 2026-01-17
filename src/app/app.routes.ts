@@ -26,6 +26,10 @@ import {UsersAdmin} from './features/admin/users/users';
 import {UserEdit} from './features/admin/users/user-edit/user-edit';
 import {ArtistsAdmin} from './features/admin/artists/artists';
 import {ArtistEdit} from './features/admin/artists/artist-edit/artist-edit';
+import {TicketsAdmin} from './features/admin/tickets/tickets';
+import {TicketEdit} from './features/admin/tickets/ticket-edit/ticket-edit';
+import {CampingsAdmin} from './features/admin/campings/campings';
+import {CampingEdit} from './features/admin/campings/camping-edit/camping-edit';
 
 
 export const routes: Routes = [
@@ -52,6 +56,10 @@ export const routes: Routes = [
       {path: 'users/edit/:id', component: UserEdit, canActivate: [roleGuard]},
       {path: 'artists', component: ArtistsAdmin},
       {path: 'artists/edit/:id', component: ArtistEdit},
+      {path: 'tickets', component: TicketsAdmin},
+      {path: 'tickets/edit/:id', component: TicketEdit},
+      {path: 'campings', component: CampingsAdmin},
+      {path: 'campings/edit/:id', component: CampingEdit},
     ]
   },
   {
