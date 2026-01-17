@@ -11,13 +11,12 @@
 
       <button (click)="goBack()"
               i18n="@@artist.detail.back"
-              class="mb-8 text-s font-bold uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer">
+              class="animate-reveal mb-8 text-s font-bold uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer">
         <span class="text-xl">←</span> VOLVER
       </button>
 
       <div
-        class="relative w-full aspect-4/3 md:aspect-16/11 border border-white/10 overflow-hidden group mb-12 shadow-2xl bg-black">
-
+        class="animate-reveal [animation-delay:100ms] opacity-0 relative w-full aspect-4/3 md:aspect-16/11 border border-white/10 overflow-hidden group mb-12 shadow-2xl bg-black">
         @if (a.images.length > 0) {
           @for (img of a.images; track $index) {
             <img [src]="baseUrl + '/' + img.imageUrl + '_full.webp'"
@@ -61,8 +60,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
+      <div class="animate-reveal [animation-delay:250ms] opacity-0 grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div class="lg:col-span-4">
           <div class="bg-red-600 p-8 flex flex-col justify-between h-full min-h-87.5 relative overflow-hidden">
             <div class="absolute -right-4 -bottom-4 opacity-10">
@@ -113,7 +111,6 @@
                     <i class="bi bi-globe2 text-2xl text-black"></i>
                   </a>
                 }
-
                 @if (a.instagramUrl) {
                   <a [href]="a.instagramUrl" target="_blank" class="hover:scale-125 transition-transform">
                     <i class="bi bi-instagram text-2xl text-black"></i>

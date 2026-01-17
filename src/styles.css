@@ -52,6 +52,19 @@ body {
   }
 }
 
+@keyframes revealBlur {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.98);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 /* --- CLASES DE ANIMACIÓN --- */
 
 .animate-in {
@@ -60,6 +73,10 @@ body {
 
 .animate-video {
   animation: videoFade 2.5s ease-in-out forwards;
+}
+
+.animate-reveal {
+  animation: revealBlur 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* --- PANTALLA DE CARGA (SPLASH SCREEN) --- */
