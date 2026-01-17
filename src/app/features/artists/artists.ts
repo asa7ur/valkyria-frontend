@@ -12,7 +12,6 @@ import {ConfirmDialogService} from '../../core/services/confirm-dialog';
 })
 export class Artists implements OnInit {
   private api = inject(ArtistApi);
-  private confirmService = inject(ConfirmDialogService);
 
   // Estado de la carga y datos
   protected isLoading = signal<boolean>(true);

@@ -24,12 +24,29 @@
       width: 100vw;
       background-color: #000;
     }
+
+    .pulse-logo {
+      width: 200px;
+      filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.2));
+      animation: logoPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
 <app-root>
   <div class="loading-wrapper">
-    <img src="../public/logo.png" alt="" class="pulse-logo" style="width: 200px;">
+    <img src="logo.png" alt="" class="pulse-logo">
   </div>
 </app-root>
 </body>

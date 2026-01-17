@@ -15,11 +15,10 @@ export class LineupSection implements OnInit {
   private readonly baseUrl = 'http://localhost:8080/uploads/artists/';
 
   ngOnInit() {
-    this.http.get<Artist[]>('http://localhost:8080/api/v1/artists/all')
+    this.http.get<Artist[]>('http://localhost:8080/api/v1/artists/logo')
       .subscribe({
-        next: (data) => {
-          const randomArtists = data
-            .filter(artist => !!artist.logo)
+        next: (content) => {
+          const randomArtists = content
             .map(artist => ({
               ...artist,
               logo: `${this.baseUrl}${artist.logo}_thumb.webp`

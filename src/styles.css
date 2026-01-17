@@ -52,17 +52,6 @@ body {
   }
 }
 
-@keyframes logoPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
 /* --- CLASES DE ANIMACIÓN --- */
 
 .animate-in {
@@ -93,12 +82,6 @@ body {
 .splash-screen.fade-out {
   opacity: 0;
   pointer-events: none;
-}
-
-.pulse-logo {
-  width: 200px;
-  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.2));
-  animation: logoPulse 2s infinite ease-in-out;
 }
 
 /* --- TRANSICIÓN DE CONTENIDO PRINCIPAL --- */
