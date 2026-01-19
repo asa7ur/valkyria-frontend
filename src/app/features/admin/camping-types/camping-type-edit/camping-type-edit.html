@@ -1,0 +1,66 @@
+<div class="max-w-4xl mx-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+  @if (isInitialLoading()) {
+    <div class="flex justify-center items-center h-96 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <div class="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  } @else {
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="p-8 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+        <div>
+          <h2 class="text-xl font-bold text-gray-800">
+            {{ campingType() ? 'Editar Tipo de Camping' : 'Nuevo Tipo de Camping' }}
+          </h2>
+          @if (campingType()) {
+            <p class="text-sm text-gray-500">ID: {{ campingType()?.id }}</p>
+          }
+        </div>
+        <a routerLink="/admin/camping-types"
+           class="text-sm font-medium text-purple-600 hover:text-purple-800 flex items-center gap-1">
+          Volver al listado
+        </a>
+      </div>
+
+      <form [formGroup]="campingTypeForm" (ngSubmit)="onSubmit()" class="p-8 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="block text-sm font-medium text-gray-700">Nombre del Tipo</label>
+            <input type="text" formControlName="name"
+                   class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="block text-sm font-medium text-gray-700">Precio (€)</label>
+            <input type="number" formControlName="price"
+                   class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="block text-sm font-medium text-gray-700">Stock Total</label>
+            <input type="number" formControlName="stockTotal"
+                   class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="block text-sm font-medium text-gray-700">Stock Disponible</label>
+            <input type="number" formControlName="stockAvailable"
+                   class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
+          <button type="button" routerLink="/admin/camping-types"
+                  class="px-8 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-2xl transition-all">
+            Descartar
+          </button>
+          <button type="submit" [disabled]="campingTypeForm.invalid || isLoading()"
+                  class="px-10 py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-purple-600 shadow-xl transition-all disabled:opacity-50 flex items-center gap-2">
+            @if (isLoading()) {
+              <span class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+            }
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

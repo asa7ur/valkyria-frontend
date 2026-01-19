@@ -1,0 +1,45 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+    <h2 class="text-xl font-bold text-gray-800">Tipos de Ticket</h2>
+    <a routerLink="/admin/ticket-types/new"
+       class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all">
+      Nuevo Tipo
+    </a>
+  </div>
+
+  <div class="relative overflow-x-auto">
+    @if (isLoading()) {
+      <div class="flex justify-center p-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+      </div>
+    } @else {
+      <table class="w-full text-left">
+        <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+        <tr>
+          <th class="px-6 py-4">Nombre</th>
+          <th class="px-6 py-4">Precio</th>
+          <th class="px-6 py-4">Stock Disponible / Total</th>
+          <th class="px-6 py-4 text-right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          @for (type of ticketTypes(); track type.id) {
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 font-bold text-gray-900">{{ type.name }}</td>
+              <td class="px-6 py-4">{{ type.price | currency:'EUR' }}</td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-bold">
+                  {{ type.stockAvailable }} / {{ type.stockTotal }}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right space-x-3">
+                <a [routerLink]="['/admin/ticket-types/edit', type.id]" class="text-blue-600 font-semibold text-sm">Editar</a>
+                <button (click)="deleteType(type.id)" class="text-red-500 font-semibold text-sm">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
