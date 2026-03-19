@@ -2,6 +2,7 @@ import {Component, signal, inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
+import {ResponseDTO} from '../../../../core/models/response-dto';
 
 @Component({
   selector: 'app-lineup-section',
@@ -15,9 +16,11 @@ export class LineupSection implements OnInit {
   private readonly baseUrl = 'http://localhost:8080/uploads/artists/';
 
   ngOnInit() {
-    this.http.get<Artist[]>('http://localhost:8080/api/v1/artists/logo')
+    this.http.get<ResponseDTO<Artist[]>>('http://localhost:8080/api/v1/artists/logo')
       .subscribe({
-        next: (content) => {
+        next: (response) => {
+          const content = response.data;
+
           const randomArtists = content
             .map(artist => ({
               ...artist,
@@ -28,7 +31,7 @@ export class LineupSection implements OnInit {
 
           this.artists.set(randomArtists);
         },
-        error: (err) => console.error('Error:', err)
+        error: (err) => console.error(' Error:', err)
       });
   }
 }
