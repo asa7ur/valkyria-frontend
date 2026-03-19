@@ -29,15 +29,18 @@ export class ArtistDetail implements OnInit {
   ngOnInit() {
     // La lógica permanece igual, aprovechando la reactividad de Angular
     forkJoin({
-      artist: this.api.getArtistById(this.id()),
+      artistResponse: this.api.getArtistById(this.id()),
       allPerformances: this.lineup.getLineup()
     }).subscribe({
-      next: ({artist, allPerformances}) => {
+      next: ({artistResponse, allPerformances}) => {
+        const artist = artistResponse.data;
         // Vinculamos las actuaciones (performances) al objeto artista
-        if (!artist.performances || artist.performances.length === 0) {
-          artist.performances = allPerformances.filter(p => p.artist.id === artist.id);
+        if (artist) {
+          if (!artist.performances || artist.performances.length === 0) {
+            artist.performances = allPerformances.filter(p => p.artist.id === artist.id);
+          }
+          this.artist.set(artist);
         }
-        this.artist.set(artist);
         this.loading.set(false);
       },
       error: (err) => {

@@ -86,7 +86,8 @@ export class ArtistEdit implements OnInit {
 
   loadArtist(id: string): void {
     this.artistApi.getArtistById(id).subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data;
         this.artist.set(data);
         this.artistForm.patchValue(data);
 

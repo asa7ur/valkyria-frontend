@@ -30,9 +30,11 @@ export class ArtistsAdmin implements OnInit {
     this.isLoading.set(true);
     this.artistApi.getArtists(this.currentPage(), 10, this.searchTerm()).subscribe({
       next: (response) => {
-        this.artists.set(response.content || []);
-        this.totalPages.set(response.page.totalPages || 0);
-        this.totalElements.set(response.page.totalElements || 0);
+        const content = response.data || [];
+
+        this.artists.set(content || []);
+        this.totalPages.set(response.filter.totalPages || 0);
+        this.totalElements.set(response.filter.totalElements || 0);
         this.isLoading.set(false);
       },
       error: (err) => {

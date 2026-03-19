@@ -41,16 +41,18 @@ export class Artists implements OnInit {
     this.isLoading.set(true);
     this.api.getArtists(this.currentPage(), this.pageSize, this.searchTerm()).subscribe({
       next: (response) => {
+        const content = response.data || [];
+
         if (append) {
           // Acumulamos los nuevos artistas con los que ya teníamos
-          this.artists.update(prev => [...prev, ...response.content]);
+          this.artists.update(prev => [...prev, ...content]);
         } else {
           // Para una nueva búsqueda o carga inicial, reemplazamos
-          this.artists.set(response.content);
+          this.artists.set(content);
         }
 
-        this.totalPages.set(response.page.totalPages);
-        this.totalElements.set(response.page.totalElements);
+        this.totalPages.set(response.filter.totalPages);
+        this.totalElements.set(response.filter.totalElements);
         this.isLoading.set(false);
       },
       error: (err) => {
