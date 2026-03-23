@@ -61,7 +61,8 @@ export class CampingTypeEdit implements OnInit {
 
   loadCampingType(id: string): void {
     this.api.getCampingTypeById(+id).subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data;
         this.campingType.set(data);
         this.campingTypeForm.patchValue(data);
         this.isInitialLoading.set(false);

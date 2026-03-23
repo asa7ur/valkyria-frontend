@@ -90,7 +90,8 @@ export class CampingEdit implements OnInit {
 
   loadCamping(id: string): void {
     this.campingApi.getCampingById(+id).subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data;
         this.camping.set(data);
 
         // Buscamos el ID del tipo de camping por su nombre para el select

@@ -4,7 +4,9 @@ import {Observable} from 'rxjs';
 import {Artist} from '../models/artist';
 import {ResponseDTO} from '../models/response-dto';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root'
+})
 export class ArtistApi {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/artists';

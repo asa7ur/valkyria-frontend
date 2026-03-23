@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Camping, CampingCreateDTO} from '../models/camping';
 import {PageResponse} from '../models/page-response';
+import {ResponseDTO} from '../models/response-dto';
+import {Artist} from '../models/artist';
 
 @Injectable({
   providedIn: 'root'
@@ -14,23 +16,23 @@ export class CampingApi {
   /**
    * Obtiene la página de campings con búsqueda opcional
    */
-  getCampings(page: number = 0, size: number = 10, search?: string): Observable<PageResponse<Camping>> {
+  getCampings(page: number = 0, itemsPerPage: number = 10, search?: string): Observable<ResponseDTO<Camping[]>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('itemsPerPage', itemsPerPage.toString());
 
     if (search) {
       params = params.set('search', search);
     }
 
-    return this.http.get<PageResponse<Camping>>(this.apiUrl, {params});
+    return this.http.get<ResponseDTO<Camping[]>>(this.apiUrl, {params});
   }
 
   /**
    * Obtiene un camping por ID para edición
    */
-  getCampingById(id: number): Observable<Camping> {
-    return this.http.get<Camping>(`${this.apiUrl}/${id}`);
+  getCampingById(id: number): Observable<ResponseDTO<Camping>> {
+    return this.http.get<ResponseDTO<Camping>>(`${this.apiUrl}/${id}`);
   }
 
   /**
