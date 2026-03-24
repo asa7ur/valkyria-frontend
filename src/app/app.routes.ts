@@ -34,8 +34,10 @@ import {CampingTypesAdmin} from './features/admin/camping-types/camping-types';
 import {CampingTypeEdit} from './features/admin/camping-types/camping-type-edit/camping-type-edit';
 import {TicketTypesAdmin} from './features/admin/ticket-types/ticket-types';
 import {TicketTypeEdit} from './features/admin/ticket-types/ticket-type-edit/ticket-type-edit';
-import { StagesAdmin } from "./features/admin/stages/stages";
+import {StagesAdmin} from "./features/admin/stages/stages";
 import {StageEdit} from './features/admin/stages/stage-edit/stage-edit';
+import {PerformanceEdit} from './features/admin/performances/performance-edit/performance-edit';
+import {PerformancesAdmin} from './features/admin/performances/performances';
 
 
 export const routes: Routes = [
@@ -74,7 +76,10 @@ export const routes: Routes = [
       {path: 'camping-types/edit/:id', component: CampingTypeEdit},
       {path: 'stages', component: StagesAdmin},
       {path: 'stages/new', component: StageEdit},
-      {path: 'stages/edit/:id', component: StageEdit}
+      {path: 'stages/edit/:id', component: StageEdit},
+      {path: 'performances', component: PerformancesAdmin},
+      {path: 'performances/new', component: PerformanceEdit},
+      {path: 'performances/edit/:id', component: PerformanceEdit}
     ]
   },
   {

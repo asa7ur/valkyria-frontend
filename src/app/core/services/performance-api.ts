@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ResponseDTO} from '../models/response-dto';
+import {Performance} from '../models/performance';
 
 @Injectable({
   providedIn: 'root',
