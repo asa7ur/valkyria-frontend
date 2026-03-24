@@ -1,1 +1,103 @@
-<p>performance-edit works!</p>
+<div class="container mx-auto px-4 py-8 max-w-3xl">
+  @if (isInitialLoading()) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  } @else {
+    <div class="bg-white rounded-lg shadow-md p-6">
+
+      <div class="mb-6 border-b pb-4">
+        <h2 class="text-2xl font-bold text-gray-800">
+          {{ performance()?.id ? 'Editar Actuación' : 'Crear Nueva Actuación' }}
+        </h2>
+        <p class="text-gray-500 text-sm mt-1">
+          Completa los datos para asignar un artista a un escenario en un horario específico.
+        </p>
+      </div>
+
+      <form [formGroup]="performanceForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <div>
+            <label for="artistId" class="block text-sm font-medium text-gray-700 mb-1">Artista *</label>
+            <select id="artistId"
+                    formControlName="artistId"
+                    class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 bg-white">
+              <option [ngValue]="null" disabled>Selecciona un artista</option>
+              @for (artist of artists(); track artist.id) {
+                <option [value]="artist.id">{{ artist.name }}</option>
+              }
+            </select>
+            @if (performanceForm.get('artistId')?.invalid && performanceForm.get('artistId')?.touched) {
+              <span class="text-red-500 text-xs mt-1 block">El artista es obligatorio.</span>
+            }
+          </div>
+
+          <div>
+            <label for="stageId" class="block text-sm font-medium text-gray-700 mb-1">Escenario *</label>
+            <select id="stageId"
+                    formControlName="stageId"
+                    class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 bg-white">
+              <option [ngValue]="null" disabled>Selecciona un escenario</option>
+              @for (stage of stages(); track stage.id) {
+                <option [value]="stage.id">{{ stage.name }}</option>
+              }
+            </select>
+            @if (performanceForm.get('stageId')?.invalid && performanceForm.get('stageId')?.touched) {
+              <span class="text-red-500 text-xs mt-1 block">El escenario es obligatorio.</span>
+            }
+          </div>
+
+          <div>
+            <label for="startTime" class="block text-sm font-medium text-gray-700 mb-1">Inicio *</label>
+            <input type="datetime-local"
+                   id="startTime"
+                   formControlName="startTime"
+                   class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300">
+            @if (performanceForm.get('startTime')?.invalid && performanceForm.get('startTime')?.touched) {
+              <span class="text-red-500 text-xs mt-1 block">La fecha/hora de inicio es obligatoria.</span>
+            }
+          </div>
+
+          <div>
+            <label for="endTime" class="block text-sm font-medium text-gray-700 mb-1">Fin *</label>
+            <input type="datetime-local"
+                   id="endTime"
+                   formControlName="endTime"
+                   class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300">
+            @if (performanceForm.get('endTime')?.invalid && performanceForm.get('endTime')?.touched) {
+              <span class="text-red-500 text-xs mt-1 block">La fecha/hora de fin es obligatoria.</span>
+            }
+          </div>
+
+        </div>
+
+        <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 mt-6">
+          <button type="button"
+                  routerLink="/admin/performances"
+                  class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Cancelar
+          </button>
+
+          <button type="submit"
+                  [disabled]="performanceForm.invalid || isLoading()"
+                  class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (isLoading()) {
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Guardando...
+            } @else {
+              {{ performance()?.id ? 'Guardar Cambios' : 'Crear Actuación' }}
+            }
+          </button>
+        </div>
+      </form>
+
+    </div>
+  }
+</div>
