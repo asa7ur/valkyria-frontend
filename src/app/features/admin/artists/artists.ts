@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ArtistApi} from '../../../core/services/artist-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {Artist} from '../../../core/models/artist';
+import {FilterDTO} from '../../../core/models/filter-dto';
 import {RouterLink} from '@angular/router';
 
 @Component({
@@ -17,10 +18,13 @@ export class ArtistsAdmin implements OnInit {
   artists = signal<Artist[]>([]);
   isLoading = signal<boolean>(false);
 
-  currentPage = signal<number>(0);
-  totalPages = signal<number>(0);
-  totalElements = signal<number>(0);
-  searchTerm = signal<string>('');
+  filter = signal<FilterDTO>({
+    page: 0,
+    itemsPerPage: 10,
+    search: '',
+    totalPages: 0,
+    totalElements: 0
+  });
 
   ngOnInit(): void {
     this.loadArtists();
@@ -28,13 +32,18 @@ export class ArtistsAdmin implements OnInit {
 
   loadArtists(): void {
     this.isLoading.set(true);
-    this.artistApi.getArtists(this.currentPage(), 10, this.searchTerm()).subscribe({
-      next: (response) => {
-        const content = response.data || [];
+    const currentFilter = this.filter();
 
-        this.artists.set(content || []);
-        this.totalPages.set(response.filter.totalPages || 0);
-        this.totalElements.set(response.filter.totalElements || 0);
+    this.artistApi.getArtists(currentFilter.page, currentFilter.itemsPerPage, currentFilter.search).subscribe({
+      next: (response) => {
+        this.artists.set(response.data || []);
+
+        this.filter.update(f => ({
+          ...f,
+          totalPages: response.filter?.totalPages || 0,
+          totalElements: response.filter?.totalElements || 0
+        }));
+
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -47,14 +56,21 @@ export class ArtistsAdmin implements OnInit {
 
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.searchTerm.set(input.value);
-    this.currentPage.set(0); // Reiniciar a la primera página en cada búsqueda
+
+    this.filter.update(f => ({
+      ...f,
+      search: input.value,
+      page: 0
+    }));
+
     this.loadArtists();
   }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages()) {
-      this.currentPage.set(page);
+    const currentFilter = this.filter();
+
+    if (currentFilter.totalPages && page >= 0 && page < currentFilter.totalPages) {
+      this.filter.update(f => ({...f, page}));
       this.loadArtists();
     }
   }
