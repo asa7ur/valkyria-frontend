@@ -78,7 +78,12 @@ export class PerformanceEdit implements OnInit {
       next: (response) => {
         const data = response.data;
         this.performance.set(data);
-        this.performanceForm.patchValue(data);
+        this.performanceForm.patchValue({
+          artistId: data.artist.id,
+          stageId: data.stage.id,
+          startTime: data.startTime,
+          endTime: data.endTime
+        });
 
         this.isInitialLoading.set(false);
         this.cdr.detectChanges();

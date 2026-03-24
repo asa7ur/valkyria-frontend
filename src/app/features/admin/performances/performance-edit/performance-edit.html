@@ -26,7 +26,7 @@
                     class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 bg-white">
               <option [ngValue]="null" disabled>Selecciona un artista</option>
               @for (artist of artists(); track artist.id) {
-                <option [value]="artist.id">{{ artist.name }}</option>
+                <option [ngValue]="artist.id">{{ artist.name }}</option>
               }
             </select>
             @if (performanceForm.get('artistId')?.invalid && performanceForm.get('artistId')?.touched) {
@@ -41,7 +41,7 @@
                     class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 bg-white">
               <option [ngValue]="null" disabled>Selecciona un escenario</option>
               @for (stage of stages(); track stage.id) {
-                <option [value]="stage.id">{{ stage.name }}</option>
+                <option [ngValue]="stage.id">{{ stage.name }}</option>
               }
             </select>
             @if (performanceForm.get('stageId')?.invalid && performanceForm.get('stageId')?.touched) {
