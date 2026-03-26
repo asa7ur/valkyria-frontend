@@ -3,14 +3,19 @@ import {OrderApi} from '../../../core/services/order-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {OrderDTO} from '../../../core/models/order-schema';
 import {FilterDTO} from '../../../core/models/filter-dto';
+import {CurrencyPipe, DatePipe, NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-orders',
-  imports: [],
+  imports: [
+    DatePipe,
+    CurrencyPipe,
+    NgClass
+  ],
   templateUrl: './orders.html',
   styles: ``,
 })
-export class Orders implements OnInit {
+export class OrdersAdmin implements OnInit {
   private orderApi = inject(OrderApi);
   private confirmService = inject(ConfirmDialogService);
 
