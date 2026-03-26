@@ -6,7 +6,7 @@ import {forkJoin} from 'rxjs';
 import {CheckoutLogic} from '../../../../core/services/checkout-logic';
 import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {TicketType, CampingType} from '../../../../core/models/ticket-types';
-import {OrderRequest} from '../../../../core/models/order-schema';
+import {OrderCreateDTO} from '../../../../core/models/order-schema';
 import {AuthManager} from '../../../../core/services/auth-manager';
 import {FormsModule} from '@angular/forms';
 
@@ -25,7 +25,7 @@ export class Checkout implements OnInit {
   currentUser = this.auth.currentUser;
   guestEmail = signal('');
 
-  order: OrderRequest | null = null;
+  order: OrderCreateDTO | null = null;
   ticketTypes: TicketType[] = [];
   campingTypes: CampingType[] = [];
   total = 0;
@@ -97,18 +97,24 @@ export class Checkout implements OnInit {
 
   confirmAndPay() {
     if (this.order) {
-      // Si no está logueado, asignamos el email del invitado al pedido
+      // Si no hay usuario logueado, validamos y asignamos email de invitado
       if (!this.currentUser()) {
         if (!this.guestEmail()) {
-          alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email para recibir tus entradas`);
+          alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email`);
           return;
         }
         this.order.guestEmail = this.guestEmail();
       }
 
       this.cart.createOrder(this.order).subscribe({
-        next: (res) => window.location.href = res.url,
-        error: (err) => alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`)
+        next: (res) => {
+          if (res.success && res.data.url) {
+            window.location.href = res.data.url;
+          }
+        },
+        error: (err) => {
+          alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`);
+        }
       });
     }
   }

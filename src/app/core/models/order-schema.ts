@@ -1,31 +1,10 @@
+import {Ticket, TicketCreateDTO} from './ticket';
+import {Camping, CampingCreateDTO} from './camping';
+
 export enum DocumentType {
   DNI = 'DNI',
   NIE = 'NIE',
   PASSPORT = 'PASSPORT'
-}
-
-export interface TicketOrder {
-  firstName: string;
-  lastName: string;
-  documentType: DocumentType;
-  documentNumber: string;
-  birthDate: string;
-  ticketTypeId: number;
-}
-
-export interface CampingOrder {
-  firstName: string;
-  lastName: string;
-  documentType: DocumentType;
-  documentNumber: string;
-  birthDate: string;
-  campingTypeId: number;
-}
-
-export interface OrderRequest {
-  tickets: TicketOrder[];
-  campings: CampingOrder[];
-  guestEmail?: string;
 }
 
 export enum OrderStatus {
@@ -34,11 +13,18 @@ export enum OrderStatus {
   CANCELLED = 'CANCELLED'
 }
 
-export interface OrderResponse {
+export interface OrderCreateDTO {
+  tickets: TicketCreateDTO[];
+  campings: CampingCreateDTO[];
+  guestEmail?: string;
+}
+
+export interface OrderDTO {
   id: number;
   orderDate: string;
   totalPrice: number;
   status: OrderStatus;
-  tickets: TicketOrder[];
-  campings: CampingOrder[];
+  guestEmail?: string;
+  tickets: Ticket[];
+  campings: Camping[];
 }

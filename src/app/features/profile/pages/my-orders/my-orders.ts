@@ -2,7 +2,7 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {CheckoutLogic} from '../../../../core/services/checkout-logic';
-import {OrderResponse} from '../../../../core/models/order-schema';
+import {OrderDTO} from '../../../../core/models/order-schema';
 
 @Component({
   selector: 'app-my-orders',
@@ -11,24 +11,35 @@ import {OrderResponse} from '../../../../core/models/order-schema';
   templateUrl: './my-orders.html'
 })
 export class MyOrders implements OnInit {
-  // Inyección de la lógica de pedidos con un nombre semántico ('cart' o 'orders')
   private cart = inject(CheckoutLogic);
 
   // Uso de signals para una reactividad limpia en la interfaz de usuario
-  orders = signal<OrderResponse[]>([]);
+  orders = signal<OrderDTO[]>([]);
   loading = signal(true);
 
   ngOnInit() {
-    // Obtenemos el historial de pedidos del usuario a través de la lógica de checkout
     this.cart.getUserOrders().subscribe({
-      next: (data) => {
-        console.log('Pedidos recibidos:', data);
-        this.orders.set(data); // Actualizamos el estado de forma reactiva
+      next: (res) => {
+        if (res.success) {
+          this.orders.set(res.data);
+        }
         this.loading.set(false);
       },
       error: (err) => {
-        console.error('Error al cargar los pedidos:', err);
+        console.error('Error:', err);
         this.loading.set(false);
+      }
+    });
+  }
+
+  downloadCredentials(orderId: number) {
+    this.cart.downloadOrderPdf(orderId).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Pedido_${orderId}.pdf`;
+        link.click();
       }
     });
   }
