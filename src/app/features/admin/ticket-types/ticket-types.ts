@@ -25,7 +25,8 @@ export class TicketTypesAdmin implements OnInit {
   loadData(): void {
     this.isLoading.set(true);
     this.api.getAllTicketTypes().subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data || [];
         this.ticketTypes.set(data);
         this.isLoading.set(false);
       },

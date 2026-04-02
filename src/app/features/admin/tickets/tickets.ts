@@ -35,9 +35,11 @@ export class TicketsAdmin implements OnInit {
     this.isLoading.set(true);
     this.ticketApi.getTickets(this.currentPage(), 10, this.searchTerm()).subscribe({
       next: (response) => {
-        this.tickets.set(response.content || []);
-        this.totalPages.set(response.page.totalPages || 0);
-        this.totalElements.set(response.page.totalElements || 0);
+        const content = response.data || [];
+
+        this.tickets.set(content || []);
+        this.totalPages.set(response.filter.totalPages || 0);
+        this.totalElements.set(response.filter.totalElements || 0);
         this.isLoading.set(false);
       },
       error: (err) => {

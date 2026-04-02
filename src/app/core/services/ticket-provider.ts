@@ -1,7 +1,8 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of, tap} from 'rxjs'; // Añadimos 'of' y 'tap'
+import {map, Observable, of, tap} from 'rxjs'; // Añadimos 'of' y 'tap'
 import {CampingType, TicketType} from '../models/ticket-types';
+import {ResponseDTO} from '../models/response-dto';
 
 @Injectable({providedIn: 'root'})
 export class TicketProvider {
@@ -21,8 +22,9 @@ export class TicketProvider {
     if (this.ticketTypesCache) {
       return of(this.ticketTypesCache); // Devuelve la caché
     }
-    return this.http.get<TicketType[]>(this.ticketApiUrl).pipe(
-      tap(types => this.ticketTypesCache = types) // Guarda la respuesta en la caché
+    return this.http.get<ResponseDTO<TicketType[]>>(this.ticketApiUrl).pipe(
+      map(response => response.data),
+      tap(types => this.ticketTypesCache = types)
     );
   }
 
@@ -32,19 +34,12 @@ export class TicketProvider {
    */
   getCampingTypes(): Observable<CampingType[]> {
     if (this.campingTypesCache) {
-      return of(this.campingTypesCache); // Devuelve la caché
+      return of(this.campingTypesCache);
     }
-    return this.http.get<CampingType[]>(this.campingApiUrl).pipe(
-      tap(types => this.campingTypesCache = types) // Guarda la respuesta en la caché
-    );
-  }
 
-  /**
-   * Opcional: Método para limpiar la caché si fuera necesario
-   * (por ejemplo, al cerrar sesión o tras una compra con éxito)
-   */
-  clearCache() {
-    this.ticketTypesCache = null;
-    this.campingTypesCache = null;
+    return this.http.get<ResponseDTO<CampingType[]>>(this.campingApiUrl).pipe(
+      map(response => response.data),
+      tap(types => this.campingTypesCache = types)
+    );
   }
 }

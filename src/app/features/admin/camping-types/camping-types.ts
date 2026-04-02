@@ -26,8 +26,8 @@ export class CampingTypesAdmin implements OnInit {
     this.isLoading.set(true);
     this.api.getAllCampingTypes().subscribe({
       next: (response) => {
-        const content = response.data || [];
-        this.campingTypes.set(content);
+        const data = response.data || [];
+        this.campingTypes.set(data);
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false)

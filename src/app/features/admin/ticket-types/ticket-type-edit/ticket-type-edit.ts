@@ -61,7 +61,8 @@ export class TicketTypeEdit implements OnInit {
 
   loadTicketType(id: string): void {
     this.api.getTicketTypeById(+id).subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data;
         this.ticketType.set(data);
         this.ticketTypeForm.patchValue(data);
         this.isInitialLoading.set(false);

@@ -90,7 +90,8 @@ export class TicketEdit implements OnInit {
 
   loadTicket(id: string): void {
     this.ticketApi.getTicketById(+id).subscribe({
-      next: (data) => {
+      next: (response) => {
+        const data = response.data;
         this.ticket.set(data);
 
         // Buscamos el ID del tipo de ticket por su nombre para el select

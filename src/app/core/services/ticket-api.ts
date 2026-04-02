@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Ticket, TicketCreateDTO} from '../models/ticket';
-import {PageResponse} from '../models/page-response';
+import {ResponseDTO} from '../models/response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,23 +14,23 @@ export class TicketApi {
   /**
    * Obtiene la página de tickets con búsqueda opcional
    */
-  getTickets(page: number = 0, size: number = 10, search?: string): Observable<PageResponse<Ticket>> {
+  getTickets(page: number = 0, itemsPerPage: number = 10, search?: string): Observable<ResponseDTO<Ticket[]>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('itemsPerPage', itemsPerPage.toString());
 
     if (search) {
       params = params.set('search', search);
     }
 
-    return this.http.get<PageResponse<Ticket>>(this.apiUrl, {params});
+    return this.http.get<ResponseDTO<Ticket[]>>(this.apiUrl, {params});
   }
 
   /**
    * Obtiene un ticket por ID para edición
    */
-  getTicketById(id: number): Observable<Ticket> {
-    return this.http.get<Ticket>(`${this.apiUrl}/${id}`);
+  getTicketById(id: number): Observable<ResponseDTO<Ticket>> {
+    return this.http.get<ResponseDTO<Ticket>>(`${this.apiUrl}/${id}`);
   }
 
   /**
