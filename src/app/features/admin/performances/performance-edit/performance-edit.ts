@@ -70,7 +70,7 @@ export class PerformanceEdit implements OnInit {
 
   private loadDependencies(): void {
     this.artistApi.getArtists(0, 1000).subscribe(res => this.artists.set(res.data));
-    this.stageApi.getStages(0, 1000).subscribe(res => this.stages.set(res.content));
+    this.stageApi.getStages(0, 1000).subscribe(res => this.stages.set(res.data));
   }
 
   loadPerformance(id: string): void {

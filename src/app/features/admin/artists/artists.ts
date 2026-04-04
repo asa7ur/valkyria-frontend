@@ -32,9 +32,9 @@ export class ArtistsAdmin implements OnInit {
 
   loadArtists(): void {
     this.isLoading.set(true);
-    const currentFilter = this.filter();
+    const f = this.filter();
 
-    this.artistApi.getArtists(currentFilter.page, currentFilter.itemsPerPage, currentFilter.search).subscribe({
+    this.artistApi.getArtists(f.page, f.itemsPerPage, f.search).subscribe({
       next: (response) => {
         this.artists.set(response.data || []);
 
@@ -67,9 +67,9 @@ export class ArtistsAdmin implements OnInit {
   }
 
   goToPage(page: number): void {
-    const currentFilter = this.filter();
+    const f = this.filter();
 
-    if (currentFilter.totalPages && page >= 0 && page < currentFilter.totalPages) {
+    if (f.totalPages && page >= 0 && page < f.totalPages) {
       this.filter.update(f => ({...f, page}));
       this.loadArtists();
     }

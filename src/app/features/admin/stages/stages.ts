@@ -4,6 +4,7 @@ import {StageApi} from '../../../core/services/stage-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {Stage} from '../../../core/models/stage';
 import {RouterLink} from '@angular/router';
+import {FilterDTO} from '../../../core/models/filter-dto';
 
 @Component({
   selector: 'app-stages',
@@ -17,10 +18,13 @@ export class StagesAdmin implements OnInit {
   stages = signal<Stage[]>([]);
   isLoading = signal<boolean>(false);
 
-  currentPage = signal<number>(0);
-  totalPages = signal<number>(0);
-  totalElements = signal<number>(0);
-  searchTerm = signal<string>('');
+  filter = signal<FilterDTO>({
+    page: 0,
+    itemsPerPage: 10,
+    search: '',
+    totalPages: 0,
+    totalElements: 0
+  });
 
   ngOnInit(): void {
     this.loadStages();
@@ -28,11 +32,16 @@ export class StagesAdmin implements OnInit {
 
   loadStages(): void {
     this.isLoading.set(true);
-    this.stageApi.getStages(this.currentPage(), 10, this.searchTerm()).subscribe({
+    const f = this.filter();
+
+    this.stageApi.getStages(f.page, f.itemsPerPage, f.search).subscribe({
       next: (response) => {
-        this.stages.set(response.content || []);
-        this.totalPages.set(response.page.totalPages || 0);
-        this.totalElements.set(response.page.totalElements || 0);
+        this.stages.set(response.data || []);
+        this.filter.update(current => ({
+          ...current,
+          totalPages: response.filter?.totalPages || 0,
+          totalElements: response.filter?.totalElements || 0
+        }));
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -45,14 +54,14 @@ export class StagesAdmin implements OnInit {
 
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.searchTerm.set(input.value);
-    this.currentPage.set(0);
+    this.filter.update(f => ({...f, search: input.value, page: 0}));
     this.loadStages();
   }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages()) {
-      this.currentPage.set(page);
+    const f = this.filter();
+    if (f.totalPages && page >= 0 && page < f.totalPages) {
+      this.filter.update(f => ({...f, page}));
       this.loadStages();
     }
   }

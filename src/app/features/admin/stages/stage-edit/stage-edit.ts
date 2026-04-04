@@ -52,7 +52,9 @@ export class StageEdit implements OnInit {
 
   loadStage(id: string): void {
     this.stageApi.getStageById(id).subscribe({
-      next: (data) => {
+      next: (res) => {
+        const data = res.data;
+
         this.stage.set(data);
         this.stageForm.patchValue(data);
         this.isInitialLoading.set(false);

@@ -2,38 +2,38 @@ import {Injectable, inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Stage} from '../models/stage';
-import {PageResponse} from '../models/page-response';
+import {ResponseDTO} from '../models/response-dto';
 
 @Injectable({providedIn: 'root'})
 export class StageApi {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/stages';
 
-  getStages(page: number = 0, size: number = 10, search: string = ''): Observable<PageResponse<Stage>> {
+  getStages(page: number = 0, itemsPerPage: number = 10, search: string = ''): Observable<ResponseDTO<Stage[]>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('itemsPerPage', itemsPerPage.toString());
 
     if (search) {
       params = params.set('search', search);
     }
 
-    return this.http.get<PageResponse<Stage>>(this.apiUrl, {params});
+    return this.http.get<ResponseDTO<Stage[]>>(this.apiUrl, {params});
   }
 
-  getStageById(id: string): Observable<Stage> {
-    return this.http.get<Stage>(`${this.apiUrl}/${id}`);
+  getStageById(id: string): Observable<ResponseDTO<Stage>> {
+    return this.http.get<ResponseDTO<Stage>>(`${this.apiUrl}/${id}`);
   }
 
-  createStage(stageData: any): Observable<Stage> {
-    return this.http.post<Stage>(this.apiUrl, stageData);
+  createStage(stageData: any): Observable<ResponseDTO<Stage>> {
+    return this.http.post<ResponseDTO<Stage>>(this.apiUrl, stageData);
   }
 
-  updateStage(id: number, stageData: any): Observable<Stage> {
-    return this.http.put<Stage>(`${this.apiUrl}/${id}`, stageData);
+  updateStage(id: number, stageData: any): Observable<ResponseDTO<Stage>> {
+    return this.http.put<ResponseDTO<Stage>>(`${this.apiUrl}/${id}`, stageData);
   }
 
-  deleteStage(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteStage(id: number): Observable<ResponseDTO<void>> {
+    return this.http.delete<ResponseDTO<void>>(`${this.apiUrl}/${id}`);
   }
 }

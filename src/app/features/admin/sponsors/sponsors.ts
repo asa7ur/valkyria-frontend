@@ -47,7 +47,8 @@ export class SponsorsAdmin implements OnInit {
         }));
         this.isLoading.set(false);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error cargando patrocinadores:', err);
         this.isLoading.set(false);
         this.sponsors.set([]);
       }
@@ -61,8 +62,8 @@ export class SponsorsAdmin implements OnInit {
   }
 
   goToPage(page: number): void {
-    const current = this.filter();
-    if (page >= 0 && page < (current.totalPages || 0)) {
+    const f = this.filter();
+    if (f.totalPages && page >= 0 && page < f.totalPages) {
       this.filter.update(f => ({...f, page}));
       this.loadSponsors();
     }
@@ -78,7 +79,8 @@ export class SponsorsAdmin implements OnInit {
 
     if (confirmed) {
       this.sponsorApi.deleteSponsor(id).subscribe({
-        next: () => this.loadSponsors()
+        next: () => this.loadSponsors(),
+        error: (err) => console.error('Error al eliminar:', err)
       })
     }
   }

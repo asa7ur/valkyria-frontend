@@ -67,7 +67,7 @@ export class SponsorEdit implements OnInit {
 
   loadStages(): void {
     this.stageApi.getStages(0, 1000).subscribe(res => {
-      this.allStages.set(res.content);
+      this.allStages.set(res.data);
     })
   }
 
@@ -162,8 +162,8 @@ export class SponsorEdit implements OnInit {
 
     request.subscribe({
       next: () => {
-        this.toast.show(current ? 'Actualizado' : 'Creado', 'success');
-        this.router.navigate(['/admin/sponsors']);
+        this.toast.show(current ? 'Patrocinador actualizado' : 'Patrocinador creado', 'success');
+        void this.router.navigate(['/admin/sponsors']);
       },
       error: () => this.isLoading.set(false)
     });

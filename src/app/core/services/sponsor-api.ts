@@ -37,7 +37,7 @@ export class SponsorApi {
   }
 
   updateSponsor(id: number, sponsorData: any): Observable<ResponseDTO<Sponsor>> {
-    return this.http.put<ResponseDTO<Sponsor>>(this.apiUrl, sponsorData);
+    return this.http.put<ResponseDTO<Sponsor>>(`${this.apiUrl}/${id}`, sponsorData);
   }
 
   deleteSponsor(id: number): Observable<ResponseDTO<void>> {
