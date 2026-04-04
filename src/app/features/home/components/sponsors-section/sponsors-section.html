@@ -16,7 +16,7 @@
 
           @if (sponsor.image) {
             <img
-              [src]="'http://localhost:8080/uploads/sponsors/' + sponsor.image"
+              [src]="imagesBaseUrl + '/' + sponsor.image"
               [alt]="sponsor.name"
               class="max-h-12 md:max-h-16 w-auto grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 object-contain"
             >

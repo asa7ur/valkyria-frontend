@@ -39,6 +39,7 @@ import {StageEdit} from './features/admin/stages/stage-edit/stage-edit';
 import {PerformanceEdit} from './features/admin/performances/performance-edit/performance-edit';
 import {PerformancesAdmin} from './features/admin/performances/performances';
 import {OrdersAdmin} from './features/admin/orders/orders';
+import {SponsorsAdmin} from './features/admin/sponsors/sponsors';
 
 
 export const routes: Routes = [
@@ -82,6 +83,7 @@ export const routes: Routes = [
       {path: 'performances/new', component: PerformanceEdit},
       {path: 'performances/edit/:id', component: PerformanceEdit},
       {path: 'orders', component: OrdersAdmin},
+      {path: 'sponsors', component: SponsorsAdmin},
     ]
   },
   {

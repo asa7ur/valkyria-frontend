@@ -14,8 +14,7 @@ export class TicketsSection implements OnInit {
 
   ngOnInit() {
     this.ticketProvider.getTicketTypes().subscribe({
-      next: (response) => {
-        const data = response.data;
+      next: (data) => {
         this.tickets.set(data);
       },
       error: (err) => console.error('Error cargando tickets:', err)

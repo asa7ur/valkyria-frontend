@@ -12,11 +12,14 @@ export class SponsorsSection implements OnInit {
   private sponsorApi = inject(SponsorApi);
 
   protected readonly sponsors = signal<Sponsor[]>([]);
+  public readonly imagesBaseUrl = this.sponsorApi.imagesBaseUrl;
 
   ngOnInit(): void {
-    this.sponsorApi.getSponsors().subscribe({
-      next: (data) => this.sponsors.set(data),
-      error: (err) => console.error('Error cargando sponsors', err)
+    this.sponsorApi.getAllSponsors().subscribe({
+      next: (response) => {
+        this.sponsors.set(response.data || []);
+      },
+      error: (err) => console.error('Error cargando patrocinadores', err)
     });
   }
 }

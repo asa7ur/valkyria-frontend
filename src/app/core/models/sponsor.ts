@@ -1,3 +1,5 @@
+import {Stage} from './stage';
+
 export interface Sponsor {
   id: number;
   name: string;
@@ -5,4 +7,5 @@ export interface Sponsor {
   email: string;
   contribution: number;
   image?: string;
+  stages?: Stage[];
 }
