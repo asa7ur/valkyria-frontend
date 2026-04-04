@@ -40,6 +40,7 @@ import {PerformanceEdit} from './features/admin/performances/performance-edit/pe
 import {PerformancesAdmin} from './features/admin/performances/performances';
 import {OrdersAdmin} from './features/admin/orders/orders';
 import {SponsorsAdmin} from './features/admin/sponsors/sponsors';
+import {SponsorEdit} from './features/admin/sponsors/sponsor-edit/sponsor-edit';
 
 
 export const routes: Routes = [
@@ -84,6 +85,8 @@ export const routes: Routes = [
       {path: 'performances/edit/:id', component: PerformanceEdit},
       {path: 'orders', component: OrdersAdmin},
       {path: 'sponsors', component: SponsorsAdmin},
+      {path: 'sponsors/new', component: SponsorEdit},
+      {path: 'sponsors/edit/:id', component: SponsorEdit},
     ]
   },
   {
