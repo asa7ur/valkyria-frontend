@@ -4,6 +4,7 @@ import {UserApiService} from '../../../core/services/user-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {User} from '../../../core/models/user';
 import {RouterLink} from '@angular/router';
+import {FilterDTO} from '../../../core/models/filter-dto';
 
 @Component({
   selector: 'app-users',
@@ -17,10 +18,13 @@ export class UsersAdmin implements OnInit {
   users = signal<User[]>([]);
   isLoading = signal<boolean>(false);
 
-  currentPage = signal<number>(0);
-  totalPages = signal<number>(0);
-  totalElements = signal<number>(0);
-  searchTerm = signal<string>('');
+  filter = signal<FilterDTO>({
+    page: 0,
+    itemsPerPage: 10,
+    search: '',
+    totalPages: 0,
+    totalElements: 0
+  });
 
   ngOnInit(): void {
     this.loadUsers();
@@ -28,11 +32,18 @@ export class UsersAdmin implements OnInit {
 
   loadUsers(): void {
     this.isLoading.set(true);
-    this.userApi.getUsers(this.currentPage(), 10, this.searchTerm()).subscribe({
+    const f = this.filter();
+
+    this.userApi.getUsers(f.page, f.itemsPerPage, f.search).subscribe({
       next: (response) => {
-        this.users.set(response.content || []);
-        this.totalPages.set(response.page.totalPages || 0);
-        this.totalElements.set(response.page.totalElements || 0);
+        this.users.set(response.data || []);
+
+        this.filter.update(f => ({
+          ...f,
+          totalPages: response.filter?.totalPages || 0,
+          totalElements: response.filter?.totalElements || 0
+        }))
+
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -45,14 +56,21 @@ export class UsersAdmin implements OnInit {
 
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.searchTerm.set(input.value);
-    this.currentPage.set(0); // Reiniciar a la primera página
+
+    this.filter.update(f => ({
+      ...f,
+      search: input.value,
+      page: 0
+    }))
+
     this.loadUsers();
   }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages()) {
-      this.currentPage.set(page);
+    const f = this.filter();
+
+    if (f.totalPages && page >= 0 && page < f.totalPages) {
+      this.filter.update(f => ({...f, page}))
       this.loadUsers();
     }
   }

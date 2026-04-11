@@ -2,9 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Camping, CampingCreateDTO} from '../models/camping';
-import {PageResponse} from '../models/page-response';
 import {ResponseDTO} from '../models/response-dto';
-import {Artist} from '../models/artist';
 
 @Injectable({
   providedIn: 'root'
