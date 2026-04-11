@@ -1,130 +1,75 @@
 <div class="space-y-8 animate-in fade-in duration-700">
-
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
     <div>
-      <h2 class="text-2xl font-bold text-slate-800">Resumen General</h2>
-      <p class="text-slate-500">Bienvenido de nuevo. Aquí tienes lo que está pasando hoy.</p>
+      <h2 class="text-2xl font-bold text-slate-800">Panel de Control</h2>
+      <p class="text-slate-500">Métricas de rendimiento en tiempo real.</p>
     </div>
-    <div class="flex gap-3">
-      <button
-        class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
-        Descargar Reporte
-      </button>
-      <button
-        class="px-4 py-2 bg-purple-600 rounded-lg text-sm font-medium text-white hover:bg-purple-700 transition-colors shadow-md shadow-purple-200">
-        Nueva Campaña
-      </button>
-    </div>
+    <button (click)="loadDashboardData()"
+            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
+      <i class="fas fa-sync-alt mr-2" [class.fa-spin]="loading"></i> Refrescar datos
+    </button>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-      <div class="flex items-center justify-between">
-        <div
-          class="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+  @if (!loading && stats) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
+        <div class="p-3 w-fit bg-emerald-50 rounded-xl text-emerald-600">
           <i class="fas fa-euro-sign text-xl"></i>
         </div>
-        <span class="text-emerald-500 text-xs font-bold bg-emerald-50 px-2 py-1 rounded-full">+12.5%</span>
+        <div class="mt-4">
+          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Ingresos Totales</p>
+          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalRevenue | currency:'EUR' }}</p>
+        </div>
       </div>
-      <div class="mt-4">
-        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Ventas Totales</p>
-        <p class="text-3xl font-extrabold text-slate-900 mt-1">12.450€</p>
-      </div>
-    </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-      <div class="flex items-center justify-between">
-        <div
-          class="p-3 bg-purple-50 rounded-xl text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
+        <div class="p-3 w-fit bg-purple-50 rounded-xl text-purple-600">
           <i class="fas fa-microphone-alt text-xl"></i>
         </div>
-        <span class="text-slate-400 text-xs font-medium italic">4 pendientes</span>
-      </div>
-      <div class="mt-4">
-        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Artistas</p>
-        <p class="text-3xl font-extrabold text-slate-900 mt-1">24</p>
-      </div>
-    </div>
-
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-      <div class="flex items-center justify-between">
-        <div
-          class="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-          <i class="fas fa-ticket-alt text-xl"></i>
-        </div>
-        <span class="text-blue-600 text-xs font-bold">70% Capacidad</span>
-      </div>
-      <div class="mt-4">
-        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Tickets</p>
-        <p class="text-3xl font-extrabold text-slate-900 mt-1">850</p>
-        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-4">
-          <div class="bg-blue-600 h-1.5 rounded-full" style="width: 70%"></div>
+        <div class="mt-4">
+          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Lineup</p>
+          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalArtists }} Artistas</p>
         </div>
       </div>
-    </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-      <div class="flex items-center justify-between">
-        <div
-          class="p-3 bg-orange-50 rounded-xl text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
+        <div class="flex items-center justify-between">
+          <div class="p-3 bg-blue-50 rounded-xl text-blue-600">
+            <i class="fas fa-ticket-alt text-xl"></i>
+          </div>
+          <span class="text-blue-600 text-xs font-bold">{{ stats.ticketCapacityPercentage | number:'1.0-0' }}%</span>
+        </div>
+        <div class="mt-4">
+          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Tickets Vendidos</p>
+          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalTicketsSold }}</p>
+          <div class="w-full bg-slate-100 rounded-full h-1.5 mt-4">
+            <div class="bg-blue-600 h-1.5 rounded-full transition-all duration-1000"
+                 [style.width.%]="stats.ticketCapacityPercentage"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
+        <div class="p-3 w-fit bg-orange-50 rounded-xl text-orange-600">
           <i class="fas fa-users text-xl"></i>
         </div>
-        <span class="text-orange-500 text-xs font-bold">+24 hoy</span>
-      </div>
-      <div class="mt-4">
-        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Usuarios Activos</p>
-        <p class="text-3xl font-extrabold text-slate-900 mt-1">1.204</p>
+        <div class="mt-4">
+          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Usuarios Registrados</p>
+          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalActiveUsers }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-slate-100 min-h-[400px] flex flex-col">
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 min-h-112.5 flex flex-col">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-bold text-slate-800">Tendencia de Ventas</h3>
-        <select class="text-sm border-slate-200 rounded-lg focus:ring-purple-500 focus:border-purple-500">
-          <option>Últimos 7 días</option>
-          <option>Último mes</option>
-        </select>
+        <h3 class="text-lg font-bold text-slate-800">Tendencia de Ingresos</h3>
+        <span class="text-xs text-slate-400">Datos históricos por día</span>
       </div>
       <div
-        class="flex-1 border-2 border-dashed border-slate-100 rounded-xl flex flex-col items-center justify-center bg-slate-50/50">
-        <div class="p-4 bg-white rounded-full shadow-sm mb-3">
-          <i class="fas fa-chart-line text-2xl text-slate-300"></i>
-        </div>
-        <p class="text-slate-400 font-medium">El módulo de analíticas se está cargando...</p>
+        class="flex-1 border-2 border-dashed border-slate-100 rounded-xl flex flex-col items-center justify-center bg-slate-50/30">
+        <i class="fas fa-chart-line text-4xl text-slate-200 mb-4"></i>
+        <p class="text-slate-400 font-medium">Preparando visualización de ventas...</p>
       </div>
     </div>
-
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-      <h3 class="text-lg font-bold text-slate-800 mb-6">Acciones Requeridas</h3>
-      <div class="space-y-6">
-        <div class="flex gap-4">
-          <div class="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
-          <div>
-            <p class="text-sm font-bold text-slate-800">Validar 4 artistas</p>
-            <p class="text-xs text-slate-500">Han subido material nuevo para el escenario principal.</p>
-          </div>
-        </div>
-        <div class="flex gap-4">
-          <div class="mt-1 w-2 h-2 rounded-full bg-orange-500 shrink-0"></div>
-          <div>
-            <p class="text-sm font-bold text-slate-800">Stock bajo: Camping VIP</p>
-            <p class="text-xs text-slate-500">Quedan menos de 10 entradas disponibles.</p>
-          </div>
-        </div>
-        <div class="flex gap-4">
-          <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
-          <div>
-            <p class="text-sm font-bold text-slate-800">Revisión de Patrocinadores</p>
-            <p class="text-xs text-slate-500">2 contratos expiran en los próximos 15 días.</p>
-          </div>
-        </div>
-      </div>
-      <button
-        class="w-full mt-8 py-3 text-sm font-bold text-purple-600 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors">
-        Ver todas las notificaciones
-      </button>
-    </div>
-  </div>
+  }
 </div>
