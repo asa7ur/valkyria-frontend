@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {UserApiService} from '../../../core/services/user-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {User} from '../../../core/models/user';
-import {RouterLink} from '@angular/router';
 import {FilterDTO} from '../../../core/models/filter-dto';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-users',
+  standalone: true, // Asegúrate de que sea standalone si tu proyecto sigue este patrón
   imports: [CommonModule, RouterLink],
   templateUrl: './users.html'
 })
@@ -42,12 +43,12 @@ export class UsersAdmin implements OnInit {
           ...f,
           totalPages: response.filter?.totalPages || 0,
           totalElements: response.filter?.totalElements || 0
-        }))
+        }));
 
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error al cargar usuarios:', err);
+        console.error('Error cargando usuarios:', err);
         this.isLoading.set(false);
         this.users.set([]);
       }
@@ -61,7 +62,7 @@ export class UsersAdmin implements OnInit {
       ...f,
       search: input.value,
       page: 0
-    }))
+    }));
 
     this.loadUsers();
   }
@@ -70,7 +71,7 @@ export class UsersAdmin implements OnInit {
     const f = this.filter();
 
     if (f.totalPages && page >= 0 && page < f.totalPages) {
-      this.filter.update(f => ({...f, page}))
+      this.filter.update(f => ({...f, page}));
       this.loadUsers();
     }
   }
@@ -78,16 +79,14 @@ export class UsersAdmin implements OnInit {
   async deleteUser(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
       title: 'Eliminar Usuario',
-      message: '¿Estás completamente seguro? Esta acción no se puede deshacer.',
-      btnOkText: 'Sí, eliminar',
-      btnCancelText: 'No, cancelar'
+      message: '¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.',
+      btnOkText: 'Eliminar',
+      btnCancelText: 'Cancelar'
     });
 
     if (confirmed) {
       this.userApi.deleteUser(id).subscribe({
-        next: () => {
-          this.loadUsers()
-        },
+        next: () => this.loadUsers(),
         error: (err) => console.error('Error al eliminar:', err)
       });
     }
