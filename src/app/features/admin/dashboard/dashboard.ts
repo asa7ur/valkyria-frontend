@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core'; // <-- 1. Añade ChangeDetectorRef
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DashboardApiService} from '../../../core/services/dashboard-api';
 import {DashboardStats} from '../../../core/models/dashboard-stats';
@@ -13,7 +13,6 @@ export class Dashboard implements OnInit {
   stats?: DashboardStats;
   loading = true;
 
-  // 2. Inyéctalo en el constructor
   constructor(
     private dashboardApi: DashboardApiService,
     private cdr: ChangeDetectorRef
