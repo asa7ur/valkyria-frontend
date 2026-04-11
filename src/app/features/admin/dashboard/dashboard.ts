@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core'; // <-- 1. Añade ChangeDetectorRef
 import {CommonModule} from '@angular/common';
 import {DashboardApiService} from '../../../core/services/dashboard-api';
 import {DashboardStats} from '../../../core/models/dashboard-stats';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.html',
 })
@@ -12,7 +13,11 @@ export class Dashboard implements OnInit {
   stats?: DashboardStats;
   loading = true;
 
-  constructor(private dashboardApi: DashboardApiService) {
+  // 2. Inyéctalo en el constructor
+  constructor(
+    private dashboardApi: DashboardApiService,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   ngOnInit(): void {
@@ -21,12 +26,18 @@ export class Dashboard implements OnInit {
 
   loadDashboardData(): void {
     this.loading = true;
+
     this.dashboardApi.getStats().subscribe({
       next: (res) => {
         this.stats = res.data;
         this.loading = false;
+        this.cdr.detectChanges();
       },
-      error: () => this.loading = false
+      error: (err) => {
+        console.error("Error:", err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 }
