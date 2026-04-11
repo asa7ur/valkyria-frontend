@@ -1,4 +1,4 @@
-<div class="max-w-6xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 text-gray-900">
+<div class="max-w-6xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
   @if (isInitialLoading()) {
     <div class="flex justify-center items-center h-96 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -13,7 +13,7 @@
         <div>
           <h2 class="text-xl font-bold text-gray-800">Editar Perfil de Usuario</h2>
           <p class="text-sm text-gray-500">
-            {{ userForm.controls.firstName.value }} {{ userForm.controls.lastName.value }} • ID: {{ userId }}
+            {{ user()?.firstName }} {{ user()?.lastName }} • ID: {{ user()?.id }}
           </p>
         </div>
         <a routerLink="/admin/users"
@@ -64,7 +64,7 @@
         </div>
 
         <div class="lg:col-span-8 p-8 lg:p-12 space-y-12">
-          <form [formGroup]="userForm" (ngSubmit)="onUpdateProfile()" class="space-y-8">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-8">
             <div class="space-y-6">
               <div class="flex items-center gap-3 border-b border-purple-100 pb-2">
                 <span class="w-2 h-6 bg-purple-500 rounded-full"></span>

@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import {UserApiService} from '../../../../core/services/user-api';
 import {ToastService} from '../../../../core/services/toast';
+import {User} from '../../../../core/models/user';
 
 /**
  * Interface para tipado estricto del formulario de usuario
@@ -48,16 +49,15 @@ export class UserEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  // Señales para el estado de la UI
+  // Señales para el estado y los datos
+  user = signal<User | null>(null);
+  userForm!: FormGroup<UserForm>;
+  passwordForm!: FormGroup<PasswordForm>;
+
   isLoading = signal(false);
   isInitialLoading = signal(true);
 
-  userId: number | null = null;
   availableRoles = ['USER', 'MANAGER', 'ADMIN'];
-
-  // Formularios con tipado estricto
-  userForm!: FormGroup<UserForm>;
-  passwordForm!: FormGroup<PasswordForm>;
 
   constructor() {
     this.initForm();
@@ -90,38 +90,38 @@ export class UserEdit implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.userId = +id;
-      this.loadUserData();
+      this.loadUser(id);
     } else {
       this.isInitialLoading.set(false);
     }
   }
 
-  private loadUserData() {
-    if (!this.userId) return;
+  private loadUser(id: string) {
+    this.userApi.getUserById(id).subscribe({
+      next: (response) => {
+        const data = response.data;
+        this.user.set(data);
 
-    this.userApi.getUserById(this.userId).subscribe({
-      next: (user) => {
         // Formateo de fecha para el input type="date"
-        const formattedDate = user.birthDate ? user.birthDate.split('T')[0] : '';
+        const formattedDate = data.birthDate ? data.birthDate.split('T')[0] : '';
 
-        // Mapeamos los roles del usuario al FormArray
-        const rolesValues = this.availableRoles.map(role => user.roles?.includes(role) || false);
+        // Mapeamos los roles para el FormArray (esto genera un boolean[])
+        const rolesValues = this.availableRoles.map(role => data.roles?.includes(role) || false);
 
+        // EXTRAER 'roles' para evitar el conflicto de tipos (TS2345)
+        // Usamos desestructuración para crear un objeto 'rest' que no contenga 'roles'
+        const {roles, ...rest} = data;
+
+        // 4. Parchear el formulario base
         this.userForm.patchValue({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          phone: user.phone,
-          birthDate: formattedDate,
-          enabled: user.enabled
+          ...rest,
+          birthDate: formattedDate
         });
 
         // Actualizamos los valores del FormArray
         this.rolesArray.patchValue(rolesValues);
 
         this.isInitialLoading.set(false);
-
         this.cdr.detectChanges();
       },
       error: () => {
@@ -138,8 +138,9 @@ export class UserEdit implements OnInit {
     return newPass === confirmPass ? null : {mismatch: true};
   };
 
-  onUpdateProfile() {
-    if (this.userForm.valid && this.userId) {
+  onSubmit() {
+    const currentUser = this.user();
+    if (this.userForm.valid && currentUser) {
       this.isLoading.set(true);
 
       // Obtenemos los nombres de los roles seleccionados
@@ -152,7 +153,7 @@ export class UserEdit implements OnInit {
         roles: selectedRoles
       };
 
-      this.userApi.updateUser(this.userId, payload).subscribe({
+      this.userApi.updateUser(currentUser.id, payload).subscribe({
         next: () => {
           this.toast.show('Usuario actualizado correctamente', 'success');
           void this.router.navigate(['/admin/users']);
@@ -166,8 +167,9 @@ export class UserEdit implements OnInit {
   }
 
   onChangePassword() {
-    if (this.passwordForm.valid && this.userId) {
-      this.userApi.changePassword(this.userId, this.passwordForm.getRawValue()).subscribe({
+    const currentUser = this.user();
+    if (this.passwordForm.valid && currentUser) {
+      this.userApi.changePassword(currentUser.id, this.passwordForm.getRawValue()).subscribe({
         next: () => {
           this.toast.show('Contraseña actualizada', 'success');
           this.passwordForm.reset();
