@@ -53,6 +53,7 @@ export class ArtistEdit implements OnInit {
   isInitialLoading = signal(true);
   isLogoLoading = signal(false);
   isGalleryLoading = signal(false);
+  isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -78,8 +79,10 @@ export class ArtistEdit implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.isEditMode.set(true);
       this.loadArtist(id);
     } else {
+      this.isEditMode.set(false);
       this.isInitialLoading.set(false);
     }
   }
@@ -174,19 +177,36 @@ export class ArtistEdit implements OnInit {
   }
 
   onSubmit(): void {
-    const currentArtist = this.artist();
-    if (this.artistForm.valid && currentArtist) {
-      this.isLoading.set(true);
-      this.artistApi.updateArtist(currentArtist.id, this.artistForm.getRawValue()).subscribe({
-        next: () => {
-          this.toast.show('Datos del artista actualizados', 'success');
-          void this.router.navigate(['/admin/artists']);
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.toast.show('Error al actualizar datos', 'error');
-        }
-      });
+    if (this.artistForm.invalid) return;
+
+    this.isLoading.set(true);
+    const formData = this.artistForm.getRawValue();
+
+    if (this.isEditMode()) {
+      const currentArtist = this.artist();
+      if (currentArtist) {
+        this.artistApi.updateArtist(currentArtist.id, formData).subscribe({
+          next: () => {
+            this.toast.show('Datos del artista actualizados', 'success');
+            void this.router.navigate(['/admin/artists']);
+          },
+          error: () => {
+            this.isLoading.set(false);
+            this.toast.show('Error al actualizar datos', 'error');
+          }
+        });
+      } else {
+        this.artistApi.createArtist(formData).subscribe({
+          next: () => {
+            this.toast.show('Artista creado correctamente', 'success');
+            void this.router.navigate(['/admin/artists']);
+          },
+          error: () => {
+            this.isLoading.set(false);
+            this.toast.show('Error al crear el artista', 'error');
+          }
+        });
+      }
     }
   }
 }

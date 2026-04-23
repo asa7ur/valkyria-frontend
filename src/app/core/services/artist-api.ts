@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Artist} from '../models/artist';
 import {ResponseDTO} from '../models/response-dto';
+import {Stage} from '../models/stage';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,10 @@ export class ArtistApi {
 
   getArtistById(id: string): Observable<ResponseDTO<Artist>> {
     return this.http.get<ResponseDTO<Artist>>(`${this.apiUrl}/${id}`);
+  }
+
+  createArtist(artistData: any): Observable<ResponseDTO<Artist>> {
+    return this.http.post<ResponseDTO<Artist>>(this.apiUrl, artistData);
   }
 
   updateArtist(id: number, artistData: any): Observable<Artist> {
