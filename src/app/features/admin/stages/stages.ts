@@ -37,8 +37,9 @@ export class StagesAdmin implements OnInit {
     this.stageApi.getStages(f.page, f.itemsPerPage, f.search).subscribe({
       next: (response) => {
         this.stages.set(response.data || []);
-        this.filter.update(current => ({
-          ...current,
+
+        this.filter.update(f => ({
+          ...f,
           totalPages: response.filter?.totalPages || 0,
           totalElements: response.filter?.totalElements || 0
         }));
