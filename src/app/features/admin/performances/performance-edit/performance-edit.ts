@@ -44,6 +44,7 @@ export class PerformanceEdit implements OnInit {
   performanceForm!: FormGroup<PerformanceForm>;
   isLoading = signal(false);
   isInitialLoading = signal(true);
+  isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -59,9 +60,10 @@ export class PerformanceEdit implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadDependencies();
     const id = this.route.snapshot.paramMap.get('id');
+    this.loadDependencies();
     if (id) {
+      this.isEditMode.set(true);
       this.loadPerformance(id);
     } else {
       this.isInitialLoading.set(false);
@@ -77,6 +79,7 @@ export class PerformanceEdit implements OnInit {
     this.performanceApi.getPerformanceById(id).subscribe({
       next: (response) => {
         const data = response.data;
+
         this.performance.set(data);
         this.performanceForm.patchValue({
           artistId: data.artist.id,
@@ -91,6 +94,7 @@ export class PerformanceEdit implements OnInit {
       error: () => {
         this.toast.show('Error al cargar la actuación', 'error');
         this.isInitialLoading.set(false);
+        void this.router.navigate(['/admin/performances']);
       }
     })
   }
