@@ -32,7 +32,6 @@ interface ArtistForm {
 
 @Component({
   selector: 'app-artist-edit',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './artist-edit.html'
 })

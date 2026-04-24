@@ -112,8 +112,8 @@ export class SponsorEdit implements OnInit {
     return this.sponsorForm.controls.stageIds.value.includes(stageId);
   }
 
-  getImageUrl(fileName: string | undefined): string {
-    return `${this.sponsorApi.imagesBaseUrl}/${fileName}`;
+  getImageUrl(baseName: string | undefined, suffix: '_thumb.webp' | '_full.webp' = '_thumb.webp'): string {
+    return `${this.sponsorApi.imagesBaseUrl}/${baseName}${suffix}`;
   }
 
   onLogoChange(event: Event): void {
