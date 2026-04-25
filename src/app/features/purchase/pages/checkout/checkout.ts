@@ -35,10 +35,7 @@ export class Checkout implements OnInit {
     // Obtenemos el estado actual del "carrito" desde la lógica de checkout
     this.order = this.cart.getOrder();
 
-    if (!this.order || (this.order.tickets.length === 0 && this.order.campings.length === 0)) {
-      this.router.navigate(['/purchase']);
-      return;
-    }
+    // Se ha eliminado la redirección automática para permitir mostrar el mensaje de cesta vacía en el HTML
 
     // Cargamos los datos maestros a través del proveedor
     forkJoin({
@@ -106,10 +103,7 @@ export class Checkout implements OnInit {
     this.order = updatedOrder;
     this.calculateTotal();
 
-    // Si la cesta se queda vacía, redirige automáticamente a la selección
-    if (updatedOrder.tickets.length === 0 && updatedOrder.campings.length === 0) {
-      this.router.navigate(['/purchase']);
-    }
+    // Se ha eliminado la redirección automática al vaciar la cesta para que el usuario vea el mensaje de confirmación
   }
 
   confirmAndPay() {
