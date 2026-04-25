@@ -27,12 +27,26 @@ export class CheckoutLogic {
   }
 
   private loadFromStorage(): OrderCreateDTO {
-    const saved = localStorage.getItem('valkyria_cart');
-    return saved ? JSON.parse(saved) : { tickets: [], campings: [] };
+    try {
+      const saved = localStorage.getItem('valkyria_cart');
+      const parsed = saved ? JSON.parse(saved) : null;
+      // Asegura que siempre devuelva la estructura mínima necesaria
+      return {
+        tickets: parsed?.tickets || [],
+        campings: parsed?.campings || [],
+        guestEmail: parsed?.guestEmail || ''
+      };
+    } catch (e) {
+      return { tickets: [], campings: [] };
+    }
   }
 
   setOrder(order: OrderCreateDTO) {
-    this.currentOrder.set(order);
+    this.currentOrder.set({
+      ...order,
+      tickets: order.tickets ? [...order.tickets] : [],
+      campings: order.campings ? [...order.campings] : []
+    })
   }
 
   getOrder() {

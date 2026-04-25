@@ -85,13 +85,30 @@ export class Checkout implements OnInit {
   }
 
   removeItem(type: 'ticket' | 'camping', index: number) {
-    if (this.order) {
-      if (type === 'ticket') this.order.tickets.splice(index, 1);
-      else this.order.campings.splice(index, 1);
+    if (!this.order) return;
 
-      // Actualizamos el estado persistente en la lógica de checkout
-      this.cart.setOrder(this.order);
-      this.calculateTotal();
+    const updatedOrder: OrderCreateDTO = {
+      ...this.order,
+      tickets: [...this.order.tickets],
+      campings: [...this.order.campings]
+    };
+
+    if (type === 'ticket') {
+      updatedOrder.tickets = updatedOrder.tickets.filter((_, i) => i !== index);
+    } else {
+      updatedOrder.campings = updatedOrder.campings.filter((_, i) => i !== index);
+    }
+
+    // Actualiza el servicio (esto disparará el Signal y actualizará el header/localStorage)
+    this.cart.setOrder(updatedOrder);
+
+    // Actualiza la referencia local para que la vista del checkout se refresque
+    this.order = updatedOrder;
+    this.calculateTotal();
+
+    // Si la cesta se queda vacía, redirige automáticamente a la selección
+    if (updatedOrder.tickets.length === 0 && updatedOrder.campings.length === 0) {
+      this.router.navigate(['/purchase']);
     }
   }
 
