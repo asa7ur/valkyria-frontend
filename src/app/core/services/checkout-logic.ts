@@ -1,4 +1,4 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {computed, effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OrderCreateDTO, OrderDTO} from '../models/order-schema';
 import {Observable} from 'rxjs';
@@ -11,8 +11,25 @@ export class CheckoutLogic {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/v1/orders';
 
-  // Usamos un signal para que cualquier componente sepa si hay un pedido pendiente
-  private currentOrder = signal<OrderCreateDTO | null>(null);
+  // Inicializa el signal con lo que haya en localStorage
+  private currentOrder = signal<OrderCreateDTO>(this.loadFromStorage());
+
+  itemCount = computed(() => {
+    const order = this.currentOrder();
+    return (order.tickets?.length || 0) + (order.campings?.length || 0);
+  })
+
+  constructor() {
+    // Cada vez que el signal cambie, lo guarda en localStorage automáticamente
+    effect(() => {
+      localStorage.setItem('valkyria_cart', JSON.stringify(this.currentOrder()));
+    })
+  }
+
+  private loadFromStorage(): OrderCreateDTO {
+    const saved = localStorage.getItem('valkyria_cart');
+    return saved ? JSON.parse(saved) : { tickets: [], campings: [] };
+  }
 
   setOrder(order: OrderCreateDTO) {
     this.currentOrder.set(order);
@@ -22,28 +39,19 @@ export class CheckoutLogic {
     return this.currentOrder();
   }
 
-  /**
-   * Envía el formulario de compra al servidor.
-   * El servidor responderá con el ID del pedido o la URL de Stripe.
-   */
+  clearOrder() {
+    this.currentOrder.set({tickets: [], campings: []});
+    localStorage.removeItem('valkyria_cart');
+  }
+
   createOrder(order: OrderCreateDTO): Observable<ResponseDTO<{ url: string }>> {
     return this.http.post<ResponseDTO<{ url: string }>>(this.apiUrl, order);
   }
 
-  clearOrder() {
-    this.currentOrder.set(null);
-  }
-
-  /**
-   * Obtiene el historial del usuario
-   */
   getUserOrders(): Observable<ResponseDTO<OrderDTO[]>> {
     return this.http.get<ResponseDTO<OrderDTO[]>>(`${this.apiUrl}/my-orders`);
   }
 
-  /**
-   * Descarga el PDF de un pedido específico
-   */
   downloadOrderPdf(orderId: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${orderId}/download`, {
       responseType: 'blob'

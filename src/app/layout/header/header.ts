@@ -1,6 +1,7 @@
 import {Component, inject, signal, HostListener, ElementRef, LOCALE_ID, effect} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthManager} from '../../core/services/auth-manager';
+import {CheckoutLogic} from '../../core/services/checkout-logic';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class Header {
   private router = inject(Router);
   private elementRef = inject(ElementRef);
   protected locale = inject(LOCALE_ID);
+  public cart = inject(CheckoutLogic);
 
   // Signal para el estado del menú
   isMenuOpen = signal(false);

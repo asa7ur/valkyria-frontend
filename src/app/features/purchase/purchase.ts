@@ -9,7 +9,7 @@ import {CampingItem} from './components/camping-item/camping-item';
 import {TicketProvider} from '../../core/services/ticket-provider';
 import {CheckoutLogic} from '../../core/services/checkout-logic';
 import {CampingType, TicketType} from '../../core/models/ticket-types';
-import {DocumentType} from '../../core/models/order-schema';
+import {DocumentType, OrderCreateDTO} from '../../core/models/order-schema';
 
 @Component({
   selector: 'app-purchase',
@@ -32,7 +32,30 @@ export class Purchase implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadData();
-    this.addTicket();
+
+    const currentOrder = this.cart.getOrder();
+
+    if (currentOrder.tickets.length > 0 || currentOrder.campings.length > 0) {
+      this.populateForm(currentOrder);
+    } else {
+      this.addTicket();
+    }
+  }
+
+  private populateForm(order: OrderCreateDTO) {
+    order.tickets.forEach(t => this.tickets.push(this.createAttendeeGroup(t, 'ticketTypeId')));
+    order.campings.forEach(c => this.campings.push(this.createAttendeeGroup(c, 'campingTypeId')));
+  }
+
+  private createAttendeeGroup(data: any = {}, idKey: 'ticketTypeId' | 'campingTypeId'): FormGroup {
+    return this.fb.group({
+      firstName: [data.firstName || '', [Validators.required, Validators.minLength(2)]],
+      lastName: [data.lastName || '', [Validators.required, Validators.minLength(2)]],
+      documentType: [data.documentType || '', Validators.required],
+      documentNumber: [data.documentNumber || '', Validators.required],
+      birthDate: [data.birthDate || '', Validators.required],
+      [idKey]: [data[idKey] || '', Validators.required] // Clave dinámica
+    });
   }
 
   private initForm(): void {
@@ -70,15 +93,7 @@ export class Purchase implements OnInit {
   }
 
   addTicket(): void {
-    const ticketGroup = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      documentType: ['', Validators.required],
-      documentNumber: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      ticketTypeId: ['', Validators.required]
-    });
-    this.tickets.push(ticketGroup);
+    this.tickets.push(this.createAttendeeGroup({}, 'ticketTypeId'));
   }
 
   removeTicket(index: number): void {
@@ -86,15 +101,7 @@ export class Purchase implements OnInit {
   }
 
   addCamping(): void {
-    const campingGroup = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      documentType: ['', Validators.required],
-      documentNumber: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      campingTypeId: ['', Validators.required]
-    });
-    this.campings.push(campingGroup);
+    this.campings.push(this.createAttendeeGroup({}, 'campingTypeId'));
   }
 
   removeCamping(index: number): void {
