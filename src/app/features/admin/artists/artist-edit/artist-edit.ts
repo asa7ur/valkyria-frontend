@@ -1,20 +1,12 @@
-import {Component, OnInit, inject, signal, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, inject, signal, DestroyRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-  FormControl
-} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormControl} from '@angular/forms';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ArtistApi} from '../../../../core/services/artist-api';
 import {ToastService} from '../../../../core/services/toast';
 import {Artist} from '../../../../core/models/artist';
 
-/**
- * Interface para tipado estricto del formulario de artista
- */
 interface ArtistForm {
   name: FormControl<string>;
   email: FormControl<string>;
@@ -36,23 +28,23 @@ interface ArtistForm {
   templateUrl: './artist-edit.html'
 })
 export class ArtistEdit implements OnInit {
-  public readonly artistApi = inject(ArtistApi);
+  private readonly artistApi = inject(ArtistApi);
   private readonly fb = inject(FormBuilder).nonNullable;
   private readonly toast = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  // Formularios con tipado estricto
-  artist = signal<Artist | null>(null);
-  artistForm!: FormGroup<ArtistForm>;
+  protected readonly imagesBaseUrl = this.artistApi.imagesBaseUrl;
 
-  // Señales para el estado de la UI
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
-  isLogoLoading = signal(false);
-  isGalleryLoading = signal(false);
-  isEditMode = signal(false);
+  protected artist = signal<Artist | null>(null);
+  protected artistForm!: FormGroup<ArtistForm>;
+
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isLogoLoading = signal(false);
+  protected isGalleryLoading = signal(false);
+  protected isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -77,6 +69,7 @@ export class ArtistEdit implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.isEditMode.set(true);
       this.loadArtist(id);
@@ -86,39 +79,52 @@ export class ArtistEdit implements OnInit {
     }
   }
 
-  loadArtist(id: string): void {
-    this.artistApi.getArtistById(id).subscribe({
-      next: (response) => {
-        const data = response.data;
-        this.artist.set(data);
-        this.artistForm.patchValue(data);
-
-        this.isInitialLoading.set(false);
-        // Forzamos detección para evitar el error NG0100 si el componente renderiza rápido
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar el artista', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+  private loadArtist(id: string): void {
+    this.artistApi.getArtistById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
+          this.artist.set(data);
+          this.artistForm.patchValue(data);
+          this.isInitialLoading.set(false);
+        },
+        error: () => {
+          this.toast.show('Error al cargar el artista', 'error');
+          this.isInitialLoading.set(false);
+        }
+      });
   }
 
-  getImageUrl(baseName: string | undefined, suffix: '_thumb.webp' | '_full.webp' = '_thumb.webp'): string {
-    return `${this.artistApi.imagesBaseUrl}/${baseName}${suffix}`;
+  // Recarga el artista desde el servidor (tras operaciones de imagen)
+  private refreshArtist(): void {
+    const currentArtist = this.artist();
+    if (currentArtist) {
+      this.loadArtist(currentArtist.id.toString());
+    }
   }
 
-  onLogoChange(event: Event): void {
+  protected getImageUrl(
+    baseName: string | undefined,
+    suffix: '_thumb.webp' | '_full.webp' = '_thumb.webp'
+  ): string {
+    return `${this.imagesBaseUrl}/${baseName}${suffix}`;
+  }
+
+  protected onLogoChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     const currentArtist = this.artist();
 
-    if (file && currentArtist) {
-      this.isLogoLoading.set(true);
-      this.artistApi.uploadLogo(currentArtist.id, file).subscribe({
+    if (!file || !currentArtist) return;
+
+    this.isLogoLoading.set(true);
+    this.artistApi.uploadLogo(currentArtist.id, file)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show('Logo actualizado correctamente', 'success');
-          this.loadArtist(currentArtist.id.toString());
+          this.refreshArtist();
           this.isLogoLoading.set(false);
         },
         error: () => {
@@ -126,20 +132,22 @@ export class ArtistEdit implements OnInit {
           this.isLogoLoading.set(false);
         }
       });
-    }
   }
 
-  onGalleryChange(event: Event): void {
+  protected onGalleryChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const files = input.files ? Array.from(input.files) : [];
     const currentArtist = this.artist();
 
-    if (files.length > 0 && currentArtist) {
-      this.isGalleryLoading.set(true);
-      this.artistApi.uploadImages(currentArtist.id, files).subscribe({
+    if (files.length === 0 || !currentArtist) return;
+
+    this.isGalleryLoading.set(true);
+    this.artistApi.uploadImages(currentArtist.id, files)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show('Imágenes añadidas a la galería', 'success');
-          this.loadArtist(currentArtist.id.toString());
+          this.refreshArtist();
           this.isGalleryLoading.set(false);
         },
         error: () => {
@@ -147,44 +155,55 @@ export class ArtistEdit implements OnInit {
           this.isGalleryLoading.set(false);
         }
       });
-    }
   }
 
-  removeLogo(): void {
+  protected removeLogo(): void {
     const currentArtist = this.artist();
-    if (currentArtist?.logo) {
-      this.artistApi.deleteLogo(currentArtist.id).subscribe({
+    if (!currentArtist?.logo) return;
+
+    this.artistApi.deleteLogo(currentArtist.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show('Logo eliminado correctamente', 'success');
-          this.loadArtist(currentArtist.id.toString());
+          this.refreshArtist();
         },
         error: () => this.toast.show('Error al eliminar el logo', 'error')
       });
-    }
   }
 
-  removeImage(imageId: number): void {
+  protected removeImage(imageId: number): void {
     const currentArtist = this.artist();
-    if (currentArtist) {
-      this.artistApi.deleteImage(imageId).subscribe({
+    if (!currentArtist) return;
+
+    this.artistApi.deleteImage(imageId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show('Imagen eliminada', 'success');
-          this.loadArtist(currentArtist.id.toString());
-        }
+          this.refreshArtist();
+        },
+        error: () => this.toast.show('Error al eliminar la imagen', 'error')
       });
-    }
   }
 
-  onSubmit(): void {
-    if (this.artistForm.invalid) return;
+  protected onSubmit(): void {
+    if (this.artistForm.invalid) {
+      this.artistForm.markAllAsTouched();
+      return;
+    }
 
     this.isLoading.set(true);
     const formData = this.artistForm.getRawValue();
 
+    // FIX: lógica de edición vs creación correctamente separada
     if (this.isEditMode()) {
       const currentArtist = this.artist();
-      if (currentArtist) {
-        this.artistApi.updateArtist(currentArtist.id, formData).subscribe({
+      if (!currentArtist) return;
+
+      this.artistApi.updateArtist(currentArtist.id, formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
           next: () => {
             this.toast.show('Datos del artista actualizados', 'success');
             void this.router.navigate(['/admin/artists']);
@@ -194,8 +213,10 @@ export class ArtistEdit implements OnInit {
             this.toast.show('Error al actualizar datos', 'error');
           }
         });
-      } else {
-        this.artistApi.createArtist(formData).subscribe({
+    } else {
+      this.artistApi.createArtist(formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
           next: () => {
             this.toast.show('Artista creado correctamente', 'success');
             void this.router.navigate(['/admin/artists']);
@@ -205,7 +226,6 @@ export class ArtistEdit implements OnInit {
             this.toast.show('Error al crear el artista', 'error');
           }
         });
-      }
     }
   }
 }
