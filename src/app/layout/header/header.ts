@@ -54,17 +54,16 @@ export class Header {
 
   switchLanguage() {
     const newLocale = this.locale === 'es' ? 'en' : 'es';
-    const currentPath = window.location.pathname;
+    let currentPath = window.location.pathname;
 
-    let newPath = currentPath;
     if (currentPath.startsWith('/es/')) {
-      newPath = currentPath.replace('/es/', `/${newLocale}/`);
+      currentPath = currentPath.replace('/es/', `/${newLocale}/`);
     } else if (currentPath.startsWith('/en/')) {
-      newPath = currentPath.replace('/en/', `/${newLocale}/`);
+      currentPath = currentPath.replace('/en/', `/${newLocale}/`);
     } else {
-      newPath = `/${newLocale}${currentPath}`;
+      currentPath = `/${newLocale}${currentPath}`;
     }
 
-    window.location.href = newPath;
+    window.location.href = currentPath;
   }
 }

@@ -44,10 +44,10 @@
       <div class="hidden md:flex items-center gap-6">
         @if (auth.currentUser()) {
           <div class="flex items-center gap-4">
-            <a routerLink="/orders" class="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">
+            <a routerLink="/orders" class="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer">
               Pedidos
             </a>
-            <button (click)="onLogout()" class="text-[10px] font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors">
+            <button (click)="onLogout()" class="text-[10px] font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
               Salir
             </button>
           </div>

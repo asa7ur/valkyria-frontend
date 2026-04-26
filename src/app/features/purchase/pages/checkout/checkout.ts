@@ -1,132 +1,103 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Router, RouterModule} from '@angular/router';
-import {forkJoin} from 'rxjs';
+import { Component, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 
-import {CheckoutLogic} from '../../../../core/services/checkout-logic';
-import {TicketProvider} from '../../../../core/services/ticket-provider';
-import {TicketType, CampingType} from '../../../../core/models/ticket-types';
-import {OrderCreateDTO} from '../../../../core/models/order-schema';
-import {AuthManager} from '../../../../core/services/auth-manager';
-import {FormsModule} from '@angular/forms';
+import { CheckoutLogic } from '../../../../core/services/checkout-logic';
+import { TicketProvider } from '../../../../core/services/ticket-provider';
+import { AuthManager } from '../../../../core/services/auth-manager';
+import { OrderCreateDTO } from '../../../../core/models/order-schema';
 
 @Component({
   selector: 'app-checkout',
-  standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './checkout.html'
 })
-export class Checkout implements OnInit {
+
+export class Checkout {
   private cart = inject(CheckoutLogic);
   private provider = inject(TicketProvider);
-  private router = inject(Router);
   private auth = inject(AuthManager);
 
   currentUser = this.auth.currentUser;
   guestEmail = signal('');
 
-  order: OrderCreateDTO | null = null;
-  ticketTypes: TicketType[] = [];
-  campingTypes: CampingType[] = [];
-  total = 0;
-  isLoading = true;
+  ticketTypes = toSignal(this.provider.getTicketTypes(), { initialValue: [] });
+  campingTypes = toSignal(this.provider.getCampingTypes(), { initialValue: [] });
 
-  ngOnInit() {
-    // Obtenemos el estado actual del "carrito" desde la lógica de checkout
-    this.order = this.cart.getOrder();
+  order = computed(() => this.cart.getOrder());
 
-    // Se ha eliminado la redirección automática para permitir mostrar el mensaje de cesta vacía en el HTML
-
-    // Cargamos los datos maestros a través del proveedor
-    forkJoin({
-      tickets: this.provider.getTicketTypes(),
-      campings: this.provider.getCampingTypes()
-    }).subscribe({
-      next: (res) => {
-        this.ticketTypes = res.tickets;
-        this.campingTypes = res.campings;
-        this.calculateTotal();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar datos', err);
-        this.isLoading = false;
-      }
-    });
-  }
-
-  calculateTotal() {
+  total = computed(() => {
     let subtotal = 0;
+    const currentOrder = this.order();
+    const tickets = this.ticketTypes();
+    const campings = this.campingTypes();
 
-    this.order?.tickets.forEach(t => {
-      const type = this.ticketTypes.find(tp => Number(tp.id) === Number(t.ticketTypeId));
+    // Acceso directo .tickets ya que el DTO garantiza el array
+    currentOrder.tickets.forEach(t => {
+      const type = tickets.find(tp => Number(tp.id) === Number(t.ticketTypeId));
       if (type) subtotal += type.price;
     });
 
-    this.order?.campings.forEach(c => {
-      const type = this.campingTypes.find(cp => Number(cp.id) === Number(c.campingTypeId));
+    currentOrder.campings.forEach(c => {
+      const type = campings.find(cp => Number(cp.id) === Number(c.campingTypeId));
       if (type) subtotal += type.price;
     });
 
-    this.total = subtotal;
-  }
+    return subtotal;
+  });
+
+  isLoading = computed(() => this.ticketTypes().length === 0 && this.campingTypes().length === 0);
 
   getTicketName(id: any): string {
-    const found = this.ticketTypes.find(t => Number(t.id) === Number(id));
+    const found = this.ticketTypes().find(t => Number(t.id) === Number(id));
     return found ? found.name : $localize`:@@checkout.error.ticketNotFound:Ticket no encontrado`;
   }
 
   getCampingName(id: any): string {
-    const found = this.campingTypes.find(c => Number(c.id) === Number(id));
+    const found = this.campingTypes().find(c => Number(c.id) === Number(id));
     return found ? found.name : $localize`:@@checkout.error.campingNotFound:Camping no encontrado`;
   }
 
   removeItem(type: 'ticket' | 'camping', index: number) {
-    if (!this.order) return;
+    const currentOrder = this.order();
 
     const updatedOrder: OrderCreateDTO = {
-      ...this.order,
-      tickets: [...this.order.tickets],
-      campings: [...this.order.campings]
+      ...currentOrder,
+      tickets: [...currentOrder.tickets],
+      campings: [...currentOrder.campings]
     };
 
     if (type === 'ticket') {
-      updatedOrder.tickets = updatedOrder.tickets.filter((_, i) => i !== index);
+      updatedOrder.tickets.splice(index, 1);
     } else {
-      updatedOrder.campings = updatedOrder.campings.filter((_, i) => i !== index);
+      updatedOrder.campings.splice(index, 1);
     }
 
-    // Actualiza el servicio (esto disparará el Signal y actualizará el header/localStorage)
     this.cart.setOrder(updatedOrder);
-
-    // Actualiza la referencia local para que la vista del checkout se refresque
-    this.order = updatedOrder;
-    this.calculateTotal();
-
-    // Se ha eliminado la redirección automática al vaciar la cesta para que el usuario vea el mensaje de confirmación
   }
 
   confirmAndPay() {
-    if (this.order) {
-      // Si no hay usuario logueado, validamos y asignamos email de invitado
-      if (!this.currentUser()) {
-        if (!this.guestEmail()) {
-          alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email`);
-          return;
-        }
-        this.order.guestEmail = this.guestEmail();
-      }
+    const currentOrder = this.order();
 
-      this.cart.createOrder(this.order).subscribe({
-        next: (res) => {
-          if (res.success && res.data.url) {
-            window.location.href = res.data.url;
-          }
-        },
-        error: (err) => {
-          alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`);
-        }
-      });
+    if (!this.currentUser()) {
+      if (!this.guestEmail()) {
+        alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email`);
+        return;
+      }
+      currentOrder.guestEmail = this.guestEmail();
     }
+
+    this.cart.createOrder(currentOrder).subscribe({
+      next: (res) => {
+        if (res.success && res.data.url) {
+          window.location.href = res.data.url;
+        }
+      },
+      error: (err) => {
+        alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`);
+      }
+    });
   }
 }
