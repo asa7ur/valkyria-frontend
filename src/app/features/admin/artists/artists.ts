@@ -21,9 +21,9 @@ export class ArtistsAdmin implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   // Signals de estado
-  artists = signal<Artist[]>([]);
-  isLoading = signal<boolean>(false);
-  filter = signal<FilterDTO>({
+  protected artists = signal<Artist[]>([]);
+  protected isLoading = signal<boolean>(false);
+  protected filter = signal<FilterDTO>({
     page: 0,
     itemsPerPage: 10,
     search: '',
@@ -50,7 +50,7 @@ export class ArtistsAdmin implements OnInit {
     this.loadArtists();
   }
 
-  loadArtists(): void {
+  private loadArtists(): void {
     this.isLoading.set(true);
     const { page, itemsPerPage, search } = this.filter();
 
@@ -74,12 +74,12 @@ export class ArtistsAdmin implements OnInit {
       });
   }
 
-  onSearch(event: Event): void {
+  protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchSubject.next(input.value); // Enviamos al Subject con debounce
   }
 
-  goToPage(page: number): void {
+  protected goToPage(page: number): void {
     const f = this.filter();
     if (page >= 0 && page < (f.totalPages || 0)) {
       this.filter.update(prev => ({ ...prev, page }));

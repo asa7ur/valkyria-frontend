@@ -1,4 +1,4 @@
-import {Component, OnInit, inject, signal, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, inject, signal, DestroyRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -11,8 +11,9 @@ import {
 import {CampingApi} from '../../../../core/services/camping-api';
 import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {ToastService} from '../../../../core/services/toast';
-import {Camping} from '../../../../core/models/camping';
+import {Camping, CampingCreateDTO} from '../../../../core/models/camping';
 import {CampingType} from '../../../../core/models/ticket-types';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 /**
  * Interface para tipado estricto del formulario de camping
@@ -38,16 +39,17 @@ export class CampingEdit implements OnInit {
   private readonly toast = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef)
 
   // Estado del camping y tipos
-  camping = signal<Camping | null>(null);
-  campingTypes = signal<CampingType[]>([]);
-  campingForm!: FormGroup<CampingForm>;
+  protected camping = signal<Camping | null>(null);
+  protected campingTypes = signal<CampingType[]>([]);
+  protected campingForm!: FormGroup<CampingForm>;
 
   // Señales para el estado de la UI
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isEditMode = signal(false);
 
   // Opciones para el tipo de documento
   documentTypes = ['DNI', 'NIE', 'PASSPORT'];
@@ -69,78 +71,93 @@ export class CampingEdit implements OnInit {
 
   ngOnInit(): void {
     // 1. Cargar tipos de entrada primero para poder mapear después si es edición
-    this.campingProvider.getCampingTypes().subscribe({
-      next: (types) => {
-        this.campingTypes.set(types);
+    this.campingProvider.getCampingTypes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (types) => {
+          this.campingTypes.set(types);
 
-        // 2. Una vez cargados los tipos, miramos si hay ID para editar
-        const id = this.route.snapshot.paramMap.get('id');
-        if (id) {
-          this.loadCamping(id);
-        } else {
+          // 2. Una vez cargados los tipos, miramos si hay ID para editar
+          const id = this.route.snapshot.paramMap.get('id');
+          if (id) {
+            this.isEditMode.set(true);
+            this.loadCamping(id);
+          } else {
+            this.isEditMode.set(false);
+            this.isInitialLoading.set(false);
+          }
+        },
+        error: () => {
+          this.toast.show('Error al cargar tipos de entrada', 'error');
           this.isInitialLoading.set(false);
         }
-      },
-      error: () => {
-        this.toast.show('Error al cargar tipos de entrada', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+      });
   }
 
-  loadCamping(id: string): void {
-    this.campingApi.getCampingById(+id).subscribe({
-      next: (response) => {
-        const data = response.data;
-        this.camping.set(data);
+  private loadCamping(id: string): void {
+    this.campingApi.getCampingById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
+          this.camping.set(data);
 
-        // Buscamos el ID del tipo de camping por su nombre para el select
-        const typeId = this.campingTypes().find(t => t.name === data.campingTypeName)?.id || null;
+          // Buscamos el ID del tipo de camping por su nombre para el select
+          const typeId = this.campingTypes().find(t => t.name === data.campingTypeName)?.id || null;
 
-        this.campingForm.patchValue({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          documentType: data.documentType,
-          documentNumber: data.documentNumber,
-          birthDate: data.birthDate,
-          campingTypeId: typeId
-        });
-
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar el camping', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
-  }
-
-  onSubmit(): void {
-    if (this.campingForm.valid) {
-      this.isLoading.set(true);
-      const currentCamping = this.camping();
-      const formData = this.campingForm.getRawValue();
-
-      const request = currentCamping
-        ? this.campingApi.updateCamping(currentCamping.id, formData as any)
-        : this.campingApi.createCamping(formData as any);
-
-      request.subscribe({
-        next: () => {
-          this.toast.show(
-            currentCamping ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
-            'success'
-          );
-          void this.router.navigate(['/admin/campings']);
+          this.campingForm.patchValue({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            documentType: data.documentType,
+            documentNumber: data.documentNumber,
+            birthDate: data.birthDate,
+            campingTypeId: typeId
+          });
+          this.isInitialLoading.set(false);
         },
-        error: (err) => {
-          this.isLoading.set(false);
-          // Capturamos el error específico del backend (ej: @IsAdult)
-          const errorMsg = err.error?.message || 'Error al guardar los datos';
-          this.toast.show(errorMsg, 'error');
+        error: () => {
+          this.toast.show('Error al cargar el camping', 'error');
+          this.isInitialLoading.set(false);
         }
       });
+  }
+
+  protected onSubmit(): void {
+    if (this.campingForm.invalid) {
+      this.campingForm.markAllAsTouched();
+      return;
     }
+
+    const {campingTypeId, ...rest} = this.campingForm.getRawValue();
+
+    if (campingTypeId === null) return;
+
+    const payload: CampingCreateDTO = { ...rest, campingTypeId };
+    const currentCamping = this.camping();
+
+    this.isLoading.set(true);
+
+    const request = currentCamping
+      ? this.campingApi.updateCamping(currentCamping.id, payload)
+      : this.campingApi.createCamping(payload);
+
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+      next: () => {
+        this.toast.show(
+          currentCamping ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
+          'success'
+        );
+        void this.router.navigate(['/admin/campings']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        // Capturamos el error específico del backend (ej: @IsAdult)
+        const errorMsg = err.error?.message || 'Error al guardar los datos';
+        this.toast.show(errorMsg, 'error');
+      }
+    });
+
   }
 }

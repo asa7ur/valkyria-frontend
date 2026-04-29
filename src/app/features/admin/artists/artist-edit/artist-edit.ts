@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormControl} fr
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ArtistApi} from '../../../../core/services/artist-api';
 import {ToastService} from '../../../../core/services/toast';
-import {Artist} from '../../../../core/models/artist';
+import {Artist, ArtistCreateDTO} from '../../../../core/models/artist';
 
 interface ArtistForm {
   name: FormControl<string>;
@@ -195,7 +195,7 @@ export class ArtistEdit implements OnInit {
 
     this.isLoading.set(true);
     const currentArtist = this.artist();
-    const formData = this.artistForm.getRawValue();
+    const formData: ArtistCreateDTO = this.artistForm.getRawValue();
 
     if (currentArtist) {
       this.artistApi.updateArtist(currentArtist.id, formData)

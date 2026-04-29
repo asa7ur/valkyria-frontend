@@ -1,9 +1,8 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Artist} from '../models/artist';
+import {Artist, ArtistCreateDTO, ArtistImage} from '../models/artist';
 import {ResponseDTO} from '../models/response-dto';
-import {Stage} from '../models/stage';
 
 @Injectable({
   providedIn: 'root'
@@ -35,28 +34,28 @@ export class ArtistApi {
     return this.http.get<ResponseDTO<Artist>>(`${this.apiUrl}/${id}`);
   }
 
-  createArtist(artistData: any): Observable<ResponseDTO<Artist>> {
+  createArtist(artistData: ArtistCreateDTO): Observable<ResponseDTO<Artist>> {
     return this.http.post<ResponseDTO<Artist>>(this.apiUrl, artistData);
   }
 
-  updateArtist(id: number, artistData: any): Observable<Artist> {
-    return this.http.put<Artist>(`${this.apiUrl}/${id}`, artistData);
+  updateArtist(id: number, artistData: ArtistCreateDTO): Observable<ResponseDTO<Artist>> {
+    return this.http.put<ResponseDTO<Artist>>(`${this.apiUrl}/${id}`, artistData);
   }
 
   deleteArtist(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  uploadLogo(id: number, file: File): Observable<{ fileName: string }> {
+  uploadLogo(id: number, file: File): Observable<ResponseDTO<{ fileName: string }>> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<{ fileName: string }>(`${this.apiUrl}/${id}/logo`, formData);
+    return this.http.post<ResponseDTO<{ fileName: string }>>(`${this.apiUrl}/${id}/logo`, formData);
   }
 
-  uploadImages(id: number, files: File[]): Observable<any[]> {
+  uploadImages(id: number, files: File[]): Observable<ResponseDTO<ArtistImage[]>> {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file));
-    return this.http.post<any[]>(`${this.apiUrl}/${id}/images`, formData);
+    return this.http.post<ResponseDTO<ArtistImage[]>>(`${this.apiUrl}/${id}/images`, formData);
   }
 
   deleteLogo(id: number): Observable<void> {

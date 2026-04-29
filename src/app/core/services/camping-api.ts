@@ -29,7 +29,7 @@ export class CampingApi {
   /**
    * Obtiene un camping por ID para edición
    */
-  getCampingById(id: number): Observable<ResponseDTO<Camping>> {
+  getCampingById(id: string): Observable<ResponseDTO<Camping>> {
     return this.http.get<ResponseDTO<Camping>>(`${this.apiUrl}/${id}`);
   }
 

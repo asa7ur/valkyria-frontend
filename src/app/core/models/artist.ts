@@ -23,3 +23,18 @@ export interface Artist {
   images: ArtistImage[];
   performances?: Performance[];
 }
+
+export interface ArtistCreateDTO {
+  name: string;
+  email: string;
+  phone: string;
+  genre: string;
+  country: string;
+  description?: string;
+  officialUrl?: string;
+  instagramUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+  tidalUrl?: string;
+  spotifyUrl?: string;
+}
