@@ -36,15 +36,15 @@ export class CampingApi {
   /**
    * Crea un camping manualmente (Cortesía/Gestión)
    */
-  createCamping(camping: CampingCreateDTO): Observable<Camping> {
-    return this.http.post<Camping>(this.apiUrl, camping);
+  createCamping(camping: CampingCreateDTO): Observable<ResponseDTO<Camping>> {
+    return this.http.post<ResponseDTO<Camping>>(this.apiUrl, camping);
   }
 
   /**
    * Actualiza un camping existente
    */
-  updateCamping(id: number, camping: CampingCreateDTO): Observable<Camping> {
-    return this.http.put<Camping>(`${this.apiUrl}/${id}`, camping);
+  updateCamping(id: number, camping: CampingCreateDTO): Observable<ResponseDTO<Camping>> {
+    return this.http.put<ResponseDTO<Camping>>(`${this.apiUrl}/${id}`, camping);
   }
 
   /**

@@ -197,32 +197,23 @@ export class ArtistEdit implements OnInit {
     const currentArtist = this.artist();
     const formData: ArtistCreateDTO = this.artistForm.getRawValue();
 
-    if (currentArtist) {
-      this.artistApi.updateArtist(currentArtist.id, formData)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: () => {
-            this.toast.show('Datos del artista actualizados', 'success');
-            void this.router.navigate(['/admin/artists']);
-          },
-          error: () => {
-            this.isLoading.set(false);
-            this.toast.show('Error al actualizar datos', 'error');
-          }
-        });
-    } else {
-      this.artistApi.createArtist(formData)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: () => {
-            this.toast.show('Artista creado correctamente', 'success');
-            void this.router.navigate(['/admin/artists']);
-          },
-          error: () => {
-            this.isLoading.set(false);
-            this.toast.show('Error al crear el artista', 'error');
-          }
-        });
-    }
+    const request = currentArtist
+      ? this.artistApi.updateArtist(currentArtist.id, formData)
+      : this.artistApi.createArtist(formData);
+
+    request.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => {
+        this.toast.show(
+          currentArtist ? 'Datos del artista actualizados' : 'Artista creado correctamente',
+          'success'
+        );
+        void this.router.navigate(['/admin/artists']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        const errorMsg = err.error?.message || (currentArtist ? 'Error al actualizar datos' : 'Error al crear el artista');
+        this.toast.show(errorMsg, 'error');
+      }
+    });
   }
 }

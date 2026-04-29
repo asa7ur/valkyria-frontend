@@ -12,7 +12,7 @@ export interface Artist {
   email: string;
   genre: string;
   country: string;
-  logo: string;
+  logo?: string;
   description?: string;
   officialUrl?: string;
   instagramUrl?: string;

@@ -65,7 +65,7 @@ export class CampingEdit implements OnInit {
       documentType: this.fb.control('', [Validators.required]),
       documentNumber: this.fb.control('', [Validators.required, Validators.maxLength(20)]),
       birthDate: this.fb.control('', [Validators.required]),
-      campingTypeId: this.fb.control<number | null>(null, [Validators.required])
+      campingTypeId: this.fb.control<number>(0, [Validators.required])
     });
   }
 
