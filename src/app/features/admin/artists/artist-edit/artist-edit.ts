@@ -194,13 +194,10 @@ export class ArtistEdit implements OnInit {
     }
 
     this.isLoading.set(true);
+    const currentArtist = this.artist();
     const formData = this.artistForm.getRawValue();
 
-    // FIX: lógica de edición vs creación correctamente separada
-    if (this.isEditMode()) {
-      const currentArtist = this.artist();
-      if (!currentArtist) return;
-
+    if (currentArtist) {
       this.artistApi.updateArtist(currentArtist.id, formData)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({

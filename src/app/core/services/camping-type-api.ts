@@ -23,7 +23,7 @@ export class CampingTypeApi {
     return this.http.get<ResponseDTO<CampingType[]>>(this.apiUrl, {params});
   }
 
-  getCampingTypeById(id: number): Observable<ResponseDTO<CampingType>> {
+  getCampingTypeById(id: string): Observable<ResponseDTO<CampingType>> {
     return this.http.get<ResponseDTO<CampingType>>(`${this.apiUrl}/${id}`);
   }
 

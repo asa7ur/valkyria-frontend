@@ -11,7 +11,6 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-artists',
-  standalone: true, // Asegúrate de esto en v17+
   imports: [CommonModule, RouterLink],
   templateUrl: './artists.html'
 })
