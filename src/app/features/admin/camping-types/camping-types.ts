@@ -49,7 +49,7 @@ export class CampingTypesAdmin implements OnInit {
     this.loadCampingTypes();
   }
 
-  loadCampingTypes(): void {
+  private loadCampingTypes(): void {
     this.isLoading.set(true);
     const { page, itemsPerPage, search } = this.filter();
 
@@ -73,12 +73,12 @@ export class CampingTypesAdmin implements OnInit {
       });
   }
 
-  onSearch(event: Event): void {
+  protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchSubject.next(input.value); // Enviamos al Subject con debounce
   }
 
-  goToPage(page: number): void {
+  protected goToPage(page: number): void {
     const f = this.filter();
     if (page >= 0 && page < (f.totalPages || 0)) {
       this.filter.update(prev => ({...prev, page}));

@@ -10,9 +10,15 @@
         </svg>
         Volver al listado
       </a>
-      <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+      <div class="flex items-center gap-3">
+        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
         {{ isEditMode() ? 'Editar Escenario' : 'Nuevo Escenario' }}
       </h1>
+        @if (isEditMode()) {
+        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-bold">#{{ stage()?.id
+          }}</span>
+        }
+      </div>
     </div>
   </div>
 

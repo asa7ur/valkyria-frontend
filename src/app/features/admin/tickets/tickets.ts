@@ -1,9 +1,13 @@
-import {Component, OnInit, inject, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {TicketApi} from '../../../core/services/ticket-api';
-import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
-import {Ticket} from '../../../core/models/ticket';
+import { Component, OnInit, inject, signal, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TicketApi } from '../../../core/services/ticket-api';
+import { ConfirmDialogService } from '../../../core/services/confirm-dialog';
+import { Ticket } from '../../../core/models/ticket';
+import { FilterDTO } from '../../../core/models/filter-dto';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ToastService } from '../../../core/services/toast';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-tickets-admin',
@@ -13,85 +17,94 @@ import {Ticket} from '../../../core/models/ticket';
 export class TicketsAdmin implements OnInit {
   private ticketApi = inject(TicketApi);
   private confirmService = inject(ConfirmDialogService);
+  private readonly toast = inject(ToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  // Signals para el estado de la lista
-  tickets = signal<Ticket[]>([]);
-  isLoading = signal<boolean>(false);
+  // Signals de estado
+  protected tickets = signal<Ticket[]>([]);
+  protected isLoading = signal<boolean>(false);
+  protected filter = signal<FilterDTO>({
+    page: 0,
+    itemsPerPage: 10,
+    search: '',
+    totalPages: 0,
+    totalElements: 0
+  });
 
-  // Signals para paginación y búsqueda
-  currentPage = signal<number>(0);
-  totalPages = signal<number>(0);
-  totalElements = signal<number>(0);
-  searchTerm = signal<string>('');
+  // Para el debounce de búsqueda
+  private searchSubject = new Subject<string>();
+
+  constructor() {
+    // Escuchamos los cambios de búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(searchTerm => {
+      this.filter.update(f => ({ ...f, search: searchTerm, page: 0 }));
+      this.loadTickets();
+    });
+  }
 
   ngOnInit(): void {
     this.loadTickets();
   }
 
-  /**
-   * Carga los tickets desde el backend aplicando paginación y filtros
-   */
-  loadTickets(): void {
+  private loadTickets(): void {
     this.isLoading.set(true);
-    this.ticketApi.getTickets(this.currentPage(), 10, this.searchTerm()).subscribe({
-      next: (response) => {
-        const content = response.data || [];
+    const { page, itemsPerPage, search } = this.filter();
 
-        this.tickets.set(content || []);
-        this.totalPages.set(response.filter.totalPages || 0);
-        this.totalElements.set(response.filter.totalElements || 0);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Error cargando tickets:', err);
-        this.isLoading.set(false);
-        this.tickets.set([]);
-      }
-    });
+    this.ticketApi.getTickets(page, itemsPerPage, search)
+      .pipe(takeUntilDestroyed(this.destroyRef)) // Seguridad ante destrucción
+      .subscribe({
+        next: (response) => {
+          this.tickets.set(response.data || []);
+          this.filter.update(f => ({
+            ...f,
+            totalPages: response.filter?.totalPages || 0,
+            totalElements: response.filter?.totalElements || 0
+          }));
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error cargando tickets:', err);
+          this.isLoading.set(false);
+          this.tickets.set([]);
+        }
+      });
   }
 
-  /**
-   * Gestiona el evento de búsqueda
-   */
-  onSearch(event: Event): void {
+  protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.searchTerm.set(input.value);
-    this.currentPage.set(0); // Reiniciamos a la primera página al buscar
-    this.loadTickets();
+    this.searchSubject.next(input.value); // Enviamos al Subject con debounce
   }
 
-  /**
-   * Navega entre páginas
-   */
-  goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages()) {
-      this.currentPage.set(page);
+  protected goToPage(page: number): void {
+    const f = this.filter();
+    if (page >= 0 && page < (f.totalPages || 0)) {
+      this.filter.update(prev => ({ ...prev, page }));
       this.loadTickets();
     }
   }
 
-  /**
-   * Lógica para eliminar un ticket con confirmación previa
-   */
   async deleteTicket(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
       title: 'Eliminar Ticket',
-      message: '¿Estás seguro de que deseas eliminar este ticket? Esta acción no se puede deshacer y podría afectar a los registros de ventas.',
+      message: '¿Estás seguro?',
       btnOkText: 'Eliminar',
       btnCancelText: 'Cancelar'
     });
 
-    if (confirmed) {
-      this.ticketApi.deleteTicket(id).subscribe({
+    if (!confirmed) return;
+
+    this.ticketApi.deleteTicket(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
-          // Si estamos en la última página y borramos el último elemento, volvemos una página atrás
-          if (this.tickets().length === 1 && this.currentPage() > 0) {
-            this.currentPage.update(p => p - 1);
-          }
+          this.toast.show('Ticket eliminado correctamente', 'success');
           this.loadTickets();
         },
-        error: (err) => console.error('Error al eliminar el ticket:', err)
+        error: () => this.toast.show('Error al eliminar', 'error')
       });
-    }
   }
 }

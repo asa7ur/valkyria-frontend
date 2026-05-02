@@ -23,7 +23,6 @@ export class CampingsAdmin implements OnInit {
   // Signals para el estado de la lista
   protected campings = signal<Camping[]>([]);
   protected isLoading = signal<boolean>(false);
-
   protected filter = signal<FilterDTO>({
     page: 0,
     itemsPerPage: 10,
@@ -75,17 +74,11 @@ export class CampingsAdmin implements OnInit {
       });
   }
 
-  /**
-   * Gestiona el evento de búsqueda
-   */
   protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
    this.searchSubject.next(input.value);
   }
 
-  /**
-   * Navega entre páginas
-   */
   protected goToPage(page: number): void {
     const f = this.filter();
     if (page >= 0 && page < (f.totalPages || 0)) {

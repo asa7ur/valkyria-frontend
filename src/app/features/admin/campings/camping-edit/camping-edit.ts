@@ -1,6 +1,6 @@
-import {Component, OnInit, inject, signal, DestroyRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import { Component, OnInit, inject, signal, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -8,16 +8,13 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import {CampingApi} from '../../../../core/services/camping-api';
-import {TicketProvider} from '../../../../core/services/ticket-provider';
-import {ToastService} from '../../../../core/services/toast';
-import {Camping, CampingCreateDTO} from '../../../../core/models/camping';
-import {CampingType} from '../../../../core/models/ticket-types';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { CampingApi } from '../../../../core/services/camping-api';
+import { TicketProvider } from '../../../../core/services/ticket-provider';
+import { ToastService } from '../../../../core/services/toast';
+import { Camping, CampingCreateDTO } from '../../../../core/models/camping';
+import { CampingType } from '../../../../core/models/ticket-types';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-/**
- * Interface para tipado estricto del formulario de camping
- */
 interface CampingForm {
   firstName: FormControl<string>;
   lastName: FormControl<string>;
@@ -65,7 +62,7 @@ export class CampingEdit implements OnInit {
       documentType: this.fb.control('', [Validators.required]),
       documentNumber: this.fb.control('', [Validators.required, Validators.maxLength(20)]),
       birthDate: this.fb.control('', [Validators.required]),
-      campingTypeId: this.fb.control<number>(0, [Validators.required])
+      campingTypeId: this.fb.control<number | null>(null, [Validators.required])
     });
   }
 
@@ -128,7 +125,7 @@ export class CampingEdit implements OnInit {
       return;
     }
 
-    const {campingTypeId, ...rest} = this.campingForm.getRawValue();
+    const { campingTypeId, ...rest } = this.campingForm.getRawValue();
 
     if (campingTypeId === null) return;
 
@@ -144,20 +141,20 @@ export class CampingEdit implements OnInit {
     request
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-      next: () => {
-        this.toast.show(
-          currentCamping ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
-          'success'
-        );
-        void this.router.navigate(['/admin/campings']);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        // Capturamos el error específico del backend (ej: @IsAdult)
-        const errorMsg = err.error?.message || 'Error al guardar los datos';
-        this.toast.show(errorMsg, 'error');
-      }
-    });
+        next: () => {
+          this.toast.show(
+            currentCamping ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
+            'success'
+          );
+          void this.router.navigate(['/admin/campings']);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          // Capturamos el error específico del backend (ej: @IsAdult)
+          const errorMsg = err.error?.message || 'Error al guardar los datos';
+          this.toast.show(errorMsg, 'error');
+        }
+      });
 
   }
 }

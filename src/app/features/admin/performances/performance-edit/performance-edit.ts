@@ -1,17 +1,16 @@
-import {ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {PerformanceApi} from '../../../../core/services/performance-api';
-import {ArtistApi} from '../../../../core/services/artist-api';
-import {StageApi} from '../../../../core/services/stage-api';
-import {ToastService} from '../../../../core/services/toast';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {Performance as PerformanceModel} from '../../../../core/models/performance';
-import {Artist} from '../../../../core/models/artist';
-import {Stage} from '../../../../core/models/stage';
+import { ChangeDetectorRef, Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PerformanceApi } from '../../../../core/services/performance-api';
+import { ArtistApi } from '../../../../core/services/artist-api';
+import { StageApi } from '../../../../core/services/stage-api';
+import { ToastService } from '../../../../core/services/toast';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Performance as PerformanceModel } from '../../../../core/models/performance';
+import { Artist } from '../../../../core/models/artist';
+import { Stage } from '../../../../core/models/stage';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-/**
- * Interface para tipado estricto del formulario de actuación
- */
 interface PerformanceForm {
   artistId: FormControl<number | null>;
   stageId: FormControl<number | null>;
@@ -22,6 +21,7 @@ interface PerformanceForm {
 @Component({
   selector: 'app-performance-edit',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterLink
   ],
@@ -36,15 +36,16 @@ export class PerformanceEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  performance = signal<PerformanceModel | null>(null);
-  artists = signal<Artist[]>([]);
-  stages = signal<Stage[]>([]);
+  protected performance = signal<PerformanceModel | null>(null);
+  protected artists = signal<Artist[]>([]);
+  protected stages = signal<Stage[]>([]);
 
-  performanceForm!: FormGroup<PerformanceForm>;
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
-  isEditMode = signal(false);
+  protected performanceForm!: FormGroup<PerformanceForm>;
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -71,36 +72,44 @@ export class PerformanceEdit implements OnInit {
   }
 
   private loadDependencies(): void {
-    this.artistApi.getArtists(0, 1000).subscribe(res => this.artists.set(res.data));
-    this.stageApi.getStages(0, 1000).subscribe(res => this.stages.set(res.data));
+    this.artistApi.getArtists(0, 1000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => this.artists.set(res.data || []));
+      
+    this.stageApi.getStages(0, 1000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => this.stages.set(res.data || []));
   }
 
-  loadPerformance(id: string): void {
-    this.performanceApi.getPerformanceById(id).subscribe({
-      next: (response) => {
-        const data = response.data;
+  private loadPerformance(id: string): void {
+    this.performanceApi.getPerformanceById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
 
-        this.performance.set(data);
-        this.performanceForm.patchValue({
-          artistId: data.artist.id,
-          stageId: data.stage.id,
-          startTime: data.startTime,
-          endTime: data.endTime
-        });
+          this.performance.set(data);
+          this.performanceForm.patchValue({
+            artistId: data.artist.id,
+            stageId: data.stage.id,
+            startTime: data.startTime,
+            endTime: data.endTime
+          });
 
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar la actuación', 'error');
-        this.isInitialLoading.set(false);
-        void this.router.navigate(['/admin/performances']);
-      }
-    })
+          this.isInitialLoading.set(false);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.toast.show('Error al cargar la actuación', 'error');
+          this.isInitialLoading.set(false);
+          void this.router.navigate(['/admin/performances']);
+        }
+      });
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (this.performanceForm.invalid) {
+      this.performanceForm.markAllAsTouched();
       this.toast.show('Por favor completa todos los campos requeridos', 'error');
       return;
     }
@@ -109,28 +118,25 @@ export class PerformanceEdit implements OnInit {
     const currentPerformance = this.performance();
     const formData = this.performanceForm.getRawValue();
 
-    if (currentPerformance && currentPerformance.id) {
-      this.performanceApi.updatePerformance(currentPerformance.id, formData).subscribe({
+    const request = currentPerformance && currentPerformance.id
+      ? this.performanceApi.updatePerformance(currentPerformance.id, formData)
+      : this.performanceApi.createPerformance(formData);
+
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
-          this.toast.show('Actuación actualizada', 'success');
+          this.toast.show(
+            currentPerformance?.id ? 'Actuación actualizada correctamente' : 'Actuación creada correctamente',
+            'success'
+          );
           void this.router.navigate(['/admin/performances']);
         },
-        error: () => {
+        error: (err) => {
           this.isLoading.set(false);
-          this.toast.show('Error al actualizar los datos', 'error');
+          const errorMsg = err.error?.message || 'Error al guardar los datos';
+          this.toast.show(errorMsg, 'error');
         }
       });
-    } else {
-      this.performanceApi.createPerformance(formData).subscribe({
-        next: () => {
-          this.toast.show('Actuación creada', 'success');
-          void this.router.navigate(['/admin/performances']);
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.toast.show('Error al guardar los datos', 'error');
-        }
-      });
-    }
   }
 }

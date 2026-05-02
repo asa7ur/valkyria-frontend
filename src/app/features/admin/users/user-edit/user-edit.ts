@@ -1,6 +1,6 @@
-import {Component, OnInit, inject, signal, ChangeDetectorRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import { Component, OnInit, inject, signal, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -12,9 +12,10 @@ import {
   AbstractControl,
   ValidationErrors
 } from '@angular/forms';
-import {UserApiService} from '../../../../core/services/user-api';
-import {ToastService} from '../../../../core/services/toast';
-import {User} from '../../../../core/models/user';
+import { UserApiService } from '../../../../core/services/user-api';
+import { ToastService } from '../../../../core/services/toast';
+import { User } from '../../../../core/models/user';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Interface para tipado estricto del formulario de usuario
@@ -47,17 +48,18 @@ export class UserEdit implements OnInit {
   private readonly toast = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   // Señales para el estado y los datos
-  user = signal<User | null>(null);
-  userForm!: FormGroup<UserForm>;
-  passwordForm!: FormGroup<PasswordForm>;
+  protected user = signal<User | null>(null);
+  protected userForm!: FormGroup<UserForm>;
+  protected passwordForm!: FormGroup<PasswordForm>;
 
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isEditMode = signal(false);
 
-  availableRoles = ['USER', 'MANAGER', 'ADMIN'];
+  protected availableRoles = ['USER', 'MANAGER', 'ADMIN'];
 
   constructor() {
     this.initForm();
@@ -80,16 +82,17 @@ export class UserEdit implements OnInit {
       currentPassword: this.fb.control('', [Validators.required]),
       newPassword: this.fb.control('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: this.fb.control('', [Validators.required])
-    }, {validators: this.passwordMatchValidator});
+    }, { validators: this.passwordMatchValidator });
   }
 
-  get rolesArray() {
+  protected get rolesArray() {
     return this.userForm.controls.roles;
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.isEditMode.set(true);
       this.loadUser(id);
     } else {
       this.isInitialLoading.set(false);
@@ -97,85 +100,107 @@ export class UserEdit implements OnInit {
   }
 
   private loadUser(id: string) {
-    this.userApi.getUserById(id).subscribe({
-      next: (response) => {
-        const data = response.data;
-        this.user.set(data);
+    this.userApi.getUserById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
+          this.user.set(data);
 
-        // Formateo de fecha para el input type="date"
-        const formattedDate = data.birthDate ? data.birthDate.split('T')[0] : '';
+          // Formateo de fecha para el input type="date"
+          const formattedDate = data.birthDate ? data.birthDate.split('T')[0] : '';
 
-        // Mapeamos los roles para el FormArray (esto genera un boolean[])
-        const rolesValues = this.availableRoles.map(role => data.roles?.includes(role) || false);
+          // Mapeamos los roles para el FormArray (esto genera un boolean[])
+          const rolesValues = this.availableRoles.map(role => data.roles?.includes(role) || false);
 
-        // EXTRAER 'roles' para evitar el conflicto de tipos (TS2345)
-        // Usamos desestructuración para crear un objeto 'rest' que no contenga 'roles'
-        const {roles, ...rest} = data;
+          // Extraer 'roles'
+          // Usamos desestructuración para crear un objeto 'rest' que no contenga 'roles'
+          const { roles, ...rest } = data;
 
-        // 4. Parchear el formulario base
-        this.userForm.patchValue({
-          ...rest,
-          birthDate: formattedDate
-        });
+          // Parchear el formulario base
+          this.userForm.patchValue({
+            ...rest,
+            birthDate: formattedDate
+          });
 
-        // Actualizamos los valores del FormArray
-        this.rolesArray.patchValue(rolesValues);
+          // Actualizamos los valores del FormArray
+          this.rolesArray.patchValue(rolesValues);
 
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar el usuario', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+          this.isInitialLoading.set(false);
+        },
+        error: () => {
+          this.toast.show('Error al cargar el usuario', 'error');
+          this.isInitialLoading.set(false);
+          void this.router.navigate(['/admin/users']);
+        }
+      });
   }
 
   // Validador personalizado para la contraseña
   private passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const newPass = control.get('newPassword')?.value;
     const confirmPass = control.get('confirmPassword')?.value;
-    return newPass === confirmPass ? null : {mismatch: true};
+    return newPass === confirmPass ? null : { mismatch: true };
   };
 
-  onSubmit() {
+  protected onSubmit() {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      this.toast.show('Por favor completa todos los campos requeridos', 'error');
+      return;
+    }
+
     const currentUser = this.user();
-    if (this.userForm.valid && currentUser) {
-      this.isLoading.set(true);
+    if (!currentUser) return;
 
-      // Obtenemos los nombres de los roles seleccionados
-      const selectedRoles = this.rolesArray.value
-        .map((checked, i) => checked ? this.availableRoles[i] : null)
-        .filter((role): role is string => role !== null);
+    this.isLoading.set(true);
 
-      const payload = {
-        ...this.userForm.getRawValue(),
-        roles: selectedRoles
-      };
+    // Obtenemos los nombres de los roles seleccionados
+    const selectedRoles = this.rolesArray.value
+      .map((checked, i) => checked ? this.availableRoles[i] : null)
+      .filter((role): role is string => role !== null);
 
-      this.userApi.updateUser(currentUser.id, payload).subscribe({
+    const payload = {
+      ...this.userForm.getRawValue(),
+      roles: selectedRoles
+    };
+
+    this.userApi.updateUser(currentUser.id, payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show('Usuario actualizado correctamente', 'success');
           void this.router.navigate(['/admin/users']);
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.toast.show(err.error?.message || 'Error al actualizar', 'error');
+          const errorMsg = err.error?.message || 'Error al actualizar';
+          this.toast.show(errorMsg, 'error');
         }
       });
-    }
   }
 
-  onChangePassword() {
+  protected onChangePassword() {
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      this.toast.show('Por favor verifica los datos ingresados', 'error');
+      return;
+    }
+
     const currentUser = this.user();
-    if (this.passwordForm.valid && currentUser) {
-      this.userApi.changePassword(currentUser.id, this.passwordForm.getRawValue()).subscribe({
+    if (!currentUser) return;
+
+    this.userApi.changePassword(currentUser.id, this.passwordForm.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
-          this.toast.show('Contraseña actualizada', 'success');
+          this.toast.show('Contraseña actualizada correctamente', 'success');
           this.passwordForm.reset();
         },
-        error: (err) => this.toast.show(err.error?.message || 'Error', 'error')
+        error: (err) => {
+          const errorMsg = err.error?.message || 'Error al actualizar contraseña';
+          this.toast.show(errorMsg, 'error');
+        }
       });
-    }
   }
 }

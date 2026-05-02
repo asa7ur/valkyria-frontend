@@ -1,11 +1,13 @@
-import {ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {SponsorApi} from '../../../../core/services/sponsor-api';
-import {StageApi} from '../../../../core/services/stage-api';
-import {ToastService} from '../../../../core/services/toast';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {Sponsor} from '../../../../core/models/sponsor';
-import {Stage} from '../../../../core/models/stage';
+import { ChangeDetectorRef, Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SponsorApi } from '../../../../core/services/sponsor-api';
+import { StageApi } from '../../../../core/services/stage-api';
+import { ToastService } from '../../../../core/services/toast';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Sponsor } from '../../../../core/models/sponsor';
+import { Stage } from '../../../../core/models/stage';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface SponsorForm {
   name: FormControl<string>;
@@ -18,12 +20,12 @@ interface SponsorForm {
 @Component({
   selector: 'app-sponsor-edit',
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule
   ],
   templateUrl: './sponsor-edit.html',
 })
-
 export class SponsorEdit implements OnInit {
   private readonly sponsorApi = inject(SponsorApi);
   private readonly stageApi = inject(StageApi);
@@ -32,14 +34,16 @@ export class SponsorEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  sponsor = signal<Sponsor | null>(null);
-  allStages = signal<Stage[]>([]);
-  sponsorForm!: FormGroup<SponsorForm>;
+  protected sponsor = signal<Sponsor | null>(null);
+  protected allStages = signal<Stage[]>([]);
+  protected sponsorForm!: FormGroup<SponsorForm>;
 
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
-  isLogoLoading = signal(false);
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isLogoLoading = signal(false);
+  protected isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -52,52 +56,58 @@ export class SponsorEdit implements OnInit {
       phone: this.fb.control('', [Validators.required, Validators.maxLength(20)]),
       contribution: this.fb.control(0, [Validators.required, Validators.min(0)]),
       stageIds: this.fb.control([])
-    })
+    });
   }
 
   ngOnInit() {
     this.loadStages();
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.isEditMode.set(true);
       this.loadSponsor(id);
     } else {
       this.isInitialLoading.set(false);
     }
   }
 
-  loadStages(): void {
-    this.stageApi.getStages(0, 1000).subscribe(res => {
-      this.allStages.set(res.data);
-    })
+  private loadStages(): void {
+    this.stageApi.getStages(0, 1000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => {
+        this.allStages.set(res.data || []);
+      });
   }
 
-  loadSponsor(id: string): void {
-    this.sponsorApi.getSponsorById(id).subscribe({
-      next: (res) => {
-        const data = res.data;
-        this.sponsor.set(data);
+  private loadSponsor(id: string): void {
+    this.sponsorApi.getSponsorById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const data = res.data;
+          this.sponsor.set(data);
 
-        const stageIds = data.stages?.map(s => s.id) || [];
+          const stageIds = data.stages?.map(s => s.id) || [];
 
-        this.sponsorForm.patchValue({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          contribution: data.contribution,
-          stageIds: stageIds,
-        });
+          this.sponsorForm.patchValue({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            contribution: data.contribution,
+            stageIds: stageIds,
+          });
 
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar patrocinador', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+          this.isInitialLoading.set(false);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.toast.show('Error al cargar patrocinador', 'error');
+          this.isInitialLoading.set(false);
+          void this.router.navigate(['/admin/sponsors']);
+        }
+      });
   }
 
-  onStageToggle(stageId: number, event: Event): void {
+  protected onStageToggle(stageId: number, event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     const currentIds = this.sponsorForm.controls.stageIds.value;
 
@@ -108,49 +118,58 @@ export class SponsorEdit implements OnInit {
     }
   }
 
-  isStageSelected(stageId: number): boolean {
+  protected isStageSelected(stageId: number): boolean {
     return this.sponsorForm.controls.stageIds.value.includes(stageId);
   }
 
-  getImageUrl(baseName: string | undefined, suffix: '_thumb.webp' | '_full.webp' = '_thumb.webp'): string {
+  protected getImageUrl(baseName: string | undefined, suffix: '_thumb.webp' | '_full.webp' = '_thumb.webp'): string {
     return `${this.sponsorApi.imagesBaseUrl}/${baseName}${suffix}`;
   }
 
-  onLogoChange(event: Event): void {
+  protected onLogoChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     const current = this.sponsor();
 
     if (file && current) {
       this.isLogoLoading.set(true);
-      this.sponsorApi.uploadLogo(current.id, file).subscribe({
-        next: () => {
-          this.toast.show('Imagen actualizada', 'success');
-          this.loadSponsor(current.id.toString());
-          this.isLogoLoading.set(false);
-        },
-        error: () => {
-          this.toast.show('Error al subir imagen', 'error');
-          this.isLogoLoading.set(false);
-        }
-      })
+      this.sponsorApi.uploadLogo(current.id, file)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.toast.show('Logo actualizado correctamente', 'success');
+            this.loadSponsor(current.id.toString());
+            this.isLogoLoading.set(false);
+          },
+          error: () => {
+            this.toast.show('Error al subir el logo', 'error');
+            this.isLogoLoading.set(false);
+          }
+        });
     }
   }
 
-  removeLogo(): void {
+  protected removeLogo(): void {
     const current = this.sponsor();
     if (current?.id) {
-      this.sponsorApi.deleteLogo(current.id).subscribe({
-        next: () => {
-          this.toast.show('Imagen eliminada', 'success');
-          this.loadSponsor(current.id.toString());
-        }
-      })
+      this.sponsorApi.deleteLogo(current.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.toast.show('Logo eliminado correctamente', 'success');
+            this.loadSponsor(current.id.toString());
+          },
+          error: () => this.toast.show('Error al eliminar el logo', 'error')
+        });
     }
   }
 
-  onSubmit(): void {
-    if (this.sponsorForm.invalid) return;
+  protected onSubmit(): void {
+    if (this.sponsorForm.invalid) {
+      this.sponsorForm.markAllAsTouched();
+      this.toast.show('Por favor completa todos los campos requeridos', 'error');
+      return;
+    }
 
     this.isLoading.set(true);
     const data = this.sponsorForm.getRawValue();
@@ -160,13 +179,21 @@ export class SponsorEdit implements OnInit {
       ? this.sponsorApi.updateSponsor(current.id, data)
       : this.sponsorApi.createSponsor(data);
 
-    request.subscribe({
-      next: () => {
-        this.toast.show(current ? 'Patrocinador actualizado' : 'Patrocinador creado', 'success');
-        void this.router.navigate(['/admin/sponsors']);
-      },
-      error: () => this.isLoading.set(false)
-    });
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.toast.show(
+            current ? 'Patrocinador actualizado correctamente' : 'Patrocinador creado correctamente', 
+            'success'
+          );
+          void this.router.navigate(['/admin/sponsors']);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          const errorMsg = err.error?.message || 'Error al guardar los datos';
+          this.toast.show(errorMsg, 'error');
+        }
+      });
   }
-
 }

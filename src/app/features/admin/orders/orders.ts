@@ -1,9 +1,12 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {OrderApi} from '../../../core/services/order-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {OrderDTO} from '../../../core/models/order-schema';
 import {FilterDTO} from '../../../core/models/filter-dto';
 import {CurrencyPipe, DatePipe, NgClass} from '@angular/common';
+import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {ToastService} from '../../../core/services/toast';
 
 @Component({
   selector: 'app-orders',
@@ -13,16 +16,16 @@ import {CurrencyPipe, DatePipe, NgClass} from '@angular/common';
     NgClass
   ],
   templateUrl: './orders.html',
-  styles: ``,
 })
 export class OrdersAdmin implements OnInit {
   private orderApi = inject(OrderApi);
   private confirmService = inject(ConfirmDialogService);
+  private readonly toast = inject(ToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  orders = signal<OrderDTO[]>([]);
-  isLoading = signal<boolean>(false);
-
-  filter = signal<FilterDTO>({
+  protected orders = signal<OrderDTO[]>([]);
+  protected isLoading = signal<boolean>(false);
+  protected filter = signal<FilterDTO>({
     page: 0,
     itemsPerPage: 10,
     search: '',
@@ -30,47 +33,56 @@ export class OrdersAdmin implements OnInit {
     totalElements: 0
   });
 
-  ngOnInit() {
-    this.loadOrders();
-  }
+  private searchSubject = new Subject<string>();
 
-  loadOrders(): void {
-    this.isLoading.set(true);
-    const currentFilter = this.filter();
-
-    this.orderApi.getOrders(currentFilter.page, currentFilter.itemsPerPage, currentFilter.search).subscribe({
-      next: (response) => {
-        this.orders.set(response.data || []);
-        this.filter.update(f => ({
-          ...f,
-          totalPages: response.filter?.totalPages || 0,
-          totalElements: response.filter?.totalElements || 0
-        }));
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Error cargando pedidos:', err);
-        this.isLoading.set(false);
-        this.orders.set([]);
-      }
+  constructor() {
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(searchTerm => {
+      this.filter.update(f => ({...f, search: searchTerm, page: 0}));
+      this.loadOrders();
     });
   }
 
-  onSearch(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.filter.update(f => ({
-      ...f,
-      search: input.value,
-      page: 0
-    }));
+  ngOnInit(): void {
     this.loadOrders();
   }
 
-  goToPage(page: number): void {
-    const currentFilter = this.filter();
+  private loadOrders(): void {
+    this.isLoading.set(true);
+    const {page, itemsPerPage, search} = this.filter();
 
-    if (currentFilter.totalPages && page >= 0 && page < currentFilter.totalPages) {
-      this.filter.update(f => ({...f, page}));
+    this.orderApi.getOrders(page, itemsPerPage, search)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.orders.set(response.data || []);
+          this.filter.update(f => ({
+            ...f,
+            totalPages: response.filter?.totalPages || 0,
+            totalElements: response.filter?.totalElements || 0
+          }));
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error cargando pedidos:', err);
+          this.isLoading.set(false);
+          this.orders.set([]);
+        }
+      });
+  }
+
+  protected onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+   this.searchSubject.next(input.value);
+  }
+
+  protected goToPage(page: number): void {
+    const f = this.filter();
+    if (page >= 0 && page < (f.totalPages || 0)) {
+      this.filter.update(prev => ({...prev, page}));
       this.loadOrders();
     }
   }
@@ -78,16 +90,21 @@ export class OrdersAdmin implements OnInit {
   async deleteOrder(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
       title: 'Eliminar Pedido',
-      message: '¿Estás seguro de que deseas eliminar este pedido? Esta acción no se puede deshacer.',
+      message: '¿Estás seguro?.',
       btnOkText: 'Eliminar',
       btnCancelText: 'Cancelar'
     });
 
-    if (confirmed) {
-      this.orderApi.deleteOrder(id).subscribe({
-        next: () => this.loadOrders(),
-        error: (err) => console.error('Error al eliminar el pedido: ', err)
+    if (!confirmed) return;
+
+    this.orderApi.deleteOrder(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.toast.show('Pedido eliminado correctamente', 'success');
+          this.loadOrders();
+        },
+        error: () => this.toast.show('Error al eliminar', 'error')
       })
-    }
   }
 }

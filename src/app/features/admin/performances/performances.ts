@@ -1,10 +1,13 @@
-import {Component, OnInit, inject, signal} from '@angular/core';
+import {Component, OnInit, inject, signal, DestroyRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PerformanceApi} from '../../../core/services/performance-api';
 import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {Performance} from '../../../core/models/performance';
 import {FilterDTO} from '../../../core/models/filter-dto';
 import {RouterLink} from '@angular/router';
+import {ToastService} from '../../../core/services/toast';
+import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-performances',
@@ -14,11 +17,12 @@ import {RouterLink} from '@angular/router';
 export class PerformancesAdmin implements OnInit {
   private performanceApi = inject(PerformanceApi);
   private confirmService = inject(ConfirmDialogService);
+  private readonly toast = inject(ToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  performances = signal<Performance[]>([]);
-  isLoading = signal<boolean>(false);
-
-  filter = signal<FilterDTO>({
+  protected performances = signal<Performance[]>([]);
+  protected isLoading = signal<boolean>(false);
+  protected filter = signal<FilterDTO>({
     page: 0,
     itemsPerPage: 10,
     search: '',
@@ -26,68 +30,79 @@ export class PerformancesAdmin implements OnInit {
     totalElements: 0
   });
 
+  private searchSubject = new Subject<string>();
+
+  constructor() {
+    // Escuchamos los cambios de búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(searchTerm => {
+      this.filter.update(f => ({ ...f, search: searchTerm, page: 0 }));
+      this.loadPerformances();
+    });
+  }
+
   ngOnInit(): void {
     this.loadPerformances();
   }
 
-  loadPerformances(): void {
+  private loadPerformances(): void {
     this.isLoading.set(true);
-    const currentFilter = this.filter();
+    const {page, itemsPerPage, search} = this.filter();
 
-    this.performanceApi.getPerformances(currentFilter.page, currentFilter.itemsPerPage, currentFilter.search).subscribe({
-      next: (response) => {
-        this.performances.set(response.data || []);
-
-        this.filter.update(f => ({
-          ...f,
-          totalPages: response.filter?.totalPages || 0,
-          totalElements: response.filter?.totalElements || 0
-        }));
-
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Error cargando performanceas:', err);
-        this.isLoading.set(false);
-        this.performances.set([]);
-      }
-    });
+    this.performanceApi.getPerformances(page, itemsPerPage, search)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.performances.set(response.data || []);
+          this.filter.update(f => ({
+            ...f,
+            totalPages: response.filter?.totalPages || 0,
+            totalElements: response.filter?.totalElements || 0
+          }));
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error cargando actuaciones:', err);
+          this.isLoading.set(false);
+          this.performances.set([]);
+        }
+      });
   }
 
-  onSearch(event: Event): void {
+  protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-
-    this.filter.update(f => ({
-      ...f,
-      search: input.value,
-      page: 0
-    }));
-
-    this.loadPerformances();
+    this.searchSubject.next(input.value);
   }
 
-  goToPage(page: number): void {
-    const currentFilter = this.filter();
-
-    if (currentFilter.totalPages && page >= 0 && page < currentFilter.totalPages) {
-      this.filter.update(f => ({...f, page}));
+  protected goToPage(page: number): void {
+    const f = this.filter();
+    if (page >= 0 && page < (f.totalPages || 0)) {
+      this.filter.update(prev => ({...prev, page}));
       this.loadPerformances();
     }
   }
 
   async deletePerformance(id: number): Promise<void> {
     const confirmed = await this.confirmService.ask({
-      title: 'Eliminar Performancea',
-      message: '¿Estás seguro de que deseas eliminar este performancea? Esta acción no se puede deshacer.',
+      title: 'Eliminar Actuación',
+      message: '¿Estás seguro?',
       btnOkText: 'Eliminar',
       btnCancelText: 'Cancelar'
     });
 
-    if (confirmed) {
-      this.performanceApi.deletePerformance(id).subscribe({
-        next: () => this.loadPerformances(),
-        error: (err) => console.error('Error al eliminar:', err)
+    if (!confirmed) return;
+
+    this.performanceApi.deletePerformance(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.toast.show('Actuación eliminada correctamente', 'success');
+          this.loadPerformances();
+        },
+        error: () => this.toast.show('Error al eliminar', 'error')
       });
-    }
   }
 }

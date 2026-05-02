@@ -1,4 +1,4 @@
-import {Component, OnInit, inject, signal, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, inject, signal, ChangeDetectorRef, DestroyRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -13,6 +13,7 @@ import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {ToastService} from '../../../../core/services/toast';
 import {Ticket} from '../../../../core/models/ticket';
 import {TicketType} from '../../../../core/models/ticket-types';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 /**
  * Interface para tipado estricto del formulario de ticket
@@ -39,18 +40,20 @@ export class TicketEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   // Estado del ticket y tipos
-  ticket = signal<Ticket | null>(null);
-  ticketTypes = signal<TicketType[]>([]);
-  ticketForm!: FormGroup<TicketForm>;
+  protected ticket = signal<Ticket | null>(null);
+  protected ticketTypes = signal<TicketType[]>([]);
+  protected ticketForm!: FormGroup<TicketForm>;
 
   // Señales para el estado de la UI
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isEditMode = signal(false);
 
   // Opciones para el tipo de documento
-  documentTypes = ['DNI', 'NIE', 'PASSPORT'];
+  protected documentTypes = ['DNI', 'NIE', 'PASSPORT'];
 
   constructor() {
     this.initForm();
@@ -69,64 +72,77 @@ export class TicketEdit implements OnInit {
 
   ngOnInit(): void {
     // 1. Cargar tipos de entrada primero para poder mapear después si es edición
-    this.ticketProvider.getTicketTypes().subscribe({
-      next: (types) => {
-        this.ticketTypes.set(types);
+    this.ticketProvider.getTicketTypes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (types) => {
+          this.ticketTypes.set(types);
 
-        // 2. Una vez cargados los tipos, miramos si hay ID para editar
-        const id = this.route.snapshot.paramMap.get('id');
-        if (id) {
-          this.loadTicket(id);
-        } else {
+          // 2. Una vez cargados los tipos, miramos si hay ID para editar
+          const id = this.route.snapshot.paramMap.get('id');
+          if (id) {
+            this.isEditMode.set(true);
+            this.loadTicket(id);
+          } else {
+            this.isInitialLoading.set(false);
+          }
+        },
+        error: () => {
+          this.toast.show('Error al cargar tipos de entrada', 'error');
           this.isInitialLoading.set(false);
         }
-      },
-      error: () => {
-        this.toast.show('Error al cargar tipos de entrada', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+      });
   }
 
-  loadTicket(id: string): void {
-    this.ticketApi.getTicketById(+id).subscribe({
-      next: (response) => {
-        const data = response.data;
-        this.ticket.set(data);
+  private loadTicket(id: string): void {
+    this.ticketApi.getTicketById(+id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
+          this.ticket.set(data);
 
-        // Buscamos el ID del tipo de ticket por su nombre para el select
-        const typeId = this.ticketTypes().find(t => t.name === data.ticketTypeName)?.id || null;
+          // Buscamos el ID del tipo de ticket por su nombre para el select
+          const typeId = this.ticketTypes().find(t => t.name === data.ticketTypeName)?.id || null;
 
-        this.ticketForm.patchValue({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          documentType: data.documentType,
-          documentNumber: data.documentNumber,
-          birthDate: data.birthDate,
-          ticketTypeId: typeId
-        });
+          this.ticketForm.patchValue({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            documentType: data.documentType,
+            documentNumber: data.documentNumber,
+            birthDate: data.birthDate,
+            ticketTypeId: typeId
+          });
 
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar el ticket', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+          this.isInitialLoading.set(false);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.toast.show('Error al cargar el ticket', 'error');
+          this.isInitialLoading.set(false);
+          void this.router.navigate(['/admin/tickets']);
+        }
+      });
   }
 
-  onSubmit(): void {
-    if (this.ticketForm.valid) {
-      this.isLoading.set(true);
-      const currentTicket = this.ticket();
-      const formData = this.ticketForm.getRawValue();
+  protected onSubmit(): void {
+    if (this.ticketForm.invalid) {
+      this.ticketForm.markAllAsTouched();
+      this.toast.show('Por favor completa todos los campos requeridos', 'error');
+      return;
+    }
 
-      const request = currentTicket
-        ? this.ticketApi.updateTicket(currentTicket.id, formData as any)
-        : this.ticketApi.createTicket(formData as any);
+    this.isLoading.set(true);
+    const currentTicket = this.ticket();
+    const formData = this.ticketForm.getRawValue();
 
-      request.subscribe({
+    const request = currentTicket
+      ? this.ticketApi.updateTicket(currentTicket.id, formData as any)
+      : this.ticketApi.createTicket(formData as any);
+
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show(
             currentTicket ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
@@ -141,6 +157,5 @@ export class TicketEdit implements OnInit {
           this.toast.show(errorMsg, 'error');
         }
       });
-    }
   }
 }

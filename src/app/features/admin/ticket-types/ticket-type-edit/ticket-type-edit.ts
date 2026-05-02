@@ -1,4 +1,4 @@
-import {Component, OnInit, inject, signal, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, inject, signal, ChangeDetectorRef, DestroyRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -11,6 +11,7 @@ import {
 import {TicketTypeApi} from '../../../../core/services/ticket-type-api';
 import {ToastService} from '../../../../core/services/toast';
 import {TicketType} from '../../../../core/models/ticket-types';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 interface TicketTypeForm {
   name: FormControl<string>;
@@ -31,11 +32,13 @@ export class TicketTypeEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  ticketType = signal<TicketType | null>(null);
-  ticketTypeForm!: FormGroup<TicketTypeForm>;
-  isLoading = signal(false);
-  isInitialLoading = signal(true);
+  protected ticketType = signal<TicketType | null>(null);
+  protected ticketTypeForm!: FormGroup<TicketTypeForm>;
+  protected isLoading = signal(false);
+  protected isInitialLoading = signal(true);
+  protected isEditMode = signal(false);
 
   constructor() {
     this.initForm();
@@ -53,39 +56,50 @@ export class TicketTypeEdit implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.isEditMode.set(true);
       this.loadTicketType(id);
     } else {
       this.isInitialLoading.set(false);
     }
   }
 
-  loadTicketType(id: string): void {
-    this.api.getTicketTypeById(+id).subscribe({
-      next: (response) => {
-        const data = response.data;
-        this.ticketType.set(data);
-        this.ticketTypeForm.patchValue(data);
-        this.isInitialLoading.set(false);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.toast.show('Error al cargar el tipo de ticket', 'error');
-        this.isInitialLoading.set(false);
-      }
-    });
+  private loadTicketType(id: string): void {
+    this.api.getTicketTypeById(+id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const data = response.data;
+          this.ticketType.set(data);
+          this.ticketTypeForm.patchValue(data);
+          this.isInitialLoading.set(false);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.toast.show('Error al cargar el tipo de ticket', 'error');
+          this.isInitialLoading.set(false);
+          void this.router.navigate(['/admin/ticket-types']);
+        }
+      });
   }
 
-  onSubmit(): void {
-    if (this.ticketTypeForm.valid) {
-      this.isLoading.set(true);
-      const current = this.ticketType();
-      const formData = this.ticketTypeForm.getRawValue();
+  protected onSubmit(): void {
+    if (this.ticketTypeForm.invalid) {
+      this.ticketTypeForm.markAllAsTouched();
+      this.toast.show('Por favor completa todos los campos requeridos', 'error');
+      return;
+    }
 
-      const request = current
-        ? this.api.updateTicketType(current.id, formData)
-        : this.api.createTicketType(formData);
+    this.isLoading.set(true);
+    const current = this.ticketType();
+    const formData = this.ticketTypeForm.getRawValue();
 
-      request.subscribe({
+    const request = current
+      ? this.api.updateTicketType(current.id, formData)
+      : this.api.createTicketType(formData);
+
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: () => {
           this.toast.show(
             current ? 'Tipo actualizado correctamente' : 'Tipo creado correctamente',
@@ -95,9 +109,9 @@ export class TicketTypeEdit implements OnInit {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.toast.show(err.error?.message || 'Error al guardar los datos', 'error');
+          const errorMsg = err.error?.message || 'Error al guardar los datos';
+          this.toast.show(errorMsg, 'error');
         }
       });
-    }
   }
 }
