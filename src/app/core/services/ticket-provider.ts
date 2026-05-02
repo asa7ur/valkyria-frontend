@@ -42,4 +42,18 @@ export class TicketProvider {
       tap(types => this.campingTypesCache = types)
     );
   }
+
+  /**
+   * Limpia la caché de tipos de tickets para forzar su recarga
+   */
+  clearTicketTypesCache(): void {
+    this.ticketTypesCache = null;
+  }
+
+  /**
+   * Limpia la caché de tipos de camping para forzar su recarga
+   */
+  clearCampingTypesCache(): void {
+    this.campingTypesCache = null;
+  }
 }

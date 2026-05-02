@@ -7,7 +7,9 @@ import { Ticket } from '../../../core/models/ticket';
 import { FilterDTO } from '../../../core/models/filter-dto';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '../../../core/services/toast';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
+import { TicketTypeApi } from '../../../core/services/ticket-type-api';
+import { TicketProvider } from '../../../core/services/ticket-provider';
 
 @Component({
   selector: 'app-tickets-admin',
@@ -19,6 +21,8 @@ export class TicketsAdmin implements OnInit {
   private confirmService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly ticketTypeApi = inject(TicketTypeApi);
+  private readonly ticketProvider = inject(TicketProvider);
 
   // Signals de estado
   protected tickets = signal<Ticket[]>([]);
@@ -97,10 +101,13 @@ export class TicketsAdmin implements OnInit {
 
     if (!confirmed) return;
 
+    const ticketToDelete = this.tickets().find(t => t.id === id);
+
     this.ticketApi.deleteTicket(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
+          this.ticketProvider.clearTicketTypesCache();
           this.toast.show('Ticket eliminado correctamente', 'success');
           this.loadTickets();
         },

@@ -6,8 +6,10 @@ import {ConfirmDialogService} from '../../../core/services/confirm-dialog';
 import {Camping} from '../../../core/models/camping';
 import {ToastService} from '../../../core/services/toast';
 import {FilterDTO} from '../../../core/models/filter-dto';
-import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, Subject, switchMap, of} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {CampingTypeApi} from '../../../core/services/camping-type-api';
+import {TicketProvider} from '../../../core/services/ticket-provider';
 
 @Component({
   selector: 'app-campings-admin',
@@ -19,6 +21,8 @@ export class CampingsAdmin implements OnInit {
   private confirmService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly campingTypeApi = inject(CampingTypeApi);
+  private readonly campingProvider = inject(TicketProvider);
 
   // Signals para el estado de la lista
   protected campings = signal<Camping[]>([]);
@@ -97,10 +101,13 @@ export class CampingsAdmin implements OnInit {
 
     if (!confirmed) return;
 
+    const campingToDelete = this.campings().find(c => c.id === id);
+
     this.campingApi.deleteCamping(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
+          this.campingProvider.clearCampingTypesCache();
           this.toast.show("Camping eliminado correctamente", "success");
           this.loadCampings();
         },

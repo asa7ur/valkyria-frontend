@@ -14,6 +14,8 @@ import { ToastService } from '../../../../core/services/toast';
 import { Camping, CampingCreateDTO } from '../../../../core/models/camping';
 import { CampingType } from '../../../../core/models/ticket-types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CampingTypeApi } from '../../../../core/services/camping-type-api';
+import { forkJoin, of, switchMap } from 'rxjs';
 
 interface CampingForm {
   firstName: FormControl<string>;
@@ -36,7 +38,8 @@ export class CampingEdit implements OnInit {
   private readonly toast = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef)
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly campingTypeApi = inject(CampingTypeApi);
 
   // Estado del camping y tipos
   protected camping = signal<Camping | null>(null);
@@ -138,10 +141,20 @@ export class CampingEdit implements OnInit {
       ? this.campingApi.updateCamping(currentCamping.id, payload)
       : this.campingApi.createCamping(payload);
 
+    let oldTypeId: number | null = null;
+    if (currentCamping) {
+      const type = this.campingTypes().find(t => t.name === currentCamping.campingTypeName);
+      if (type) oldTypeId = type.id;
+    }
+
     request
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        switchMap(() => this.updateStock(oldTypeId, payload.campingTypeId)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: () => {
+          this.campingProvider.clearCampingTypesCache();
           this.toast.show(
             currentCamping ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
             'success'
@@ -156,5 +169,37 @@ export class CampingEdit implements OnInit {
         }
       });
 
+  }
+
+  private updateStock(oldTypeId: number | null, newTypeId: number | null) {
+    if (Number(oldTypeId) === Number(newTypeId)) return of(null);
+
+    const requests = [];
+    if (oldTypeId) {
+      const oldType = this.campingTypes().find(t => Number(t.id) === Number(oldTypeId));
+      if (oldType) {
+        requests.push(this.campingTypeApi.updateCampingType(oldType.id, {
+          name: oldType.name,
+          price: oldType.price,
+          stockTotal: oldType.stockTotal,
+          stockAvailable: oldType.stockAvailable + 1
+        }));
+      }
+    }
+
+    if (newTypeId) {
+      const newType = this.campingTypes().find(t => Number(t.id) === Number(newTypeId));
+      if (newType) {
+        requests.push(this.campingTypeApi.updateCampingType(newType.id, {
+          name: newType.name,
+          price: newType.price,
+          stockTotal: newType.stockTotal,
+          stockAvailable: newType.stockAvailable - 1
+        }));
+      }
+    }
+
+    if (requests.length === 0) return of(null);
+    return forkJoin(requests);
   }
 }

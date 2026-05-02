@@ -14,6 +14,8 @@ import {ToastService} from '../../../../core/services/toast';
 import {Ticket} from '../../../../core/models/ticket';
 import {TicketType} from '../../../../core/models/ticket-types';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {TicketTypeApi} from '../../../../core/services/ticket-type-api';
+import {forkJoin, of, switchMap} from 'rxjs';
 
 /**
  * Interface para tipado estricto del formulario de ticket
@@ -41,6 +43,7 @@ export class TicketEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly ticketTypeApi = inject(TicketTypeApi);
 
   // Estado del ticket y tipos
   protected ticket = signal<Ticket | null>(null);
@@ -140,10 +143,20 @@ export class TicketEdit implements OnInit {
       ? this.ticketApi.updateTicket(currentTicket.id, formData as any)
       : this.ticketApi.createTicket(formData as any);
 
+    let oldTypeId: number | null = null;
+    if (currentTicket) {
+      const type = this.ticketTypes().find(t => t.name === currentTicket.ticketTypeName);
+      if (type) oldTypeId = type.id;
+    }
+
     request
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        switchMap(() => this.updateStock(oldTypeId, formData.ticketTypeId)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: () => {
+          this.ticketProvider.clearTicketTypesCache();
           this.toast.show(
             currentTicket ? 'Entrada actualizada correctamente' : 'Entrada creada correctamente',
             'success'
@@ -157,5 +170,37 @@ export class TicketEdit implements OnInit {
           this.toast.show(errorMsg, 'error');
         }
       });
+  }
+
+  private updateStock(oldTypeId: number | null, newTypeId: number | null) {
+    if (Number(oldTypeId) === Number(newTypeId)) return of(null);
+
+    const requests = [];
+    if (oldTypeId) {
+      const oldType = this.ticketTypes().find(t => Number(t.id) === Number(oldTypeId));
+      if (oldType) {
+        requests.push(this.ticketTypeApi.updateTicketType(oldType.id, {
+          name: oldType.name,
+          price: oldType.price,
+          stockTotal: oldType.stockTotal,
+          stockAvailable: oldType.stockAvailable + 1
+        }));
+      }
+    }
+
+    if (newTypeId) {
+      const newType = this.ticketTypes().find(t => Number(t.id) === Number(newTypeId));
+      if (newType) {
+        requests.push(this.ticketTypeApi.updateTicketType(newType.id, {
+          name: newType.name,
+          price: newType.price,
+          stockTotal: newType.stockTotal,
+          stockAvailable: newType.stockAvailable - 1
+        }));
+      }
+    }
+
+    if (requests.length === 0) return of(null);
+    return forkJoin(requests);
   }
 }
