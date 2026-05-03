@@ -2,6 +2,7 @@ import {Component, computed, input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-artist-card',
@@ -15,7 +16,7 @@ import {RouterLink} from '@angular/router';
 export class ArtistCard {
   artist = input.required<Artist>();
 
-  private readonly baseUrl = 'http://localhost:8080/uploads/artists';
+  private readonly baseUrl = `${environment.apiUrl}/uploads/artists`;
 
   protected displayImage = computed(() => {
     const images = this.artist().images;

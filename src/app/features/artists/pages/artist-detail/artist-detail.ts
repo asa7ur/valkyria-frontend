@@ -6,6 +6,7 @@ import {forkJoin} from 'rxjs';
 import {ArtistApi} from '../../../../core/services/artist-api';
 import {LineupClient} from '../../../../core/services/lineup-client';
 import {Artist} from '../../../../core/models/artist';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-artist-detail',
@@ -19,7 +20,7 @@ export class ArtistDetail implements OnInit {
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
 
-  protected readonly baseUrl = 'http://localhost:8080/uploads/artists';
+  protected readonly baseUrl = `${environment.apiUrl}/uploads/artists`;
 
   id = input.required<string>();
   protected artist = signal<Artist | null>(null);
