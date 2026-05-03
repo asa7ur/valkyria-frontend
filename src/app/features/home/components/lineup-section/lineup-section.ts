@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 import {ResponseDTO} from '../../../../core/models/response-dto';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-lineup-section',
@@ -13,10 +14,10 @@ import {ResponseDTO} from '../../../../core/models/response-dto';
 export class LineupSection implements OnInit {
   private http = inject(HttpClient);
   protected readonly artists = signal<Artist[]>([]);
-  private readonly baseUrl = 'http://localhost:8080/uploads/artists/';
+  private readonly baseUrl = `${environment.apiUrl}/uploads/artists/`;
 
   ngOnInit() {
-    this.http.get<ResponseDTO<Artist[]>>('http://localhost:8080/api/v1/artists/logo')
+    this.http.get<ResponseDTO<Artist[]>>(`${environment.apiUrl}/api/v1/artists/logo`)
       .subscribe({
         next: (response) => {
           const content = response.data;
