@@ -3,13 +3,14 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ResponseDTO} from '../models/response-dto';
 import {Performance} from '../models/performance';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PerformanceApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/performances';
+  private apiUrl = `${environment.apiUrl}/api/v1/performances`;
 
   /**
    * Obtiene actuaciones paginadas y filtradas.

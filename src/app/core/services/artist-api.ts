@@ -3,14 +3,15 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Artist, ArtistCreateDTO, ArtistImage} from '../models/artist';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArtistApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/artists';
-  public readonly imagesBaseUrl = 'http://localhost:8080/uploads/artists';
+  private apiUrl = `${environment.apiUrl}/api/v1/artists`;
+  public readonly imagesBaseUrl = `${environment.apiUrl}/uploads/artists`;
 
   /**
    * Obtiene artistas paginados y filtrados.

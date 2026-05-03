@@ -3,12 +3,13 @@ import {HttpClient} from '@angular/common/http';
 import {map, Observable, of, tap} from 'rxjs'; // Añadimos 'of' y 'tap'
 import {CampingType, TicketType} from '../models/ticket-types';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class TicketProvider {
   private http = inject(HttpClient);
-  private ticketApiUrl = 'http://localhost:8080/api/v1/ticket-types';
-  private campingApiUrl = 'http://localhost:8080/api/v1/camping-types';
+  private ticketApiUrl = `${environment.apiUrl}/api/v1/ticket-types`;
+  private campingApiUrl = `${environment.apiUrl}/api/v1/camping-types`;
 
   // Variables para guardar los datos en memoria (Caché)
   private ticketTypesCache: TicketType[] | null = null;

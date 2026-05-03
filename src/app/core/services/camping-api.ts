@@ -3,13 +3,14 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Camping, CampingCreateDTO} from '../models/camping';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampingApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/campings';
+  private apiUrl = `${environment.apiUrl}/api/v1/campings`;
 
   /**
    * Obtiene la página de campings con búsqueda opcional

@@ -3,13 +3,14 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CampingType, CampingTypeCreateDTO} from '../models/ticket-types';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampingTypeApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/camping-types';
+  private apiUrl = `${environment.apiUrl}/api/v1/camping-types`;
 
   getCampingTypes(page: number = 0, itemsPerPage: number = 10, search: string = ''): Observable<ResponseDTO<CampingType[]>> {
     let params = new HttpParams()

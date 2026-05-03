@@ -3,13 +3,14 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {OrderDTO} from '../models/order-schema';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/orders';
+  private apiUrl = `${environment.apiUrl}/api/v1/orders`;
 
   /**
    * Obtiene pedidos paginados y filtrados.

@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {OrderCreateDTO, OrderDTO} from '../models/order-schema';
 import {Observable} from 'rxjs';
 import {ResponseDTO} from "../models/response-dto";
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutLogic {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/orders';
+  private apiUrl = `${environment.apiUrl}/api/v1/orders`;
 
   // Inicializa el signal con lo que haya en localStorage
   private currentOrder = signal<OrderCreateDTO>(this.loadFromStorage());

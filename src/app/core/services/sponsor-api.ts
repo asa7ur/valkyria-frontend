@@ -3,14 +3,15 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Sponsor} from '../models/sponsor';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SponsorApi {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/sponsors';
-  public readonly imagesBaseUrl = 'http://localhost:8080/uploads/sponsors';
+  private apiUrl = `${environment.apiUrl}/api/v1/sponsors`;
+  public readonly imagesBaseUrl = `${environment.apiUrl}/uploads/sponsors`;
 
   getSponsors(page: number = 0, itemsPerPage: number = 10, search: string = ''): Observable<ResponseDTO<Sponsor[]>> {
     let params = new HttpParams()

@@ -3,11 +3,12 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User, PasswordChange} from '../models/user';
 import {ResponseDTO} from '../models/response-dto';
+import {environment} from '../../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class UserApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/users';
+  private apiUrl = `${environment.apiUrl}/api/v1/users`;
 
   getUsers(page: number = 0, itemsPerPage: number = 10, search: string = ''): Observable<ResponseDTO<User[]>> {
     let params = new HttpParams()

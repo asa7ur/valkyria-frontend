@@ -2,13 +2,14 @@ import {Injectable, inject, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, map, catchError, tap, of} from 'rxjs';
 import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth-payments';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthManager {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/auth';
+  private apiUrl = `${environment.apiUrl}/api/v1/auth`;
 
   /**
    * Signal que mantiene el estado del usuario actual.
