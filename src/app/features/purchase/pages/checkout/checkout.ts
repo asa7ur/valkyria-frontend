@@ -14,7 +14,6 @@ import { OrderCreateDTO } from '../../../../core/models/order-schema';
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './checkout.html'
 })
-
 export class Checkout {
   private cart = inject(CheckoutLogic);
   private provider = inject(TicketProvider);
@@ -23,46 +22,49 @@ export class Checkout {
   currentUser = this.auth.currentUser;
   guestEmail = signal('');
 
+  // Usamos toSignal para manejar las peticiones asíncronas como estados reactivos puros
   ticketTypes = toSignal(this.provider.getTicketTypes(), { initialValue: [] });
   campingTypes = toSignal(this.provider.getCampingTypes(), { initialValue: [] });
 
   order = computed(() => this.cart.getOrder());
 
-  total = computed(() => {
-    let subtotal = 0;
+  // Total solo de las entradas
+  ticketsTotal = computed(() => {
     const currentOrder = this.order();
-    const tickets = this.ticketTypes();
-    const campings = this.campingTypes();
-
-    // Acceso directo .tickets ya que el DTO garantiza el array
-    currentOrder.tickets.forEach(t => {
-      const type = tickets.find(tp => Number(tp.id) === Number(t.ticketTypeId));
-      if (type) subtotal += type.price;
-    });
-
-    currentOrder.campings.forEach(c => {
-      const type = campings.find(cp => Number(cp.id) === Number(c.campingTypeId));
-      if (type) subtotal += type.price;
-    });
-
-    return subtotal;
+    const types = this.ticketTypes();
+    return currentOrder.tickets.reduce((sum, t) => {
+      const found = types.find(tp => Number(tp.id) === Number(t.ticketTypeId));
+      return sum + (found?.price || 0);
+    }, 0);
   });
+
+// Total solo del camping
+  campingsTotal = computed(() => {
+    const currentOrder = this.order();
+    const types = this.campingTypes();
+    return currentOrder.campings.reduce((sum, c) => {
+      const found = types.find(cp => Number(cp.id) === Number(c.campingTypeId));
+      return sum + (found?.price || 0);
+    }, 0);
+  });
+
+// Suma final de ambos
+  grandTotal = computed(() => this.ticketsTotal() + this.campingsTotal());
 
   isLoading = computed(() => this.ticketTypes().length === 0 && this.campingTypes().length === 0);
 
   getTicketName(id: any): string {
     const found = this.ticketTypes().find(t => Number(t.id) === Number(id));
-    return found ? found.name : $localize`:@@checkout.error.ticketNotFound:Ticket no encontrado`;
+    return found ? found.name : 'Ticket';
   }
 
   getCampingName(id: any): string {
     const found = this.campingTypes().find(c => Number(c.id) === Number(id));
-    return found ? found.name : $localize`:@@checkout.error.campingNotFound:Camping no encontrado`;
+    return found ? found.name : 'Alojamiento';
   }
 
   removeItem(type: 'ticket' | 'camping', index: number) {
     const currentOrder = this.order();
-
     const updatedOrder: OrderCreateDTO = {
       ...currentOrder,
       tickets: [...currentOrder.tickets],
@@ -79,11 +81,11 @@ export class Checkout {
   }
 
   confirmAndPay() {
-    const currentOrder = this.order();
+    const currentOrder = { ...this.order() }; // Clonamos para evitar mutaciones directas
 
     if (!this.currentUser()) {
-      if (!this.guestEmail()) {
-        alert($localize`:@@checkout.error.emailRequired:Por favor, introduce un email`);
+      if (!this.guestEmail() || !this.guestEmail().includes('@')) {
+        alert('Por favor, introduce un email válido');
         return;
       }
       currentOrder.guestEmail = this.guestEmail();
@@ -91,12 +93,12 @@ export class Checkout {
 
     this.cart.createOrder(currentOrder).subscribe({
       next: (res) => {
-        if (res.success && res.data.url) {
+        if (res.success && res.data?.url) {
           window.location.href = res.data.url;
         }
       },
       error: (err) => {
-        alert(err.error?.message || $localize`:@@checkout.error.paymentProcessing:Error al procesar el pago`);
+        alert(err.error?.message || 'Error al procesar el pago');
       }
     });
   }

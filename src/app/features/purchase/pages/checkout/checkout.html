@@ -1,34 +1,43 @@
-<div class="min-h-screen pt-24 pb-12 px-6">
-  <div class="max-w-4xl mx-auto">
-    <h1 i18n="@@checkout.title"
-        class="text-5xl font-black text-white uppercase italic border-b-4 border-red-600 inline-block mb-12">
-      Tu cesta
-    </h1>
+<div class="min-h-screen text-white pt-28 pb-20 px-4 md:px-8">
+  <div class="max-w-5xl mx-auto">
+
+    <header class="mb-10 animate-in">
+      <h1 i18n="@@checkout.title" class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+        Tu Pedido
+      </h1>
+      <p class="text-white/40 font-mono text-[10px] uppercase tracking-[0.3em] mt-2">
+        Revisa tus credenciales antes de partir
+      </p>
+    </header>
 
     @if (isLoading()) {
-      <div class="text-center py-20">
-        <p i18n="@@checkout.loading" class="text-white text-2xl font-black animate-pulse uppercase tracking-widest">
-          Cargando tus datos y reservas de camping...
-        </p>
+      <div class="flex flex-col items-center justify-center py-32">
+        <div class="w-10 h-10 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-6"></div>
       </div>
     } @else {
-      @if (order().tickets.length > 0 || order().campings.length > 0) {
-        <div class="space-y-8">
-          @if (order().tickets.length) {
-            <section class="bg-zinc-900 p-8 border-l-4 border-red-600">
-              <h2 i18n="@@checkout.tickets.sectionTitle"
-                  class="text-2xl font-bold text-white uppercase mb-6 tracking-tighter">// Tus Entradas</h2>
-              <div class="space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Lista de Items (Columna Izquierda) -->
+        <div class="lg:col-span-7 space-y-8">
+
+          <!-- Sección Tickets -->
+          @if (order().tickets.length > 0) {
+            <section class="animate-in [animation-delay:100ms]">
+              <h2 class="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-4 flex items-center">
+                <span class="mr-2">/</span> Entradas
+              </h2>
+              <div class="space-y-3">
                 @for (t of order().tickets; track $index) {
-                  <div class="flex justify-between items-center py-4 border-b border-white/5">
+                  <div class="bg-white/5 backdrop-blur-md border border-white/5 p-4 flex justify-between items-center group">
                     <div>
-                      <p class="text-white font-black text-lg uppercase">{{ t.firstName }} {{ t.lastName }}</p>
-                      <p class="text-red-500 font-bold text-sm">{{ getTicketName(t.ticketTypeId) }}</p>
+                      <p class="text-xs font-black uppercase tracking-widest text-white/90">{{ getTicketName(t.ticketTypeId) }}</p>
+                      <p class="text-[10px] font-bold text-white/30 uppercase mt-1">{{ t.firstName }} {{ t.lastName }}</p>
                     </div>
                     <button (click)="removeItem('ticket', $index)"
-                            i18n="@@checkout.item.removeBtn"
-                            class="bg-white/10 hover:bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase transition-all cursor-pointer">
-                      Eliminar
+                            class="p-3 text-white/20 hover:text-red-600 transition-colors cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
                     </button>
                   </div>
                 }
@@ -36,21 +45,24 @@
             </section>
           }
 
-          @if (order().campings.length) {
-            <section class="bg-zinc-900 p-8 border-l-4 border-white">
-              <h2 i18n="@@checkout.camping.sectionTitle"
-                  class="text-2xl font-bold text-white uppercase mb-6 tracking-tighter">// Reservas Camping</h2>
-              <div class="space-y-4">
+          <!-- Sección Camping -->
+          @if (order().campings.length > 0) {
+            <section class="animate-in [animation-delay:200ms]">
+              <h2 class="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-4 flex items-center">
+                <span class="mr-2">/</span> Alojamiento
+              </h2>
+              <div class="space-y-3">
                 @for (c of order().campings; track $index) {
-                  <div class="flex justify-between items-center py-4 border-b border-white/5">
+                  <div class="bg-white/5 backdrop-blur-md border border-white/10 p-4 flex justify-between items-center group">
                     <div>
-                      <p class="text-white font-black text-lg uppercase">{{ c.firstName }} {{ c.lastName }}</p>
-                      <p class="text-white/50 font-bold text-sm">{{ getCampingName(c.campingTypeId) }}</p>
+                      <p class="text-xs font-black uppercase tracking-widest text-white/90">{{ getCampingName(c.campingTypeId) }}</p>
+                      <p class="text-[10px] font-bold text-white/30 uppercase mt-1">{{ c.firstName }} {{ c.lastName }}</p>
                     </div>
                     <button (click)="removeItem('camping', $index)"
-                            i18n="@@checkout.item.removeBtn"
-                            class="bg-white/10 hover:bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase transition-all cursor-pointer">
-                      Eliminar
+                            class="p-3 text-white/20 hover:text-red-600 transition-colors cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
                     </button>
                   </div>
                 }
@@ -58,65 +70,64 @@
             </section>
           }
 
-          @if (!currentUser()) {
-            <section class="bg-zinc-900 p-8 border-l-4 border-yellow-500">
-              <h2 i18n="@@checkout.guest.title" class="text-2xl font-bold text-white uppercase mb-4 tracking-tighter">
-                // Compra como Invitado
-              </h2>
-              <p i18n="@@checkout.guest.help" class="text-white/60 mb-6 text-sm">
-                No necesitas cuenta, pero dinos dónde enviarte las entradas:
-              </p>
-              <input
-                type="email"
-                [(ngModel)]="guestEmail"
-                placeholder="tu@email.com"
-                class="w-full bg-white/5 border border-white/10 p-4 text-white font-bold focus:border-red-600 outline-none transition-all"
-                required
-              />
-            </section>
-          } @else {
-            <section class="bg-zinc-900 p-8 border-l-4 border-green-500">
-              <p class="text-white font-bold uppercase">
-                <span i18n="@@checkout.loggedAs">Pedido a nombre de:</span>
-                <span class="text-red-500 ml-2">{{ currentUser()?.username }}</span>
-              </p>
-            </section>
+          @if (order().tickets.length === 0 && order().campings.length === 0) {
+            <div class="text-center py-20 border-2 border-dashed border-white/5">
+              <p class="text-white/20 uppercase font-black tracking-widest text-sm">Tu cesta está vacía</p>
+              <a routerLink="/purchase" class="text-red-600 text-[10px] font-black uppercase tracking-widest mt-4 block underline">Volver a la tienda</a>
+            </div>
           }
+        </div>
 
-          <div class="pt-12 flex flex-col md:flex-row justify-between items-end gap-8">
-            <div>
-              <p i18n="@@checkout.total.label" class="text-white/40 uppercase text-xs font-bold tracking-[0.3em] mb-2">
-                Importe Total</p>
-              <p class="text-7xl font-black text-white">{{ total() }}€</p>
+        <!-- Resumen y Pago (Columna Derecha / Sticky) -->
+        <aside class="lg:col-span-5 sticky top-28 space-y-6 animate-in [animation-delay:300ms]">
+          <div class="bg-zinc-900/80 backdrop-blur-xl border border-white/10 p-8 text-white shadow-2xl">
+            <h2 class="text-xs font-black uppercase tracking-[0.3em] mb-8 border-b border-white/5 pb-4 opacity-60">Resumen</h2>
+
+            <div class="space-y-4 mb-10">
+              <!-- Total Entradas -->
+              <div class="flex justify-between items-end">
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Entradas</span>
+                <span class="text-xl font-black">{{ ticketsTotal() }}€</span>
+              </div>
+
+              <!-- Total Camping -->
+              <div class="flex justify-between items-end">
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Camping</span>
+                <span class="text-xl font-black">{{ campingsTotal() }}€</span>
+              </div>
+
+              <div class="h-px bg-white/5 my-4"></div>
+
+              <!-- Total Definitivo -->
+              <div class="flex justify-between items-end text-red-600">
+                <span class="text-xs font-black uppercase tracking-widest">Total</span>
+                <span class="text-4xl font-black tracking-tighter">{{ grandTotal() }}€</span>
+              </div>
             </div>
 
-            <div class="flex flex-col gap-4 w-full md:w-auto">
-              <button (click)="confirmAndPay()"
-                      [disabled]="total() === 0 || (!currentUser() && !guestEmail())"
-                      i18n="@@checkout.submitBtn"
-                      class="bg-white text-black hover:bg-red-600 hover:text-white px-16 py-6 text-xl font-black uppercase tracking-widest transition-all disabled:opacity-20 cursor-pointer">
-                Finalizar y Pagar
-              </button>
-              <a routerLink="/purchase"
-                 i18n="@@checkout.backLink"
-                 class="text-center text-white/30 hover:text-white text-xs font-bold uppercase tracking-widest cursor-pointer">
-                ⟨ Volver y editar datos
-              </a>
-            </div>
+            <!-- Sección de Email para Invitados -->
+            @if (!currentUser()) {
+              <div class="mb-8 p-4 bg-white/5 border border-white/5 rounded-sm">
+                <label class="text-[10px] font-black uppercase tracking-widest mb-2 block opacity-40">Email de contacto</label>
+                <input type="email" [(ngModel)]="guestEmail"
+                       placeholder="TU@EMAIL.COM"
+                       class="w-full bg-transparent border-b border-white/10 py-2 text-sm font-bold uppercase focus:outline-none focus:border-red-600 transition-colors placeholder:text-white/10">
+              </div>
+            }
+
+            <button (click)="confirmAndPay()"
+                    [disabled]="grandTotal() === 0"
+                    class="w-full bg-red-600 text-white py-6 text-sm font-black uppercase tracking-[0.3em] hover:bg-red-700 transition-all cursor-pointer disabled:opacity-20 shadow-xl shadow-red-600/10">
+              Confirmar y Pagar
+            </button>
+
+            <p class="text-[9px] text-center mt-4 opacity-40 font-bold uppercase tracking-tighter">
+              Al pagar aceptas los términos del Valhalla
+            </p>
           </div>
-        </div>
-      } @else {
-        <div class="text-center py-20 bg-zinc-900 border-2 border-dashed border-white/10 p-12">
-          <p i18n="@@checkout.empty" class="text-white/60 text-xl font-bold uppercase mb-8">
-            Tu cesta está vacía
-          </p>
-          <a routerLink="/purchase"
-             i18n="@@checkout.empty.backBtn"
-             class="bg-white text-black hover:bg-red-600 hover:text-white px-8 py-4 text-sm font-black uppercase tracking-widest transition-all inline-block">
-            Volver a la selección de entradas
-          </a>
-        </div>
-      }
+        </aside>
+
+      </div>
     }
   </div>
 </div>

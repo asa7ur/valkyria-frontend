@@ -1,62 +1,49 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ArtistCard} from './components/artist-card/artist-card';
-import {ArtistApi} from '../../core/services/artist-api';
-import {Artist} from '../../core/models/artist';
-import {ConfirmDialogService} from '../../core/services/confirm-dialog';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ArtistCard } from './components/artist-card/artist-card';
+import { ArtistApi } from '../../core/services/artist-api';
+import { Artist } from '../../core/models/artist';
 
 @Component({
   selector: 'app-artists',
+  standalone: true,
   imports: [CommonModule, ArtistCard],
   templateUrl: './artists.html',
 })
 export class Artists implements OnInit {
   private api = inject(ArtistApi);
 
-  // Estado de la carga y datos
+  // Signals de estado
   protected isLoading = signal<boolean>(true);
   protected artists = signal<Artist[]>([]);
-
-  // Estado de paginación y búsqueda
   protected searchTerm = signal<string>('');
+
+  // Paginación
   protected currentPage = signal<number>(0);
   protected totalPages = signal<number>(0);
   protected totalElements = signal<number>(0);
   private readonly pageSize = 9;
 
-  // Calculamos si hay más páginas disponibles para mostrar el botón
-  protected hasMore = computed(() => {
-    return this.currentPage() < this.totalPages() - 1;
-  });
+  protected hasMore = computed(() => this.currentPage() < this.totalPages() - 1);
 
   ngOnInit() {
     this.loadArtists();
   }
 
-  /**
-   * Carga artistas desde el servidor.
-   * @param append Si es true, añade los resultados a los actuales. Si es false, los reemplaza.
-   */
   loadArtists(append: boolean = false) {
     this.isLoading.set(true);
+
     this.api.getArtists(this.currentPage(), this.pageSize, this.searchTerm()).subscribe({
       next: (response) => {
         const content = response.data || [];
-
-        if (append) {
-          // Acumulamos los nuevos artistas con los que ya teníamos
-          this.artists.update(prev => [...prev, ...content]);
-        } else {
-          // Para una nueva búsqueda o carga inicial, reemplazamos
-          this.artists.set(content);
-        }
+        this.artists.update(prev => append ? [...prev, ...content] : content);
 
         this.totalPages.set(response.filter.totalPages);
         this.totalElements.set(response.filter.totalElements);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error cargando artistas:', err);
+        console.error('Error:', err);
         this.isLoading.set(false);
       }
     });
@@ -65,14 +52,14 @@ export class Artists implements OnInit {
   updateSearch(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
-    this.currentPage.set(0); // Reiniciamos a la primera página
-    this.loadArtists(false); // Reemplazamos la lista con los nuevos resultados
+    this.currentPage.set(0);
+    this.loadArtists(false);
   }
 
   loadMore() {
-    if (this.hasMore()) {
+    if (this.hasMore() && !this.isLoading()) {
       this.currentPage.update(p => p + 1);
-      this.loadArtists(true); // Añadimos la siguiente página a la lista actual
+      this.loadArtists(true);
     }
   }
 }

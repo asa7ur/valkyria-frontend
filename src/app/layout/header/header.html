@@ -1,6 +1,7 @@
 <nav class="fixed top-0 z-50 w-full bg-black/40 backdrop-blur-xl border-b border-white/5 px-4 md:px-8">
   <div class="max-w-7xl mx-auto h-20 flex justify-between items-center">
 
+    <!-- Logo -->
     <div class="flex-1 flex items-center">
       <a routerLink="/" (click)="closeMenu()"
          class="text-2xl font-black tracking-[0.25em] text-white hover:text-red-600 transition-all duration-300 cursor-pointer relative z-50">
@@ -8,6 +9,7 @@
       </a>
     </div>
 
+    <!-- Navegación Escritorio -->
     <div class="hidden lg:flex items-center gap-10">
       <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
          i18n="@@nav.lineup"
@@ -22,8 +24,8 @@
     </div>
 
     <div class="flex-1 flex items-center justify-end">
-
-      <div class="flex items-center gap-2 md:gap-4 mr-4 md:mr-6">
+      <!-- Acciones Escritorio: OCULTAS EN MÓVIL/TABLET -->
+      <div class="hidden lg:flex items-center gap-2 md:gap-4 mr-4 md:mr-6">
         <button (click)="switchLanguage()"
                 class="text-[10px] font-bold text-white/40 hover:text-white transition-colors uppercase w-8 cursor-pointer">
           {{ locale === 'es' ? 'ES' : 'EN' }}
@@ -41,6 +43,7 @@
 
       <div class="hidden md:block w-px h-5 bg-white/10 mr-6"></div>
 
+      <!-- Auth y Tickets Escritorio -->
       <div class="hidden md:flex items-center gap-6">
         @if (auth.currentUser()) {
           <div class="flex items-center gap-4">
@@ -63,8 +66,9 @@
         </button>
       </div>
 
+      <!-- Hamburger Button (Z-index alto para quedar sobre el menú) -->
       <button (click)="toggleMenu()"
-              class="lg:hidden ml-4 text-white p-2 relative z-50 cursor-pointer"
+              class="lg:hidden ml-4 text-white p-2 relative z-60 cursor-pointer"
               aria-label="Toggle menu">
         <div class="w-6 h-5 flex flex-col justify-between items-end">
           <span [class]="'h-0.5 bg-white transition-all duration-300 ' + (isMenuOpen() ? 'w-6 translate-y-2.5 -rotate-45' : 'w-6')"></span>
@@ -77,6 +81,7 @@
   </div>
 </nav>
 
+<!-- Backdrop -->
 <div
   class="fixed inset-0 bg-black/90 backdrop-blur-sm z-40 transition-opacity duration-500 lg:hidden"
   [class.opacity-100]="isMenuOpen()"
@@ -86,6 +91,7 @@
   (click)="closeMenu()">
 </div>
 
+<!-- Sidebar Menú -->
 <aside
   class="fixed top-0 right-0 h-full w-[85%] max-w-90 bg-neutral-950 z-50 transform transition-transform duration-500 ease-in-out lg:hidden border-l border-white/5"
   [class.translate-x-0]="isMenuOpen()"
@@ -93,37 +99,53 @@
 
   <div class="flex flex-col h-full pt-32 pb-12 px-10">
     <div class="flex flex-col gap-8">
+      <!-- Links de Navegación -->
       <a routerLink="/lineup" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white hover:text-red-600 transition-colors">
-        Lineup
-      </a>
+         class="text-3xl font-black uppercase tracking-tighter text-white">Lineup</a>
       <a routerLink="/artists" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white hover:text-red-600 transition-colors">
-        Artistas
+         class="text-3xl font-black uppercase tracking-tighter text-white">Artistas</a>
+
+      <!-- Cesta integrada en el menú -->
+      <a routerLink="/purchase/checkout" (click)="closeMenu()"
+         class="flex items-center justify-between group">
+        <span class="text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-600 transition-colors">Cesta</span>
+        @if (cart.itemCount() > 0) {
+          <span class="bg-red-600 text-white text-[10px] font-black px-2 py-1 rounded-full animate-pulse">
+            {{ cart.itemCount() }}
+          </span>
+        }
       </a>
 
       <div class="h-px bg-white/10 my-4"></div>
 
       <button routerLink="/purchase" (click)="closeMenu()"
-              class="w-full bg-red-600 text-white py-4 text-xs font-black uppercase tracking-[0.2em]">
+              class="w-full bg-red-600 text-white py-4 text-xs font-black uppercase tracking-[0.2em] cursor-pointer">
         Comprar Entradas
       </button>
     </div>
 
-    <div class="mt-auto flex flex-col gap-6">
-      @if (auth.currentUser()) {
-        <a routerLink="/orders" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Mis Pedidos</a>
-        <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 text-left">Cerrar Sesión</button>
-      } @else {
-        <div class="flex gap-6">
-          <a routerLink="/login" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Login</a>
-          <a routerLink="/register" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-red-600">Registro</a>
+    <!-- Footer del Sidebar -->
+    <div class="mt-auto flex flex-col gap-8">
+      <!-- Switcher de Idioma más visible -->
+      <div class="flex flex-col gap-2">
+        <span class="text-[10px] font-black uppercase tracking-widest text-white/20">Seleccionar Idioma</span>
+        <div class="flex gap-4">
+          <button (click)="switchLanguage()" [class]="locale === 'es' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">Español</button>
+          <button (click)="switchLanguage()" [class]="locale === 'en' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">English</button>
         </div>
-      }
+      </div>
 
-      <button (click)="switchLanguage()" class="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-white transition-colors">
-        Language: {{ locale === 'es' ? 'Español' : 'English' }}
-      </button>
+      <div class="flex flex-col gap-6">
+        @if (auth.currentUser()) {
+          <a routerLink="/orders" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Mis Pedidos</a>
+          <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 text-left">Cerrar Sesión</button>
+        } @else {
+          <div class="flex gap-6">
+            <a routerLink="/login" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Login</a>
+            <a routerLink="/register" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-red-600">Registro</a>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </aside>

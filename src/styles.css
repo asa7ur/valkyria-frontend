@@ -4,6 +4,7 @@
 
 html {
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -19,6 +20,17 @@ body {
   background-color: #000;
   min-height: 100vh;
   margin: 0;
+}
+
+/* --- UTILIDADES DE SCROLL (Para Lineup móvil) --- */
+
+/* Oculta la barra de scroll pero mantiene la funcionalidad de deslizamiento */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* --- ANIMACIONES GENERALES --- */
@@ -63,6 +75,12 @@ body {
     transform: translateX(0) scale(1);
     filter: blur(0);
   }
+}
+
+/* Animación de pulso sutil para el indicador de la cesta */
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
 }
 
 /* --- CLASES DE ANIMACIÓN --- */
@@ -132,4 +150,20 @@ body {
   width: max-content;
   animation: marquee 60s linear infinite;
   will-change: transform;
+}
+
+/* --- AJUSTES ESPECÍFICOS PARA MÓVIL --- */
+
+@media (max-width: 768px) {
+  /* Evita que el texto con stroke se vea demasiado grueso en pantallas pequeñas */
+  h1 {
+    -webkit-text-stroke-width: 0.5px !important;
+  }
+
+  /* Optimizamos el scroll de la página al abrir menús */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
 }

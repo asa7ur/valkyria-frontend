@@ -1,160 +1,138 @@
-<div class="min-h-screen bg-black text-white pt-32 pb-20 px-6">
+<!-- valkyria-frontend-develop/src/app/features/artists/pages/artist-detail/artist-detail.html -->
+<div class="min-h-screen bg-black text-white pt-24 md:pt-32 pb-20 px-4 md:px-6">
   @if (loading()) {
-    <div class="flex justify-center items-center h-64">
+    <div class="flex flex-col justify-center items-center h-96">
+      <div class="w-12 h-12 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-4"></div>
       <div i18n="@@artist.detail.loading"
-           class="animate-pulse text-red-600 font-black tracking-widest uppercase text-center">
+           class="animate-pulse text-red-600 font-black tracking-widest uppercase text-xs">
         Cargando Perfil...
       </div>
     </div>
   } @else if (artist(); as a) {
     <div class="max-w-6xl mx-auto">
 
+      <!-- Botón Volver -->
       <button (click)="goBack()"
               i18n="@@artist.detail.back"
-              class="animate-reveal mb-8 text-s font-bold uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer">
-        <span class="text-xl">←</span> VOLVER
+              class="mb-6 md:mb-8 text-[10px] font-black uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer group">
+        <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span> VOLVER
       </button>
 
-      <div
-        class="animate-reveal [animation-delay:100ms] opacity-0 relative w-full aspect-4/3 md:aspect-16/11 border border-white/10 overflow-hidden group mb-12 shadow-2xl bg-black">
+      <!-- Hero Section: Imagen y Nombre -->
+      <div class="relative w-full aspect-4/3 md:aspect-16/11 border border-white/5 overflow-hidden bg-neutral-900 mb-8 md:mb-12 shadow-2xl">
+
         @if (a.images.length > 0) {
           @for (img of a.images; track $index) {
             <img [src]="baseUrl + '/' + img.imageUrl + '_full.webp'"
                  [alt]="a.name"
-                 class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out"
-                 [ngClass]="{
-             'opacity-100 z-10': $index === currentImageIndex(),
-             'opacity-0 z-0': $index !== currentImageIndex()
-           }">
+                 class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
+                 [ngClass]="$index === currentImageIndex() ? 'opacity-100 z-10' : 'opacity-0 z-0'">
           }
-        } @else if (a.logo) {
-          <img [src]="baseUrl + '/' + a.logo + '_full.webp'"
-               class="absolute inset-0 w-full h-full object-cover z-10" alt="logo">
         } @else {
-          <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-800 z-10">
-            <i class="bi bi-person-bounding-box text-9xl"></i>
-            <span i18n="@@artist.detail.noImage"
-                  class="text-xs uppercase tracking-[0.3em] mt-4 opacity-40">Sin Imagen</span>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-white/10 z-10">
+            <i class="bi bi-person-bounding-box text-8xl md:text-9xl"></i>
           </div>
         }
 
+        <!-- Controles Carrusel (Touch friendly) -->
         @if (a.images.length > 1) {
-          <button (click)="prevImage()"
-                  class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-red-600 text-white p-3 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center">
-            <i class="bi bi-chevron-left text-2xl"></i>
-          </button>
-          <button (click)="nextImage()"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-red-600 text-white p-3 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center">
-            <i class="bi bi-chevron-right text-2xl"></i>
-          </button>
+          <div class="absolute inset-0 z-30 flex justify-between items-center px-2 md:px-4 pointer-events-none">
+            <button (click)="prevImage()" class="pointer-events-auto bg-black/40 backdrop-blur-md hover:bg-red-600 text-white p-3 md:p-4 transition-all rounded-full">
+              <i class="bi bi-chevron-left text-xl md:text-2xl"></i>
+            </button>
+            <button (click)="nextImage()" class="pointer-events-auto bg-black/40 backdrop-blur-md hover:bg-red-600 text-white p-3 md:p-4 transition-all rounded-full">
+              <i class="bi bi-chevron-right text-xl md:text-2xl"></i>
+            </button>
+          </div>
         }
 
-        <div
-          class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent z-20 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent z-20"></div>
 
-        <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6 z-20 pointer-events-none">
-          <h1 class="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-2 drop-shadow-lg"
-              style="-webkit-text-stroke: 1px rgba(255,255,255,0.5); color: transparent;">
+        <!-- Nombre del Artista con Stroke corregido para móvil -->
+        <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6 z-20">
+          <h1 class="text-4xl md:text-8xl font-black uppercase tracking-tighter leading-none drop-shadow-2xl"
+              style="-webkit-text-stroke: 1px rgba(255,255,255,0.4); color: transparent;">
             {{ a.name }}
           </h1>
         </div>
       </div>
 
-      <div class="animate-reveal [animation-delay:250ms] opacity-0 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div class="lg:col-span-4">
-          <div class="bg-red-600 p-8 flex flex-col justify-between h-full min-h-87.5 relative overflow-hidden">
-            <div class="relative z-10">
-              <h3 i18n="@@artist.detail.infoTitle"
-                  class="text-3xl font-black uppercase tracking-tighter mb-6 leading-none border-b border-black/20 pb-4">
-                Información del Artista
-              </h3>
+      <!-- Contenido: Info y Bio -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
 
-              <div class="space-y-6 mb-8">
-                @if (a.performances && a.performances.length > 0) {
-                  <div class="bg-black/10 p-4 -mx-4 border-l-4 border-black/30 mb-6">
-                    <p i18n="@@artist.detail.stageSchedule"
-                       class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-1">
-                      Escenario / Horario
-                    </p>
-                    <p class="text-xl font-black uppercase tracking-tight text-white leading-tight">
-                      {{ a.performances[0].stage.name }}
-                    </p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-black/80 mt-1">
-                      {{ a.performances[0].startTime | date:'EEEE d MMMM, HH:mm' | uppercase }}
-                    </p>
-                  </div>
-                }
+        <!-- Tarjeta de Información (Sidebar) -->
+        <div class="lg:col-span-4 order-1 lg:order-1">
+          <div class="bg-red-600 p-6 md:p-8 relative overflow-hidden shadow-xl">
+            <h3 i18n="@@artist.detail.infoTitle"
+                class="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-6 border-b border-black/10 pb-4">
+              Info
+            </h3>
 
+            <div class="space-y-6">
+              @if (a.performances && a.performances.length > 0) {
+                <div class="bg-black/10 p-4 -mx-2 border-l-4 border-black/40">
+                  <p i18n="@@artist.detail.stageSchedule" class="text-[9px] uppercase tracking-widest text-black/40 font-black mb-1">
+                    LIVE / ESCENARIO
+                  </p>
+                  <p class="text-lg md:text-xl font-black uppercase tracking-tight text-white leading-tight">
+                    {{ a.performances[0].stage.name }}
+                  </p>
+                  <p class="text-[10px] font-bold uppercase tracking-widest text-white mt-1">
+                    {{ a.performances[0].startTime | date:'EEEE d MMMM, HH:mm' | uppercase }}
+                  </p>
+                </div>
+              }
+
+              <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
                 <div>
-                  <p i18n="@@artist.detail.genre" class="text-[10px] uppercase tracking-widest text-black/60 font-bold">
-                    Género</p>
-                  <p class="text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
+                  <p i18n="@@artist.detail.genre" class="text-[9px] uppercase tracking-widest text-black/40 font-black">Género</p>
+                  <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
                 </div>
                 <div>
-                  <p i18n="@@artist.detail.origin"
-                     class="text-[10px] uppercase tracking-widest text-black/60 font-bold">Procedencia</p>
-                  <p class="text-lg font-black uppercase tracking-tight">{{ a.country }}</p>
+                  <p i18n="@@artist.detail.origin" class="text-[9px] uppercase tracking-widest text-black/40 font-black">Origen</p>
+                  <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.country }}</p>
                 </div>
               </div>
-            </div>
 
-            <div class="relative z-10">
-              <p i18n="@@artist.detail.socials"
-                 class="text-[10px] uppercase tracking-widest text-black/60 font-bold mb-3">Redes Sociales</p>
-              <div class="flex items-center gap-5">
-                @if (a.officialUrl) {
-                  <a [href]="a.officialUrl" target="_blank" class="hover:scale-125 transition-transform">
-                    <i class="bi bi-globe2 text-2xl text-black"></i>
-                  </a>
-                }
-                @if (a.instagramUrl) {
-                  <a [href]="a.instagramUrl" target="_blank" class="hover:scale-125 transition-transform">
-                    <i class="bi bi-instagram text-2xl text-black"></i>
-                  </a>
-                }
-
-                @if (a.tiktokUrl) {
-                  <a [href]="a.tiktokUrl" target="_blank" class="hover:scale-125 transition-transform">
-                    <i class="bi bi-tiktok text-2xl text-black"></i>
-                  </a>
-                }
-
-                @if (a.youtubeUrl) {
-                  <a [href]="a.youtubeUrl" target="_blank" class="hover:scale-125 transition-transform">
-                    <i class="bi bi-youtube text-2xl text-black"></i>
-                  </a>
-                }
-
-                @if (a.tidalUrl) {
-                  <a [href]="a.tidalUrl" target="_blank" class="hover:scale-125 transition-transform">
-                    <i class="fa-brands fa-tidal text-2xl text-black"></i>
-                  </a>
-                }
+              <!-- Redes Sociales -->
+              <div class="pt-4 border-t border-black/10">
+                <div class="flex flex-wrap gap-4">
+                  @if (a.officialUrl) { <a [href]="a.officialUrl" target="_blank" class="text-black hover:text-white transition-colors"><i class="bi bi-globe2 text-xl"></i></a> }
+                  @if (a.instagramUrl) { <a [href]="a.instagramUrl" target="_blank" class="text-black hover:text-white transition-colors"><i class="bi bi-instagram text-xl"></i></a> }
+                  @if (a.tiktokUrl) { <a [href]="a.tiktokUrl" target="_blank" class="text-black hover:text-white transition-colors"><i class="bi bi-tiktok text-xl"></i></a> }
+                  @if (a.youtubeUrl) { <a [href]="a.youtubeUrl" target="_blank" class="text-black hover:text-white transition-colors"><i class="bi bi-youtube text-xl"></i></a> }
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="lg:col-span-8 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-4 mb-6">
-              <div class="h-px flex-1 bg-red-600"></div>
-              <span i18n="@@artist.detail.bio" class="text-xs font-black uppercase tracking-[0.4em] text-red-600">Biografía</span>
-            </div>
-
-            <p
-              class="text-gray-300 leading-relaxed text-lg text-justify font-light first-letter:text-5xl first-letter:font-black first-letter:text-red-600 first-letter:mr-3 first-letter:float-left">
-              {{ a.description }}
-            </p>
+        <!-- Biografía y Player -->
+        <div class="lg:col-span-8 order-2 lg:order-2">
+          <div class="flex items-center gap-4 mb-6">
+            <span i18n="@@artist.detail.bio" class="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">Biografía</span>
+            <div class="h-px w-full bg-white/10"></div>
           </div>
 
+          <p class="text-zinc-400 leading-relaxed text-base md:text-lg text-justify font-light
+                    first-letter:text-5xl md:first-letter:text-6xl first-letter:font-black
+                    first-letter:text-red-600 first-letter:mr-3 first-letter:float-left first-letter:leading-none">
+            {{ a.description }}
+          </p>
+
           @if (a.spotifyUrl) {
-            <div class="mt-12 border border-white/5 rounded-sm overflow-hidden bg-gray-900/50 p-1">
-              <iframe [src]="getSafeSpotifyUrl(a.spotifyUrl)"
-                      width="100%" height="80"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"
-                      class="transition-all duration-500"></iframe>
+            <div class="mt-10 md:mt-12 group">
+              <div class="flex items-center gap-2 mb-3 opacity-40 group-hover:opacity-100 transition-opacity">
+                <i class="bi bi-spotify text-green-500"></i>
+                <span class="text-[10px] font-black uppercase tracking-widest">Listen on Spotify</span>
+              </div>
+              <div class="rounded-lg overflow-hidden bg-neutral-900 border border-white/5">
+                <iframe [src]="getSafeSpotifyUrl(a.spotifyUrl)"
+                        width="100%" height="80"
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                        class="grayscale hover:grayscale-0 transition-all duration-700"></iframe>
+              </div>
             </div>
           }
         </div>

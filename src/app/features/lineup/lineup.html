@@ -1,59 +1,66 @@
-<div class="min-h-screen text-white pt-32 pb-20 px-6">
+<!-- valkyria-frontend-develop/src/app/features/lineup/lineup.html -->
+<div class="min-h-screen text-white pt-24 pb-20 px-4 md:px-8">
   <div class="max-w-7xl mx-auto">
 
-    <header class="mb-16 text-center">
-      <h1 i18n="@@lineup.title" class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
-
-      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 border-y border-zinc-800 py-6">
-        @for (day of days; track day.date) {
-          <button
-            (click)="setDay(day.date)"
-            [class.text-red-600]="selectedDay() === day.date"
-            class="text-xl md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors cursor-pointer">
-            {{ day.label }}
-          </button>
-        }
-      </nav>
+    <!-- Header Principal -->
+    <header class="mb-12 text-center">
+      <h1 i18n="@@lineup.title" class="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
     </header>
+
+    <!-- Navegación de Días: Sticky y Swipeable en móvil -->
+    <nav class="sticky top-20 z-30 bg-neutral-950/80 backdrop-blur-md flex overflow-x-auto no-scrollbar gap-8 border-y border-white/5 py-6 px-4 -mx-4 md:mx-0 justify-start md:justify-center">
+      @for (day of days; track day.date) {
+        <button
+          (click)="setDay(day.date)"
+          [ngClass]="selectedDay() === day.date ? 'text-red-600' : 'text-white/40'"
+          class="text-lg md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors cursor-pointer whitespace-nowrap">
+          {{ day.label }}
+        </button>
+      }
+    </nav>
 
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
-        <div class="w-12 h-12 border-2 border-zinc-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
-        <p i18n="@@lineup.loading" class="text-xs uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
+        <div class="w-10 h-10 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-6"></div>
+        <p i18n="@@lineup.loading" class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
           Abriendo las puertas del Valhalla...
         </p>
       </div>
     } @else {
-      <div class="space-y-32">
+      <div class="mt-16 space-y-24 md:space-y-32">
         @for (date of getGroupedDates(); track date) {
-          <section class="animate-in fade-in duration-700">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6">
+          <section class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <!-- Fecha del Evento -->
+            <h2 class="text-3xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6 sticky top-40 md:static bg-neutral-950/50 md:bg-transparent py-2 backdrop-blur-sm md:backdrop-blur-none z-20">
               {{ date | date:'EEEE d' | uppercase }}
             </h2>
 
             <div class="space-y-16">
               @for (stageName of getOrderedStages(date); track stageName) {
                 <div>
-                  <h3 class="text-s uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-zinc-900 pb-2">
+                  <!-- Nombre del Escenario -->
+                  <h3 class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-white/5 pb-2">
                     {{ stageName }}
                   </h3>
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10">
+                  <!-- Grid de Actuaciones -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-8 md:gap-x-12 md:gap-y-10">
                     @for (perf of groupedLineup()[date][stageName]; track perf.id) {
-                      <div [routerLink]="['/artists', perf.artist.id]" class="group cursor-pointer">
-                        <div class="flex items-baseline justify-between mb-2">
-                          <span class="text-red-600 font-mono text-sm">
+                      <div [routerLink]="['/artists', perf.artist.id]"
+                           class="group cursor-pointer border-b border-white/5 pb-6 md:border-0 md:pb-0">
+                        <div class="flex items-center gap-4 mb-2">
+                          <span class="text-red-600 font-mono text-sm font-bold">
                             {{ perf.startTime | date:'HH:mm' }}
                           </span>
-                          <span class="text-zinc-600 text-[10px] uppercase tracking-widest">
+                          <span class="text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
                             {{ perf.artist.genre }}
                           </span>
                         </div>
-                        <h4
-                          class="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">
+                        <h4 class="text-2xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-all duration-300">
                           {{ perf.artist.name }}
                         </h4>
-                        <div class="h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
+                        <!-- Indicador visual hover (solo escritorio) -->
+                        <div class="hidden md:block h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
                       </div>
                     }
                   </div>
@@ -63,7 +70,7 @@
           </section>
         } @empty {
           <div i18n="@@lineup.empty" class="text-center py-20 text-zinc-500 italic">
-            No hay actuaciones programadas. Revisa la conexión con el backend.
+            No hay actuaciones programadas.
           </div>
         }
       </div>

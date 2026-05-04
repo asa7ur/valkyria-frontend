@@ -1,8 +1,6 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from '@angular/router';
-
-// Núcleo: Importaciones con nombres descriptivos y sin sufijos
 import {LineupClient} from '../../core/services/lineup-client';
 import {Performance, FESTIVAL_DAYS} from '../../core/models/performance';
 import {getFestivalDate} from '../../shared/utils/date-utils';
