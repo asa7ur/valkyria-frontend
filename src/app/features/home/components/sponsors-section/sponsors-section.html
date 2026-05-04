@@ -1,36 +1,36 @@
-<section class="text-white py-24 px-6">
+<section class="text-white py-16 md:py-24 px-4 md:px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-8 md:mb-12">
       <h2 i18n="@@home.sponsors.title"
-          class="text-xs md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+          class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
         Patrocinadores
       </h2>
       <div class="h-px w-full bg-white/10"></div>
     </div>
 
     <div
-      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-16 gap-x-12 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 md:gap-y-16 gap-x-6 md:gap-x-12 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
 
       @for (sponsor of sponsors(); track sponsor.id) {
-        <div class="group cursor-help text-center w-full flex items-center justify-center">
+        <div class="group cursor-help text-center w-full flex items-center justify-center p-2">
 
           @if (sponsor.image) {
             <img
               [src]="imagesBaseUrl + '/' + sponsor.image"
               [alt]="sponsor.name"
-              class="max-h-12 md:max-h-16 w-auto grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 object-contain"
+              class="max-h-10 md:max-h-16 w-auto grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 object-contain"
             >
           } @else {
             <span
-              class="text-xl md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
+              class="text-lg md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
               {{ sponsor.name }}
             </span>
           }
 
         </div>
       } @empty {
-        <div i18n="@@home.sponsors.empty" class="col-span-full py-10 text-gray-600 italic">
-          No hay patrocinadores disponibles en este momento.
+        <div i18n="@@home.sponsors.empty" class="col-span-full py-10 text-gray-600 italic text-center text-sm">
+          No hay patrocinadores disponibles.
         </div>
       }
 

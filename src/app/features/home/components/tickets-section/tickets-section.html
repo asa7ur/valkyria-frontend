@@ -1,19 +1,19 @@
-<section class="text-white py-24 px-6">
+<section class="text-white py-16 md:py-24 px-4 md:px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-8 md:mb-12">
       <h2 i18n="@@home.tickets.title"
-          class="text-xs md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+          class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
         Entradas
       </h2>
       <div class="h-px w-full bg-white/10"></div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-10">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 px-0 md:px-10">
       @for (ticket of tickets(); track ticket.id; let i = $index) {
         <div
           [class]="i < 2
-            ? 'col-span-2 lg:col-span-2 p-6 md:p-10 lg:p-12 min-h-87.5 md:min-h-112.5 border-red-800/40 bg-linear-to-br from-red-950/60 to-transparent'
-            : 'col-span-1 p-5 md:p-8 aspect-4/5 md:aspect-3/4 border-white/10 bg-linear-to-br from-black/60 to-transparent'"
+            ? 'col-span-2 lg:col-span-2 p-5 md:p-10 lg:p-12 min-h-[300px] md:min-h-112.5 border-red-800/40 bg-linear-to-br from-red-950/60 to-transparent'
+            : 'col-span-1 p-4 md:p-8 aspect-[4/5] md:aspect-3/4 border-white/10 bg-linear-to-br from-black/60 to-transparent'"
           class="bg-transparent border flex flex-col justify-between hover:bg-red-600 hover:text-black hover:border-red-600 transition-all duration-500 group relative overflow-hidden">
 
           <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-0 transition-opacity"></div>
@@ -21,23 +21,23 @@
           @if (i < 2) {
             <span
               i18n="@@home.tickets.fullExperience"
-              class="absolute top-4 right-4 md:top-6 md:right-6 text-[9px] md:text-[10px] font-bold border-2 border-red-600 text-red-600 px-3 py-1.5 uppercase tracking-tighter group-hover:bg-black group-hover:text-red-600 transition-all z-10">
-              Experiencia Completa
+              class="absolute top-3 right-3 md:top-6 md:right-6 text-[8px] md:text-[10px] font-bold border border-red-600 text-red-600 px-2 py-1 md:px-3 md:py-1.5 uppercase tracking-tighter group-hover:bg-black group-hover:text-red-600 transition-all z-10">
+              Full Experience
             </span>
           }
 
           <div class="relative z-10">
             <p
-              [class]="i < 2 ? 'text-xs md:text-sm mb-2 md:mb-4' : 'text-[10px] md:text-xs mb-1 md:mb-2'"
-              class="font-bold tracking-[0.2em] md:tracking-[0.3em] text-gray-500 group-hover:text-black/70">
+              [class]="i < 2 ? 'text-[10px] md:text-sm mb-1 md:mb-4' : 'text-[8px] md:text-xs mb-1 md:mb-2'"
+              class="font-bold tracking-[0.2em] md:tracking-[0.3em] text-gray-500 group-hover:text-black/70 uppercase">
               @if (i < 2) {
-                <span i18n="@@home.tickets.pass4Days">ABONO 4 DÍAS</span>
+                <span i18n="@@home.tickets.pass4Days">Abono 4 Días</span>
               } @else {
-                <span i18n="@@home.tickets.access1Day">ACCESO 1 DÍA</span>
+                <span i18n="@@home.tickets.access1Day">Acceso 1 Día</span>
               }
             </p>
             <h3
-              [class]="i < 2 ? 'text-4xl md:text-5xl mt-6' : 'text-xl md:text-3xl mt-4'"
+              [class]="i < 2 ? 'text-3xl md:text-5xl mt-2 md:mt-6' : 'text-lg md:text-3xl mt-2 md:mt-4'"
               class="font-black uppercase leading-none italic transition-transform duration-300">
               {{ ticket.name }}
             </h3>
@@ -45,7 +45,7 @@
 
           <div class="mt-auto relative z-10">
             <p
-              [class]="i < 2 ? 'text-4xl md:text-5xl mb-6 md:mb-8' : 'text-3xl md:text-4xl mb-4 md:mb-8'"
+              [class]="i < 2 ? 'text-3xl md:text-5xl mb-4 md:mb-8' : 'text-2xl md:text-4xl mb-3 md:mb-8'"
               class="font-bold">
               {{ ticket.price }}€
             </p>
@@ -53,8 +53,8 @@
             <button
               routerLink="/purchase"
               i18n="@@home.tickets.buyNow"
-              class="w-full border-2 border-current py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-red-600 hover:border-black transition-all cursor-pointer">
-              COMPRAR AHORA
+              class="w-full border-2 border-current py-2.5 md:py-4 text-[9px] md:text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-red-600 hover:border-black transition-all cursor-pointer">
+              Comprar
             </button>
           </div>
         </div>

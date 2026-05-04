@@ -1,25 +1,25 @@
-<section class="text-white py-24 px-6">
+<section class="text-white py-16 md:py-24 px-4 md:px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-8 md:mb-12">
       <h2 i18n="@@home.lineup.title"
-          class="text-xs md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+          class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
         Line-up 2026
       </h2>
       <div class="h-px w-full bg-white/10"></div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12 items-center">
+    <div class="grid grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12 items-center">
       @for (artist of artists(); track artist.id) {
         <div [routerLink]="['/artists', artist.id]"
-             class="group cursor-pointer flex justify-center items-center h-24">
+             class="group cursor-pointer flex justify-center items-center h-20 md:h-24">
           <img [src]="artist.logo"
                [alt]="artist.name"
-               class="max-h-full max-w-full object-contain filter grayscale opacity-60 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110">
+               class="max-h-full max-w-[80%] md:max-w-full object-contain filter grayscale opacity-60 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110">
         </div>
       }
     </div>
 
-    <p i18n="@@home.lineup.moreArtists" class="mt-20 text-center text-gray-600 text-sm uppercase tracking-widest">
+    <p i18n="@@home.lineup.moreArtists" class="mt-12 md:mt-20 text-center text-gray-600 text-[10px] md:text-sm uppercase tracking-widest">
       y más artistas por confirmar
     </p>
   </div>
