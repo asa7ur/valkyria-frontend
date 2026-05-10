@@ -1,4 +1,3 @@
-// valkyria-frontend-develop/src/app/features/purchase/purchase.ts
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgClass, CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,7 +13,6 @@ import { DocumentType, OrderCreateDTO } from '../../core/models/order-schema';
 
 @Component({
   selector: 'app-purchase',
-  standalone: true,
   imports: [CommonModule, NgClass, ReactiveFormsModule, RouterModule, TicketItem, CampingItem],
   templateUrl: './purchase.html',
 })
