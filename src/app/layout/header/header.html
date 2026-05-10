@@ -26,7 +26,7 @@
     <div class="flex-1 flex items-center justify-end">
       <!-- Acciones Escritorio: OCULTAS EN MÓVIL/TABLET -->
       <div class="hidden lg:flex items-center gap-2 md:gap-4 mr-4 md:mr-6">
-        <button (click)="switchLanguage()"
+        <button (click)="switchLang('es')"
                 class="text-[10px] font-bold text-white/40 hover:text-white transition-colors uppercase w-8 cursor-pointer">
           {{ locale === 'es' ? 'ES' : 'EN' }}
         </button>
@@ -130,8 +130,8 @@
       <div class="flex flex-col gap-2">
         <span class="text-[10px] font-black uppercase tracking-widest text-white/20">Seleccionar Idioma</span>
         <div class="flex gap-4">
-          <button (click)="switchLanguage()" [class]="locale === 'es' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">Español</button>
-          <button (click)="switchLanguage()" [class]="locale === 'en' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">English</button>
+          <button (click)="switchLang('es')" [class]="locale === 'es' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">Español</button>
+          <button (click)="switchLang('en')" [class]="locale === 'en' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">English</button>
         </div>
       </div>
 

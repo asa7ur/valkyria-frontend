@@ -9,12 +9,6 @@
   "projects": {
     "valkyria-frontend": {
       "projectType": "application",
-      "i18n": {
-        "sourceLocale": "es",
-        "locales": {
-          "en": "src/locale/messages.en.xlf"
-        }
-      },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
@@ -38,10 +32,6 @@
             ],
             "polyfills": [
               "@angular/localize/init"
-            ],
-            "localize": [
-              "es",
-              "en"
             ],
             "outputPath": "dist/valkyria-frontend"
           },

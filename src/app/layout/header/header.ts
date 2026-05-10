@@ -2,6 +2,7 @@ import {Component, inject, signal, HostListener, ElementRef, LOCALE_ID, effect} 
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthManager} from '../../core/services/auth-manager';
 import {CheckoutLogic} from '../../core/services/checkout-logic';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ export class Header {
   private elementRef = inject(ElementRef);
   protected locale = inject(LOCALE_ID);
   public cart = inject(CheckoutLogic);
+  private translate = inject(TranslateService);
 
   // Signal para el estado del menú
   isMenuOpen = signal(false);
@@ -38,6 +40,10 @@ export class Header {
     this.isMenuOpen.set(false);
   }
 
+  switchLang(lang: string) {
+    this.translate.use(lang);
+  }
+
   // Cierra el menú si se hace clic fuera del sidebar
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -50,20 +56,5 @@ export class Header {
     this.auth.logout();
     this.closeMenu();
     this.router.navigate(['/']);
-  }
-
-  switchLanguage() {
-    const newLocale = this.locale === 'es' ? 'en' : 'es';
-    let currentPath = window.location.pathname;
-
-    if (currentPath.startsWith('/es/')) {
-      currentPath = currentPath.replace('/es/', `/${newLocale}/`);
-    } else if (currentPath.startsWith('/en/')) {
-      currentPath = currentPath.replace('/en/', `/${newLocale}/`);
-    } else {
-      currentPath = `/${newLocale}${currentPath}`;
-    }
-
-    window.location.href = currentPath;
   }
 }

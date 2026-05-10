@@ -4,6 +4,8 @@ import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@
 import {routes} from './app.routes';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {auth} from './core/interceptors/auth';
+import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
+import {provideTranslateService} from '@ngx-translate/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +19,13 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withInterceptors([auth])
-    )
+    ),
+    provideTranslateService({
+      defaultLanguage: 'es',
+      loader: provideTranslateHttpLoader({
+        prefix: './i18n/',
+        suffix: '.json'
+      })
+    }),
   ]
 };
