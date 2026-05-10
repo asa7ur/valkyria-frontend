@@ -1,4 +1,116 @@
 {
-  "nav": { "lineup": "Lineup", "artists": "Artistas" },
-  "home": { "title": "Valkyria" }
+  "nav": {
+    "lineup": "Lineup",
+    "artists": "Artistas",
+    "cart": "Cesta",
+    "tickets": "Entradas",
+    "buy_tickets": "Comprar Entradas"
+  },
+  "home": {
+    "title": "Valkyria Festival",
+    "hero": {
+      "video_fallback": "Tu navegador no soporta videos.",
+      "date": "5-8 de Agosto, 2026 • Sevilla",
+      "title": "Valkyria",
+      "buy_tickets": "Comprar Entradas"
+    },
+    "lineup": {
+      "title": "Line-up 2026",
+      "more_artists": "y más artistas por confirmar"
+    },
+    "info": {
+      "location_value": "Sevilla",
+      "location_label": "Lugar",
+      "duration_value": "3 Días",
+      "duration_label": "Duración",
+      "artists_count": "+25",
+      "artists_label": "Artistas"
+    },
+    "tickets": {
+      "title": "Entradas",
+      "full_experience": "Full Experience",
+      "pass_3_days": "Abono 3 Días",
+      "access_1_day": "Acceso 1 Día",
+      "buy_now": "Comprar"
+    },
+    "experience": {
+      "title": "Vive el Festival",
+      "img_alt": "Experiencia del festival"
+    },
+    "social": {
+      "follow_us": "Síguenos"
+    },
+    "sponsors": {
+      "title": "Patrocinadores",
+      "empty": "No hay patrocinadores disponibles."
+    }
+  },
+  "register": {
+    "title": "Únete a las <br> <span class=\"text-red-600\">Valkirias</span>",
+    "labels": {
+      "first_name": "Nombre",
+      "last_name": "Apellidos",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "birth_date": "Fecha de Nacimiento",
+      "password": "Contraseña",
+      "confirm_password": "Confirmar Contraseña"
+    },
+    "btn": {
+      "processing": "Procesando...",
+      "submit": "Registrarse"
+    },
+    "link": {
+      "back_login": "Volver al Inicio de Sesión"
+    }
+  },
+  "login": {
+    "title": "Entra a <br> <span class=\"text-red-600\">Valhalla</span>",
+    "labels": {
+      "username": "Correo Electrónico",
+      "password": "Contraseña"
+    },
+    "placeholders": {
+      "username": "tu_correo@correo.es"
+    },
+    "btn": {
+      "authenticating": "Autenticando...",
+      "submit": "Iniciar Sesión"
+    },
+    "links": {
+      "back_home": "Volver al Inicio",
+      "register": "Crear Cuenta"
+    },
+    "text": {
+      "new_here": "¿Eres nuevo?"
+    }
+  },
+
+  "confirm": {
+    "title": "Verificación de <br> <span class=\"text-red-600\">Cuenta</span>",
+    "links": {
+      "login": "Continuar al Inicio de Sesión",
+      "register": "Intentar Registrarse de Nuevo"
+    },
+    "messages": {
+      "verifying": "Verificando tus credenciales...",
+      "success": "Tu cuenta ha sido verificada. Ya puedes entrar a Valhalla.",
+      "error": "El código de verificación ha expirado o es inválido."
+    }
+  },
+
+  "auth": {
+    "orders": "Pedidos",
+    "my_orders": "Mis Pedidos",
+    "logout": "Salir",
+    "logout_full": "Cerrar Sesión",
+    "login": "Login",
+    "register": "Registro"
+  },
+  "lang": {
+    "select": "Seleccionar Idioma",
+    "es": "Español",
+    "en": "English"
+  }
+
 }

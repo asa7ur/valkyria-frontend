@@ -4,10 +4,11 @@ import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 import {ResponseDTO} from '../../../../core/models/response-dto';
 import {environment} from '../../../../../environments/environment';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-lineup-section',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './lineup-section.html',
   styles: ``,
 })

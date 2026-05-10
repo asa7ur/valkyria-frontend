@@ -1,113 +1,108 @@
-<div class="min-h-screen bg-black flex items-center justify-center py-12 px-6 relative overflow-hidden">
+<!-- Cambiamos py-12 por py-4 para dar más aire vertical -->
+<div class="min-h-screen bg-black flex items-center justify-center py-4 px-6 relative overflow-hidden">
 
   <div class="absolute top-0 right-0 w-full h-full opacity-20 pointer-events-none">
     <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-600 blur-[120px] rounded-full"></div>
   </div>
 
   <div class="w-full max-w-2xl z-10">
-    <div class="mb-10 text-center md:text-left">
-      <h2 i18n="@@register.title" class="text-5xl md:text-7xl font-black text-white uppercase italic leading-none">
-        Únete a las <br>
-        <span class="text-red-600">Valkirias</span>
+    <!-- Reducimos el margen inferior de mb-10 a mb-6 -->
+    <div class="mb-6 text-center md:text-left">
+      <!-- Reducimos el tamaño de la fuente de 7xl a 5xl para ahorrar mucho espacio vertical -->
+      <h2 [innerHTML]="'register.title' | translate"
+          class="text-4xl md:text-5xl font-black text-white uppercase italic leading-none">
       </h2>
-      <div class="h-2 w-24 bg-red-600 mt-4 mx-auto md:mx-0"></div>
+      <div class="h-1.5 w-16 bg-red-600 mt-2 mx-auto md:mx-0"></div>
     </div>
 
     @if (errorMessage()) {
-      <div
-        class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
+      <div class="bg-red-600/20 border border-red-600 text-red-500 p-3 mb-4 text-[10px] font-bold uppercase tracking-widest">
         {{ errorMessage() }}
       </div>
     }
 
     @if (successMessage()) {
-      <div
-        class="bg-green-600/20 border border-green-600 text-green-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest text-center">
+      <div class="bg-green-600/20 border border-green-600 text-green-500 p-3 mb-4 text-[10px] font-bold uppercase tracking-widest text-center">
         {{ successMessage() }}
       </div>
     }
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Reducimos el gap de 6 a 4 -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
 
       <div class="relative group">
-        <label i18n="@@register.label.firstName"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Nombre
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.first_name' | translate }}
         </label>
         <input type="text" formControlName="firstName"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
       <div class="relative group">
-        <label i18n="@@register.label.lastName"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Apellidos
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.last_name' | translate }}
         </label>
         <input type="text" formControlName="lastName"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
       <div class="relative group md:col-span-2">
-        <label i18n="@@register.label.email"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Correo Electrónico
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.email' | translate }}
         </label>
         <input type="email" formControlName="email"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
       <div class="relative group">
-        <label i18n="@@register.label.phone"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Teléfono
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.phone' | translate }}
         </label>
         <input type="text" formControlName="phone"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
       <div class="relative group">
-        <label i18n="@@register.label.birthDate"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Fecha de Nacimiento
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.birth_date' | translate }}
         </label>
         <input type="date" formControlName="birthDate"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark text-sm">
       </div>
 
       <div class="relative group">
-        <label i18n="@@register.label.password"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Contraseña
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.password' | translate }}
         </label>
         <input type="password" formControlName="password"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
       <div class="relative group">
-        <label i18n="@@register.label.confirmPassword"
-               class="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-2 group-focus-within:text-red-500">
-          Confirmar Contraseña
+        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
+          {{ 'register.labels.confirm_password' | translate }}
         </label>
         <input type="password" formControlName="confirmPassword"
-               class="w-full bg-transparent border-b-2 border-white/10 py-2 text-white focus:outline-none focus:border-red-600 transition-all font-bold">
+               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
       </div>
 
-      <div class="md:col-span-2 pt-6">
+      <!-- Reducimos el padding superior pt-6 a pt-4 y el padding del botón py-5 a py-3 -->
+      <div class="md:col-span-2 pt-4">
         <button
           type="submit"
           [disabled]="registerForm.invalid || isLoading()"
-          class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 transition-all cursor-pointer flex justify-between items-center px-8"
+          class="w-full bg-white text-black py-3 text-xs font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 transition-all cursor-pointer flex justify-between items-center px-8"
         >
           <span>
             @if (isLoading()) {
-              <ng-container i18n="@@register.btn.processing">Procesando...</ng-container>
+              {{ 'register.btn.processing' | translate }}
             } @else {
-              <ng-container i18n="@@register.btn.submit">Registrarse como Guerrero</ng-container>
+              {{ 'register.btn.submit' | translate }}
             }
           </span>
 
           @if (!isLoading()) {
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
@@ -116,9 +111,11 @@
       </div>
     </form>
 
-    <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-      <a routerLink="/login" i18n="@@register.link.backLogin" class="text-white/30 hover:text-white transition-colors">←
-        Volver al Inicio de Sesión</a>
+    <!-- Reducimos el margen superior mt-8 a mt-4 -->
+    <div class="mt-4 flex justify-between items-center text-[9px] font-bold uppercase tracking-widest">
+      <a routerLink="/login" class="text-white/30 hover:text-white transition-colors">
+        ← {{ 'register.link.back_login' | translate }}
+      </a>
     </div>
   </div>
 </div>

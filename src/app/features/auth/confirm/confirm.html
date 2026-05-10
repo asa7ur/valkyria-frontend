@@ -7,9 +7,9 @@
 
   <div class="w-full max-w-md z-10 text-center">
     <div class="mb-12">
-      <h2 i18n="@@confirm.title" class="text-6xl font-black text-white uppercase italic leading-none">
-        Verificación de <br>
-        <span class="text-red-600">Cuenta</span>
+      <!-- Título con HTML dinámico -->
+      <h2 [innerHTML]="'confirm.title' | translate"
+          class="text-6xl font-black text-white uppercase italic leading-none">
       </h2>
       <div class="h-2 w-24 bg-red-600 mt-4 mx-auto"></div>
     </div>
@@ -18,9 +18,10 @@
 
       @if (status() === 'loading') {
         <div class="animate-pulse">
-          <div
-            class="h-12 w-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <p class="text-white/60 uppercase tracking-[0.2em] font-bold text-xs">{{ message() }}</p>
+          <div class="h-12 w-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+          <p class="text-white/60 uppercase tracking-[0.2em] font-bold text-xs">
+            {{ message() | translate }}
+          </p>
         </div>
       }
 
@@ -34,12 +35,11 @@
             </svg>
           </div>
           <p class="text-white font-black uppercase tracking-widest text-sm leading-relaxed">
-            {{ message() }}
+            {{ message() | translate }}
           </p>
           <a routerLink="/login"
-             i18n="@@confirm.link.login"
              class="inline-block w-full bg-white text-black py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all">
-            Continuar al Inicio de Sesión
+            {{ 'confirm.links.login' | translate }}
           </a>
         </div>
       }
@@ -54,12 +54,11 @@
             </svg>
           </div>
           <p class="text-red-500 font-black uppercase tracking-widest text-sm leading-relaxed">
-            {{ message() }}
+            {{ message() | translate }}
           </p>
           <a routerLink="/register"
-             i18n="@@confirm.link.register"
              class="inline-block w-full border border-white/20 text-white py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
-            Intentar Registrarse de Nuevo
+            {{ 'confirm.links.register' | translate }}
           </a>
         </div>
       }

@@ -1,8 +1,11 @@
 import {afterNextRender, Component, signal} from '@angular/core';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-experience-section',
-  imports: [],
+  imports: [
+    TranslatePipe
+  ],
   templateUrl: './experience-section.html',
   styles: ``,
 })

@@ -6,39 +6,34 @@
 
   <div class="w-full max-w-md z-10">
     <div class="mb-12">
-      <h2 i18n="@@login.title" class="text-6xl font-black text-white uppercase italic leading-none">
-        Únete a la <br>
-        <span class="text-red-600">Horda</span>
+      <h2 [innerHTML]="'login.title' | translate"
+          class="text-6xl font-black text-white uppercase italic leading-none">
       </h2>
       <div class="h-2 w-24 bg-red-600 mt-4"></div>
     </div>
 
     @if (errorMessage()) {
-      <div
-        class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
+      <div class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
         {{ errorMessage() }}
       </div>
     }
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
       <div class="relative group">
-        <label i18n="@@login.label.username"
-               class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          Usuario / Correo Electrónico
+        <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          {{ 'login.labels.username' | translate }}
         </label>
         <input
           type="text"
           formControlName="username"
-          i18n-placeholder="@@login.placeholder.username"
-          placeholder="tu_usuario"
+          [placeholder]="'login.placeholders.username' | translate"
           class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
         >
       </div>
 
       <div class="relative group">
-        <label i18n="@@login.label.password"
-               class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          Contraseña
+        <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
+          {{ 'login.labels.password' | translate }}
         </label>
         <input
           type="password"
@@ -56,9 +51,9 @@
         >
           <span>
             @if (isLoading()) {
-              <ng-container i18n="@@login.btn.authenticating">Autenticando...</ng-container>
+              {{ 'login.btn.authenticating' | translate }}
             } @else {
-              <ng-container i18n="@@login.btn.submit">Iniciar Sesión</ng-container>
+              {{ 'login.btn.submit' | translate }}
             }
           </span>
 
@@ -74,12 +69,14 @@
     </form>
 
     <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-      <a routerLink="/" i18n="@@login.link.backHome" class="text-white/30 hover:text-white transition-colors">← Volver
-        al Inicio</a>
+      <a routerLink="/" class="text-white/30 hover:text-white transition-colors">
+        ← {{ 'login.links.back_home' | translate }}
+      </a>
       <div class="flex gap-4">
-        <span i18n="@@login.text.newHere" class="text-white/20">¿Eres nuevo?</span>
-        <a routerLink="/register" i18n="@@login.link.register" class="text-red-500 hover:text-white transition-colors">Crear
-          Cuenta →</a>
+        <span class="text-white/20">{{ 'login.text.new_here' | translate }}</span>
+        <a routerLink="/register" class="text-red-500 hover:text-white transition-colors">
+          {{ 'login.links.register' | translate }} →
+        </a>
       </div>
     </div>
   </div>

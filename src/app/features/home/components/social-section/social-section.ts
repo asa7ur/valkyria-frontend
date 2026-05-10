@@ -1,9 +1,13 @@
 // src/app/features/home/components/social-section/social-section.ts
 import {Component, signal} from '@angular/core';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-social-section',
   templateUrl: './social-section.html',
+  imports: [
+    TranslatePipe
+  ]
 })
 export class SocialSection {
   protected readonly socialNetworks = signal([

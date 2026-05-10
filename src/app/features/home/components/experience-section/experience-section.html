@@ -2,9 +2,8 @@
   <div class="px-4 md:px-6">
     <div class="max-w-7xl mx-auto">
       <div class="flex items-center gap-4 mb-8 md:mb-12">
-        <h2 i18n="@@home.experience.title"
-            class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
-          Vive el Festival
+        <h2 class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+          {{ 'home.experience.title' | translate }}
         </h2>
         <div class="h-px w-full bg-white/10"></div>
       </div>
@@ -19,8 +18,7 @@
         <div class="min-w-full h-full">
           <img [src]="image"
                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-               i18n-alt="@@home.experience.imgAlt"
-               alt="Experiencia del festival">
+               [alt]="'home.experience.img_alt' | translate">
         </div>
       }
     </div>

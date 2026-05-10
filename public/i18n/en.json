@@ -1,4 +1,119 @@
 {
-  "nav": { "lineup": "Lineup", "artists": "Artists" },
-  "home": { "title": "Valkyria Festival" }
+  "nav": {
+    "lineup": "Lineup",
+    "artists": "Artists",
+    "cart": "Cart",
+    "tickets": "Tickets",
+    "buy_tickets": "Buy Tickets"
+  },
+  "home": {
+    "title": "Valkyria Festival",
+    "hero": {
+      "video_fallback": "Your browser does not support videos.",
+      "date": "August 5-8, 2026 • Seville",
+      "title": "Valkyria",
+      "buy_tickets": "Buy Tickets"
+    },
+    "lineup": {
+      "title": "Line-up 2026",
+      "more_artists": "and more artists to be confirmed"
+    },
+    "info": {
+      "location_value": "Seville",
+      "location_label": "Location",
+      "duration_value": "3 Days",
+      "duration_label": "Duration",
+      "artists_count": "+25",
+      "artists_label": "Artists"
+    },
+    "tickets": {
+      "title": "Tickets",
+      "full_experience": "Full Experience",
+      "pass_3_days": "3-Day Pass",
+      "access_1_day": "1-Day Access",
+      "buy_now": "Buy Now"
+    },
+    "experience": {
+      "title": "Live the Festival",
+      "img_alt": "Festival experience"
+    },
+    "social": {
+      "follow_us": "Follow Us"
+    },
+    "sponsors": {
+      "title": "Sponsors",
+      "empty": "No sponsors available."
+    }
+
+  },
+
+  "register": {
+    "title": "Join the <br> <span class=\"text-red-600\">Valkyries</span>",
+    "labels": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "birth_date": "Date of Birth",
+      "password": "Password",
+      "confirm_password": "Confirm Password"
+    },
+    "btn": {
+      "processing": "Processing...",
+      "submit": "Register"
+    },
+    "link": {
+      "back_login": "Back to Login"
+    }
+  },
+
+  "login": {
+    "title": "Enter <br> <span class=\"text-red-600\">Valhalla</span>",
+    "labels": {
+      "username": "Email",
+      "password": "Password"
+    },
+    "placeholders": {
+      "username": "your_email@email.com"
+    },
+    "btn": {
+      "authenticating": "Authenticating...",
+      "submit": "Login"
+    },
+    "links": {
+      "back_home": "Back to Home",
+      "register": "Create Account"
+    },
+    "text": {
+      "new_here": "New here?"
+    }
+  },
+
+  "confirm": {
+    "title": "Account <br> <span class=\"text-red-600\">Verification</span>",
+    "links": {
+      "login": "Continue to Login",
+      "register": "Try Registering Again"
+    },
+    "messages": {
+      "verifying": "Verifying your warrior...",
+      "success": "Your account has been verified. You can now enter Valhalla.",
+      "error": "The verification code has expired or is invalid."
+    }
+  },
+
+  "auth": {
+    "orders": "Orders",
+    "my_orders": "My Orders",
+    "logout": "Logout",
+    "logout_full": "Log Out",
+    "login": "Login",
+    "register": "Register"
+  },
+  "lang": {
+    "select": "Select Language",
+    "es": "Spanish",
+    "en": "English"
+  }
+
 }

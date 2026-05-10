@@ -1,11 +1,12 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AuthManager} from '../../../core/services/auth-manager';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirm',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './confirm.html'
 })
 export class Confirm implements OnInit {

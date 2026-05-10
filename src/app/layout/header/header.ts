@@ -1,28 +1,25 @@
-import {Component, inject, signal, HostListener, ElementRef, LOCALE_ID, effect} from '@angular/core';
+import {Component, inject, signal, HostListener, ElementRef, effect} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthManager} from '../../core/services/auth-manager';
 import {CheckoutLogic} from '../../core/services/checkout-logic';
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe],
   templateUrl: './header.html',
 })
 export class Header {
   public auth = inject(AuthManager);
   private router = inject(Router);
   private elementRef = inject(ElementRef);
-  protected locale = inject(LOCALE_ID);
   public cart = inject(CheckoutLogic);
-  private translate = inject(TranslateService);
+  public translate = inject(TranslateService);
 
-  // Signal para el estado del menú
   isMenuOpen = signal(false);
 
   constructor() {
-    // Bloquea el scroll del fondo cuando el sidebar está abierto
     effect(() => {
       if (this.isMenuOpen()) {
         document.body.style.overflow = 'hidden';
@@ -42,9 +39,15 @@ export class Header {
 
   switchLang(lang: string) {
     this.translate.use(lang);
+    localStorage.setItem('lang', lang);
   }
 
-  // Cierra el menú si se hace clic fuera del sidebar
+  toggleLang() {
+    const nextLang = this.translate.getCurrentLang() === 'es' ? 'en' : 'es';
+    this.translate.use(nextLang);
+    localStorage.setItem('lang', nextLang);
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.isMenuOpen() && !this.elementRef.nativeElement.contains(event.target)) {

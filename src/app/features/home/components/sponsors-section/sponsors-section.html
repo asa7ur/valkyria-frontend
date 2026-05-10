@@ -1,9 +1,8 @@
 <section class="text-white py-16 md:py-24 px-4 md:px-6">
   <div class="max-w-7xl mx-auto">
     <div class="flex items-center gap-4 mb-8 md:mb-12">
-      <h2 i18n="@@home.sponsors.title"
-          class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
-        Patrocinadores
+      <h2 class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+        {{ 'home.sponsors.title' | translate }}
       </h2>
       <div class="h-px w-full bg-white/10"></div>
     </div>
@@ -29,8 +28,8 @@
 
         </div>
       } @empty {
-        <div i18n="@@home.sponsors.empty" class="col-span-full py-10 text-gray-600 italic text-center text-sm">
-          No hay patrocinadores disponibles.
+        <div class="col-span-full py-10 text-gray-600 italic text-center text-sm">
+          {{ 'home.sponsors.empty' | translate }}
         </div>
       }
 

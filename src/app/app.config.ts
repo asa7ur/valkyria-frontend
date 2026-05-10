@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([auth])
     ),
     provideTranslateService({
-      defaultLanguage: 'es',
+      fallbackLang: 'es',
       loader: provideTranslateHttpLoader({
         prefix: './i18n/',
         suffix: '.json'

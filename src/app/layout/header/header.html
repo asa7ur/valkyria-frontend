@@ -12,23 +12,21 @@
     <!-- Navegación Escritorio -->
     <div class="hidden lg:flex items-center gap-10">
       <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
-         i18n="@@nav.lineup"
          class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors cursor-pointer">
-        Lineup
+        {{ 'nav.lineup' | translate }}
       </a>
       <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
-         i18n="@@nav.artists"
          class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors cursor-pointer">
-        Artistas
+        {{ 'nav.artists' | translate }}
       </a>
     </div>
 
     <div class="flex-1 flex items-center justify-end">
       <!-- Acciones Escritorio: OCULTAS EN MÓVIL/TABLET -->
       <div class="hidden lg:flex items-center gap-2 md:gap-4 mr-4 md:mr-6">
-        <button (click)="switchLang('es')"
+        <button (click)="toggleLang()"
                 class="text-[10px] font-bold text-white/40 hover:text-white transition-colors uppercase w-8 cursor-pointer">
-          {{ locale === 'es' ? 'ES' : 'EN' }}
+          {{ translate.getCurrentLang() === 'es' ? 'EN' : 'ES' }}
         </button>
 
         <a routerLink="/purchase/checkout" class="relative p-2 text-white/70 hover:text-red-600 transition-colors group">
@@ -48,21 +46,21 @@
         @if (auth.currentUser()) {
           <div class="flex items-center gap-4">
             <a routerLink="/orders" class="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer">
-              Pedidos
+              {{ 'auth.orders' | translate }}
             </a>
             <button (click)="onLogout()" class="text-[10px] font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
-              Salir
+              {{ 'auth.logout' | translate }}
             </button>
           </div>
         } @else {
           <a routerLink="/login" class="text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
-            Login
+            {{ 'auth.login' | translate }}
           </a>
         }
 
         <button routerLink="/purchase"
                 class="bg-white hover:bg-red-600 text-black hover:text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 shadow-xl shadow-white/5 cursor-pointer">
-          Tickets
+          {{ 'nav.tickets' | translate }}
         </button>
       </div>
 
@@ -101,14 +99,14 @@
     <div class="flex flex-col gap-8">
       <!-- Links de Navegación -->
       <a routerLink="/lineup" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white">Lineup</a>
+         class="text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.lineup' | translate }}</a>
       <a routerLink="/artists" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white">Artistas</a>
+         class="text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.artists' | translate }}</a>
 
       <!-- Cesta integrada en el menú -->
       <a routerLink="/purchase/checkout" (click)="closeMenu()"
          class="flex items-center justify-between group">
-        <span class="text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-600 transition-colors">Cesta</span>
+        <span class="text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-600 transition-colors">{{ 'nav.cart' | translate }}</span>
         @if (cart.itemCount() > 0) {
           <span class="bg-red-600 text-white text-[10px] font-black px-2 py-1 rounded-full animate-pulse">
             {{ cart.itemCount() }}
@@ -120,7 +118,7 @@
 
       <button routerLink="/purchase" (click)="closeMenu()"
               class="w-full bg-red-600 text-white py-4 text-xs font-black uppercase tracking-[0.2em] cursor-pointer">
-        Comprar Entradas
+        {{ 'nav.buy_tickets' | translate }}
       </button>
     </div>
 
@@ -128,21 +126,28 @@
     <div class="mt-auto flex flex-col gap-8">
       <!-- Switcher de Idioma más visible -->
       <div class="flex flex-col gap-2">
-        <span class="text-[10px] font-black uppercase tracking-widest text-white/20">Seleccionar Idioma</span>
+        <span class="text-[10px] font-black uppercase tracking-widest text-white/20">{{ 'lang.select' | translate }}</span>
         <div class="flex gap-4">
-          <button (click)="switchLang('es')" [class]="locale === 'es' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">Español</button>
-          <button (click)="switchLang('en')" [class]="locale === 'en' ? 'text-white' : 'text-white/20'" class="text-xs font-black uppercase tracking-widest cursor-pointer">English</button>
+          <button (click)="switchLang('es')"
+                  [class]="translate.getCurrentLang() === 'es' ? 'text-white' : 'text-white/20'">
+            {{ 'lang.es' | translate }}
+          </button>
+          <button (click)="switchLang('en')"
+                  [class]="translate.getCurrentLang() === 'en' ? 'text-white' : 'text-white/20'"
+                  class="text-xs font-black uppercase tracking-widest cursor-pointer">
+            {{ 'lang.en' | translate }}
+          </button>
         </div>
       </div>
 
       <div class="flex flex-col gap-6">
         @if (auth.currentUser()) {
-          <a routerLink="/orders" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Mis Pedidos</a>
-          <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 text-left">Cerrar Sesión</button>
+          <a routerLink="/orders" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">{{ 'auth.my_orders' | translate }}</a>
+          <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 text-left">C{{ 'auth.logout_full' | translate }}</button>
         } @else {
           <div class="flex gap-6">
-            <a routerLink="/login" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">Login</a>
-            <a routerLink="/register" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-red-600">Registro</a>
+            <a routerLink="/login" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">{{ 'auth.login' | translate }}</a>
+            <a routerLink="/register" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-red-600">{{ 'auth.register' | translate }}</a>
           </div>
         }
       </div>

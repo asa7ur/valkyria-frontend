@@ -2,10 +2,11 @@ import {Component, signal, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {TicketType} from '../../../../core/models/ticket-types';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tickets-section',
-  imports: [RouterLink], // Añadido a los imports del componente
+  imports: [RouterLink, TranslatePipe], // Añadido a los imports del componente
   templateUrl: './tickets-section.html'
 })
 export class TicketsSection implements OnInit {
