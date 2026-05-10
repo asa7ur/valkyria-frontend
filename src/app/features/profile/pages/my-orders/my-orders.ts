@@ -6,11 +6,12 @@ import {OrderDTO} from '../../../../core/models/order-schema';
 import {TicketProvider} from '../../../../core/services/ticket-provider';
 import {TicketType, CampingType} from '../../../../core/models/ticket-types';
 import {forkJoin} from 'rxjs';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-orders',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './my-orders.html'
 })
 export class MyOrders implements OnInit {

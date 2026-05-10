@@ -163,5 +163,134 @@
       "fri_7": "VIE 7",
       "sat_8": "SÁB 8"
     }
+  },
+
+  "purchase": {
+    "title": "Reserva tu sitio en Valhalla",
+    "loading": "Preparando las credenciales...",
+    "tickets": {
+      "sectionTitle": "Entradas",
+      "addBtn": "+ Añadir Asistente",
+      "item": {
+        "firstName": "Nombre",
+        "lastName": "Apellidos",
+        "docTypeLabel": "Tipo Doc.",
+        "docTypePlaceholder": "Tipo Doc.",
+        "docNumber": "Nº Documento",
+        "birthDate": "Fecha Nacimiento",
+        "selectTicketLabel": "Selecciona tu Entrada",
+        "selectTicketPlaceholder": "-- Selecciona el tipo de acceso --"
+      }
+    },
+    "camping": {
+      "sectionTitle": "Camping",
+      "addBtn": "+ Añadir Reserva",
+      "item": {
+        "firstName": "Nombre del Huésped",
+        "lastName": "Apellidos",
+        "docTypeLabel": "Tipo Doc.",
+        "docTypePlaceholder": "Tipo Doc.",
+        "docNumber": "Nº Documento",
+        "birthDate": "Fecha Nacimiento",
+        "accommodationType": "Tipo de Alojamiento",
+        "selectAccommodation": "-- Selecciona tu zona de descanso --"
+      }
+    },
+    "submitBtn": "Ir a la cesta",
+    "backLink": "⟨ Volver al Inicio",
+    "cancel": {
+      "title": "Pago Cancelado",
+      "subtitle": "El proceso de compra se ha detenido",
+      "description": "No se ha realizado ningún cargo en tu cuenta. Si has tenido algún problema con el método de pago, puedes volver a intentarlo ahora mismo.",
+      "retryBtn": "Reintentar Pago",
+      "homeBtn": "Volver al Inicio",
+      "footerText": "La arena te espera cuando estés listo // Valkyria 2026"
+    },
+    "success": {
+      "title": "¡Victoria!",
+      "subtitle": "Pago procesado correctamente",
+      "description": "Tus entradas han sido reservadas. Recibirás un correo electrónico con los detalles del pedido y tus códigos de acceso al festival.",
+      "homeBtn": "Volver al Inicio",
+      "footerText": "Nos vemos en el Valhalla // Valkyria 2026"
+    }
+  },
+
+  "checkout": {
+    "title": "Tu Pedido",
+    "subtitle": "Revisa tus credenciales antes de partir",
+    "sections": {
+      "tickets": "Entradas",
+      "accommodation": "Alojamiento"
+    },
+    "empty": {
+      "message": "Tu cesta está vacía",
+      "back": "Volver a la tienda"
+    },
+    "summary": {
+      "title": "Resumen",
+      "tickets": "Entradas",
+      "camping": "Camping",
+      "total": "Total"
+    },
+    "guest": {
+      "emailLabel": "Email de contacto",
+      "emailPlaceholder": "TU@EMAIL.COM"
+    },
+    "confirmBtn": "Confirmar y Pagar",
+    "terms": "Al pagar aceptas los términos del Valhalla"
+  },
+
+  "profile": {
+    "orders": {
+      "title": "Mis Pedidos",
+      "loading": "Cargando tu historial...",
+      "empty": {
+        "message": "Aún no has realizado ningún pedido",
+        "btn": "Comprar Tickets Ahora"
+      },
+      "item": {
+        "idLabel": "Pedido",
+        "statusLabel": "Estado"
+      },
+      "status": {
+        "paid": "PAGADO",
+        "pending": "PENDIENTE"
+      },
+      "btn": {
+        "show": "Ver Detalles",
+        "hide": "Ocultar Detalles"
+      },
+      "details": {
+        "title": "Desglose del pedido",
+        "ticketsCount": "Entradas ({{count}})",
+        "campingsCount": "Campings ({{count}})",
+        "download": "Descargar Entradas (PDF)",
+        "totalPaid": "Total Abonado"
+      }
+    }
+  },
+
+  "footer": {
+    "marquee": "VALKYRIA FESTIVAL 2026 • SEVILLA",
+    "description": "El caos se une a la música en el corazón de Sevilla. Prepárate para la experiencia definitiva.",
+    "joinUs": "Únete",
+    "emailPlaceholder": "CORREO ELECTRÓNICO",
+    "copyright": "© {{year}} VALKYRIA FESTIVAL. TODOS LOS DERECHOS RESERVADOS.",
+    "categories": {
+      "festival": "Festival",
+      "experience": "Experiencia",
+      "legal": "Legal"
+    },
+    "links": {
+      "lineup": "Lineup",
+      "artists": "Artistas",
+      "tickets": "Entradas",
+      "camping": "Camping",
+      "info": "Información",
+      "sponsors": "Patrocinadores",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos y Condiciones",
+      "cookies": "Cookies"
+    }
   }
 }

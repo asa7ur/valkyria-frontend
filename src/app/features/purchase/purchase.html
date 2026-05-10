@@ -2,17 +2,16 @@
   <div class="max-w-4xl mx-auto">
 
     <header class="mb-12 animate-in">
-      <h1 i18n="@@purchase.title"
-          class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter italic border-b-4 border-red-600 inline-block leading-none pb-2">
-        Reserva tu sitio en Valhalla
+      <h1 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter italic border-b-4 border-red-600 inline-block leading-none pb-2">
+        {{ 'purchase.title' | translate }}
       </h1>
     </header>
 
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-10 h-10 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-6"></div>
-        <p i18n="@@purchase.loading" class="text-[10px] uppercase tracking-[0.4em] text-white/40 animate-pulse">
-          Preparando las credenciales...
+        <p class="text-[10px] uppercase tracking-[0.4em] text-white/40 animate-pulse">
+          {{ 'purchase.loading' | translate }}
         </p>
       </div>
     } @else {
@@ -21,13 +20,12 @@
         <!-- Sección de Entradas -->
         <section class="animate-in [animation-delay:100ms]">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
-            <h2 i18n="@@purchase.tickets.sectionTitle"
-                class="text-2xl md:text-3xl font-black text-white uppercase tracking-widest flex items-center">
-              <span class="text-red-600 mr-3">//</span> Entradas
+            <h2 class="text-2xl md:text-3xl font-black text-white uppercase tracking-widest flex items-center">
+              <span class="text-red-600 mr-3">//</span> {{ 'purchase.tickets.sectionTitle' | translate }}
             </h2>
-            <button type="button" (click)="addTicket()" i18n="@@purchase.tickets.addBtn"
+            <button type="button" (click)="addTicket()"
                     class="w-full sm:w-auto text-[10px] font-black uppercase tracking-widest bg-white text-black px-6 py-3 hover:bg-red-600 hover:text-white transition-all cursor-pointer shadow-xl shadow-white/5">
-              + Añadir Asistente
+              {{ 'purchase.tickets.addBtn' | translate }}
             </button>
           </div>
 
@@ -47,13 +45,12 @@
         <!-- Sección de Camping -->
         <section class="animate-in [animation-delay:200ms]">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
-            <h2 i18n="@@purchase.camping.sectionTitle"
-                class="text-2xl md:text-3xl font-black text-white uppercase tracking-widest flex items-center">
-              <span class="text-red-600 mr-3">//</span> Camping
+            <h2 class="text-2xl md:text-3xl font-black text-white uppercase tracking-widest flex items-center">
+              <span class="text-red-600 mr-3">//</span> {{ 'purchase.camping.sectionTitle' | translate }}
             </h2>
-            <button type="button" (click)="addCamping()" i18n="@@purchase.camping.addBtn"
+            <button type="button" (click)="addCamping()"
                     class="w-full sm:w-auto text-[10px] font-black uppercase tracking-widest bg-white text-black px-6 py-3 hover:bg-red-600 hover:text-white transition-all cursor-pointer shadow-xl shadow-white/5">
-              + Añadir Reserva
+              {{ 'purchase.camping.addBtn' | translate }}
             </button>
           </div>
 
@@ -72,15 +69,15 @@
 
         <!-- Footer del Formulario -->
         <div class="pt-10 border-t border-white/10 flex flex-col gap-6">
-          <button type="submit" [disabled]="purchaseForm.invalid" i18n="@@purchase.submitBtn"
+          <button type="submit" [disabled]="purchaseForm.invalid"
                   [ngClass]="purchaseForm.invalid ? 'opacity-20 grayscale' : 'opacity-100 hover:bg-red-600 hover:text-white'"
                   class="w-full bg-white text-black py-6 md:py-8 text-xl font-black uppercase tracking-[0.2em] transition-all cursor-pointer shadow-2xl shadow-red-600/10">
-            Ir a la cesta
+            {{ 'purchase.submitBtn' | translate }}
           </button>
 
-          <a routerLink="/" i18n="@@purchase.backLink"
+          <a routerLink="/"
              class="text-center text-white/20 uppercase text-[10px] font-black tracking-[0.3em] hover:text-white transition-colors py-2">
-            ⟨ Volver al Inicio
+            {{ 'purchase.backLink' | translate }}
           </a>
         </div>
       </form>

@@ -1,9 +1,10 @@
-import {Component, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './footer.html'
 })
 export class Footer {
@@ -11,27 +12,27 @@ export class Footer {
 
   protected readonly footerLinks = signal([
     {
-      title: $localize`:@@footer.category.festival:Festival`,
+      title: 'footer.categories.festival',
       links: [
-        {label: $localize`:@@footer.link.lineup:Lineup`, path: '/lineup'},
-        {label: $localize`:@@footer.link.artists:Artistas`, path: '/artists'},
-        {label: $localize`:@@footer.link.tickets:Entradas`, path: '/purchase'}
+        { label: 'footer.links.lineup', path: '/lineup' },
+        { label: 'footer.links.artists', path: '/artists' },
+        { label: 'footer.links.tickets', path: '/purchase' }
       ]
     },
     {
-      title: $localize`:@@footer.category.experience:Experiencia`,
+      title: 'footer.categories.experience',
       links: [
-        {label: $localize`:@@footer.link.camping:Camping`, path: '/camping'},
-        {label: $localize`:@@footer.link.info:Información`, path: '/info'},
-        {label: $localize`:@@footer.link.sponsors:Patrocinadores`, path: '/sponsors'}
+        { label: 'footer.links.camping', path: '/camping' },
+        { label: 'footer.links.info', path: '/info' },
+        { label: 'footer.links.sponsors', path: '/sponsors' }
       ]
     },
     {
-      title: $localize`:@@footer.category.legal:Legal`,
+      title: 'footer.categories.legal',
       links: [
-        {label: $localize`:@@footer.link.privacy:Política de Privacidad`, path: '/privacy'},
-        {label: $localize`:@@footer.link.terms:Términos y Condiciones`, path: '/terms'},
-        {label: $localize`:@@footer.link.cookies:Cookies`, path: '/cookies'}
+        { label: 'footer.links.privacy', path: '/privacy' },
+        { label: 'footer.links.terms', path: '/terms' },
+        { label: 'footer.links.cookies', path: '/cookies' }
       ]
     }
   ]);

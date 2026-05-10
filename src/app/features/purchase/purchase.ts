@@ -10,10 +10,11 @@ import { TicketProvider } from '../../core/services/ticket-provider';
 import { CheckoutLogic } from '../../core/services/checkout-logic';
 import { CampingType, TicketType } from '../../core/models/ticket-types';
 import { DocumentType, OrderCreateDTO } from '../../core/models/order-schema';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-purchase',
-  imports: [CommonModule, NgClass, ReactiveFormsModule, RouterModule, TicketItem, CampingItem],
+  imports: [CommonModule, NgClass, ReactiveFormsModule, RouterModule, TicketItem, CampingItem, TranslatePipe],
   templateUrl: './purchase.html',
 })
 export class Purchase implements OnInit {

@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CheckoutLogic } from '../../../../core/services/checkout-logic';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-success',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './success.html'
 })
 export class Success implements OnInit {

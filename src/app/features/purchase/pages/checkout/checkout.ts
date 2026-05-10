@@ -8,10 +8,11 @@ import { CheckoutLogic } from '../../../../core/services/checkout-logic';
 import { TicketProvider } from '../../../../core/services/ticket-provider';
 import { AuthManager } from '../../../../core/services/auth-manager';
 import { OrderCreateDTO } from '../../../../core/models/order-schema';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './checkout.html'
 })
 export class Checkout {

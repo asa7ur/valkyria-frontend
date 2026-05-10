@@ -168,5 +168,134 @@
       "fri_7": "FRI 7",
       "sat_8": "SAT 8"
     }
+  },
+
+  "purchase": {
+    "title": "Reserve your spot in Valhalla",
+    "loading": "Preparing credentials...",
+    "tickets": {
+      "sectionTitle": "Tickets",
+      "addBtn": "+ Add Attendee",
+      "item": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "docTypeLabel": "Doc. Type",
+        "docTypePlaceholder": "Doc. Type",
+        "docNumber": "Document Number",
+        "birthDate": "Date of Birth",
+        "selectTicketLabel": "Select your Ticket",
+        "selectTicketPlaceholder": "-- Select access type --"
+      }
+    },
+    "camping": {
+      "sectionTitle": "Camping",
+      "addBtn": "+ Add Reservation",
+      "item": {
+        "firstName": "Guest First Name",
+        "lastName": "Last Name",
+        "docTypeLabel": "Doc. Type",
+        "docTypePlaceholder": "Doc. Type",
+        "docNumber": "Document Number",
+        "birthDate": "Date of Birth",
+        "accommodationType": "Accommodation Type",
+        "selectAccommodation": "-- Select your resting area --"
+      }
+    },
+    "submitBtn": "Go to cart",
+    "backLink": "⟨ Back to Home",
+    "cancel": {
+      "title": "Payment Cancelled",
+      "subtitle": "The purchase process has stopped",
+      "description": "No charges have been made to your account. If you experienced any issues with your payment method, you can try again right now.",
+      "retryBtn": "Retry Payment",
+      "homeBtn": "Back to Home",
+      "footerText": "The arena awaits you when you are ready // Valkyria 2026"
+    },
+    "success": {
+      "title": "Victory!",
+      "subtitle": "Payment processed successfully",
+      "description": "Your tickets have been reserved. You will receive an email with the order details and your access codes for the festival.",
+      "homeBtn": "Back to Home",
+      "footerText": "See you in Valhalla // Valkyria 2026"
+    }
+  },
+
+  "checkout": {
+    "title": "Your Order",
+    "subtitle": "Review your credentials before departing",
+    "sections": {
+      "tickets": "Tickets",
+      "accommodation": "Accommodation"
+    },
+    "empty": {
+      "message": "Your cart is empty",
+      "back": "Back to store"
+    },
+    "summary": {
+      "title": "Summary",
+      "tickets": "Tickets",
+      "camping": "Camping",
+      "total": "Total"
+    },
+    "guest": {
+      "emailLabel": "Contact Email",
+      "emailPlaceholder": "YOU@EMAIL.COM"
+    },
+    "confirmBtn": "Confirm and Pay",
+    "terms": "By paying you accept the terms of Valhalla"
+  },
+
+  "profile": {
+    "orders": {
+      "title": "My Orders",
+      "loading": "Loading your history...",
+      "empty": {
+        "message": "You haven't placed any orders yet",
+        "btn": "Buy Tickets Now"
+      },
+      "item": {
+        "idLabel": "Order",
+        "statusLabel": "Status"
+      },
+      "status": {
+        "paid": "PAID",
+        "pending": "PENDING"
+      },
+      "btn": {
+        "show": "View Details",
+        "hide": "Hide Details"
+      },
+      "details": {
+        "title": "Order Breakdown",
+        "ticketsCount": "Tickets ({{count}})",
+        "campingsCount": "Camping ({{count}})",
+        "download": "Download Tickets (PDF)",
+        "totalPaid": "Total Paid"
+      }
+    }
+  },
+
+  "footer": {
+    "marquee": "VALKYRIA FESTIVAL 2026 • SEVILLE",
+    "description": "Chaos meets music in the heart of Seville. Prepare for the ultimate experience.",
+    "joinUs": "Join Us",
+    "emailPlaceholder": "EMAIL ADDRESS",
+    "copyright": "© {{year}} VALKYRIA FESTIVAL. ALL RIGHTS RESERVED.",
+    "categories": {
+      "festival": "Festival",
+      "experience": "Experience",
+      "legal": "Legal"
+    },
+    "links": {
+      "lineup": "Lineup",
+      "artists": "Artists",
+      "tickets": "Tickets",
+      "camping": "Camping",
+      "info": "Information",
+      "sponsors": "Sponsors",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookies"
+    }
   }
 }

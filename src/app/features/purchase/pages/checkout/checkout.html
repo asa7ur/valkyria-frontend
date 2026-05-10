@@ -2,11 +2,11 @@
   <div class="max-w-5xl mx-auto">
 
     <header class="mb-10 animate-in">
-      <h1 i18n="@@checkout.title" class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
-        Tu Pedido
+      <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+        {{ 'checkout.title' | translate }}
       </h1>
       <p class="text-white/40 font-mono text-[10px] uppercase tracking-[0.3em] mt-2">
-        Revisa tus credenciales antes de partir
+        {{ 'checkout.subtitle' | translate }}
       </p>
     </header>
 
@@ -24,7 +24,7 @@
           @if (order().tickets.length > 0) {
             <section class="animate-in [animation-delay:100ms]">
               <h2 class="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-4 flex items-center">
-                <span class="mr-2">/</span> Entradas
+                <span class="mr-2">/</span> {{ 'checkout.sections.tickets' | translate }}
               </h2>
               <div class="space-y-3">
                 @for (t of order().tickets; track $index) {
@@ -49,7 +49,7 @@
           @if (order().campings.length > 0) {
             <section class="animate-in [animation-delay:200ms]">
               <h2 class="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-4 flex items-center">
-                <span class="mr-2">/</span> Alojamiento
+                <span class="mr-2">/</span> {{ 'checkout.sections.accommodation' | translate }}
               </h2>
               <div class="space-y-3">
                 @for (c of order().campings; track $index) {
@@ -72,45 +72,55 @@
 
           @if (order().tickets.length === 0 && order().campings.length === 0) {
             <div class="text-center py-20 border-2 border-dashed border-white/5">
-              <p class="text-white/20 uppercase font-black tracking-widest text-sm">Tu cesta está vacía</p>
-              <a routerLink="/purchase" class="text-red-600 text-[10px] font-black uppercase tracking-widest mt-4 block underline">Volver a la tienda</a>
+              <p class="text-white/20 uppercase font-black tracking-widest text-sm">
+                {{ 'checkout.empty.message' | translate }}
+              </p>
+              <a routerLink="/purchase" class="text-red-600 text-[10px] font-black uppercase tracking-widest mt-4 block underline">
+                {{ 'checkout.empty.back' | translate }}
+              </a>
             </div>
           }
         </div>
 
-        <!-- Resumen y Pago (Columna Derecha / Sticky) -->
+        <!-- Resumen y Pago -->
         <aside class="lg:col-span-5 sticky top-28 space-y-6 animate-in [animation-delay:300ms]">
           <div class="bg-zinc-900/80 backdrop-blur-xl border border-white/10 p-8 text-white shadow-2xl">
-            <h2 class="text-xs font-black uppercase tracking-[0.3em] mb-8 border-b border-white/5 pb-4 opacity-60">Resumen</h2>
+            <h2 class="text-xs font-black uppercase tracking-[0.3em] mb-8 border-b border-white/5 pb-4 opacity-60">
+              {{ 'checkout.summary.title' | translate }}
+            </h2>
 
             <div class="space-y-4 mb-10">
-              <!-- Total Entradas -->
               <div class="flex justify-between items-end">
-                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Entradas</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">
+                  {{ 'checkout.summary.tickets' | translate }}
+                </span>
                 <span class="text-xl font-black">{{ ticketsTotal() }}€</span>
               </div>
 
-              <!-- Total Camping -->
               <div class="flex justify-between items-end">
-                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Camping</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">
+                   {{ 'checkout.summary.camping' | translate }}
+                </span>
                 <span class="text-xl font-black">{{ campingsTotal() }}€</span>
               </div>
 
               <div class="h-px bg-white/5 my-4"></div>
 
-              <!-- Total Definitivo -->
               <div class="flex justify-between items-end text-red-600">
-                <span class="text-xs font-black uppercase tracking-widest">Total</span>
+                <span class="text-xs font-black uppercase tracking-widest">
+                  {{ 'checkout.summary.total' | translate }}
+                </span>
                 <span class="text-4xl font-black tracking-tighter">{{ grandTotal() }}€</span>
               </div>
             </div>
 
-            <!-- Sección de Email para Invitados -->
             @if (!currentUser()) {
               <div class="mb-8 p-4 bg-white/5 border border-white/5 rounded-sm">
-                <label class="text-[10px] font-black uppercase tracking-widest mb-2 block opacity-40">Email de contacto</label>
+                <label class="text-[10px] font-black uppercase tracking-widest mb-2 block opacity-40">
+                  {{ 'checkout.guest.emailLabel' | translate }}
+                </label>
                 <input type="email" [(ngModel)]="guestEmail"
-                       placeholder="TU@EMAIL.COM"
+                       [placeholder]="'checkout.guest.emailPlaceholder' | translate"
                        class="w-full bg-transparent border-b border-white/10 py-2 text-sm font-bold uppercase focus:outline-none focus:border-red-600 transition-colors placeholder:text-white/10">
               </div>
             }
@@ -118,11 +128,11 @@
             <button (click)="confirmAndPay()"
                     [disabled]="grandTotal() === 0"
                     class="w-full bg-red-600 text-white py-6 text-sm font-black uppercase tracking-[0.3em] hover:bg-red-700 transition-all cursor-pointer disabled:opacity-20 shadow-xl shadow-red-600/10">
-              Confirmar y Pagar
+              {{ 'checkout.confirmBtn' | translate }}
             </button>
 
             <p class="text-[9px] text-center mt-4 opacity-40 font-bold uppercase tracking-tighter">
-              Al pagar aceptas los términos del Valhalla
+              {{ 'checkout.terms' | translate }}
             </p>
           </div>
         </aside>

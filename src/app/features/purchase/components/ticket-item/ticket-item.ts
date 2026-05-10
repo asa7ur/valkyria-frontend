@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TicketType} from '../../../../core/models/ticket-types';
 import {DocumentType} from '../../../../core/models/order-schema';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ticket-item',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './ticket-item.html',
 })
 export class TicketItem {
