@@ -155,7 +155,7 @@
     "title": "Line-up",
     "loading": "Abriendo las puertas del Valhalla...",
     "empty": "No hay actuaciones programadas.",
-    "date_format": "EEEE d",
+    "date_format": "EEEE d 'de' MMMM",
     "days": {
       "all": "TODOS",
       "wed_5": "MIÉ 5",

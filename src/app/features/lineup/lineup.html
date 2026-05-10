@@ -1,20 +1,21 @@
-<!-- valkyria-frontend-develop/src/app/features/lineup/lineup.html -->
 <div class="min-h-screen text-white pt-24 pb-20 px-4 md:px-8">
   <div class="max-w-7xl mx-auto">
 
     <!-- Header Principal -->
     <header class="mb-12 text-center">
-      <h1 i18n="@@lineup.title" class="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8">Line-up</h1>
+      <h1 class="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8">
+        {{ 'lineup.title' | translate }}
+      </h1>
     </header>
 
-    <!-- Navegación de Días: Sticky y Swipeable en móvil -->
+    <!-- Navegación de Días -->
     <nav class="sticky top-20 z-30 bg-neutral-950/80 backdrop-blur-md flex overflow-x-auto no-scrollbar gap-8 border-y border-white/5 py-6 px-4 -mx-4 md:mx-0 justify-start md:justify-center">
       @for (day of days; track day.date) {
         <button
           (click)="setDay(day.date)"
           [ngClass]="selectedDay() === day.date ? 'text-red-600' : 'text-white/40'"
           class="text-lg md:text-2xl font-bold uppercase tracking-widest hover:text-red-500 transition-colors cursor-pointer whitespace-nowrap">
-          {{ day.label }}
+          {{ day.label | translate }}
         </button>
       }
     </nav>
@@ -22,35 +23,36 @@
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-10 h-10 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-6"></div>
-        <p i18n="@@lineup.loading" class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
-          Abriendo las puertas del Valhalla...
+        <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 animate-pulse">
+          {{ 'lineup.loading' | translate }}
         </p>
       </div>
     } @else {
       <div class="mt-16 space-y-24 md:space-y-32">
-        @for (date of getGroupedDates(); track date) {
+        <!-- Primer nivel: Días -->
+        @for (dayItem of structuredLineup(); track dayItem.date) {
           <section class="animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <!-- Fecha del Evento -->
+
             <h2 class="text-3xl md:text-6xl font-black uppercase mb-12 text-white border-l-4 border-red-600 pl-6 sticky top-40 md:static bg-neutral-950/50 md:bg-transparent py-2 backdrop-blur-sm md:backdrop-blur-none z-20">
-              {{ date | date:'EEEE d' | uppercase }}
+              {{ dayItem.date | date:( 'lineup.date_format' | translate ):'':currentLang() | uppercase }}
             </h2>
 
             <div class="space-y-16">
-              @for (stageName of getOrderedStages(date); track stageName) {
+              <!-- Segundo nivel: Escenarios -->
+              @for (stage of dayItem.stages; track stage.name) {
                 <div>
-                  <!-- Nombre del Escenario -->
                   <h3 class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-white/5 pb-2">
-                    {{ stageName }}
+                    {{ stage.name }}
                   </h3>
 
-                  <!-- Grid de Actuaciones -->
+                  <!-- Tercer nivel: Actuaciones -->
                   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-8 md:gap-x-12 md:gap-y-10">
-                    @for (perf of groupedLineup()[date][stageName]; track perf.id) {
+                    @for (perf of stage.performances; track perf.id) {
                       <div [routerLink]="['/artists', perf.artist.id]"
                            class="group cursor-pointer border-b border-white/5 pb-6 md:border-0 md:pb-0">
                         <div class="flex items-center gap-4 mb-2">
                           <span class="text-red-600 font-mono text-sm font-bold">
-                            {{ perf.startTime | date:'HH:mm' }}
+                            {{ perf.startTime | date:'HH:mm':'':(currentLang() || 'es') }}
                           </span>
                           <span class="text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
                             {{ perf.artist.genre }}
@@ -59,7 +61,6 @@
                         <h4 class="text-2xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-all duration-300">
                           {{ perf.artist.name }}
                         </h4>
-                        <!-- Indicador visual hover (solo escritorio) -->
                         <div class="hidden md:block h-px w-0 bg-red-600 transition-all duration-500 group-hover:w-full mt-2"></div>
                       </div>
                     }
@@ -69,8 +70,8 @@
             </div>
           </section>
         } @empty {
-          <div i18n="@@lineup.empty" class="text-center py-20 text-zinc-500 italic">
-            No hay actuaciones programadas.
+          <div class="text-center py-20 text-zinc-500 italic">
+            {{ 'lineup.empty' | translate }}
           </div>
         }
       </div>

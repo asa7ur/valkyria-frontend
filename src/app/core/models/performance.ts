@@ -18,6 +18,16 @@ export interface Performance {
   stage: Stage;
 }
 
+export interface StructuredStage {
+  name: string;
+  performances: Performance[];
+}
+
+export interface StructuredDay {
+  date: string;
+  stages: StructuredStage[];
+}
+
 // Interfaz para manejar la selección de días en la UI
 export interface DayOption {
   label: string;      // Clave de traducción (Ej: "lineup.days.wed_5")
