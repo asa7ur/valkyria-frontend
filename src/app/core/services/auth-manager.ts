@@ -1,6 +1,6 @@
 import {Injectable, inject, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, tap} from 'rxjs';
+import {Observable, map, catchError, tap, of} from 'rxjs';
 import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth-payments';
 
 @Injectable({
@@ -8,10 +8,65 @@ import {AuthResponse, LoginRequest, RegisterRequest} from '../models/auth-paymen
 })
 export class AuthManager {
   private http = inject(HttpClient);
-  // Base URL que coincide con @RequestMapping("/api/sessionGate") de tu controlador
   private apiUrl = 'http://localhost:8080/api/v1/auth';
 
   currentUser = signal<AuthResponse | null>(this.getUserFromStorage());
+
+  /**
+   * Verifica si el usuario tiene una sesión activa.
+   */
+  isLoggedIn(): boolean {
+    const user = this.currentUser();
+    if (!user || !user.token) return false;
+
+    return !this.isTokenExpired(user.token);
+  }
+
+  /**
+   * Decodifica el JWT y comprueba el campo 'exp'.
+   */
+  private isTokenExpired(token: string): boolean {
+    try {
+      const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+      // Compara el tiempo actual (en segundos) con el de expiración
+      return (Math.floor((new Date()).getTime() / 1000)) >= expiry;
+    } catch (e) {
+      return true; // Si hay error decodificando, lo tratamos como expirado
+    }
+  }
+
+  /**
+   * Recupera los datos del usuario validando el token al inicio.
+   */
+  private getUserFromStorage(): AuthResponse | null {
+    const data = localStorage.getItem('user_data');
+    if (!data) return null;
+
+    const user: AuthResponse = JSON.parse(data);
+
+    // Si al cargar la app el token ya caducó, limpiamos y devolvemos null
+    if (this.isTokenExpired(user.token)) {
+      this.logout();
+      return null;
+    }
+
+    return user;
+  }
+
+  /**
+   * Validar la sesión contra el servidor al iniciar la app.
+   */
+  verifySessionFromServer(): Observable<boolean> {
+    if (!this.isLoggedIn()) return of(false);
+
+    return this.http.get(`${this.apiUrl}/validate`).pipe(
+      map(() => true),
+      catchError(() => {
+        this.logout();
+        return of(false);
+      })
+    );
+  }
 
   /**
    * Realiza el login enviando las credenciales al backend.
@@ -45,12 +100,6 @@ export class AuthManager {
     this.currentUser.set(null);
   }
 
-  /**
-   * Verifica si el usuario tiene una sesión activa.
-   */
-  isLoggedIn(): boolean {
-    return !!this.currentUser();
-  }
 
   /**
    * Centraliza el guardado de la sesión tras el login o registro exitoso.
@@ -61,13 +110,6 @@ export class AuthManager {
     this.currentUser.set(response);
   }
 
-  /**
-   * Recupera los datos del usuario desde el almacenamiento persistente al iniciar la app.
-   */
-  private getUserFromStorage(): AuthResponse | null {
-    const data = localStorage.getItem('user_data');
-    return data ? JSON.parse(data) : null;
-  }
 
   /**
    * Envía el token de activación al backend para habilitar la cuenta del usuario.
