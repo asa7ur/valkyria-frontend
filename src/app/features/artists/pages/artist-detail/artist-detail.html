@@ -1,11 +1,9 @@
-<!-- valkyria-frontend-develop/src/app/features/artists/pages/artist-detail/artist-detail.html -->
 <div class="min-h-screen bg-black text-white pt-24 md:pt-32 pb-20 px-4 md:px-6">
   @if (loading()) {
     <div class="flex flex-col justify-center items-center h-96">
       <div class="w-12 h-12 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-4"></div>
-      <div i18n="@@artist.detail.loading"
-           class="animate-pulse text-red-600 font-black tracking-widest uppercase text-xs">
-        Cargando Perfil...
+      <div class="animate-pulse text-red-600 font-black tracking-widest uppercase text-xs">
+        {{ 'artist.detail.loading' | translate }}
       </div>
     </div>
   } @else if (artist(); as a) {
@@ -13,9 +11,9 @@
 
       <!-- Botón Volver -->
       <button (click)="goBack()"
-              i18n="@@artist.detail.back"
               class="mb-6 md:mb-8 text-[10px] font-black uppercase tracking-[0.3em] hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer group">
-        <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span> VOLVER
+        <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span>
+        {{ 'artist.detail.back' | translate }}
       </button>
 
       <!-- Hero Section: Imagen y Nombre -->
@@ -34,7 +32,7 @@
           </div>
         }
 
-        <!-- Controles Carrusel (Touch friendly) -->
+        <!-- Controles Carrusel -->
         @if (a.images.length > 1) {
           <div class="absolute inset-0 z-30 flex justify-between items-center px-2 md:px-4 pointer-events-none">
             <button (click)="prevImage()" class="pointer-events-auto bg-black/40 backdrop-blur-md hover:bg-red-600 text-white p-3 md:p-4 transition-all rounded-full">
@@ -48,7 +46,6 @@
 
         <div class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent z-20"></div>
 
-        <!-- Nombre del Artista con Stroke corregido para móvil -->
         <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6 z-20">
           <h1 class="text-4xl md:text-8xl font-black uppercase tracking-tighter leading-none drop-shadow-2xl"
               style="-webkit-text-stroke: 1px rgba(255,255,255,0.4); color: transparent;">
@@ -60,36 +57,39 @@
       <!-- Contenido: Info y Bio -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
 
-        <!-- Tarjeta de Información (Sidebar) -->
+        <!-- Tarjeta de Información -->
         <div class="lg:col-span-4 order-1 lg:order-1">
           <div class="bg-red-600 p-6 md:p-8 relative overflow-hidden shadow-xl">
-            <h3 i18n="@@artist.detail.infoTitle"
-                class="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-6 border-b border-black/10 pb-4">
-              Info
+            <h3 class="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-6 border-b border-black/10 pb-4">
+              {{ 'artist.detail.info_title' | translate }}
             </h3>
 
             <div class="space-y-6">
               @if (a.performances && a.performances.length > 0) {
                 <div class="bg-black/10 p-4 -mx-2 border-l-4 border-black/40">
-                  <p i18n="@@artist.detail.stageSchedule" class="text-[9px] uppercase tracking-widest text-black/40 font-black mb-1">
-                    LIVE / ESCENARIO
+                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black mb-1">
+                    {{ 'artist.detail.stage_schedule' | translate }}
                   </p>
                   <p class="text-lg md:text-xl font-black uppercase tracking-tight text-white leading-tight">
                     {{ a.performances[0].stage.name }}
                   </p>
                   <p class="text-[10px] font-bold uppercase tracking-widest text-white mt-1">
-                    {{ a.performances[0].startTime | date:'EEEE d MMMM, HH:mm' | uppercase }}
+                    {{ a.performances[0].startTime | date:('artist.detail.date_format' | translate) | uppercase }}
                   </p>
                 </div>
               }
 
               <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
                 <div>
-                  <p i18n="@@artist.detail.genre" class="text-[9px] uppercase tracking-widest text-black/40 font-black">Género</p>
+                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black">
+                    {{ 'artist.detail.genre' | translate }}
+                  </p>
                   <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
                 </div>
                 <div>
-                  <p i18n="@@artist.detail.origin" class="text-[9px] uppercase tracking-widest text-black/40 font-black">Origen</p>
+                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black">
+                    {{ 'artist.detail.origin' | translate }}
+                  </p>
                   <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.country }}</p>
                 </div>
               </div>
@@ -110,7 +110,9 @@
         <!-- Biografía y Player -->
         <div class="lg:col-span-8 order-2 lg:order-2">
           <div class="flex items-center gap-4 mb-6">
-            <span i18n="@@artist.detail.bio" class="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">Biografía</span>
+            <span class="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">
+              {{ 'artist.detail.bio' | translate }}
+            </span>
             <div class="h-px w-full bg-white/10"></div>
           </div>
 
@@ -124,7 +126,9 @@
             <div class="mt-10 md:mt-12 group">
               <div class="flex items-center gap-2 mb-3 opacity-40 group-hover:opacity-100 transition-opacity">
                 <i class="bi bi-spotify text-green-500"></i>
-                <span class="text-[10px] font-black uppercase tracking-widest">Listen on Spotify</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">
+                  {{ 'artist.detail.listen_spotify' | translate }}
+                </span>
               </div>
               <div class="rounded-lg overflow-hidden bg-neutral-900 border border-white/5">
                 <iframe [src]="getSafeSpotifyUrl(a.spotifyUrl)"

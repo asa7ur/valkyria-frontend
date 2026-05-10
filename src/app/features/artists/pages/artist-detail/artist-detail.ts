@@ -7,11 +7,12 @@ import {ArtistApi} from '../../../../core/services/artist-api';
 import {LineupClient} from '../../../../core/services/lineup-client';
 import {Artist} from '../../../../core/models/artist';
 import {environment} from '../../../../../environments/environment';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-artist-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './artist-detail.html',
 })
 export class ArtistDetail implements OnInit {

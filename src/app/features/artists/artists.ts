@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ArtistCard } from './components/artist-card/artist-card';
 import { ArtistApi } from '../../core/services/artist-api';
 import { Artist } from '../../core/models/artist';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-artists',
   standalone: true,
-  imports: [CommonModule, ArtistCard],
+  imports: [CommonModule, ArtistCard, TranslatePipe],
   templateUrl: './artists.html',
 })
 export class Artists implements OnInit {

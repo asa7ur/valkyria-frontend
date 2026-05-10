@@ -1,4 +1,19 @@
 {
+  "auth": {
+    "orders": "Pedidos",
+    "my_orders": "Mis Pedidos",
+    "logout": "Salir",
+    "logout_full": "Cerrar Sesión",
+    "login": "Login",
+    "register": "Registro"
+  },
+
+  "lang": {
+    "select": "Seleccionar Idioma",
+    "es": "Español",
+    "en": "English"
+  },
+
   "nav": {
     "lineup": "Lineup",
     "artists": "Artistas",
@@ -6,6 +21,7 @@
     "tickets": "Entradas",
     "buy_tickets": "Comprar Entradas"
   },
+
   "home": {
     "title": "Valkyria Festival",
     "hero": {
@@ -14,10 +30,12 @@
       "title": "Valkyria",
       "buy_tickets": "Comprar Entradas"
     },
+
     "lineup": {
       "title": "Line-up 2026",
       "more_artists": "y más artistas por confirmar"
     },
+
     "info": {
       "location_value": "Sevilla",
       "location_label": "Lugar",
@@ -26,6 +44,7 @@
       "artists_count": "+25",
       "artists_label": "Artistas"
     },
+
     "tickets": {
       "title": "Entradas",
       "full_experience": "Full Experience",
@@ -33,18 +52,22 @@
       "access_1_day": "Acceso 1 Día",
       "buy_now": "Comprar"
     },
+
     "experience": {
       "title": "Vive el Festival",
       "img_alt": "Experiencia del festival"
     },
+
     "social": {
       "follow_us": "Síguenos"
     },
+
     "sponsors": {
       "title": "Patrocinadores",
       "empty": "No hay patrocinadores disponibles."
     }
   },
+
   "register": {
     "title": "Únete a las <br> <span class=\"text-red-600\">Valkirias</span>",
     "labels": {
@@ -56,14 +79,17 @@
       "password": "Contraseña",
       "confirm_password": "Confirmar Contraseña"
     },
+
     "btn": {
       "processing": "Procesando...",
       "submit": "Registrarse"
     },
+
     "link": {
       "back_login": "Volver al Inicio de Sesión"
     }
   },
+
   "login": {
     "title": "Entra a <br> <span class=\"text-red-600\">Valhalla</span>",
     "labels": {
@@ -99,18 +125,43 @@
     }
   },
 
-  "auth": {
-    "orders": "Pedidos",
-    "my_orders": "Mis Pedidos",
-    "logout": "Salir",
-    "logout_full": "Cerrar Sesión",
-    "login": "Login",
-    "register": "Registro"
+  "artists": {
+    "title": "Artistas",
+    "search_placeholder": "BUSCAR ARTISTA...",
+    "search_total": "{{ total }} TOTAL",
+    "loading": "Cargando Artistas...",
+    "empty": "No se han encontrado artistas con ese nombre.",
+    "loading_more": "CARGANDO...",
+    "load_more_btn": "CARGAR MÁS ARTISTAS",
+    "load_more_showing": "MOSTRANDO {{ current }} DE {{ total }}",
+    "card_aria": "Ver perfil de {{ name }}"
   },
-  "lang": {
-    "select": "Seleccionar Idioma",
-    "es": "Español",
-    "en": "English"
-  }
 
+  "artist": {
+    "detail": {
+      "loading": "Cargando Perfil...",
+      "back": "VOLVER",
+      "info_title": "Info",
+      "stage_schedule": "LIVE / ESCENARIO",
+      "genre": "Género",
+      "origin": "Origen",
+      "bio": "Biografía",
+      "listen_spotify": "Escuchar en Spotify",
+      "date_format": "EEEE d MMMM, HH:mm"
+    }
+  },
+
+  "lineup": {
+    "title": "Line-up",
+    "loading": "Abriendo las puertas del Valhalla...",
+    "empty": "No hay actuaciones programadas.",
+    "date_format": "EEEE d",
+    "days": {
+      "all": "TODOS",
+      "wed_5": "MIÉ 5",
+      "thu_6": "JUE 6",
+      "fri_7": "VIE 7",
+      "sat_8": "SÁB 8"
+    }
+  }
 }

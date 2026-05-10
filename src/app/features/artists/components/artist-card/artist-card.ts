@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {Artist} from '../../../../core/models/artist';
 import {RouterLink} from '@angular/router';
 import {environment} from '../../../../../environments/environment';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-artist-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './artist-card.html',
   host: {
     'class': 'block animate-in'

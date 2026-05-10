@@ -20,29 +20,29 @@ export interface Performance {
 
 // Interfaz para manejar la selección de días en la UI
 export interface DayOption {
-  label: string;      // Versión corta para el menú (Ej: "MIÉ 5")
+  label: string;      // Clave de traducción (Ej: "lineup.days.wed_5")
   date: string;       // "2026-08-05"
 }
 
 export const FESTIVAL_DAYS: DayOption[] = [
   {
-    label: $localize`:@@lineup.day.all:TODOS`,
+    label: 'lineup.days.all',
     date: 'ALL'
   },
   {
-    label: $localize`:@@lineup.day.wed5:MIÉ 5`,
+    label: 'lineup.days.wed_5',
     date: '2026-08-05'
   },
   {
-    label: $localize`:@@lineup.day.thu6:JUE 6`,
+    label: 'lineup.days.thu_6',
     date: '2026-08-06'
   },
   {
-    label: $localize`:@@lineup.day.fri7:VIE 7`,
+    label: 'lineup.days.fri_7',
     date: '2026-08-07'
   },
   {
-    label: $localize`:@@lineup.day.sat8:SÁB 8`,
+    label: 'lineup.days.sat_8',
     date: '2026-08-08'
   }
 ];
