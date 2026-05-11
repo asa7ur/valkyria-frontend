@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LocalizedNamePipe } from '../../shared/pipes/localized-name.pipe';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { LineupClient } from '../../core/services/lineup-client';
@@ -10,7 +11,7 @@ import { getFestivalDate } from '../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-lineup',
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizedNamePipe],
   templateUrl: './lineup.html',
 })
 export class Lineup implements OnInit {
@@ -71,7 +72,7 @@ export class Lineup implements OnInit {
           })
           .map(([name, performances]) => ({
             name,
-            // Ordenar actuaciones por hora de inicio dentro del escenario
+            nameEn: performances[0]?.stage.nameEn,
             performances: performances.sort((a, b) => a.startTime.localeCompare(b.startTime))
           }))
       }));

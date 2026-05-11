@@ -71,7 +71,7 @@
             {{ 'purchase.camping.item.selectAccommodation' | translate }}
           </option>
           @for (ct of campingTypes; track ct.id) {
-            <option [value]="ct.id">{{ ct.name | uppercase }} — {{ ct.price }}€</option>
+            <option [value]="ct.id">{{ ct | localizedName | uppercase }} — {{ ct.price }}€</option>
           }
         </select>
         <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white/20">

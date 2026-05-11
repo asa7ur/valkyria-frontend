@@ -8,6 +8,7 @@ export interface LineupArtist {
 export interface Stage {
   id: number;
   name: string;
+  nameEn?: string;
 }
 
 export interface Performance {
@@ -20,6 +21,7 @@ export interface Performance {
 
 export interface StructuredStage {
   name: string;
+  nameEn?: string;
   performances: Performance[];
 }
 

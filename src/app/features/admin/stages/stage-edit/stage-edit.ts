@@ -9,6 +9,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 interface StageForm {
   name: FormControl<string>;
+  nameEn: FormControl<string>;
   capacity: FormControl<number>;
 }
 
@@ -39,6 +40,7 @@ export class StageEdit implements OnInit {
   private initForm(): void {
     this.stageForm = this.fb.group<StageForm>({
       name: this.fb.control('', [Validators.required, Validators.maxLength(100)]),
+      nameEn: this.fb.control('', [Validators.maxLength(100)]),
       capacity: this.fb.control(0, [Validators.required, Validators.min(1)])
     });
   }

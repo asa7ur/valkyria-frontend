@@ -15,6 +15,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 interface CampingTypeForm {
   name: FormControl<string>;
+  nameEn: FormControl<string>;
   price: FormControl<number>;
   stockTotal: FormControl<number>;
   stockAvailable: FormControl<number>;
@@ -46,6 +47,7 @@ export class CampingTypeEdit implements OnInit {
   private initForm(): void {
     this.campingTypeForm = this.fb.group<CampingTypeForm>({
       name: this.fb.control('', [Validators.required, Validators.maxLength(50)]),
+      nameEn: this.fb.control('', [Validators.maxLength(50)]),
       price: this.fb.control(0, [Validators.required, Validators.min(0)]),
       stockTotal: this.fb.control(0, [Validators.required, Validators.min(0)]),
       stockAvailable: this.fb.control(0, [Validators.required, Validators.min(0)])

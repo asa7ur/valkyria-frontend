@@ -87,6 +87,23 @@
 
     "link": {
       "back_login": "Back to Login"
+    },
+
+    "success": {
+      "check_email": "Registration complete. Please check your email to activate your account."
+    },
+
+    "errors": {
+      "required": "This field is required",
+      "max_100": "Maximum 100 characters",
+      "max_30": "Maximum 30 characters",
+      "email_invalid": "Please enter a valid email address",
+      "passwords_not_match": "Passwords do not match",
+      "password_req_length": "Minimum 8 characters",
+      "password_req_upper": "One uppercase letter (A-Z)",
+      "password_req_lower": "One lowercase letter (a-z)",
+      "password_req_number": "One number (0-9)",
+      "password_req_special": "One special character (@#$%^&+=!)"
     }
   },
 

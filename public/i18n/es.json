@@ -87,6 +87,23 @@
 
     "link": {
       "back_login": "Volver al Inicio de Sesión"
+    },
+
+    "success": {
+      "check_email": "Registro completado. Por favor, revisa tu correo para activar tu cuenta."
+    },
+
+    "errors": {
+      "required": "Este campo es obligatorio",
+      "max_100": "Máximo 100 caracteres",
+      "max_30": "Máximo 30 caracteres",
+      "email_invalid": "Introduce un correo electrónico válido",
+      "passwords_not_match": "Las contraseñas no coinciden",
+      "password_req_length": "Mínimo 8 caracteres",
+      "password_req_upper": "Una letra mayúscula (A-Z)",
+      "password_req_lower": "Una letra minúscula (a-z)",
+      "password_req_number": "Un número (0-9)",
+      "password_req_special": "Un carácter especial (@#$%^&+=!)"
     }
   },
 

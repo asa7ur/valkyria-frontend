@@ -8,11 +8,12 @@ import {LineupClient} from '../../../../core/services/lineup-client';
 import {Artist} from '../../../../core/models/artist';
 import {environment} from '../../../../../environments/environment';
 import {TranslatePipe} from '@ngx-translate/core';
+import {LocalizedNamePipe} from '../../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-artist-detail',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, LocalizedNamePipe],
   templateUrl: './artist-detail.html',
 })
 export class ArtistDetail implements OnInit {

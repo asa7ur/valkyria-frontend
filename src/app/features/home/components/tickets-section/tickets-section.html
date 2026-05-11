@@ -36,7 +36,7 @@
             <h3
               [class]="i < 2 ? 'text-3xl md:text-5xl mt-2 md:mt-6' : 'text-lg md:text-3xl mt-2 md:mt-4'"
               class="font-black uppercase leading-none italic transition-transform duration-300">
-              {{ ticket.name }}
+              {{ ticket | localizedName }}
             </h3>
           </div>
 

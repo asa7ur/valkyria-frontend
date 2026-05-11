@@ -4,11 +4,12 @@ import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CampingType} from '../../../../core/models/ticket-types';
 import {DocumentType} from '../../../../core/models/order-schema';
 import {TranslatePipe} from '@ngx-translate/core';
+import {LocalizedNamePipe} from '../../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-camping-item',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, LocalizedNamePipe],
   templateUrl: './camping-item.html',
 })
 export class CampingItem {

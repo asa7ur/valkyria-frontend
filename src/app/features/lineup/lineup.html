@@ -42,7 +42,7 @@
               @for (stage of dayItem.stages; track stage.name) {
                 <div>
                   <h3 class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 mb-8 border-b border-white/5 pb-2">
-                    {{ stage.name }}
+                    {{ stage | localizedName }}
                   </h3>
 
                   <!-- Tercer nivel: Actuaciones -->

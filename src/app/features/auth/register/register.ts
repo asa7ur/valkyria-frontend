@@ -40,6 +40,21 @@ export class Register {
     }
   });
 
+  get passwordValue(): string {
+    return this.registerForm.get('password')?.value || '';
+  }
+
+  get pwHasMinLength(): boolean { return this.passwordValue.length >= 8; }
+  get pwHasUpperCase(): boolean { return /[A-Z]/.test(this.passwordValue); }
+  get pwHasLowerCase(): boolean { return /[a-z]/.test(this.passwordValue); }
+  get pwHasNumber(): boolean { return /[0-9]/.test(this.passwordValue); }
+  get pwHasSpecial(): boolean { return /[@#$%^&+=!]/.test(this.passwordValue); }
+
+  get showPasswordHints(): boolean {
+    const ctrl = this.registerForm.get('password');
+    return !!(ctrl?.touched && ctrl?.dirty);
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading.set(true);
@@ -51,7 +66,7 @@ export class Register {
       this.auth.register(userData).subscribe({
         next: (res: any) => {
           this.isLoading.set(false);
-          this.successMessage.set(res.message || $localize`:@@register.success.checkEmail:Revisa tu correo para activar la cuenta`);
+          this.successMessage.set('register.success.check_email');
           // Redirección al login tras un registro exitoso tras un breve retraso
           setTimeout(() => this.router.navigate(['/login']), 5000);
         },
