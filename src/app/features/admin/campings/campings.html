@@ -1,14 +1,14 @@
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-  <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-    <h2 class="text-xl font-bold text-gray-800">Gestión de Campings</h2>
-    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
+  <div class="p-6 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
+    <h2 class="text-xl font-bold text-gray-800 dark:text-white">Gestión de Campings</h2>
+    <span class="px-3 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium">
       {{ filter().totalElements }} Campings totales
     </span>
   </div>
 
-  <div class="p-4 bg-gray-50 border-b border-gray-100">
+  <div class="p-4 bg-gray-50 dark:bg-slate-800/50 border-b border-gray-100 dark:border-slate-800">
     <div class="relative max-w-md">
-      <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+      <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 dark:text-slate-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -18,7 +18,7 @@
         type="text"
         (input)="onSearch($event)"
         placeholder="Buscar por nombre, documento o tipo..."
-        class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm transition-all"
+        class="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm transition-all"
       >
     </div>
   </div>
@@ -27,11 +27,11 @@
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center p-12 space-y-4">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600"></div>
-        <p class="text-gray-500 font-medium">Cargando campings...</p>
+        <p class="text-gray-500 dark:text-slate-400 font-medium">Cargando campings...</p>
       </div>
     } @else {
       <table class="w-full text-left">
-        <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+        <thead class="bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-slate-400 uppercase text-xs font-semibold">
         <tr>
           <th class="px-6 py-4">Asistente</th>
           <th class="px-6 py-4">Documento</th>
@@ -41,46 +41,46 @@
           <th class="px-6 py-4 text-right">Acciones</th>
         </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
+        <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
           @for (camping of campings(); track camping.id) {
-            <tr class="hover:bg-gray-50 transition-colors">
+            <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
               <td class="px-6 py-4">
-                <div class="font-bold text-gray-900">{{ camping.firstName }} {{ camping.lastName }}</div>
-                <div class="text-xs text-gray-400 uppercase tracking-wider">ID: #{{ camping.id }}</div>
+                <div class="font-bold text-gray-900 dark:text-white">{{ camping.firstName }} {{ camping.lastName }}</div>
+                <div class="text-xs text-gray-400 dark:text-slate-500 uppercase tracking-wider">ID: #{{ camping.id }}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="text-sm text-gray-600">{{ camping.documentType }}</div>
-                <div class="text-sm font-medium text-gray-900">{{ camping.documentNumber }}</div>
+                <div class="text-sm text-gray-600 dark:text-slate-400">{{ camping.documentType }}</div>
+                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ camping.documentNumber }}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="text-sm text-gray-700">{{ camping.birthDate | date:'dd/MM/yyyy' }}</div>
+                <div class="text-sm text-gray-700 dark:text-slate-300">{{ camping.birthDate | date:'dd/MM/yyyy' }}</div>
               </td>
               <td class="px-6 py-4">
-                <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-bold border border-purple-100">
+                <span class="px-2 py-1 bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs font-bold border border-purple-100 dark:border-purple-500/20">
                   {{ camping.campingTypeName }}
                 </span>
               </td>
               <td class="px-6 py-4">
                 <span [ngClass]="{
-                  'bg-green-100 text-green-700': camping.status === 'ACTIVE',
-                  'bg-red-100 text-red-700': camping.status === 'CANCELLED',
-                  'bg-gray-100 text-gray-700': camping.status === 'USED'
+                  'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400': camping.status === 'ACTIVE',
+                  'bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400': camping.status === 'CANCELLED',
+                  'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300': camping.status === 'USED'
                 }" class="px-2 py-1 rounded-full text-xs font-bold">
                   {{ camping.status }}
                 </span>
               </td>
               <td class="px-6 py-4 text-right space-x-3">
                 <a [routerLink]="['/admin/campings/edit', camping.id]"
-                   class="text-blue-600 hover:text-blue-900 font-semibold text-sm">Editar</a>
+                   class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 font-semibold text-sm">Editar</a>
                 <button (click)="deleteCamping(camping.id)"
-                        class="text-red-500 hover:text-red-700 font-semibold text-sm cursor-pointer">
+                        class="text-red-500 hover:text-red-700 dark:hover:text-red-400 font-semibold text-sm cursor-pointer">
                   Eliminar
                 </button>
               </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="7" class="px-6 py-12 text-center text-gray-400">
+              <td colspan="7" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500">
                 <p class="text-lg font-medium">No se encontraron campings vendidas</p>
               </td>
             </tr>
@@ -90,23 +90,23 @@
     }
   </div>
 
-  <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50">
-    <div class="text-sm text-gray-600">
-      Página <span class="font-semibold text-gray-900">{{ filter().totalPages ? filter().page + 1 : 0 }}</span> de
-      <span class="font-semibold text-gray-900">{{ filter().totalPages }}</span>
+  <div class="px-6 py-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between bg-gray-50 dark:bg-slate-800/50">
+    <div class="text-sm text-gray-600 dark:text-slate-400">
+      Página <span class="font-semibold text-gray-900 dark:text-white">{{ filter().totalPages ? filter().page + 1 : 0 }}</span> de
+      <span class="font-semibold text-gray-900 dark:text-white">{{ filter().totalPages }}</span>
     </div>
 
     <div class="flex gap-2">
       <button
         (click)="goToPage(filter().page - 1)"
         [disabled]="filter().page === 0 || filter().totalPages === 0"
-        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
+        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
         Anterior
       </button>
       <button
         (click)="goToPage(filter().page + 1)"
         [disabled]="filter().totalPages || filter().page >= filter().totalPages! - 1"
-        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
+        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
         Siguiente
       </button>
     </div>

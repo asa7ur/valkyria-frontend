@@ -1,74 +1,74 @@
 <div class="space-y-8 animate-in fade-in duration-700">
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
     <div>
-      <h2 class="text-2xl font-bold text-slate-800">Panel de Control</h2>
-      <p class="text-slate-500">Métricas de rendimiento en tiempo real.</p>
+      <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Panel de Control</h2>
+      <p class="text-slate-500 dark:text-slate-400">Métricas de rendimiento en tiempo real.</p>
     </div>
     <button (click)="loadDashboardData()"
-            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors shadow-sm cursor-pointer">
+            class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm cursor-pointer">
       <i class="fas fa-sync-alt mr-2" [class.fa-spin]="loading"></i> Refrescar datos
     </button>
   </div>
 
   @if (!loading && stats) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
-        <div class="p-3 w-fit bg-emerald-50 rounded-xl text-emerald-600">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+        <div class="p-3 w-fit bg-emerald-50 dark:bg-emerald-500/10 rounded-xl text-emerald-600 dark:text-emerald-400">
           <i class="fas fa-euro-sign text-xl"></i>
         </div>
         <div class="mt-4">
-          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Ingresos Totales</p>
-          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalRevenue | currency:'EUR' }}</p>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ingresos Totales</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalRevenue | currency:'EUR' }}</p>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
-        <div class="p-3 w-fit bg-purple-50 rounded-xl text-purple-600">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+        <div class="p-3 w-fit bg-purple-50 dark:bg-purple-500/10 rounded-xl text-purple-600 dark:text-purple-400">
           <i class="fas fa-microphone-alt text-xl"></i>
         </div>
         <div class="mt-4">
-          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Lineup</p>
-          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalArtists }} Artistas</p>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Lineup</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalArtists }} Artistas</p>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
         <div class="flex items-center justify-between">
-          <div class="p-3 bg-blue-50 rounded-xl text-blue-600">
+          <div class="p-3 bg-blue-50 dark:bg-blue-500/10 rounded-xl text-blue-600 dark:text-blue-400">
             <i class="fas fa-ticket-alt text-xl"></i>
           </div>
-          <span class="text-blue-600 text-xs font-bold">{{ stats.ticketCapacityPercentage | number:'1.0-0' }}%</span>
+          <span class="text-blue-600 dark:text-blue-400 text-xs font-bold">{{ stats.ticketCapacityPercentage | number:'1.0-0' }}%</span>
         </div>
         <div class="mt-4">
-          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Tickets Vendidos</p>
-          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalTicketsSold }}</p>
-          <div class="w-full bg-slate-100 rounded-full h-1.5 mt-4">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tickets Vendidos</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalTicketsSold }}</p>
+          <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 mt-4">
             <div class="bg-blue-600 h-1.5 rounded-full transition-all duration-1000"
                  [style.width.%]="stats.ticketCapacityPercentage"></div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group">
-        <div class="p-3 w-fit bg-orange-50 rounded-xl text-orange-600">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+        <div class="p-3 w-fit bg-orange-50 dark:bg-orange-500/10 rounded-xl text-orange-600 dark:text-orange-400">
           <i class="fas fa-users text-xl"></i>
         </div>
         <div class="mt-4">
-          <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Usuarios Registrados</p>
-          <p class="text-3xl font-extrabold text-slate-900 mt-1">{{ stats.totalActiveUsers }}</p>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usuarios Registrados</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalActiveUsers }}</p>
         </div>
       </div>
     </div>
 
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 min-h-112.5 flex flex-col">
+    <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 min-h-112.5 flex flex-col">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-bold text-slate-800">Tendencia de Ingresos</h3>
-        <span class="text-xs text-slate-400">Datos históricos por día</span>
+        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Tendencia de Ingresos</h3>
+        <span class="text-xs text-slate-400 dark:text-slate-500">Datos históricos por día</span>
       </div>
       <div
-        class="flex-1 border-2 border-dashed border-slate-100 rounded-xl flex flex-col items-center justify-center bg-slate-50/30">
-        <i class="fas fa-chart-line text-4xl text-slate-200 mb-4"></i>
-        <p class="text-slate-400 font-medium">Preparando visualización de ventas...</p>
+        class="flex-1 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center bg-slate-50/30 dark:bg-slate-800/30">
+        <i class="fas fa-chart-line text-4xl text-slate-200 dark:text-slate-700 mb-4"></i>
+        <p class="text-slate-400 dark:text-slate-500 font-medium">Preparando visualización de ventas...</p>
       </div>
     </div>
   }

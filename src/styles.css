@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* --- ESTILOS BASE DE ESTRUCTURA --- */
 
 html {
@@ -166,4 +168,15 @@ body {
     position: fixed;
     width: 100%;
   }
+}
+
+.dark body,
+.dark div,
+.dark header,
+.dark aside,
+.dark section,
+.dark main {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }

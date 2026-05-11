@@ -1,8 +1,8 @@
-import {Component, computed, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterOutlet, RouterLink, RouterLinkActive, Router} from '@angular/router';
-import {ToastService} from '../../../core/services/toast';
-import {AuthManager} from '../../../core/services/auth-manager';
+import { Component, computed, effect, inject, signal, Renderer2 } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { ToastService } from '../../../core/services/toast';
+import { AuthManager } from '../../../core/services/auth-manager';
 
 @Component({
   selector: 'app-admin-layout',
@@ -13,19 +13,35 @@ export class Layout {
   public toast = inject(ToastService);
   public auth = inject(AuthManager);
   private router = inject(Router);
+  private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
-  /**
-   * Verifica si el usuario actual tiene el rol de administrador.
-   * Se asume que el rol es 'ROLE_ADMIN'.
-   */
+  // Inicializamos el signal con el valor de localStorage
+  public isDark = signal<boolean>(localStorage.getItem('admin-theme') === 'dark');
+
+  constructor() {
+    // Sincroniza el estado del signal con el DOM y el LocalStorage automáticamente
+    effect(() => {
+      const mode = this.isDark() ? 'dark' : 'light';
+      localStorage.setItem('admin-theme', mode);
+
+      if (this.isDark()) {
+        this.renderer.addClass(this.document.documentElement, 'dark');
+      } else {
+        this.renderer.removeClass(this.document.documentElement, 'dark');
+      }
+    });
+  }
+
+  toggleTheme(): void {
+    this.isDark.update(v => !v);
+  }
+
   public isAdmin = computed(() => {
     const user = this.auth.currentUser();
     return user?.roles.some(r => r.authority === 'ROLE_ADMIN') ?? false;
   });
 
-  /**
-   * Cierra la sesión del usuario y lo redirige a la página principal.
-   */
   handleLogout(): void {
     this.auth.logout();
     this.router.navigate(['/']);

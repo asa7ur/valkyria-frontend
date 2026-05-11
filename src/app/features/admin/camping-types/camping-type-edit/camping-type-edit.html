@@ -2,7 +2,7 @@
   <div class="mb-6 flex items-center justify-between">
     <div>
       <a routerLink="/admin/camping-types"
-        class="group flex items-center text-sm font-medium text-gray-500 hover:text-purple-600 transition-colors mb-2">
+        class="group flex items-center text-sm font-medium text-gray-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors mb-2">
         <svg xmlns="http://www.w3.org/2000/svg"
           class="h-4 w-4 mr-1 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
@@ -11,11 +11,11 @@
         Volver al listado
       </a>
       <div class="flex items-center gap-3">
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+        <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
           {{ isEditMode() ? 'Editar Tipo de Camping' : 'Nuevo Tipo de Camping' }}
         </h1>
         @if (isEditMode()) {
-        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-bold">#{{ campingType()?.id
+        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 rounded-full text-sm font-bold">#{{ campingType()?.id
           }}</span>
         }
       </div>
@@ -25,50 +25,50 @@
   @if (isInitialLoading()) {
   <div class="flex flex-col items-center justify-center min-h-100 space-y-4">
     <div class="animate-spin rounded-full h-12 w-12 border-4 border-purple-100 border-t-purple-600"></div>
-    <p class="text-gray-500 font-medium italic">Cargando datos del tipo de camping...</p>
+    <p class="text-gray-500 dark:text-slate-400 font-medium italic">Cargando datos del tipo de camping...</p>
   </div>
   } @else {
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
     <div class="p-8 lg:p-12">
       <form [formGroup]="campingTypeForm" (ngSubmit)="onSubmit()" class="space-y-8">
         <div class="space-y-6">
-          <div class="flex items-center gap-3 border-b border-purple-100 pb-2">
+          <div class="flex items-center gap-3 border-b border-purple-100 dark:border-slate-700 pb-2">
             <span class="w-2 h-6 bg-purple-500 rounded-full"></span>
-            <h3 class="text-xl font-bold text-gray-900 tracking-tight">Datos del Tipo de Camping</h3>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Datos del Tipo de Camping</h3>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">Nombre del Tipo</label>
+              <label class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Nombre del Tipo</label>
               <input type="text" formControlName="name"
-                class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+                class="w-full mt-1 px-4 py-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white dark:focus:bg-slate-700 dark:text-white transition-all outline-none">
               @if (campingTypeForm.get('name')?.invalid && campingTypeForm.get('name')?.touched) {
               <p class="text-red-500 text-xs mt-1">El nombre es obligatorio.</p>
               }
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">Precio (€)</label>
+              <label class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Precio (€)</label>
               <input type="number" formControlName="price"
-                class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+                class="w-full mt-1 px-4 py-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white dark:focus:bg-slate-700 dark:text-white transition-all outline-none">
               @if (campingTypeForm.get('price')?.invalid && campingTypeForm.get('price')?.touched) {
               <p class="text-red-500 text-xs mt-1">El precio es obligatorio.</p>
               }
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">Stock Total</label>
+              <label class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Stock Total</label>
               <input type="number" formControlName="stockTotal"
-                class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+                class="w-full mt-1 px-4 py-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white dark:focus:bg-slate-700 dark:text-white transition-all outline-none">
               @if (campingTypeForm.get('stockTotal')?.invalid && campingTypeForm.get('stockTotal')?.touched) {
               <p class="text-red-500 text-xs mt-1">El stock total es obligatorio.</p>
               }
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">Stock Disponible</label>
+              <label class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Stock Disponible</label>
               <input type="number" formControlName="stockAvailable"
-                class="w-full mt-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all outline-none">
+                class="w-full mt-1 px-4 py-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white dark:focus:bg-slate-700 dark:text-white transition-all outline-none">
               @if (campingTypeForm.get('stockAvailable')?.invalid && campingTypeForm.get('stockAvailable')?.touched) {
               <p class="text-red-500 text-xs mt-1">El stock disponible es obligatorio.</p>
               }
@@ -76,13 +76,13 @@
           </div>
         </div>
 
-        <div class="pt-10 flex justify-end gap-4 border-t border-gray-50">
+        <div class="pt-10 flex justify-end gap-4 border-t border-gray-50 dark:border-slate-800">
           <button type="button" routerLink="/admin/camping-types"
-            class="px-8 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-2xl transition-all cursor-pointer">
+            class="px-8 py-3 text-gray-500 dark:text-slate-400 font-bold hover:bg-gray-100 dark:hover:bg-slate-800 rounded-2xl transition-all cursor-pointer">
             Cancelar
           </button>
           <button type="submit" [disabled]="campingTypeForm.invalid || isLoading()"
-            class="px-10 py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-purple-600 shadow-xl transition-all disabled:opacity-50 cursor-pointer flex items-center gap-2">
+            class="px-10 py-3 bg-slate-900 dark:bg-purple-600 text-white rounded-2xl font-bold hover:bg-purple-600 dark:hover:bg-purple-500 shadow-xl transition-all disabled:opacity-50 cursor-pointer flex items-center gap-2">
             @if (isLoading()) {
             <span class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
             <span>Guardando...</span>
