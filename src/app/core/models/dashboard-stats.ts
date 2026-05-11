@@ -4,5 +4,6 @@ export interface DashboardStats {
   totalTicketsSold: number;
   totalActiveUsers: number;
   ticketCapacityPercentage: number;
-  salesTrend: { date: string, amount: number }[];
+  salesTrend: { date: string; amount: number }[];
+  salesBreakdown: { label: string; count: number }[];
 }

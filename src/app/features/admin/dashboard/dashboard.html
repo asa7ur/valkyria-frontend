@@ -6,70 +6,112 @@
     </div>
     <button (click)="loadDashboardData()"
             class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm cursor-pointer">
-      <i class="fas fa-sync-alt mr-2" [class.fa-spin]="loading"></i> Refrescar datos
+      <i class="fas fa-sync-alt mr-2" [class.fa-spin]="loading()"></i> Refrescar datos
     </button>
   </div>
 
-  @if (!loading && stats) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+  @if (!loading() && stats(); as s) {
+
+    <!-- Fila 1: KPIs -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
         <div class="p-3 w-fit bg-emerald-50 dark:bg-emerald-500/10 rounded-xl text-emerald-600 dark:text-emerald-400">
           <i class="fas fa-euro-sign text-xl"></i>
         </div>
         <div class="mt-4">
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ingresos Totales</p>
-          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalRevenue | currency:'EUR' }}</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ s.totalRevenue | currency:'EUR' }}</p>
         </div>
       </div>
 
-      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
         <div class="p-3 w-fit bg-purple-50 dark:bg-purple-500/10 rounded-xl text-purple-600 dark:text-purple-400">
           <i class="fas fa-microphone-alt text-xl"></i>
         </div>
         <div class="mt-4">
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Lineup</p>
-          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalArtists }} Artistas</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ s.totalArtists }} Artistas</p>
         </div>
       </div>
 
-      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
-        <div class="flex items-center justify-between">
-          <div class="p-3 bg-blue-50 dark:bg-blue-500/10 rounded-xl text-blue-600 dark:text-blue-400">
-            <i class="fas fa-ticket-alt text-xl"></i>
-          </div>
-          <span class="text-blue-600 dark:text-blue-400 text-xs font-bold">{{ stats.ticketCapacityPercentage | number:'1.0-0' }}%</span>
-        </div>
-        <div class="mt-4">
-          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tickets Vendidos</p>
-          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalTicketsSold }}</p>
-          <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 mt-4">
-            <div class="bg-blue-600 h-1.5 rounded-full transition-all duration-1000"
-                 [style.width.%]="stats.ticketCapacityPercentage"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
         <div class="p-3 w-fit bg-orange-50 dark:bg-orange-500/10 rounded-xl text-orange-600 dark:text-orange-400">
           <i class="fas fa-users text-xl"></i>
         </div>
         <div class="mt-4">
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usuarios Registrados</p>
-          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ stats.totalActiveUsers }}</p>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">{{ s.totalActiveUsers }}</p>
         </div>
       </div>
     </div>
 
-    <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 min-h-112.5 flex flex-col">
+    <!-- Fila 2: Doughnut entradas y camping -->
+    <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 w-fit bg-blue-50 dark:bg-blue-500/10 rounded-xl text-blue-600 dark:text-blue-400">
+          <i class="fas fa-ticket-alt text-xl"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Entradas y Camping</h3>
+          <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Unidades vendidas por tipo</p>
+        </div>
+      </div>
+      @if (s.salesBreakdown.length > 0) {
+        <div class="relative h-56">
+          <canvas #donutChart></canvas>
+        </div>
+      } @else {
+        <div class="h-48 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center">
+          <i class="fas fa-ticket-alt text-4xl text-slate-200 dark:text-slate-700 mb-3"></i>
+          <p class="text-slate-400 dark:text-slate-500 font-medium text-sm">Sin datos de entradas disponibles</p>
+        </div>
+      }
+    </div>
+
+    <!-- Fila 3: Tendencia de ingresos -->
+    <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Tendencia de Ingresos</h3>
-        <span class="text-xs text-slate-400 dark:text-slate-500">Datos históricos por día</span>
+        <div>
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Tendencia de Ingresos</h3>
+          <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Datos históricos por día</p>
+        </div>
+        @if (trendPct() > 0) {
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+            <i class="fas fa-arrow-up"></i> +{{ trendPct() | number:'1.0-1' }}%
+          </span>
+        } @else if (trendPct() < 0) {
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400">
+            <i class="fas fa-arrow-down"></i> {{ trendPct() | number:'1.0-1' }}%
+          </span>
+        }
       </div>
-      <div
-        class="flex-1 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center bg-slate-50/30 dark:bg-slate-800/30">
-        <i class="fas fa-chart-line text-4xl text-slate-200 dark:text-slate-700 mb-4"></i>
-        <p class="text-slate-400 dark:text-slate-500 font-medium">Preparando visualización de ventas...</p>
-      </div>
+
+      @if (s.salesTrend.length > 0) {
+        <div class="relative h-64">
+          <canvas #salesChart></canvas>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="text-center">
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">Mejor Día</p>
+            <p class="text-base font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{{ bestDay()?.amount | currency:'EUR' }}</p>
+            <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{{ bestDay()?.date | date:'d MMM, y' }}</p>
+          </div>
+          <div class="text-center border-x border-slate-100 dark:border-slate-800">
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">Promedio / Día</p>
+            <p class="text-base font-extrabold text-slate-800 dark:text-white mt-1">{{ avgAmount() | currency:'EUR' }}</p>
+          </div>
+          <div class="text-center">
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">Días con Ventas</p>
+            <p class="text-base font-extrabold text-slate-800 dark:text-white mt-1">{{ s.salesTrend.length }}</p>
+          </div>
+        </div>
+      } @else {
+        <div class="h-48 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center">
+          <i class="fas fa-chart-line text-4xl text-slate-200 dark:text-slate-700 mb-3"></i>
+          <p class="text-slate-400 dark:text-slate-500 font-medium text-sm">Sin datos de ventas disponibles</p>
+        </div>
+      }
     </div>
   }
 </div>
