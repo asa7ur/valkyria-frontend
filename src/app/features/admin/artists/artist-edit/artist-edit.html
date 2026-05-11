@@ -116,7 +116,7 @@
 
         @if (isEditMode()) {
         <div class="grid grid-cols-3 gap-3">
-          @for (img of artist()?.images; track img.id) {
+          @for (img of artist()?.images ?? []; track img.id) {
           <div
             class="relative group aspect-square bg-slate-200 dark:bg-slate-700 rounded-xl overflow-hidden border border-white dark:border-slate-600 shadow-sm">
             <img [src]="getImageUrl(img.imageUrl)" class="w-full h-full object-cover" alt="artist image">
