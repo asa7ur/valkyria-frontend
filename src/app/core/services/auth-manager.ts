@@ -127,4 +127,11 @@ export class AuthManager {
   confirmAccount(token: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/confirm?token=${token}`);
   }
+
+  /**
+   * Guarda la sesión recibida tras el redirect de OAuth2 (Google).
+   */
+  handleOAuth2Callback(response: AuthResponse): void {
+    this.saveSession(response);
+  }
 }

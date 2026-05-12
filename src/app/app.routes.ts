@@ -18,6 +18,7 @@ import {Cancel} from './features/purchase/pages/cancel/cancel';
 import {Login} from './features/auth/login/login';
 import {Register} from './features/auth/register/register';
 import {Confirm} from './features/auth/confirm/confirm';
+import {OAuth2Callback} from './features/auth/oauth2-callback/oauth2-callback';
 
 // Página Admin
 import {Layout} from './features/admin/layout/layout';
@@ -55,6 +56,10 @@ export const routes: Routes = [
   {
     path: 'confirm-registration',
     component: Confirm
+  },
+  {
+    path: 'oauth2/callback',
+    component: OAuth2Callback
   },
   {
     path: 'admin',

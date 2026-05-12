@@ -16,5 +16,6 @@ export interface RegisterRequest {
 export interface AuthResponse {
   token: string;
   username: string;
+  firstName?: string;
   roles: { authority: string }[];
 }

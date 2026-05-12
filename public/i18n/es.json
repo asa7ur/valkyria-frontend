@@ -118,14 +118,16 @@
     },
     "btn": {
       "authenticating": "Autenticando...",
-      "submit": "Iniciar Sesión"
+      "submit": "Iniciar Sesión",
+      "google": "Continuar con Google"
     },
     "links": {
       "back_home": "Volver al Inicio",
       "register": "Crear Cuenta"
     },
     "text": {
-      "new_here": "¿Eres nuevo?"
+      "new_here": "¿Eres nuevo?",
+      "or": "o"
     }
   },
 

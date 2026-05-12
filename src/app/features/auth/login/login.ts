@@ -3,6 +3,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {AuthManager} from '../../../core/services/auth-manager';
 import {TranslatePipe} from '@ngx-translate/core';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class Login {
 
   errorMessage = signal<string | null>(null);
   isLoading = signal<boolean>(false);
+  googleAuthUrl = `${environment.apiUrl}/oauth2/authorization/google`;
 
   loginForm = this.fb.group({
     username: ['', [Validators.required]],

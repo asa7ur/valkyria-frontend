@@ -120,7 +120,8 @@
 
     "btn": {
       "authenticating": "Authenticating...",
-      "submit": "Login"
+      "submit": "Login",
+      "google": "Continue with Google"
     },
 
     "links": {
@@ -129,7 +130,8 @@
     },
 
     "text": {
-      "new_here": "New here?"
+      "new_here": "New here?",
+      "or": "or"
     }
   },
 
