@@ -18,7 +18,11 @@ export class Login {
 
   errorMessage = signal<string | null>(null);
   isLoading = signal<boolean>(false);
-  googleAuthUrl = `${environment.apiUrl}/oauth2/authorization/google`;
+  private googleAuthUrl = `${environment.apiUrl}/oauth2/authorization/google`;
+
+  loginWithGoogle() {
+    window.location.href = this.googleAuthUrl;
+  }
 
   loginForm = this.fb.group({
     username: ['', [Validators.required]],
