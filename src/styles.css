@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+@theme {
+  --font-cinzel: 'Cinzel', serif;
+  --font-cinzel-decorative: 'Cinzel Decorative', serif;
+  --font-bebas: 'Oswald', sans-serif;
+}
+
+@layer base {
+  h1, h3, h4, h5, h6 {
+    font-family: var(--font-cinzel);
+  }
+  h2 {
+    font-family: var(--font-bebas);
+  }
+  button, label {
+    font-family: var(--font-bebas);
+  }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* --- ESTILOS BASE DE ESTRUCTURA --- */

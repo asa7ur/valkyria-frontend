@@ -30,8 +30,8 @@
                 @for (t of order().tickets; track $index) {
                   <div class="bg-white/5 backdrop-blur-md border border-white/5 p-4 flex justify-between items-center group">
                     <div>
-                      <p class="text-xs font-black uppercase tracking-widest text-white/90">{{ getTicketName(t.ticketTypeId) }}</p>
-                      <p class="text-[10px] font-bold text-white/30 uppercase mt-1">{{ t.firstName }} {{ t.lastName }}</p>
+                      <p class="font-bebas text-sm uppercase tracking-widest text-white/90">{{ getTicketName(t.ticketTypeId) }}</p>
+                      <p class="font-bebas text-xs text-white/30 uppercase mt-1 tracking-wider">{{ t.firstName }} {{ t.lastName }}</p>
                     </div>
                     <button (click)="removeItem('ticket', $index)"
                             class="p-3 text-white/20 hover:text-red-600 transition-colors cursor-pointer">
@@ -55,8 +55,8 @@
                 @for (c of order().campings; track $index) {
                   <div class="bg-white/5 backdrop-blur-md border border-white/10 p-4 flex justify-between items-center group">
                     <div>
-                      <p class="text-xs font-black uppercase tracking-widest text-white/90">{{ getCampingName(c.campingTypeId) }}</p>
-                      <p class="text-[10px] font-bold text-white/30 uppercase mt-1">{{ c.firstName }} {{ c.lastName }}</p>
+                      <p class="font-bebas text-sm uppercase tracking-widest text-white/90">{{ getCampingName(c.campingTypeId) }}</p>
+                      <p class="font-bebas text-xs text-white/30 uppercase mt-1 tracking-wider">{{ c.firstName }} {{ c.lastName }}</p>
                     </div>
                     <button (click)="removeItem('camping', $index)"
                             class="p-3 text-white/20 hover:text-red-600 transition-colors cursor-pointer">
@@ -72,10 +72,10 @@
 
           @if (order().tickets.length === 0 && order().campings.length === 0) {
             <div class="text-center py-20 border-2 border-dashed border-white/5">
-              <p class="text-white/20 uppercase font-black tracking-widest text-sm">
+              <p class="font-bebas text-white/20 uppercase tracking-widest text-base">
                 {{ 'checkout.empty.message' | translate }}
               </p>
-              <a routerLink="/purchase" class="text-red-600 text-[10px] font-black uppercase tracking-widest mt-4 block underline">
+              <a routerLink="/purchase" class="font-bebas text-red-600 text-sm uppercase tracking-widest mt-4 block underline">
                 {{ 'checkout.empty.back' | translate }}
               </a>
             </div>
@@ -91,14 +91,14 @@
 
             <div class="space-y-4 mb-10">
               <div class="flex justify-between items-end">
-                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <span class="font-bebas text-sm uppercase tracking-widest opacity-40">
                   {{ 'checkout.summary.tickets' | translate }}
                 </span>
                 <span class="text-xl font-black">{{ ticketsTotal() }}€</span>
               </div>
 
               <div class="flex justify-between items-end">
-                <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <span class="font-bebas text-sm uppercase tracking-widest opacity-40">
                    {{ 'checkout.summary.camping' | translate }}
                 </span>
                 <span class="text-xl font-black">{{ campingsTotal() }}€</span>
@@ -110,7 +110,7 @@
                 <span class="text-xs font-black uppercase tracking-widest">
                   {{ 'checkout.summary.total' | translate }}
                 </span>
-                <span class="text-4xl font-black tracking-tighter">{{ grandTotal() }}€</span>
+                <span class="font-cinzel text-4xl font-black tracking-tighter">{{ grandTotal() }}€</span>
               </div>
             </div>
 

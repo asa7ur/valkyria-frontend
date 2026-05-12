@@ -10,7 +10,7 @@
     @if (isLoading()) {
       <div class="flex flex-col items-center justify-center py-32">
         <div class="w-10 h-10 border-2 border-white/5 border-t-red-600 rounded-full animate-spin mb-6"></div>
-        <p class="text-[10px] uppercase tracking-[0.4em] text-white/40 animate-pulse">
+        <p class="font-bebas text-sm uppercase tracking-[0.4em] text-white/40 animate-pulse">
           {{ 'purchase.loading' | translate }}
         </p>
       </div>
@@ -76,7 +76,7 @@
           </button>
 
           <a routerLink="/"
-             class="text-center text-white/20 uppercase text-[10px] font-black tracking-[0.3em] hover:text-white transition-colors py-2">
+             class="font-bebas text-center text-white/20 uppercase text-sm tracking-[0.3em] hover:text-white transition-colors py-2">
             {{ 'purchase.backLink' | translate }}
           </a>
         </div>

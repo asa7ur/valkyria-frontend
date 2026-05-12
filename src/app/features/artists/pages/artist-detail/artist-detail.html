@@ -67,7 +67,7 @@
             <div class="space-y-6">
               @if (a.performances && a.performances.length > 0) {
                 <div class="bg-black/10 p-4 -mx-2 border-l-4 border-black/40">
-                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black mb-1">
+                  <p class="font-bebas text-xs uppercase tracking-widest text-black/40 mb-1">
                     {{ 'artist.detail.stage_schedule' | translate }}
                   </p>
                   <p class="text-lg md:text-xl font-black uppercase tracking-tight text-white leading-tight">
@@ -81,13 +81,13 @@
 
               <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
                 <div>
-                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black">
+                  <p class="font-bebas text-xs uppercase tracking-widest text-black/40">
                     {{ 'artist.detail.genre' | translate }}
                   </p>
                   <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.genre }}</p>
                 </div>
                 <div>
-                  <p class="text-[9px] uppercase tracking-widest text-black/40 font-black">
+                  <p class="font-bebas text-xs uppercase tracking-widest text-black/40">
                     {{ 'artist.detail.origin' | translate }}
                   </p>
                   <p class="text-base md:text-lg font-black uppercase tracking-tight">{{ a.country }}</p>
@@ -110,7 +110,7 @@
         <!-- Biografía y Player -->
         <div class="lg:col-span-8 order-2 lg:order-2">
           <div class="flex items-center gap-4 mb-6">
-            <span class="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">
+            <span class="font-bebas text-sm uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">
               {{ 'artist.detail.bio' | translate }}
             </span>
             <div class="h-px w-full bg-white/10"></div>
@@ -126,7 +126,7 @@
             <div class="mt-10 md:mt-12 group">
               <div class="flex items-center gap-2 mb-3 opacity-40 group-hover:opacity-100 transition-opacity">
                 <i class="bi bi-spotify text-green-500"></i>
-                <span class="text-[10px] font-black uppercase tracking-widest">
+                <span class="font-bebas text-sm uppercase tracking-widest">
                   {{ 'artist.detail.listen_spotify' | translate }}
                 </span>
               </div>

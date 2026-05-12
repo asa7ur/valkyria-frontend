@@ -4,7 +4,7 @@
     <!-- Logo -->
     <div class="flex-1 flex items-center">
       <a routerLink="/" (click)="closeMenu()"
-         class="text-2xl font-black tracking-[0.25em] text-white hover:text-red-600 transition-all duration-300 cursor-pointer relative z-50">
+         class="font-cinzel-decorative text-2xl font-black tracking-[0.25em] text-white hover:text-red-600 transition-all duration-300 cursor-pointer relative z-50">
         VALKYRIA
       </a>
     </div>
@@ -12,15 +12,15 @@
     <!-- Navegación Escritorio -->
     <div class="hidden lg:flex items-center gap-10">
       <a routerLink="/lineup" routerLinkActive="text-red-600 !text-white"
-         class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors cursor-pointer">
+         class="font-bebas text-sm tracking-[0.3em] text-white/60 hover:text-white transition-colors cursor-pointer uppercase">
         {{ 'nav.lineup' | translate }}
       </a>
       <a routerLink="/artists" routerLinkActive="text-red-600 !text-white"
-         class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors cursor-pointer">
+         class="font-bebas text-sm tracking-[0.3em] text-white/60 hover:text-white transition-colors cursor-pointer uppercase">
         {{ 'nav.artists' | translate }}
       </a>
       <button routerLink="/purchase"
-              class="bg-white hover:bg-red-600 text-black hover:text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 shadow-xl shadow-white/5 cursor-pointer">
+              class="bg-white hover:bg-red-600 text-black hover:text-white px-5 py-2.5 text-sm uppercase tracking-[0.2em] transition-all duration-300 shadow-xl shadow-white/5 cursor-pointer">
         {{ 'nav.tickets' | translate }}
       </button>
     </div>
@@ -45,7 +45,7 @@
       <div class="hidden md:flex items-center gap-6">
         @if (auth.currentUser()) {
           <div class="flex items-center gap-4">
-            <a routerLink="/orders" class="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer">
+            <a routerLink="/orders" class="font-bebas text-sm tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer uppercase">
               {{ 'auth.orders' | translate }}
             </a>
             <button (click)="onLogout()" class="text-[10px] font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
@@ -53,7 +53,7 @@
             </button>
           </div>
         } @else {
-          <a routerLink="/login" class="text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
+          <a routerLink="/login" class="font-bebas text-sm tracking-widest text-white/60 hover:text-white transition-colors uppercase">
             {{ 'auth.login' | translate }}
           </a>
         }
@@ -110,14 +110,14 @@
     <div class="flex flex-col gap-8">
       <!-- Links de Navegación -->
       <a routerLink="/lineup" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.lineup' | translate }}</a>
+         class="font-cinzel text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.lineup' | translate }}</a>
       <a routerLink="/artists" (click)="closeMenu()" routerLinkActive="text-red-600"
-         class="text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.artists' | translate }}</a>
+         class="font-cinzel text-3xl font-black uppercase tracking-tighter text-white">{{ 'nav.artists' | translate }}</a>
 
       <!-- Cesta integrada en el menú -->
       <a routerLink="/purchase/checkout" (click)="closeMenu()"
          class="flex items-center justify-between group">
-        <span class="text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-600 transition-colors">{{ 'nav.cart' | translate }}</span>
+        <span class="font-cinzel text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-600 transition-colors">{{ 'nav.cart' | translate }}</span>
         @if (cart.itemCount() > 0) {
           <span class="bg-red-600 text-white text-[10px] font-black px-2 py-1 rounded-full animate-pulse">
             {{ cart.itemCount() }}
@@ -139,18 +139,18 @@
 
       <div class="flex flex-col gap-6">
         @if (auth.currentUser()) {
-          <a routerLink="/orders" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">{{ 'auth.my_orders' | translate }}</a>
+          <a routerLink="/orders" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-white/40 uppercase">{{ 'auth.my_orders' | translate }}</a>
           <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 text-left">{{ 'auth.logout_full' | translate }}</button>
         } @else {
           <div class="flex gap-6">
-            <a routerLink="/login" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-white/40">{{ 'auth.login' | translate }}</a>
-            <a routerLink="/register" (click)="closeMenu()" class="text-sm font-bold uppercase tracking-widest text-red-600">{{ 'auth.register' | translate }}</a>
+            <a routerLink="/login" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-white/40 uppercase">{{ 'auth.login' | translate }}</a>
+            <a routerLink="/register" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-red-600 uppercase">{{ 'auth.register' | translate }}</a>
           </div>
         }
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="text-[10px] font-black uppercase tracking-widest text-white/20">{{ 'lang.select' | translate }}</span>
+        <span class="font-bebas text-xs tracking-widest text-white/20 uppercase">{{ 'lang.select' | translate }}</span>
         <div class="flex gap-4">
           <button (click)="switchLang('es')"
                   [class]="translate.getCurrentLang() === 'es' ? 'text-white' : 'text-white/20'"
