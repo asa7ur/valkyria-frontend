@@ -48,7 +48,7 @@
             <a routerLink="/orders" class="font-bebas text-sm tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer uppercase">
               {{ 'auth.orders' | translate }}
             </a>
-            <button (click)="onLogout()" class="text-[10px] font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
+            <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
               {{ 'auth.logout' | translate }}
             </button>
           </div>
@@ -63,13 +63,13 @@
         <div class="flex items-center gap-2">
           <button (click)="switchLang('es')"
                   [class]="translate.getCurrentLang() === 'es' ? 'text-white' : 'text-white/40'"
-                  class="text-[10px] font-bold hover:text-white transition-colors uppercase cursor-pointer">
+                  class="text-sm font-bold hover:text-white transition-colors uppercase cursor-pointer">
             ES
           </button>
-          <span class="text-white/10 text-[10px]">|</span>
+          <span class="text-white/10 text-sm">|</span>
           <button (click)="switchLang('en')"
                   [class]="translate.getCurrentLang() === 'en' ? 'text-white' : 'text-white/40'"
-                  class="text-[10px] font-bold hover:text-white transition-colors uppercase cursor-pointer">
+                  class="text-sm font-bold hover:text-white transition-colors uppercase cursor-pointer">
             EN
           </button>
         </div>
