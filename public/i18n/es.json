@@ -46,11 +46,15 @@
     },
 
     "tickets": {
-      "title": "Entradas",
+      "title": "Entradas y Camping",
       "full_experience": "Full Experience",
       "pass_3_days": "Abono 3 Días",
       "access_1_day": "Acceso 1 Día",
       "buy_now": "Comprar"
+    },
+
+    "camping": {
+      "stay_option": "Opción de Alojamiento"
     },
 
     "experience": {
