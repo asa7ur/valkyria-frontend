@@ -5,7 +5,6 @@ import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sponsors-section',
-  standalone: true,
   imports: [
     TranslatePipe
   ],
@@ -20,7 +19,11 @@ export class SponsorsSection implements OnInit {
   ngOnInit(): void {
     this.sponsorApi.getAllSponsors().subscribe({
       next: (response) => {
-        this.sponsors.set(response.data || []);
+        const processedSponsors = (response.data || []).map(sponsor => ({
+          ...sponsor,
+          image: sponsor.image ? `${this.imagesBaseUrl}/${sponsor.image}_full.webp` : undefined
+        }));
+        this.sponsors.set(processedSponsors);
       },
       error: (err) => console.error('Error cargando patrocinadores', err)
     });
