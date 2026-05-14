@@ -182,7 +182,6 @@
     "date_format": "EEEE, MMMM d",
     "days": {
       "all": "ALL",
-      "wed_5": "WED 5",
       "thu_6": "THU 6",
       "fri_7": "FRI 7",
       "sat_8": "SAT 8"

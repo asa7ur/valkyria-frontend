@@ -177,7 +177,6 @@
     "date_format": "EEEE d 'de' MMMM",
     "days": {
       "all": "TODOS",
-      "wed_5": "MIÉ 5",
       "thu_6": "JUE 6",
       "fri_7": "VIE 7",
       "sat_8": "SÁB 8"
