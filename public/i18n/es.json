@@ -107,7 +107,9 @@
       "password_req_upper": "Una letra mayúscula (A-Z)",
       "password_req_lower": "Una letra minúscula (a-z)",
       "password_req_number": "Un número (0-9)",
-      "password_req_special": "Un carácter especial (@#$%^&+=!)"
+      "password_req_special": "Un carácter especial (@#$%^&+=!)",
+      "email_exists": "El correo electrónico ya está registrado",
+      "default": "Error durante el registro"
     }
   },
 

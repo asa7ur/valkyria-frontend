@@ -33,7 +33,7 @@ export interface StructuredDay {
 // Interfaz para manejar la selección de días en la UI
 export interface DayOption {
   label: string;      // Clave de traducción (Ej: "lineup.days.thu_6")
-  date: string;       // "2026-08-05"
+  date: string;       // "2026-08-06"
 }
 
 export const FESTIVAL_DAYS: DayOption[] = [

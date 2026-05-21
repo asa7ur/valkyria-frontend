@@ -72,7 +72,11 @@ export class Register {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err.error?.error || $localize`:@@register.error.default:Error durante el registro`);
+          if (err.status === 400 && err.error?.message?.includes('email-exists')) {
+            this.errorMessage.set('register.errors.email_exists');
+          } else {
+            this.errorMessage.set('register.errors.default');
+          }
           console.error('Registration error:', err);
         }
       });

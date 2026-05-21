@@ -31,7 +31,6 @@ export class Lineup implements OnInit {
 
   /**
    * Transforma y agrupa los datos en una única estructura jerárquica plana.
-   * Esto evita el error NG0956 al proporcionar tracks estables (date y name).
    */
   protected structuredLineup = computed<StructuredDay[]>(() => {
     const rawPerformances = this.allPerformances();
