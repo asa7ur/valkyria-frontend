@@ -19,13 +19,22 @@ export class Register {
   successMessage = signal<string | null>(null);
   isLoading = signal<boolean>(false);
 
+  private isAdult = (control: import('@angular/forms').AbstractControl) => {
+    if (!control.value) return null;
+    const birth = new Date(control.value);
+    const today = new Date();
+    const age = today.getFullYear() - birth.getFullYear() -
+      (today < new Date(today.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
+    return age >= 18 ? null : { notAdult: true };
+  };
+
   // Definición del formulario reactivo para el registro de nuevos usuarios
   registerForm = this.fb.group({
     firstName: ['', [Validators.required, Validators.maxLength(100)]],
     lastName: ['', [Validators.required, Validators.maxLength(100)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
     phone: ['', [Validators.required, Validators.maxLength(30)]],
-    birthDate: ['', [Validators.required]],
+    birthDate: ['', [Validators.required, this.isAdult]],
     password: ['', [
       Validators.required,
       Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/)

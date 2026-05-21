@@ -108,6 +108,7 @@
       "password_req_lower": "Una letra minúscula (a-z)",
       "password_req_number": "Un número (0-9)",
       "password_req_special": "Un carácter especial (@#$%^&+=!)",
+      "not_adult": "Debes ser mayor de 18 años para registrarte",
       "email_exists": "El correo electrónico ya está registrado",
       "default": "Error durante el registro"
     }

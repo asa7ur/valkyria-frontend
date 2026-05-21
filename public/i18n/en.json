@@ -108,6 +108,7 @@
       "password_req_lower": "One lowercase letter (a-z)",
       "password_req_number": "One number (0-9)",
       "password_req_special": "One special character (@#$%^&+=!)",
+      "not_adult": "You must be 18 or older to register",
       "email_exists": "This email address is already registered",
       "default": "An error occurred during registration"
     }

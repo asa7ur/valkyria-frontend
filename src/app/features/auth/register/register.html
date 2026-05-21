@@ -109,7 +109,11 @@
                class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark text-sm">
         @if (registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched) {
           <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            {{ 'register.errors.required' | translate }}
+            @if (registerForm.get('birthDate')?.errors?.['required']) {
+              {{ 'register.errors.required' | translate }}
+            } @else if (registerForm.get('birthDate')?.errors?.['notAdult']) {
+              {{ 'register.errors.not_adult' | translate }}
+            }
           </span>
         }
       </div>
