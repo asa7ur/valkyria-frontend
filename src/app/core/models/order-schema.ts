@@ -25,6 +25,7 @@ export interface OrderDTO {
   totalPrice: number;
   status: OrderStatus;
   guestEmail?: string;
+  userEmail?: string;
   tickets: Ticket[];
   campings: Camping[];
 }
