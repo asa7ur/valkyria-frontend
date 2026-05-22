@@ -19,6 +19,12 @@ export class Header {
 
   isMenuOpen = signal(false);
 
+  hasAdminAccess(): boolean {
+    const user = this.auth.currentUser();
+    if (!user) return false;
+    return user.roles?.some(r => r.authority === 'ROLE_ADMIN' || r.authority === 'ROLE_MANAGER') ?? false;
+  }
+
   constructor() {
     effect(() => {
       if (this.isMenuOpen()) {
