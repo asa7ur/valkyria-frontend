@@ -117,5 +117,10 @@ export const routes: Routes = [
         ]
       },
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '', // En el futuro se puede crear una vista NotFound
+    pathMatch: 'full'
   }
 ];
