@@ -8,7 +8,7 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 md:gap-6 px-0 md:px-10">
-      @for (item of displayItems(); track item.id; let i = $index) {
+      @for (item of displayItems(); track item.uid; let i = $index) {
         <div
           [class]="i < 2
             ? 'col-span-2 lg:col-span-3 p-5 md:p-10 lg:p-12 min-h-75 md:min-h-112.5 border-red-800/40 bg-linear-to-br from-red-950/60 to-transparent'

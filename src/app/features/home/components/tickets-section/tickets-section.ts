@@ -20,8 +20,8 @@ export class TicketsSection implements OnInit {
 
   // Combinamos: 2 Tickets + 3 Campings
   protected readonly displayItems = computed(() => {
-    const tickets = this.allTickets().slice(0, 2).map(t => ({ ...t, isCamping: false }));
-    const campings = this.allCampings().slice(0, 3).map(c => ({ ...c, isCamping: true }));
+    const tickets = this.allTickets().slice(0, 2).map(t => ({ ...t, isCamping: false, uid: `t_${t.id}` }));
+    const campings = this.allCampings().slice(0, 3).map(c => ({ ...c, isCamping: true, uid: `c_${c.id}` }));
     return [...tickets, ...campings];
   });
 
