@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://valkyria.alixarblue.team'
+  apiUrl: 'http://localhost:8080'
 };
