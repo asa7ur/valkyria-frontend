@@ -50,8 +50,8 @@
                 Dashboard
               </a>
             }
-            <a routerLink="/orders" class="font-bebas text-sm tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer uppercase">
-              {{ 'auth.orders' | translate }}
+            <a routerLink="/profile" class="font-bebas text-sm tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer uppercase">
+              {{ 'auth.profile' | translate }}
             </a>
             <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors cursor-pointer">
               {{ 'auth.logout' | translate }}
@@ -147,7 +147,7 @@
           @if (hasAdminAccess()) {
             <a routerLink="/admin/dashboard" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-white/40 hover:text-white transition-colors uppercase">Dashboard</a>
           }
-          <a routerLink="/orders" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-white/40 hover:text-white transition-colors uppercase">{{ 'auth.my_orders' | translate }}</a>
+          <a routerLink="/profile" (click)="closeMenu()" class="font-bebas text-base tracking-widest text-white/40 hover:text-white transition-colors uppercase">{{ 'auth.profile' | translate }}</a>
           <button (click)="onLogout()" class="text-sm font-bold uppercase tracking-widest text-red-600 hover:text-red-500 transition-colors text-left">{{ 'auth.logout_full' | translate }}</button>
         } @else {
           <div class="flex gap-6">

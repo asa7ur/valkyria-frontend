@@ -9,6 +9,7 @@ import {Lineup} from './features/lineup/lineup';
 import {Artists} from './features/artists/artists';
 import {ArtistDetail} from './features/artists/pages/artist-detail/artist-detail';
 import {MyOrders} from './features/profile/pages/my-orders/my-orders';
+import {Profile} from './features/profile/profile';
 import {Purchase} from './features/purchase/purchase';
 import {Checkout} from './features/purchase/pages/checkout/checkout';
 import {Success} from './features/purchase/pages/success/success';
@@ -18,6 +19,7 @@ import {Cancel} from './features/purchase/pages/cancel/cancel';
 import {Login} from './features/auth/login/login';
 import {Register} from './features/auth/register/register';
 import {Confirm} from './features/auth/confirm/confirm';
+import {ConfirmEmail} from './features/auth/confirm-email/confirm-email';
 import {OAuth2Callback} from './features/auth/oauth2-callback/oauth2-callback';
 
 // Página Admin
@@ -56,6 +58,10 @@ export const routes: Routes = [
   {
     path: 'confirm-registration',
     component: Confirm
+  },
+  {
+    path: 'confirm-email',
+    component: ConfirmEmail
   },
   {
     path: 'oauth2/callback',
@@ -106,7 +112,8 @@ export const routes: Routes = [
       {path: 'lineup', component: Lineup},
       {path: 'artists', component: Artists},
       {path: 'artists/:id', component: ArtistDetail},
-      {path: 'orders', component: MyOrders},
+      {path: 'profile', component: Profile},
+      {path: 'orders', redirectTo: 'profile', pathMatch: 'full'},
       {
         path: 'purchase',
         children: [

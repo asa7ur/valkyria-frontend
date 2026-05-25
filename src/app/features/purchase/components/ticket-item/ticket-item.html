@@ -57,7 +57,11 @@
         {{ 'purchase.tickets.item.birthDate' | translate }}
       </label>
       <input type="date" formControlName="birthDate"
+             [class.border-red-600]="ticketForm.get('birthDate')?.invalid && ticketForm.get('birthDate')?.touched"
              class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors scheme-dark font-bold">
+      @if (ticketForm.get('birthDate')?.errors?.['notAdult'] && ticketForm.get('birthDate')?.touched) {
+        <p class="text-red-500 text-[10px] mt-1 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</p>
+      }
     </div>
 
     <div class="md:col-span-2 space-y-1">

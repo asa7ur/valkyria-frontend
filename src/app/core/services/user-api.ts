@@ -10,6 +10,26 @@ export class UserApiService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/api/v1/users`;
 
+  getMe(): Observable<ResponseDTO<User>> {
+    return this.http.get<ResponseDTO<User>>(`${this.apiUrl}/me`);
+  }
+
+  updateMe(dto: {firstName: string; lastName: string; phone: string; birthDate: string}): Observable<ResponseDTO<User>> {
+    return this.http.put<ResponseDTO<User>>(`${this.apiUrl}/me`, dto);
+  }
+
+  changeMyPassword(data: PasswordChange): Observable<ResponseDTO<void>> {
+    return this.http.patch<ResponseDTO<void>>(`${this.apiUrl}/me/password`, data);
+  }
+
+  requestEmailChange(newEmail: string): Observable<ResponseDTO<void>> {
+    return this.http.post<ResponseDTO<void>>(`${this.apiUrl}/me/email`, {newEmail});
+  }
+
+  confirmEmailChange(token: string): Observable<ResponseDTO<void>> {
+    return this.http.get<ResponseDTO<void>>(`${this.apiUrl}/me/email/confirm`, {params: {token}});
+  }
+
   getUsers(page: number = 0, itemsPerPage: number = 10, search: string = ''): Observable<ResponseDTO<User[]>> {
     let params = new HttpParams()
       .set('page', page.toString())

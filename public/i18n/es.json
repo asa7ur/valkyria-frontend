@@ -2,6 +2,7 @@
   "auth": {
     "orders": "Pedidos",
     "my_orders": "Mis Pedidos",
+    "profile": "Perfil",
     "logout": "Salir",
     "logout_full": "Cerrar Sesión",
     "login": "Login",
@@ -266,6 +267,28 @@
   },
 
   "profile": {
+    "tabs": {
+      "orders": "Mis Pedidos",
+      "settings": "Mis Datos"
+    },
+    "settings": {
+      "personal_title": "Datos Personales",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de Nacimiento",
+      "email": "Correo Electrónico",
+      "changeEmail": "Cambiar",
+      "sendVerification": "Enviar",
+      "saveBtn": "Guardar Cambios",
+      "saving": "Guardando...",
+      "password_title": "Cambiar Contraseña",
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "changePasswordBtn": "Cambiar Contraseña",
+      "changing": "Cambiando..."
+    },
     "orders": {
       "title": "Mis Pedidos",
       "loading": "Cargando tu historial...",
@@ -293,6 +316,19 @@
         "totalPaid": "Total Abonado"
       }
     }
+  },
+
+  "confirm_email": {
+    "title": "Verificar Email",
+    "loading": "Verificando tu nuevo correo...",
+    "success": "Tu correo electrónico ha sido actualizado. Inicia sesión con tu nuevo email.",
+    "error": "El enlace no es válido o ha expirado.",
+    "loginBtn": "Iniciar Sesión",
+    "profileBtn": "Volver al Perfil"
+  },
+
+  "validation": {
+    "notAdult": "Debes ser mayor de 18 años"
   },
 
   "footer": {

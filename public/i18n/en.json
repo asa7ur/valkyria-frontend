@@ -2,6 +2,7 @@
   "auth": {
     "orders": "Orders",
     "my_orders": "My Orders",
+    "profile": "Profile",
     "logout": "Logout",
     "logout_full": "Log Out",
     "login": "Login",
@@ -271,6 +272,28 @@
   },
 
   "profile": {
+    "tabs": {
+      "orders": "My Orders",
+      "settings": "My Account"
+    },
+    "settings": {
+      "personal_title": "Personal Data",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "birthDate": "Date of Birth",
+      "email": "Email Address",
+      "changeEmail": "Change",
+      "sendVerification": "Send",
+      "saveBtn": "Save Changes",
+      "saving": "Saving...",
+      "password_title": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "changePasswordBtn": "Change Password",
+      "changing": "Changing..."
+    },
     "orders": {
       "title": "My Orders",
       "loading": "Loading your history...",
@@ -298,6 +321,19 @@
         "totalPaid": "Total Paid"
       }
     }
+  },
+
+  "confirm_email": {
+    "title": "Verify Email",
+    "loading": "Verifying your new email...",
+    "success": "Your email address has been updated. Please log in with your new email.",
+    "error": "The link is invalid or has expired.",
+    "loginBtn": "Log In",
+    "profileBtn": "Back to Profile"
+  },
+
+  "validation": {
+    "notAdult": "You must be 18 or older"
   },
 
   "footer": {

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgClass, CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {isAdultValidator} from '../../core/validators/is-adult.validator';
 import { Router, RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -81,7 +82,7 @@ export class Purchase implements OnInit {
       lastName: [data.lastName || '', [Validators.required, Validators.minLength(2)]],
       documentType: [data.documentType || '', Validators.required],
       documentNumber: [data.documentNumber || '', Validators.required],
-      birthDate: [data.birthDate || '', Validators.required],
+      birthDate: [data.birthDate || '', [Validators.required, isAdultValidator]],
       [idKey]: [data[idKey] || '', Validators.required]
     });
   }
