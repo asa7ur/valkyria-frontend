@@ -30,10 +30,6 @@ export class OrderApi {
     return this.http.get<ResponseDTO<OrderDTO[]>>(this.apiUrl, {params});
   }
 
-  getOrderById(id: string): Observable<ResponseDTO<OrderDTO>> {
-    return this.http.get<ResponseDTO<OrderDTO>>(`${this.apiUrl}/${id}`);
-  }
-
   deleteOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
