@@ -73,7 +73,7 @@ export class Register {
         },
         error: (err) => {
           this.isLoading.set(false);
-          if (err.status === 400 && err.error?.message?.includes('email-exists')) {
+          if (err.status === 409) {
             this.errorMessage.set('register.errors.email_exists');
           } else {
             this.errorMessage.set('register.errors.default');
