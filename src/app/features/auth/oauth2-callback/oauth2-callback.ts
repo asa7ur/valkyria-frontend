@@ -1,7 +1,6 @@
 import {Component, OnInit, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthManager} from '../../../core/services/auth-manager';
-import {AuthResponse} from '../../../core/models/auth-payments';
 
 @Component({
   selector: 'app-oauth2-callback',
@@ -14,27 +13,22 @@ export class OAuth2Callback implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const token = params['token'];
-      const email = params['email'];
-      const firstName = params['firstName'];
+    // El backend redirige con un código de un solo uso (el JWT nunca viaja en la URL)
+    const code = this.route.snapshot.queryParamMap.get('code');
 
-      if (!token) {
-        this.router.navigate(['/login']);
-        return;
-      }
+    if (!code) {
+      this.router.navigate(['/login'], {queryParams: {error: 'oauth'}});
+      return;
+    }
 
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const roles: { authority: string }[] = payload.roles ?? [];
-
-        const authResponse: AuthResponse = {token, username: email, firstName, roles};
-        this.auth.handleOAuth2Callback(authResponse);
-
-        const isAdmin = roles.some(r => r.authority === 'ROLE_ADMIN' || r.authority === 'ROLE_MANAGER');
-        this.router.navigate([isAdmin ? '/admin/dashboard' : '/']);
-      } catch {
-        this.router.navigate(['/login']);
+    this.auth.exchangeOAuth2Code(code).subscribe({
+      next: (response) => {
+        const isAdmin = response.roles.some(r => r.authority === 'ROLE_ADMIN' || r.authority === 'ROLE_MANAGER');
+        this.router.navigate([isAdmin ? '/admin/dashboard' : '/'], {replaceUrl: true});
+      },
+      error: (err) => {
+        const error = err.status === 403 ? 'account_disabled' : 'oauth';
+        this.router.navigate(['/login'], {queryParams: {error}, replaceUrl: true});
       }
     });
   }

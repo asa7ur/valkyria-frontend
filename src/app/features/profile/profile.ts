@@ -189,7 +189,9 @@ export class Profile implements OnInit {
     this.userApi.changeMyPassword(vals)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (res) => {
+          // El token anterior deja de valer al cambiar la contraseña: se guarda el nuevo
+          this.auth.saveSession(res.data);
           this.isChangingPassword.set(false);
           this.passwordFeedback.set({msg: 'Contraseña actualizada correctamente', type: 'success'});
           this.passwordForm.reset();

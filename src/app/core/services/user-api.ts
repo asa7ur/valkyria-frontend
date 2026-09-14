@@ -1,7 +1,8 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User, PasswordChange} from '../models/user';
+import {User, PasswordChange, AdminPasswordReset} from '../models/user';
+import {AuthResponse} from '../models/auth-payments';
 import {ResponseDTO} from '../models/response-dto';
 import {environment} from '../../../environments/environment';
 
@@ -18,8 +19,9 @@ export class UserApiService {
     return this.http.put<ResponseDTO<User>>(`${this.apiUrl}/me`, dto);
   }
 
-  changeMyPassword(data: PasswordChange): Observable<ResponseDTO<void>> {
-    return this.http.patch<ResponseDTO<void>>(`${this.apiUrl}/me/password`, data);
+  // Devuelve una sesión nueva: los tokens anteriores dejan de valer al cambiar la contraseña
+  changeMyPassword(data: PasswordChange): Observable<ResponseDTO<AuthResponse>> {
+    return this.http.patch<ResponseDTO<AuthResponse>>(`${this.apiUrl}/me/password`, data);
   }
 
   requestEmailChange(newEmail: string): Observable<ResponseDTO<void>> {
@@ -51,8 +53,8 @@ export class UserApiService {
     return this.http.put<User>(`${this.apiUrl}/${id}`, userData);
   }
 
-  // Nuevo método para el cambio de contraseña
-  changePassword(id: number, data: PasswordChange): Observable<void> {
+  // El administrador restablece la contraseña de un usuario (sin la actual)
+  changePassword(id: number, data: AdminPasswordReset): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/password`, data);
   }
 

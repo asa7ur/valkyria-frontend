@@ -129,7 +129,8 @@
     "btn": {
       "authenticating": "Authenticating...",
       "submit": "Login",
-      "google": "Continue with Google"
+      "google": "Continue with Google",
+      "resend_activation": "Resend activation email"
     },
 
     "links": {
@@ -140,6 +141,11 @@
     "text": {
       "new_here": "New here?",
       "or": "or"
+    },
+
+    "errors": {
+      "account_disabled": "Your account is not active. If you have just signed up, check your email to activate it.",
+      "oauth": "Could not sign in with Google. Please try again."
     }
   },
 

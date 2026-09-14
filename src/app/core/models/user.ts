@@ -14,3 +14,9 @@ export interface PasswordChange {
   newPassword: string;
   confirmPassword: string;
 }
+
+// El administrador fija una contraseña nueva sin conocer la actual
+export interface AdminPasswordReset {
+  newPassword: string;
+  confirmPassword: string;
+}

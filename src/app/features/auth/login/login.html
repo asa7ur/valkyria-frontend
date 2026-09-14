@@ -12,9 +12,26 @@
       <div class="h-2 w-24 bg-red-600 mt-4"></div>
     </div>
 
-    @if (errorMessage()) {
+    @if (errorMessage() || errorKey()) {
       <div class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
-        {{ errorMessage() }}
+        @if (errorMessage()) {
+          {{ errorMessage() }}
+        } @else {
+          {{ errorKey()! | translate }}
+        }
+
+        @if (canResendActivation()) {
+          <button type="button" (click)="resendActivation()" [disabled]="isResending()"
+                  class="block mt-3 text-white underline underline-offset-4 hover:text-red-300 disabled:opacity-50 cursor-pointer uppercase tracking-widest">
+            {{ 'login.btn.resend_activation' | translate }}
+          </button>
+        }
+      </div>
+    }
+
+    @if (infoMessage()) {
+      <div class="bg-white/10 border border-white/30 text-white p-4 mb-6 text-xs font-bold uppercase tracking-widest">
+        {{ infoMessage() }}
       </div>
     }
 

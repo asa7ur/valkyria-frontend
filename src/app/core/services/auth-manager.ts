@@ -115,7 +115,7 @@ export class AuthManager {
   /**
    * Centraliza el guardado de la sesión tras el login o registro exitoso.
    */
-  private saveSession(response: AuthResponse): void {
+  saveSession(response: AuthResponse): void {
     localStorage.setItem('auth_token', response.token);
     localStorage.setItem('user_data', JSON.stringify(response));
     this.currentUser.set(response);
@@ -129,9 +129,18 @@ export class AuthManager {
   }
 
   /**
-   * Guarda la sesión recibida tras el redirect de OAuth2 (Google).
+   * Canjea el código de un solo uso que llega tras el login con Google por la sesión (JWT + datos del usuario).
    */
-  handleOAuth2Callback(response: AuthResponse): void {
-    this.saveSession(response);
+  exchangeOAuth2Code(code: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/oauth2/token`, {code}).pipe(
+      tap(response => this.saveSession(response))
+    );
+  }
+
+  /**
+   * Reenvía el email de activación. El backend responde igual exista o no la cuenta.
+   */
+  resendActivation(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/resend-activation`, {email});
   }
 }

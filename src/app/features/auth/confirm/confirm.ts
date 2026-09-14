@@ -29,7 +29,7 @@ export class Confirm implements OnInit {
         },
         error: (err) => {
           this.status.set('error');
-          this.message.set(err.error?.error || $localize`:@@confirm.msg.error.invalid:El enlace de activación no es válido o ha expirado.`);
+          this.message.set(err.error?.message || $localize`:@@confirm.msg.error.invalid:El enlace de activación no es válido o ha expirado.`);
         }
       });
     } else {

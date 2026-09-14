@@ -127,7 +127,8 @@
     "btn": {
       "authenticating": "Autenticando...",
       "submit": "Iniciar Sesión",
-      "google": "Continuar con Google"
+      "google": "Continuar con Google",
+      "resend_activation": "Reenviar email de activación"
     },
     "links": {
       "back_home": "Volver al Inicio",
@@ -136,6 +137,10 @@
     "text": {
       "new_here": "¿Eres nuevo?",
       "or": "o"
+    },
+    "errors": {
+      "account_disabled": "Tu cuenta no está activa. Si acabas de registrarte, revisa tu correo para activarla.",
+      "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
     }
   },
 

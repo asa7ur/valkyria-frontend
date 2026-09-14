@@ -31,7 +31,6 @@ interface UserForm {
 }
 
 interface PasswordForm {
-  currentPassword: FormControl<string>;
   newPassword: FormControl<string>;
   confirmPassword: FormControl<string>;
 }
@@ -79,7 +78,6 @@ export class UserEdit implements OnInit {
     });
 
     this.passwordForm = this.fb.group<PasswordForm>({
-      currentPassword: this.fb.control('', [Validators.required]),
       newPassword: this.fb.control('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: this.fb.control('', [Validators.required])
     }, { validators: this.passwordMatchValidator });
