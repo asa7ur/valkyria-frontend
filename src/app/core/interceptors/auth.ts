@@ -8,7 +8,8 @@ export const auth: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const injector = inject(Injector); // Usamos Injector para evitar dependencia circular
 
-  const token = localStorage.getItem('auth_token');
+  // El token de la sesión que ve el usuario, no el de localStorage: otra pestaña puede haberlo cambiado
+  const token = injector.get(AuthManager).token();
 
   // El backend traduce sus mensajes según este idioma
   const headers: Record<string, string> = {'Accept-Language': localStorage.getItem('lang') || 'es'};

@@ -17,6 +17,21 @@ export class AuthManager {
    */
   currentUser = signal<AuthResponse | null>(this.getUserFromStorage());
 
+  constructor() {
+    // localStorage es común a todas las pestañas: si otra inicia o cierra sesión, esta se actualiza
+    // (el evento solo llega a las demás pestañas, no a la que hizo el cambio)
+    window.addEventListener('storage', event => {
+      if (event.key === null || event.key === 'auth_token' || event.key === 'user_data') {
+        this.currentUser.set(this.getUserFromStorage());
+      }
+    });
+  }
+
+  /** Token de la sesión que se muestra en pantalla; es el único que se envía al backend. */
+  token(): string | null {
+    return this.currentUser()?.token ?? null;
+  }
+
   /**
    * Verifica si el usuario tiene una sesión activa y válida.
    */
@@ -47,7 +62,10 @@ export class AuthManager {
    */
   private getUserFromStorage(): AuthResponse | null {
     const data = localStorage.getItem('user_data');
-    if (!data) return null;
+    if (!data) {
+      localStorage.removeItem('auth_token'); // un token sin datos de usuario no es una sesión
+      return null;
+    }
 
     const user: AuthResponse = JSON.parse(data);
 
