@@ -27,13 +27,13 @@
     "title": "Valkyria Festival",
     "hero": {
       "video_fallback": "Tu navegador no soporta videos.",
-      "date": "6-8 de Agosto, 2026 • Sevilla",
+      "date": "5-7 de Agosto, 2027 • Sevilla",
       "title": "Valkyria",
       "buy_tickets": "Comprar Entradas"
     },
 
     "lineup": {
-      "title": "Line-up 2026",
+      "title": "Line-up 2027",
       "more_artists": "y más artistas por confirmar"
     },
 
@@ -190,9 +190,9 @@
     "date_format": "EEEE d 'de' MMMM",
     "days": {
       "all": "TODOS",
-      "thu_6": "JUE 6",
-      "fri_7": "VIE 7",
-      "sat_8": "SÁB 8"
+      "thu": "JUE 5",
+      "fri": "VIE 6",
+      "sat": "SÁB 7"
     }
   },
 
@@ -235,14 +235,14 @@
       "description": "No se ha realizado ningún cargo en tu cuenta. Si has tenido algún problema con el método de pago, puedes volver a intentarlo ahora mismo.",
       "retryBtn": "Reintentar Pago",
       "homeBtn": "Volver al Inicio",
-      "footerText": "La arena te espera cuando estés listo // Valkyria 2026"
+      "footerText": "La arena te espera cuando estés listo // Valkyria 2027"
     },
     "success": {
       "title": "¡Victoria!",
       "subtitle": "Pago procesado correctamente",
       "description": "Tus entradas han sido reservadas. Recibirás un correo electrónico con los detalles del pedido y tus códigos de acceso al festival.",
       "homeBtn": "Volver al Inicio",
-      "footerText": "Nos vemos en el Valhalla // Valkyria 2026"
+      "footerText": "Nos vemos en el Valhalla // Valkyria 2027"
     }
   },
 
@@ -337,7 +337,7 @@
   },
 
   "footer": {
-    "marquee": "VALKYRIA FESTIVAL 2026 • SEVILLA",
+    "marquee": "VALKYRIA FESTIVAL 2027 • SEVILLA",
     "description": "El caos se une a la música en el corazón de Sevilla. Prepárate para la experiencia definitiva.",
     "joinUs": "Únete",
     "emailPlaceholder": "CORREO ELECTRÓNICO",
