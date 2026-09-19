@@ -26,10 +26,11 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24'
+          node-version: '22'   # la misma que usa el Dockerfile de producción
           cache: npm
 
-      - run: npm ci
+      # Sin ejecutar los scripts de instalación de las dependencias (un paquete comprometido no puede ejecutar nada)
+      - run: npm ci --ignore-scripts
 
       - name: Tests
         run: npm test -- --watch=false
