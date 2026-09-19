@@ -1,0 +1,38 @@
+# Tests y build de producción del frontend en cada push y PR a develop/main.
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+# Un push nuevo a la misma rama cancela la ejecución anterior
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Tests y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tests
+        run: npm test -- --watch=false
+
+      - name: Build de producción
+        run: npm run build
