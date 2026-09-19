@@ -268,7 +268,7 @@
       "emailPlaceholder": "TU@EMAIL.COM"
     },
     "confirmBtn": "Confirmar y Pagar",
-    "terms": "Al pagar aceptas los términos del Valhalla"
+    "demo": "Pago de prueba: no se cobra nada. Usa la tarjeta 4242 4242 4242 4242"
   },
 
   "profile": {
@@ -355,8 +355,151 @@
       "info": "Información",
       "sponsors": "Patrocinadores",
       "privacy": "Política de Privacidad",
-      "terms": "Términos y Condiciones",
+      "terms": "Aviso Legal",
       "cookies": "Cookies"
+    }
+  },
+  "legal": {
+    "updated": "Última actualización: 19 de septiembre de 2026",
+    "consent": {
+      "prefix": "Al continuar aceptas el",
+      "notice": "aviso legal",
+      "and": "y la",
+      "privacy": "política de privacidad"
+    },
+    "demoNotice": "<strong>Valkyria es un proyecto de demostración.</strong> El festival es ficticio, no se venden entradas reales y los pagos se hacen con Stripe en modo de prueba: no se cobra nada. Usa la tarjeta de prueba <strong>4242 4242 4242 4242</strong> y, por favor, no introduzcas datos personales reales.",
+    "notice": {
+      "title": "Aviso legal",
+      "sections": [
+        {
+          "title": "Titular del sitio web",
+          "paragraphs": [
+            "En cumplimiento de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de que el titular de valkyriafest.es es <strong>Garik Asatryan</strong>, persona física, contactable en <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>."
+          ]
+        },
+        {
+          "title": "Naturaleza del sitio",
+          "paragraphs": [
+            "Valkyria es una aplicación web desarrollada como proyecto de portfolio, a partir de un proyecto del ciclo de Desarrollo de Aplicaciones Web. Su finalidad es mostrar el trabajo de su autor como desarrollador.",
+            "Valkyria Festival no existe: no hay evento, recinto ni organizador reales. No se realiza ninguna actividad comercial, no se venden entradas y las entradas, códigos QR y pedidos generados en la web no tienen ninguna validez."
+          ]
+        },
+        {
+          "title": "Condiciones de uso",
+          "paragraphs": [
+            "Puedes navegar, registrarte y simular compras libremente. Los pagos se procesan con Stripe en modo de prueba, por lo que ninguna tarjeta real es cargada; usa la tarjeta de prueba 4242 4242 4242 4242 con cualquier fecha futura y cualquier CVC.",
+            "Te pedimos que no introduzcas datos personales reales (nombres, documentos de identidad, teléfonos). Puedes usar datos inventados. Al tratarse de una demostración, las cuentas y los pedidos pueden borrarse en cualquier momento sin aviso previo.",
+            "No está permitido usar la web para fines ilícitos, intentar acceder a zonas o datos ajenos ni sobrecargar el servicio."
+          ]
+        },
+        {
+          "title": "Propiedad intelectual",
+          "paragraphs": [
+            "El código, el diseño y los textos de la web son obra de su autor.",
+            "Los nombres, imágenes y logotipos de artistas, patrocinadores u otras marcas que puedan aparecer pertenecen a sus respectivos titulares. Se muestran solo con fines ilustrativos y no implican ninguna relación, colaboración ni patrocinio. Si eres titular de alguno de estos contenidos y quieres que se retire, escribe a <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a> y se retirará."
+          ]
+        },
+        {
+          "title": "Responsabilidad",
+          "paragraphs": [
+            "La web se ofrece tal cual, sin garantía de disponibilidad continua. El titular no se hace responsable del uso que se haga de ella ni de los datos que los usuarios decidan introducir pese a la recomendación de no usar datos reales."
+          ]
+        },
+        {
+          "title": "Legislación aplicable",
+          "paragraphs": [
+            "Este aviso legal se rige por la legislación española."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "sections": [
+        {
+          "title": "Responsable del tratamiento",
+          "paragraphs": [
+            "Garik Asatryan, contactable en <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>. Esta política explica qué datos trata la web, para qué y cuáles son tus derechos, conforme al Reglamento General de Protección de Datos (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD)."
+          ]
+        },
+        {
+          "title": "Qué datos se tratan",
+          "paragraphs": [
+            "<strong>Cuenta de usuario:</strong> nombre, apellidos, email, teléfono, fecha de nacimiento y contraseña (guardada cifrada, nunca en claro). Si inicias sesión con Google, se reciben tu nombre y tu email desde Google.",
+            "<strong>Compras:</strong> el email de contacto si compras sin cuenta y, por cada entrada o plaza de camping, nombre, apellidos, tipo y número de documento y fecha de nacimiento, además del importe, la fecha y el idioma del pedido.",
+            "<strong>Datos de pago:</strong> los datos de la tarjeta se introducen directamente en la página de Stripe y nunca llegan a esta web.",
+            "<strong>Datos técnicos:</strong> la dirección IP y los datos de la petición quedan en los registros del servidor, y la IP se usa también para limitar los intentos repetidos de inicio de sesión o registro."
+          ]
+        },
+        {
+          "title": "Para qué se usan y con qué base legal",
+          "paragraphs": [
+            "Para crear y gestionar tu cuenta, procesar los pedidos de demostración y enviarte los emails de activación, de cambio de email y de confirmación de pedido con las entradas en PDF. La base legal es la prestación del servicio que solicitas al registrarte o comprar (art. 6.1.b RGPD).",
+            "Para proteger la web frente a abusos y ataques, mediante los registros del servidor y la limitación de intentos. La base legal es el interés legítimo en mantener la seguridad del servicio (art. 6.1.f RGPD).",
+            "No se envían comunicaciones comerciales ni se elaboran perfiles, y no se toman decisiones automatizadas sobre ti."
+          ]
+        },
+        {
+          "title": "Cuánto tiempo se conservan",
+          "paragraphs": [
+            "Los datos de la cuenta y de los pedidos se conservan mientras la cuenta exista o hasta que pidas su supresión. Al ser un proyecto de demostración, pueden borrarse antes en cualquier momento.",
+            "Las copias de seguridad diarias de la base de datos se conservan 14 días, y los registros del servidor se rotan y se eliminan automáticamente a medida que se generan otros nuevos."
+          ]
+        },
+        {
+          "title": "Con quién se comparten",
+          "paragraphs": [
+            "No se venden ni se ceden datos a terceros. Solo acceden a ellos, en la medida necesaria, los proveedores que prestan el servicio:",
+            "<strong>Hetzner Online GmbH</strong> (Alemania): alojamiento del servidor y de la base de datos.",
+            "<strong>Brevo (Sendinblue SAS)</strong> (Francia): envío de los emails.",
+            "<strong>Stripe</strong> (Stripe Payments Europe, Irlanda): procesamiento de los pagos de prueba.",
+            "<strong>Google</strong> (Google Ireland Ltd): solo si eliges iniciar sesión con Google.",
+            "Además, al cargar la web tu navegador descarga fuentes de <strong>Google Fonts</strong> e iconos de <strong>jsDelivr</strong>, que reciben tu dirección IP.",
+            "Algunos de estos proveedores pueden tratar datos fuera del Espacio Económico Europeo, por ejemplo en Estados Unidos. Lo hacen con las garantías previstas en el RGPD, como el Marco de Privacidad de Datos UE-EE. UU. o las cláusulas contractuales tipo de la Comisión Europea."
+          ]
+        },
+        {
+          "title": "Tus derechos",
+          "paragraphs": [
+            "Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>. Parte de tus datos puedes consultarlos y modificarlos directamente desde tu perfil.",
+            "Si consideras que el tratamiento no es correcto, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."
+          ]
+        },
+        {
+          "title": "Edad",
+          "paragraphs": [
+            "El registro y la compra están pensados para mayores de 18 años: la web no admite fechas de nacimiento de menores de edad."
+          ]
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Política de cookies",
+      "sections": [
+        {
+          "title": "Qué usa esta web",
+          "paragraphs": [
+            "Valkyria no usa cookies de análisis, publicidad ni seguimiento. Para funcionar guarda unos pocos datos en el almacenamiento local de tu navegador (localStorage), que tienen la misma consideración que las cookies técnicas:",
+            "<strong>auth_token</strong> y <strong>user_data</strong>: mantienen tu sesión iniciada. Se borran al cerrar sesión.",
+            "<strong>lang</strong>: recuerda el idioma elegido.",
+            "<strong>valkyria_cart</strong>: guarda el contenido de tu cesta hasta que completas la compra.",
+            "Al ser estrictamente necesarios para prestar el servicio que pides, están exentos de consentimiento (art. 22.2 de la LSSI-CE) y por eso la web no muestra un aviso de cookies."
+          ]
+        },
+        {
+          "title": "Servicios de terceros",
+          "paragraphs": [
+            "Cuando pagas, se te redirige a la página de Stripe, y si inicias sesión con Google, a la de Google. Esas páginas pueden usar sus propias cookies bajo sus políticas: <a href=\"https://stripe.com/es/legal/cookies-policy\" target=\"_blank\" rel=\"noopener\">cookies de Stripe</a> y <a href=\"https://policies.google.com/technologies/cookies\" target=\"_blank\" rel=\"noopener\">cookies de Google</a>.",
+            "Las fuentes (Google Fonts) y los iconos (jsDelivr) se descargan de sus servidores, que reciben tu dirección IP, pero esta web no les pide guardar cookies."
+          ]
+        },
+        {
+          "title": "Cómo borrarlos",
+          "paragraphs": [
+            "Puedes borrar estos datos en cualquier momento cerrando sesión o desde la configuración de tu navegador (borrar los datos del sitio valkyriafest.es)."
+          ]
+        }
+      ]
     }
   }
 }

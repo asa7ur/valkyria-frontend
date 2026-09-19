@@ -14,6 +14,7 @@ import {Purchase} from './features/purchase/purchase';
 import {Checkout} from './features/purchase/pages/checkout/checkout';
 import {Success} from './features/purchase/pages/success/success';
 import {Cancel} from './features/purchase/pages/cancel/cancel';
+import {Legal} from './features/legal/legal';
 
 // Login
 import {Login} from './features/auth/login/login';
@@ -114,6 +115,10 @@ export const routes: Routes = [
       {path: 'artists/:id', component: ArtistDetail},
       {path: 'profile', component: Profile},
       {path: 'orders', redirectTo: 'profile', pathMatch: 'full'},
+      {path: 'legal', component: Legal, data: {doc: 'notice'}},
+      {path: 'privacy', component: Legal, data: {doc: 'privacy'}},
+      {path: 'cookies', component: Legal, data: {doc: 'cookies'}},
+      {path: 'terms', redirectTo: 'legal', pathMatch: 'full'},
       {
         path: 'purchase',
         children: [

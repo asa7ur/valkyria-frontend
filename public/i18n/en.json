@@ -274,7 +274,7 @@
       "emailPlaceholder": "YOU@EMAIL.COM"
     },
     "confirmBtn": "Confirm and Pay",
-    "terms": "By paying you accept the terms of Valhalla"
+    "demo": "Test payment: nothing is charged. Use the card 4242 4242 4242 4242"
   },
 
   "profile": {
@@ -361,8 +361,151 @@
       "info": "Information",
       "sponsors": "Sponsors",
       "privacy": "Privacy Policy",
-      "terms": "Terms & Conditions",
+      "terms": "Legal Notice",
       "cookies": "Cookies"
+    }
+  },
+  "legal": {
+    "updated": "Last updated: September 19, 2026",
+    "consent": {
+      "prefix": "By continuing you accept the",
+      "notice": "legal notice",
+      "and": "and the",
+      "privacy": "privacy policy"
+    },
+    "demoNotice": "<strong>Valkyria is a demo project.</strong> The festival is fictional, no real tickets are sold and payments run through Stripe in test mode: nothing is charged. Use the test card <strong>4242 4242 4242 4242</strong> and please do not enter real personal data.",
+    "notice": {
+      "title": "Legal notice",
+      "sections": [
+        {
+          "title": "Website owner",
+          "paragraphs": [
+            "As required by Spanish Law 34/2002 on Information Society Services and Electronic Commerce (LSSI-CE), the owner of valkyriafest.es is <strong>Garik Asatryan</strong>, a private individual, who can be contacted at <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>."
+          ]
+        },
+        {
+          "title": "About this website",
+          "paragraphs": [
+            "Valkyria is a web application built as a portfolio project, based on a project from the Web Application Development vocational course. Its purpose is to show its author's work as a developer.",
+            "Valkyria Festival does not exist: there is no real event, venue or organizer. No commercial activity takes place, no tickets are sold, and the tickets, QR codes and orders generated on the website are not valid for anything."
+          ]
+        },
+        {
+          "title": "Terms of use",
+          "paragraphs": [
+            "You are free to browse, sign up and simulate purchases. Payments are processed by Stripe in test mode, so no real card is ever charged; use the test card 4242 4242 4242 4242 with any future date and any CVC.",
+            "Please do not enter real personal data (names, identity documents, phone numbers). Made-up data works fine. As this is a demo, accounts and orders may be deleted at any time without notice.",
+            "You may not use the website for unlawful purposes, try to access other people's areas or data, or overload the service."
+          ]
+        },
+        {
+          "title": "Intellectual property",
+          "paragraphs": [
+            "The code, design and texts of the website are the author's own work.",
+            "The names, images and logos of artists, sponsors or other brands that may appear belong to their respective owners. They are shown for illustration only and imply no relationship, collaboration or sponsorship. If you own any of this content and want it removed, write to <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a> and it will be removed."
+          ]
+        },
+        {
+          "title": "Liability",
+          "paragraphs": [
+            "The website is provided as is, with no guarantee of continuous availability. The owner is not responsible for how it is used or for any data users choose to enter despite the advice not to use real data."
+          ]
+        },
+        {
+          "title": "Governing law",
+          "paragraphs": [
+            "This legal notice is governed by Spanish law."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "sections": [
+        {
+          "title": "Data controller",
+          "paragraphs": [
+            "Garik Asatryan, who can be contacted at <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>. This policy explains what data the website processes, why, and what your rights are, under the General Data Protection Regulation (GDPR) and Spanish Organic Law 3/2018 (LOPDGDD)."
+          ]
+        },
+        {
+          "title": "What data is processed",
+          "paragraphs": [
+            "<strong>User account:</strong> first name, last name, email, phone, date of birth and password (stored hashed, never in plain text). If you sign in with Google, your name and email are received from Google.",
+            "<strong>Purchases:</strong> the contact email if you buy without an account and, for each ticket or camping spot, first name, last name, document type and number and date of birth, plus the amount, date and language of the order.",
+            "<strong>Payment data:</strong> card details are entered directly on Stripe's page and never reach this website.",
+            "<strong>Technical data:</strong> your IP address and request details are kept in the server logs, and your IP is also used to limit repeated sign-in or sign-up attempts."
+          ]
+        },
+        {
+          "title": "Why it is used and legal basis",
+          "paragraphs": [
+            "To create and manage your account, process demo orders and send you the activation, email change and order confirmation emails with the PDF tickets. The legal basis is providing the service you request when you sign up or buy (Art. 6(1)(b) GDPR).",
+            "To protect the website against abuse and attacks, through server logs and attempt limits. The legal basis is the legitimate interest in keeping the service secure (Art. 6(1)(f) GDPR).",
+            "No marketing messages are sent, no profiles are built and no automated decisions are made about you."
+          ]
+        },
+        {
+          "title": "How long it is kept",
+          "paragraphs": [
+            "Account and order data are kept while the account exists or until you ask for them to be deleted. As this is a demo project, they may be deleted earlier at any time.",
+            "Daily database backups are kept for 14 days, and server logs are rotated and deleted automatically as new ones are written."
+          ]
+        },
+        {
+          "title": "Who it is shared with",
+          "paragraphs": [
+            "No data is sold or given to third parties. Only the providers that run the service can access it, as far as they need to:",
+            "<strong>Hetzner Online GmbH</strong> (Germany): hosting of the server and the database.",
+            "<strong>Brevo (Sendinblue SAS)</strong> (France): sending the emails.",
+            "<strong>Stripe</strong> (Stripe Payments Europe, Ireland): processing the test payments.",
+            "<strong>Google</strong> (Google Ireland Ltd): only if you choose to sign in with Google.",
+            "In addition, when the website loads, your browser downloads fonts from <strong>Google Fonts</strong> and icons from <strong>jsDelivr</strong>, which receive your IP address.",
+            "Some of these providers may process data outside the European Economic Area, for example in the United States. They do so with the safeguards set out in the GDPR, such as the EU-US Data Privacy Framework or the European Commission's standard contractual clauses."
+          ]
+        },
+        {
+          "title": "Your rights",
+          "paragraphs": [
+            "You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability by writing to <a href=\"mailto:asa7ur@proton.me\">asa7ur@proton.me</a>. You can also view and change part of your data directly from your profile.",
+            "If you believe your data is not being processed correctly, you can file a complaint with the Spanish Data Protection Agency (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."
+          ]
+        },
+        {
+          "title": "Age",
+          "paragraphs": [
+            "Sign-up and purchases are intended for people aged 18 or over: the website does not accept dates of birth of minors."
+          ]
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Cookie policy",
+      "sections": [
+        {
+          "title": "What this website uses",
+          "paragraphs": [
+            "Valkyria does not use analytics, advertising or tracking cookies. To work, it stores a few items in your browser's local storage (localStorage), which are treated the same way as technical cookies:",
+            "<strong>auth_token</strong> and <strong>user_data</strong>: keep you signed in. They are deleted when you sign out.",
+            "<strong>lang</strong>: remembers the language you chose.",
+            "<strong>valkyria_cart</strong>: keeps the contents of your basket until you complete the purchase.",
+            "As they are strictly necessary to provide the service you request, they are exempt from consent (Art. 22.2 of the Spanish LSSI-CE), which is why the website does not show a cookie banner."
+          ]
+        },
+        {
+          "title": "Third-party services",
+          "paragraphs": [
+            "When you pay, you are redirected to Stripe's page, and if you sign in with Google, to Google's. Those pages may use their own cookies under their own policies: <a href=\"https://stripe.com/legal/cookies-policy\" target=\"_blank\" rel=\"noopener\">Stripe cookies</a> and <a href=\"https://policies.google.com/technologies/cookies\" target=\"_blank\" rel=\"noopener\">Google cookies</a>.",
+            "Fonts (Google Fonts) and icons (jsDelivr) are downloaded from their servers, which receive your IP address, but this website does not ask them to store cookies."
+          ]
+        },
+        {
+          "title": "How to delete them",
+          "paragraphs": [
+            "You can delete this data at any time by signing out or from your browser settings (clear the site data for valkyriafest.es)."
+          ]
+        }
+      ]
     }
   }
 }

@@ -9,10 +9,11 @@ import { TicketProvider } from '../../../../core/services/ticket-provider';
 import { AuthManager } from '../../../../core/services/auth-manager';
 import { OrderCreateDTO } from '../../../../core/models/order-schema';
 import {TranslatePipe} from '@ngx-translate/core';
+import {LegalConsent} from '../../../../shared/components/legal-consent/legal-consent';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe, LegalConsent],
   templateUrl: './checkout.html'
 })
 export class Checkout {
