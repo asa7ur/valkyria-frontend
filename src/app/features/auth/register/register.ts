@@ -4,11 +4,12 @@ import {Router, RouterLink} from '@angular/router';
 import {AuthManager} from '../../../core/services/auth-manager';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isAdultValidator} from '../../../core/validators/is-adult.validator';
+import {LegalConsent} from '../../../shared/components/legal-consent/legal-consent';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, TranslatePipe],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, LegalConsent],
   templateUrl: './register.html'
 })
 export class Register {

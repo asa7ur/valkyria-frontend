@@ -31,7 +31,7 @@ export class Footer {
       title: 'footer.categories.legal',
       links: [
         { label: 'footer.links.privacy', path: '/privacy' },
-        { label: 'footer.links.terms', path: '/terms' },
+        { label: 'footer.links.terms', path: '/legal' },
         { label: 'footer.links.cookies', path: '/cookies' }
       ]
     }
