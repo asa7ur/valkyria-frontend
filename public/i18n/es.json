@@ -27,6 +27,7 @@
     "title": "Valkyria Festival",
     "hero": {
       "image_alt": "Escenario principal del festival Valkyria de noche, con el público y las llamas",
+      "video_fallback": "Tu navegador no soporta videos.",
       "date": "5-7 de Agosto, 2027 • Sevilla",
       "title": "Valkyria",
       "buy_tickets": "Comprar Entradas"

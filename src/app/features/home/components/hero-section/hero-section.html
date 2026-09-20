@@ -1,17 +1,19 @@
 <section class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
-  <picture>
-    <source
-      type="image/webp"
-      srcset="hero-1280.webp 1280w, hero-1920.webp 1920w"
-      sizes="100vw">
-    <img
-      src="hero-1920.jpg"
-      srcset="hero-1280.jpg 1280w, hero-1920.jpg 1920w"
-      sizes="100vw"
-      fetchpriority="high"
-      alt="{{ 'home.hero.image_alt' | translate }}"
-      class="absolute inset-0 z-0 w-full h-full object-cover mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] animate-video">
-  </picture>
+  <!-- El póster se ve mientras carga el vídeo, así la portada aparece al instante -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="hero-1920.webp"
+    aria-label="{{ 'home.hero.image_alt' | translate }}"
+    class="absolute inset-0 z-0 w-full h-full object-cover mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] animate-video">
+    <!-- AV1 pesa menos de la mitad que H.264 a igual calidad; el mp4 es el respaldo para Safari -->
+    <source src="hero.webm" type="video/webm; codecs=av01.0.05M.08">
+    <source src="hero.mp4" type="video/mp4; codecs=avc1.64001f">
+    <span>{{ 'home.hero.video_fallback' | translate }}</span>
+  </video>
 
   <div class="absolute inset-0 z-1 bg-linear-to-b from-black/40 via-transparent via-70% to-black"></div>
 
