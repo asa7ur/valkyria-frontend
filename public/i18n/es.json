@@ -339,8 +339,6 @@
   "footer": {
     "marquee": "VALKYRIA FESTIVAL 2027 • SEVILLA",
     "description": "El caos se une a la música en el corazón de Sevilla. Prepárate para la experiencia definitiva.",
-    "joinUs": "Únete",
-    "emailPlaceholder": "CORREO ELECTRÓNICO",
     "copyright": "© {{year}} VALKYRIA FESTIVAL. TODOS LOS DERECHOS RESERVADOS.",
     "categories": {
       "festival": "Festival",
