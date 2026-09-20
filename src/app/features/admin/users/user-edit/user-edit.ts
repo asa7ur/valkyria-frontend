@@ -78,7 +78,11 @@ export class UserEdit implements OnInit {
     });
 
     this.passwordForm = this.fb.group<PasswordForm>({
-      newPassword: this.fb.control('', [Validators.required, Validators.minLength(8)]),
+      // El mismo patrón que exige el backend: 8 caracteres con mayúscula, minúscula, número y símbolo
+      newPassword: this.fb.control('', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/)
+      ]),
       confirmPassword: this.fb.control('', [Validators.required])
     }, { validators: this.passwordMatchValidator });
   }
@@ -148,6 +152,11 @@ export class UserEdit implements OnInit {
       return;
     }
 
+    if (!this.isEditMode()) {
+      this.createUser();
+      return;
+    }
+
     const currentUser = this.user();
     if (!currentUser) return;
 
@@ -176,6 +185,54 @@ export class UserEdit implements OnInit {
           this.toast.show(errorMsg, 'error');
         }
       });
+  }
+
+  /**
+   * Alta de usuario. El backend lo crea activo y con el rol USER; los roles se ajustan
+   * después desde la pantalla de edición, por eso al terminar se abre esa pantalla.
+   */
+  private createUser() {
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      this.toast.show('Revisa la contraseña inicial', 'error');
+      return;
+    }
+
+    this.isLoading.set(true);
+
+    const {firstName, lastName, email, phone, birthDate} = this.userForm.getRawValue();
+    const {newPassword, confirmPassword} = this.passwordForm.getRawValue();
+
+    this.userApi.createUser({
+      firstName,
+      lastName,
+      email,
+      phone,
+      birthDate,
+      password: newPassword,
+      confirmPassword
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.toast.show('Usuario creado correctamente', 'success');
+          void this.router.navigate(['/admin/users/edit', response.data.id]);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          const errorMsg = err.error?.message || 'Error al crear el usuario';
+          this.toast.show(errorMsg, 'error');
+        }
+      });
+  }
+
+  // El formulario de contraseña sirve para dos cosas: crear el usuario o cambiársela
+  protected onPasswordFormSubmit() {
+    if (this.isEditMode()) {
+      this.onChangePassword();
+    } else {
+      this.onSubmit();
+    }
   }
 
   protected onChangePassword() {

@@ -9,6 +9,17 @@ export interface User {
   enabled: boolean;
 }
 
+// El administrador crea un usuario. El backend lo crea activo y con el rol USER
+export interface UserCreate {
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthDate: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface PasswordChange {
   currentPassword: string;
   newPassword: string;
