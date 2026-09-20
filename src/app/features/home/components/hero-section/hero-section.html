@@ -1,16 +1,17 @@
 <section class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
-  <video
-    #heroVideo
-    autoplay
-    muted
-    loop
-    playsinline
-    class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] animate-video">
+  <picture>
     <source
-      src="https://fra1.digitaloceanspaces.com/hellfest-bucket/intro_2026_ebde32b292.mp4"
-      type="video/mp4">
-    <span>{{ 'home.hero.video_fallback' | translate }}</span>
-  </video>
+      type="image/webp"
+      srcset="hero-1280.webp 1280w, hero-1920.webp 1920w"
+      sizes="100vw">
+    <img
+      src="hero-1920.jpg"
+      srcset="hero-1280.jpg 1280w, hero-1920.jpg 1920w"
+      sizes="100vw"
+      fetchpriority="high"
+      alt="{{ 'home.hero.image_alt' | translate }}"
+      class="absolute inset-0 z-0 w-full h-full object-cover mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] animate-video">
+  </picture>
 
   <div class="absolute inset-0 z-1 bg-linear-to-b from-black/40 via-transparent via-70% to-black"></div>
 
