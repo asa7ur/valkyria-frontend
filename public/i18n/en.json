@@ -345,8 +345,6 @@
   "footer": {
     "marquee": "VALKYRIA FESTIVAL 2027 • SEVILLE",
     "description": "Chaos meets music in the heart of Seville. Prepare for the ultimate experience.",
-    "joinUs": "Join Us",
-    "emailPlaceholder": "EMAIL ADDRESS",
     "copyright": "© {{year}} VALKYRIA FESTIVAL. ALL RIGHTS RESERVED.",
     "categories": {
       "festival": "Festival",

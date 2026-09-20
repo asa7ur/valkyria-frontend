@@ -20,7 +20,9 @@ export const appConfig: ApplicationConfig = {
       routes,
       withComponentInputBinding(),
       withInMemoryScrolling({
-        scrollPositionRestoration: 'enabled'
+        scrollPositionRestoration: 'enabled',
+        // Para los enlaces del pie que bajan a una sección de la portada (#tickets, #info...)
+        anchorScrolling: 'enabled'
       })
     ),
     provideHttpClient(
