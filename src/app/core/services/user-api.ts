@@ -1,7 +1,7 @@
 import {Injectable, inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User, PasswordChange, AdminPasswordReset} from '../models/user';
+import {User, UserCreate, PasswordChange, AdminPasswordReset} from '../models/user';
 import {AuthResponse} from '../models/auth-payments';
 import {ResponseDTO} from '../models/response-dto';
 import {environment} from '../../../environments/environment';
@@ -46,6 +46,11 @@ export class UserApiService {
 
   getUserById(id: string | number): Observable<ResponseDTO<User>> {
     return this.http.get<ResponseDTO<User>>(`${this.apiUrl}/${id}`);
+  }
+
+  // El administrador crea un usuario: nace activo y con el rol USER
+  createUser(data: UserCreate): Observable<ResponseDTO<User>> {
+    return this.http.post<ResponseDTO<User>>(this.apiUrl, data);
   }
 
   // Actualiza datos básicos (el backend ignorará el campo password si se envía aquí)
