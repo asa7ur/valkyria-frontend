@@ -1,87 +1,85 @@
-<div [formGroup]="campingForm" class="bg-zinc-900/50 border border-white/10 p-6 md:p-8 relative group animate-in">
-  <button type="button"
-          (click)="remove.emit()"
-          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform z-10 cursor-pointer">
-    <i class="bi bi-x-lg"></i>
-  </button>
+<div [formGroup]="campingForm" class="relative pt-[18px]">
+  <div class="wood-beam absolute inset-x-0 top-0"></div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-        {{ 'purchase.camping.item.firstName' | translate }}
-      </label>
-      <input type="text" formControlName="firstName"
-             [class.border-red-600]="campingForm.get('firstName')?.invalid && campingForm.get('firstName')?.touched"
-             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+  <div class="attendee-panel p-5 md:p-8">
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <p class="font-bebas text-xs md:text-sm uppercase tracking-[0.4em] text-neutral-300 flex items-center gap-2">
+        <span class="inline-block w-1.5 h-1.5 rotate-45 bg-red-600"></span>
+        {{ 'purchase.camping.item.guest' | translate }}
+        <span class="text-red-500">{{ (index + 1).toString().padStart(2, '0') }}</span>
+      </p>
+      @if (canRemove) {
+        <button type="button" (click)="remove.emit()"
+                class="remove-btn font-bebas text-[10px] md:text-xs uppercase tracking-[0.25em] px-3 py-1.5 cursor-pointer">
+          <i class="bi bi-x-lg mr-1"></i> {{ 'purchase.remove' | translate }}
+        </button>
+      }
     </div>
 
-    <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-        {{ 'purchase.camping.item.lastName' | translate }}
-      </label>
-      <input type="text" formControlName="lastName"
-             [class.border-red-600]="campingForm.get('lastName')?.invalid && campingForm.get('lastName')?.touched"
-             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
+      <div class="md:col-span-3">
+        <label class="field-label">{{ 'purchase.camping.item.firstName' | translate }}</label>
+        <input type="text" formControlName="firstName" autocomplete="given-name"
+               [class.is-invalid]="campingForm.get('firstName')?.invalid && campingForm.get('firstName')?.touched"
+               class="field-input">
+      </div>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-          {{ 'purchase.camping.item.docTypeLabel' | translate }}
-        </label>
+      <div class="md:col-span-3">
+        <label class="field-label">{{ 'purchase.camping.item.lastName' | translate }}</label>
+        <input type="text" formControlName="lastName" autocomplete="family-name"
+               [class.is-invalid]="campingForm.get('lastName')?.invalid && campingForm.get('lastName')?.touched"
+               class="field-input">
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="field-label">{{ 'purchase.camping.item.docTypeLabel' | translate }}</label>
         <div class="relative">
           <select formControlName="documentType"
-                  class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors appearance-none cursor-pointer font-bold">
+                  [class.is-invalid]="campingForm.get('documentType')?.invalid && campingForm.get('documentType')?.touched"
+                  class="field-input appearance-none cursor-pointer pr-9">
             <option value="" disabled selected>{{ 'purchase.camping.item.docTypePlaceholder' | translate }}</option>
             @for (type of documentTypes; track type) {
               <option [value]="type">{{ type }}</option>
             }
           </select>
-          <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white/20">
-            <i class="bi bi-chevron-down"></i>
-          </div>
+          <i class="bi bi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/30"></i>
         </div>
       </div>
-      <div class="space-y-1">
-        <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-          {{ 'purchase.camping.item.docNumber' | translate }}
-        </label>
+
+      <div class="md:col-span-2">
+        <label class="field-label">{{ 'purchase.camping.item.docNumber' | translate }}</label>
         <input type="text" formControlName="documentNumber"
-               [class.border-red-600]="campingForm.get('documentNumber')?.invalid && campingForm.get('documentNumber')?.touched"
-               class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors">
+               [class.is-invalid]="campingForm.get('documentNumber')?.invalid && campingForm.get('documentNumber')?.touched"
+               class="field-input">
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="field-label">{{ 'purchase.camping.item.birthDate' | translate }}</label>
+        <input type="date" formControlName="birthDate" autocomplete="bday"
+               [class.is-invalid]="campingForm.get('birthDate')?.invalid && campingForm.get('birthDate')?.touched"
+               class="field-input">
+        @if (campingForm.get('birthDate')?.errors?.['notAdult'] && campingForm.get('birthDate')?.touched) {
+          <p class="text-red-500 text-[10px] mt-1.5 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</p>
+        }
       </div>
     </div>
 
-    <div class="space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-        {{ 'purchase.camping.item.birthDate' | translate }}
-      </label>
-      <input type="date" formControlName="birthDate"
-             [class.border-red-600]="campingForm.get('birthDate')?.invalid && campingForm.get('birthDate')?.touched"
-             class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors scheme-dark">
-      @if (campingForm.get('birthDate')?.errors?.['notAdult'] && campingForm.get('birthDate')?.touched) {
-        <p class="text-red-500 text-[10px] mt-1 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</p>
-      }
-    </div>
-
-    <div class="md:col-span-2 space-y-1">
-      <label class="text-[10px] font-black uppercase tracking-widest text-white/40">
-        {{ 'purchase.camping.item.accommodationType' | translate }}
-      </label>
-      <div class="relative">
-        <select formControlName="campingTypeId"
-                class="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none transition-colors font-bold italic appearance-none cursor-pointer">
-          <option value="" disabled selected>
-            {{ 'purchase.camping.item.selectAccommodation' | translate }}
-          </option>
-          @for (ct of campingTypes; track ct.id) {
-            <option [value]="ct.id">{{ ct | localizedName | uppercase }} — {{ ct.price }}€</option>
+    <!-- Tipo de alojamiento: tarjetas en vez de desplegable -->
+    <p class="field-label mt-8">{{ 'purchase.camping.item.accommodationType' | translate }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="radiogroup">
+      @for (ct of campingTypes; track ct.id) {
+        @let name = splitName(ct | localizedName);
+        <label class="type-card" [class.is-selected]="campingForm.get('campingTypeId')?.value === ct.id">
+          <input type="radio" formControlName="campingTypeId" [value]="ct.id" class="sr-only">
+          <span class="font-cinzel font-black uppercase text-sm md:text-base leading-tight pr-5">{{ name.title }}</span>
+          @if (name.subtitle) {
+            <span class="font-bebas mt-1 text-[10px] uppercase tracking-[0.25em] text-red-500">{{ name.subtitle }}</span>
           }
-        </select>
-        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white/20">
-          <i class="bi bi-chevron-down"></i>
-        </div>
-      </div>
+          <span class="mt-auto pt-4">
+            <span class="plate font-cinzel font-bold text-base">{{ ct.price }}€</span>
+          </span>
+        </label>
+      }
     </div>
   </div>
 </div>
