@@ -285,7 +285,12 @@
       "emailPlaceholder": "YOU@EMAIL.COM"
     },
     "confirmBtn": "Confirm and Pay",
-    "demo": "Test payment: nothing is charged. Use the card 4242 4242 4242 4242"
+    "redirecting": "Opening the payment gateway...",
+    "demo": "Test payment: nothing is charged. Use the card 4242 4242 4242 4242",
+    "edit": "⟨ Edit order",
+    "needTicket": "The order needs at least one ticket.",
+    "invalidEmail": "Enter a valid email",
+    "payError": "The payment could not be started. Please try again."
   },
 
   "profile": {
