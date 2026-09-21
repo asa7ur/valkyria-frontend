@@ -11,9 +11,10 @@
     <div class="mosaic grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-2 md:gap-3 lg:h-[72vh] lg:min-h-120">
       @for (tile of tiles(); track $index; let i = $index) {
         <div class="tile relative overflow-hidden bg-neutral-950" [class]="'tile--' + i">
-          <img [src]="photos[tile.a]" [alt]="'home.experience.img_alt' | translate"
+          <img [src]="photos[tile.a].src" [style.object-position]="photos[tile.a].focus"
+               [alt]="'home.experience.img_alt' | translate"
                class="layer absolute inset-0 w-full h-full object-cover" [class.is-visible]="!tile.showB">
-          <img [src]="photos[tile.b]" alt=""
+          <img [src]="photos[tile.b].src" [style.object-position]="photos[tile.b].focus" alt=""
                class="layer absolute inset-0 w-full h-full object-cover" [class.is-visible]="tile.showB">
         </div>
       }
