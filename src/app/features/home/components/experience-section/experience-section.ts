@@ -1,5 +1,6 @@
 import {Component, DestroyRef, ElementRef, afterNextRender, inject, signal} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
+import {randomInt} from '../../../../shared/utils/random-utils';
 
 // Fotos del festival (public/experience/01.webp ... 11.webp). Cada recuadro del mosaico tiene otra proporción,
 // así que la foto se recorta con object-cover alrededor de su punto de interés (la cara o el gesto principal).
@@ -74,14 +75,14 @@ export class ExperienceSection {
 
     let slot: number;
     do {
-      slot = Math.floor(Math.random() * tiles.length);
+      slot = randomInt(tiles.length);
     } while (slot === this.lastSwapped);
     this.lastSwapped = slot;
 
     // Una foto que no esté ya en ningún recuadro
     const inUse = new Set(tiles.map(tile => this.visibleIndex(tile)));
     const free = PHOTOS.map((_, i) => i).filter(i => !inUse.has(i));
-    const next = free[Math.floor(Math.random() * free.length)];
+    const next = free[randomInt(free.length)];
 
     this.tiles.update(current => current.map((tile, i) => {
       if (i !== slot) return tile;
