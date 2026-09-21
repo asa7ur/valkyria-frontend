@@ -10,7 +10,8 @@ import { forkJoin } from 'rxjs';
   selector: 'app-tickets-section',
   standalone: true,
   imports: [RouterLink, TranslatePipe, LocalizedNamePipe],
-  templateUrl: './tickets-section.html'
+  templateUrl: './tickets-section.html',
+  styleUrl: './tickets-section.css'
 })
 export class TicketsSection implements OnInit {
   private ticketProvider = inject(TicketProvider);
@@ -24,6 +25,12 @@ export class TicketsSection implements OnInit {
     const campings = this.allCampings().slice(0, 3).map(c => ({ ...c, isCamping: true, uid: `c_${c.id}` }));
     return [...tickets, ...campings];
   });
+
+  // "Senda del Guerrero (Abono General)" -> título "Senda del Guerrero" y subtítulo "Abono General"
+  protected splitName(name: string): {title: string; subtitle: string | null} {
+    const match = /^(.*?)\s*\((.+)\)\s*$/.exec(name);
+    return match ? {title: match[1], subtitle: match[2]} : {title: name, subtitle: null};
+  }
 
   ngOnInit() {
     forkJoin({

@@ -15,21 +15,26 @@
   background: linear-gradient(to bottom, #dc2626, #7f1d1d);
 }
 
+/* Palo de madera: la misma textura "dark_wood" de Poly Haven (CC0) que los travesaños de las entradas,
+   con un sombreado de cilindro por encima */
 .rod {
-  background: linear-gradient(to bottom, #d4d4d4, #737373 45%, #262626);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(255, 220, 190, 0.22) 30%, transparent 55%, rgba(0, 0, 0, 0.6)),
+    url('/textures/beam.webp') center / cover;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
 }
 
-/* Remates de la barra */
+/* Remates del palo: pomos de madera torneada */
 .rod::before,
 .rod::after {
   content: '';
   position: absolute;
   top: 50%;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 9999px;
-  background: radial-gradient(circle at 35% 35%, #e5e5e5, #525252 60%, #171717);
+  background: radial-gradient(circle at 35% 35%, #a0704a, #5a3620 55%, #1f1109);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   transform: translateY(-50%);
 }
 
