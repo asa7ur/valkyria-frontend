@@ -1,11 +1,12 @@
-<section class="relative text-white py-20 md:py-32 overflow-hidden" [class.is-revealed]="revealed()">
+<section class="relative text-white pt-10 pb-20 md:py-32 overflow-hidden" [class.is-revealed]="revealed()">
   <!-- Emblema de fondo: el casco alado con un resplandor rojo -->
   <div class="absolute inset-0 flex justify-center items-center pointer-events-none select-none" aria-hidden="true">
     <div class="emblem-glow absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-5xl"></div>
     <img src="logo.png" alt="" class="emblem relative w-[72vw] max-w-[300px] md:max-w-[460px] -translate-y-[12%]">
   </div>
 
-  <ul class="relative z-10 max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-2 gap-x-4 gap-y-12 md:flex md:justify-center md:gap-5 lg:gap-8">
+  <!-- En móvil el margen lateral deja sitio a lo que sobresale de cada estandarte (barra, pomos y giro) -->
+  <ul class="relative z-10 max-w-6xl mx-auto px-9 md:px-6 grid grid-cols-2 gap-x-10 gap-y-14 md:flex md:justify-center md:gap-5 lg:gap-8">
     @for (banner of banners; track banner.numeral; let i = $index) {
       <li class="drop relative flex justify-center hover:z-20"
           [style.--i]="i"
