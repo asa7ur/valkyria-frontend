@@ -1,4 +1,4 @@
-<section class="text-white py-16 md:py-24 px-4 md:px-6">
+<section class="text-white py-16 md:py-24 px-4 md:px-6" [class.is-revealed]="revealed()">
   <div class="max-w-7xl mx-auto">
     <div class="flex items-center gap-4 mb-8 md:mb-12">
       <h2 class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
@@ -7,32 +7,30 @@
       <div class="h-px w-full bg-white/10"></div>
     </div>
 
-    <div
-      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 md:gap-y-16 gap-x-6 md:gap-x-12 items-center justify-items-center opacity-40 hover:opacity-100 transition-opacity duration-700">
+    <!-- Tablón: panel oscuro entre dos travesaños de madera, con los logos en casillas -->
+    <div class="board relative md:mx-10 py-[18px]">
+      <div class="wood-beam absolute inset-x-0 top-0 z-10"></div>
+      <div class="wood-beam absolute inset-x-0 bottom-0 z-10"></div>
 
-      @for (sponsor of sponsors(); track sponsor.id) {
-        <div class="group cursor-help text-center w-full flex items-center justify-center p-2">
-
-          @if (sponsor.image) {
-            <img
-              [src]="sponsor.image"
-              [alt]="sponsor.name"
-              class="max-h-10 md:max-h-16 w-auto grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 object-contain"
-            >
-          } @else {
-            <span
-              class="font-cinzel text-lg md:text-2xl font-black uppercase tracking-tighter grayscale group-hover:grayscale-0 transition-all">
-              {{ sponsor.name }}
-            </span>
-          }
-
-        </div>
-      } @empty {
-        <div class="col-span-full py-10 text-gray-600 italic text-center text-sm">
-          {{ 'home.sponsors.empty' | translate }}
-        </div>
-      }
-
+      <!-- 2 o 5 columnas: con 10 patrocinadores las filas quedan completas y no asoman casillas vacías -->
+      <ul class="grid grid-cols-2 md:grid-cols-5 gap-px bg-white/8">
+        @for (sponsor of sponsors(); track sponsor.id; let i = $index) {
+          <li class="cell relative flex items-center justify-center h-28 md:h-36 px-6" [style.--i]="i">
+            @if (sponsor.image) {
+              <img [src]="sponsor.image" [alt]="sponsor.name" loading="lazy"
+                   class="logo relative max-h-10 md:max-h-14 max-w-full w-auto object-contain">
+            } @else {
+              <span class="logo relative font-cinzel text-lg md:text-2xl font-black uppercase tracking-tighter text-center">
+                {{ sponsor.name }}
+              </span>
+            }
+          </li>
+        } @empty {
+          <li class="col-span-full py-10 text-gray-500 italic text-center text-sm bg-[#0c0807]">
+            {{ 'home.sponsors.empty' | translate }}
+          </li>
+        }
+      </ul>
     </div>
   </div>
 </section>
