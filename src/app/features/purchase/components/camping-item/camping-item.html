@@ -17,23 +17,23 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
-      <div class="md:col-span-3">
-        <label class="field-label">{{ 'purchase.camping.item.firstName' | translate }}</label>
+      <label class="block md:col-span-3">
+        <span class="field-label">{{ 'purchase.camping.item.firstName' | translate }}</span>
         <input type="text" formControlName="firstName" autocomplete="given-name"
                [class.is-invalid]="campingForm.get('firstName')?.invalid && campingForm.get('firstName')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-3">
-        <label class="field-label">{{ 'purchase.camping.item.lastName' | translate }}</label>
+      <label class="block md:col-span-3">
+        <span class="field-label">{{ 'purchase.camping.item.lastName' | translate }}</span>
         <input type="text" formControlName="lastName" autocomplete="family-name"
                [class.is-invalid]="campingForm.get('lastName')?.invalid && campingForm.get('lastName')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.camping.item.docTypeLabel' | translate }}</label>
-        <div class="relative">
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.camping.item.docTypeLabel' | translate }}</span>
+        <span class="relative block">
           <select formControlName="documentType"
                   [class.is-invalid]="campingForm.get('documentType')?.invalid && campingForm.get('documentType')?.touched"
                   class="field-input appearance-none cursor-pointer pr-9">
@@ -43,43 +43,45 @@
             }
           </select>
           <i class="bi bi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/30"></i>
-        </div>
-      </div>
+        </span>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.camping.item.docNumber' | translate }}</label>
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.camping.item.docNumber' | translate }}</span>
         <input type="text" formControlName="documentNumber"
                [class.is-invalid]="campingForm.get('documentNumber')?.invalid && campingForm.get('documentNumber')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.camping.item.birthDate' | translate }}</label>
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.camping.item.birthDate' | translate }}</span>
         <input type="date" formControlName="birthDate" autocomplete="bday"
                [class.is-invalid]="campingForm.get('birthDate')?.invalid && campingForm.get('birthDate')?.touched"
                class="field-input">
         @if (campingForm.get('birthDate')?.errors?.['notAdult'] && campingForm.get('birthDate')?.touched) {
-          <p class="text-red-500 text-[10px] mt-1.5 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</p>
+          <span class="block text-red-500 text-[10px] mt-1.5 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</span>
         }
-      </div>
+      </label>
     </div>
 
     <!-- Tipo de alojamiento: tarjetas en vez de desplegable -->
-    <p class="field-label mt-8">{{ 'purchase.camping.item.accommodationType' | translate }}</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="radiogroup">
-      @for (ct of campingTypes; track ct.id) {
-        @let name = splitName(ct | localizedName);
-        <label class="type-card" [class.is-selected]="campingForm.get('campingTypeId')?.value === ct.id">
-          <input type="radio" formControlName="campingTypeId" [value]="ct.id" class="sr-only">
-          <span class="font-cinzel font-black uppercase text-sm md:text-base leading-tight pr-5">{{ name.title }}</span>
-          @if (name.subtitle) {
-            <span class="font-bebas mt-1 text-[10px] uppercase tracking-[0.25em] text-red-500">{{ name.subtitle }}</span>
-          }
-          <span class="mt-auto pt-4">
-            <span class="plate font-cinzel font-bold text-base">{{ ct.price }}€</span>
-          </span>
-        </label>
-      }
-    </div>
+    <fieldset class="mt-8">
+      <legend class="field-label">{{ 'purchase.camping.item.accommodationType' | translate }}</legend>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        @for (ct of campingTypes; track ct.id) {
+          @let name = splitName(ct | localizedName);
+          <label class="type-card" [class.is-selected]="campingForm.get('campingTypeId')?.value === ct.id">
+            <input type="radio" formControlName="campingTypeId" [value]="ct.id" class="sr-only">
+            <span class="font-cinzel font-black uppercase text-sm md:text-base leading-tight pr-5">{{ name.title }}</span>
+            @if (name.subtitle) {
+              <span class="font-bebas mt-1 text-[10px] uppercase tracking-[0.25em] text-red-500">{{ name.subtitle }}</span>
+            }
+            <span class="mt-auto pt-4">
+              <span class="plate font-cinzel font-bold text-base">{{ ct.price }}€</span>
+            </span>
+          </label>
+        }
+      </div>
+    </fieldset>
   </div>
 </div>

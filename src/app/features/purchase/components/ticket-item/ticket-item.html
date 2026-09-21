@@ -17,23 +17,23 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
-      <div class="md:col-span-3">
-        <label class="field-label">{{ 'purchase.tickets.item.firstName' | translate }}</label>
+      <label class="block md:col-span-3">
+        <span class="field-label">{{ 'purchase.tickets.item.firstName' | translate }}</span>
         <input type="text" formControlName="firstName" autocomplete="given-name"
                [class.is-invalid]="ticketForm.get('firstName')?.invalid && ticketForm.get('firstName')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-3">
-        <label class="field-label">{{ 'purchase.tickets.item.lastName' | translate }}</label>
+      <label class="block md:col-span-3">
+        <span class="field-label">{{ 'purchase.tickets.item.lastName' | translate }}</span>
         <input type="text" formControlName="lastName" autocomplete="family-name"
                [class.is-invalid]="ticketForm.get('lastName')?.invalid && ticketForm.get('lastName')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.tickets.item.docTypeLabel' | translate }}</label>
-        <div class="relative">
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.tickets.item.docTypeLabel' | translate }}</span>
+        <span class="relative block">
           <select formControlName="documentType"
                   [class.is-invalid]="ticketForm.get('documentType')?.invalid && ticketForm.get('documentType')?.touched"
                   class="field-input appearance-none cursor-pointer pr-9">
@@ -43,43 +43,45 @@
             }
           </select>
           <i class="bi bi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/30"></i>
-        </div>
-      </div>
+        </span>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.tickets.item.docNumber' | translate }}</label>
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.tickets.item.docNumber' | translate }}</span>
         <input type="text" formControlName="documentNumber"
                [class.is-invalid]="ticketForm.get('documentNumber')?.invalid && ticketForm.get('documentNumber')?.touched"
                class="field-input">
-      </div>
+      </label>
 
-      <div class="md:col-span-2">
-        <label class="field-label">{{ 'purchase.tickets.item.birthDate' | translate }}</label>
+      <label class="block md:col-span-2">
+        <span class="field-label">{{ 'purchase.tickets.item.birthDate' | translate }}</span>
         <input type="date" formControlName="birthDate" autocomplete="bday"
                [class.is-invalid]="ticketForm.get('birthDate')?.invalid && ticketForm.get('birthDate')?.touched"
                class="field-input">
         @if (ticketForm.get('birthDate')?.errors?.['notAdult'] && ticketForm.get('birthDate')?.touched) {
-          <p class="text-red-500 text-[10px] mt-1.5 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</p>
+          <span class="block text-red-500 text-[10px] mt-1.5 font-bold uppercase tracking-wider">{{ 'validation.notAdult' | translate }}</span>
         }
-      </div>
+      </label>
     </div>
 
     <!-- Tipo de entrada: tarjetas en vez de desplegable -->
-    <p class="field-label mt-8">{{ 'purchase.tickets.item.selectTicketLabel' | translate }}</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="radiogroup">
-      @for (tt of ticketTypes; track tt.id) {
-        @let name = splitName(tt | localizedName);
-        <label class="type-card" [class.is-selected]="ticketForm.get('ticketTypeId')?.value === tt.id">
-          <input type="radio" formControlName="ticketTypeId" [value]="tt.id" class="sr-only">
-          <span class="font-cinzel font-black uppercase text-sm md:text-base leading-tight pr-5">{{ name.title }}</span>
-          @if (name.subtitle) {
-            <span class="font-bebas mt-1 text-[10px] uppercase tracking-[0.25em] text-red-500">{{ name.subtitle }}</span>
-          }
-          <span class="mt-auto pt-4">
-            <span class="plate font-cinzel font-bold text-base">{{ tt.price }}€</span>
-          </span>
-        </label>
-      }
-    </div>
+    <fieldset class="mt-8">
+      <legend class="field-label">{{ 'purchase.tickets.item.selectTicketLabel' | translate }}</legend>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        @for (tt of ticketTypes; track tt.id) {
+          @let name = splitName(tt | localizedName);
+          <label class="type-card" [class.is-selected]="ticketForm.get('ticketTypeId')?.value === tt.id">
+            <input type="radio" formControlName="ticketTypeId" [value]="tt.id" class="sr-only">
+            <span class="font-cinzel font-black uppercase text-sm md:text-base leading-tight pr-5">{{ name.title }}</span>
+            @if (name.subtitle) {
+              <span class="font-bebas mt-1 text-[10px] uppercase tracking-[0.25em] text-red-500">{{ name.subtitle }}</span>
+            }
+            <span class="mt-auto pt-4">
+              <span class="plate font-cinzel font-bold text-base">{{ tt.price }}€</span>
+            </span>
+          </label>
+        }
+      </div>
+    </fieldset>
   </div>
 </div>
