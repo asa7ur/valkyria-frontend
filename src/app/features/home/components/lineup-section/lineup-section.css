@@ -1,0 +1,77 @@
+/* Line-up como un escenario: un foco que ilumina un logo al azar y un halo que sigue al ratón. */
+
+/* --- Halo que sigue al ratón --- */
+
+.cursor-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(220, 38, 38, 0.22), transparent 70%);
+  /* Se desvanece en los bordes de arriba y abajo para que el círculo no se corte en seco contra la sección vecina */
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+/* La clase la pone el componente desde JS */
+.pointer-inside .cursor-light {
+  opacity: 1;
+}
+
+/* --- Logos --- */
+
+/* Por debajo de 1024 px (3 columnas) solo se enseñan los primeros MOBILE_LOGO_LIMIT */
+@media (max-width: 1023.98px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+.logo {
+  opacity: 0.82;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  transition: opacity 0.6s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s;
+}
+
+/* Iluminado por el foco o con el ratón encima: blanco pleno y resplandor rojo con la silueta del logo */
+.logo-slot:hover .logo,
+.logo-slot:focus-visible .logo,
+.logo-slot.is-lit .logo {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35)) drop-shadow(0 0 18px rgba(220, 38, 38, 0.9));
+}
+
+.logo-slot:focus-visible {
+  outline: none;
+}
+
+/* --- Aparición escalonada --- */
+
+.logo-slot {
+  opacity: 0;
+}
+
+.is-revealed .logo-slot {
+  opacity: 1;
+  animation: logoIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-revealed .logo-slot {
+    animation: none;
+  }
+}
