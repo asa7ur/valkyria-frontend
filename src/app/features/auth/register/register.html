@@ -1,217 +1,204 @@
-<div class="min-h-screen flex items-center justify-center py-4 px-6 relative overflow-hidden">
+<div class="min-h-screen grid lg:grid-cols-2">
 
-  <div class="absolute top-0 right-0 w-full h-full opacity-20 pointer-events-none">
-    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-600 blur-[120px] rounded-full"></div>
-  </div>
-
-  <div class="w-full max-w-2xl z-10">
-    <div class="mb-6 text-center md:text-left">
-      <h2 [innerHTML]="'register.title' | translate"
-          class="text-4xl md:text-5xl font-black text-white uppercase italic leading-none">
-      </h2>
-      <div class="h-1.5 w-16 bg-red-600 mt-2 mx-auto md:mx-0"></div>
+  <!-- Foto del festival (solo en pantallas grandes) -->
+  <aside class="relative hidden lg:block overflow-hidden" aria-hidden="true">
+    <img src="experience/10.webp" alt="" class="absolute inset-0 w-full h-full object-cover object-[50%_35%]">
+    <div class="absolute inset-0 bg-linear-to-r from-transparent via-black/30 to-black"></div>
+    <div class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/30"></div>
+    <div class="absolute bottom-10 left-10 flex items-center gap-4">
+      <img src="logo.png" alt="" class="w-14 drop-shadow-[0_0_18px_rgba(220,38,38,0.6)]">
+      <p class="font-bebas text-xs uppercase tracking-[0.4em] text-neutral-300">{{ 'home.hero.date' | translate }}</p>
     </div>
+  </aside>
 
-    @if (errorMessage()) {
-      <div class="bg-red-600/20 border border-red-600 text-red-500 p-3 mb-4 text-[10px] font-bold uppercase tracking-widest">
-        {{ errorMessage() | translate }}
-      </div>
-    }
+  <!-- Formulario -->
+  <div class="relative flex items-center justify-center px-6 py-16 overflow-hidden">
+    <div class="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-red-700/20 blur-[120px] pointer-events-none"></div>
 
-    @if (successMessage()) {
-      <div class="bg-green-600/20 border border-green-600 text-green-500 p-3 mb-4 text-[10px] font-bold uppercase tracking-widest text-center">
-        {{ successMessage() | translate }}
-      </div>
-    }
-
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-
-      <!-- Nombre -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.first_name' | translate }}
-        </label>
-        <input type="text" formControlName="firstName"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-        @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            @if (registerForm.get('firstName')?.errors?.['required']) {
-              {{ 'register.errors.required' | translate }}
-            } @else if (registerForm.get('firstName')?.errors?.['maxlength']) {
-              {{ 'register.errors.max_100' | translate }}
-            }
-          </span>
-        }
+    <div class="relative w-full max-w-xl">
+      <div class="mb-10">
+        <h1 [innerHTML]="'register.title' | translate"
+            class="font-cinzel text-4xl md:text-5xl font-black text-white uppercase leading-[0.95]">
+        </h1>
+        <div class="h-1 w-16 bg-red-600 mt-5"></div>
       </div>
 
-      <!-- Apellidos -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.last_name' | translate }}
-        </label>
-        <input type="text" formControlName="lastName"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-        @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            @if (registerForm.get('lastName')?.errors?.['required']) {
-              {{ 'register.errors.required' | translate }}
-            } @else if (registerForm.get('lastName')?.errors?.['maxlength']) {
-              {{ 'register.errors.max_100' | translate }}
-            }
-          </span>
-        }
+      @if (errorMessage()) {
+        <div class="bg-red-600/15 border border-red-600/50 text-red-400 px-4 py-3 mb-6 text-sm" role="alert">
+          {{ errorMessage() | translate }}
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="bg-green-600/15 border border-green-600/50 text-green-400 px-4 py-3 mb-6 text-sm" role="status">
+          {{ successMessage() | translate }}
+        </div>
+      }
+
+      <div class="relative pt-[18px]">
+        <div class="wood-beam absolute inset-x-0 top-0"></div>
+
+        <div class="auth-panel p-6 md:p-8">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
+
+            <!-- Nombre -->
+            <div>
+              <label for="reg-first-name" class="field-label">{{ 'register.labels.first_name' | translate }}</label>
+              <input id="reg-first-name" type="text" formControlName="firstName" autocomplete="given-name"
+                     [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                     class="field-input">
+              @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
+                <span class="field-error">
+                  @if (registerForm.get('firstName')?.errors?.['required']) {
+                    {{ 'register.errors.required' | translate }}
+                  } @else if (registerForm.get('firstName')?.errors?.['maxlength']) {
+                    {{ 'register.errors.max_100' | translate }}
+                  }
+                </span>
+              }
+            </div>
+
+            <!-- Apellidos -->
+            <div>
+              <label for="reg-last-name" class="field-label">{{ 'register.labels.last_name' | translate }}</label>
+              <input id="reg-last-name" type="text" formControlName="lastName" autocomplete="family-name"
+                     [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                     class="field-input">
+              @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
+                <span class="field-error">
+                  @if (registerForm.get('lastName')?.errors?.['required']) {
+                    {{ 'register.errors.required' | translate }}
+                  } @else if (registerForm.get('lastName')?.errors?.['maxlength']) {
+                    {{ 'register.errors.max_100' | translate }}
+                  }
+                </span>
+              }
+            </div>
+
+            <!-- Email -->
+            <div class="md:col-span-2">
+              <label for="reg-email" class="field-label">{{ 'register.labels.email' | translate }}</label>
+              <input id="reg-email" type="email" formControlName="email" autocomplete="email"
+                     [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                     class="field-input">
+              @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                <span class="field-error">
+                  @if (registerForm.get('email')?.errors?.['required']) {
+                    {{ 'register.errors.required' | translate }}
+                  } @else if (registerForm.get('email')?.errors?.['email']) {
+                    {{ 'register.errors.email_invalid' | translate }}
+                  } @else if (registerForm.get('email')?.errors?.['maxlength']) {
+                    {{ 'register.errors.max_100' | translate }}
+                  }
+                </span>
+              }
+            </div>
+
+            <!-- Teléfono -->
+            <div>
+              <label for="reg-phone" class="field-label">{{ 'register.labels.phone' | translate }}</label>
+              <input id="reg-phone" type="tel" formControlName="phone" autocomplete="tel"
+                     [class.is-invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched"
+                     class="field-input">
+              @if (registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched) {
+                <span class="field-error">
+                  @if (registerForm.get('phone')?.errors?.['required']) {
+                    {{ 'register.errors.required' | translate }}
+                  } @else if (registerForm.get('phone')?.errors?.['maxlength']) {
+                    {{ 'register.errors.max_30' | translate }}
+                  }
+                </span>
+              }
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div>
+              <label for="reg-birth-date" class="field-label">{{ 'register.labels.birth_date' | translate }}</label>
+              <input id="reg-birth-date" type="date" formControlName="birthDate" autocomplete="bday"
+                     [class.is-invalid]="registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched"
+                     class="field-input">
+              @if (registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched) {
+                <span class="field-error">
+                  @if (registerForm.get('birthDate')?.errors?.['required']) {
+                    {{ 'register.errors.required' | translate }}
+                  } @else if (registerForm.get('birthDate')?.errors?.['notAdult']) {
+                    {{ 'register.errors.not_adult' | translate }}
+                  }
+                </span>
+              }
+            </div>
+
+            <!-- Contraseña -->
+            <div>
+              <label for="reg-password" class="field-label">{{ 'register.labels.password' | translate }}</label>
+              <input id="reg-password" type="password" formControlName="password" autocomplete="new-password"
+                     class="field-input">
+
+              @if (showPasswordHints) {
+                <ul class="mt-2.5 space-y-1">
+                  @for (hint of [
+                    {ok: pwHasMinLength, key: 'register.errors.password_req_length'},
+                    {ok: pwHasUpperCase, key: 'register.errors.password_req_upper'},
+                    {ok: pwHasLowerCase, key: 'register.errors.password_req_lower'},
+                    {ok: pwHasNumber, key: 'register.errors.password_req_number'},
+                    {ok: pwHasSpecial, key: 'register.errors.password_req_special'}
+                  ]; track hint.key) {
+                    <li class="flex items-center gap-2 font-bebas text-[11px] uppercase tracking-[0.15em]"
+                        [class.text-green-500]="hint.ok" [class.text-neutral-500]="!hint.ok">
+                      <i class="bi" [class.bi-check-lg]="hint.ok" [class.bi-dot]="!hint.ok"></i>
+                      <span>{{ hint.key | translate }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+
+              @if (registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched && !showPasswordHints) {
+                <span class="field-error">{{ 'register.errors.required' | translate }}</span>
+              }
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div>
+              <label for="reg-confirm-password" class="field-label">{{ 'register.labels.confirm_password' | translate }}</label>
+              <input id="reg-confirm-password" type="password" formControlName="confirmPassword" autocomplete="new-password"
+                     [class.is-invalid]="registerForm.get('confirmPassword')?.touched && (registerForm.get('confirmPassword')?.invalid || registerForm.errors?.['notSame'])"
+                     class="field-input">
+              @if (registerForm.get('confirmPassword')?.touched) {
+                @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+                  <span class="field-error">{{ 'register.errors.required' | translate }}</span>
+                } @else if (registerForm.errors?.['notSame']) {
+                  <span class="field-error">{{ 'register.errors.passwords_not_match' | translate }}</span>
+                }
+              }
+            </div>
+
+            <div class="md:col-span-2 pt-2">
+              <button type="submit" [disabled]="registerForm.invalid || isLoading()"
+                      class="btn-blood cut-corners group w-full py-4 px-6 font-bebas text-base uppercase tracking-[0.35em] cursor-pointer flex justify-between items-center">
+                <span>
+                  @if (isLoading()) {
+                    {{ 'register.btn.processing' | translate }}
+                  } @else {
+                    {{ 'register.btn.submit' | translate }}
+                  }
+                </span>
+                @if (isLoading()) {
+                  <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                } @else {
+                  <i class="bi bi-arrow-right text-lg transition-transform group-hover:translate-x-1"></i>
+                }
+              </button>
+              <app-legal-consent/>
+            </div>
+          </form>
+        </div>
       </div>
 
-      <!-- Email -->
-      <div class="relative group md:col-span-2">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.email' | translate }}
-        </label>
-        <input type="email" formControlName="email"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            @if (registerForm.get('email')?.errors?.['required']) {
-              {{ 'register.errors.required' | translate }}
-            } @else if (registerForm.get('email')?.errors?.['email']) {
-              {{ 'register.errors.email_invalid' | translate }}
-            } @else if (registerForm.get('email')?.errors?.['maxlength']) {
-              {{ 'register.errors.max_100' | translate }}
-            }
-          </span>
-        }
+      <div class="mt-8 font-bebas text-xs uppercase tracking-[0.25em]">
+        <a routerLink="/login" class="text-neutral-500 hover:text-white transition-colors">
+          ← {{ 'register.link.back_login' | translate }}
+        </a>
       </div>
-
-      <!-- Teléfono -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.phone' | translate }}
-        </label>
-        <input type="text" formControlName="phone"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-        @if (registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            @if (registerForm.get('phone')?.errors?.['required']) {
-              {{ 'register.errors.required' | translate }}
-            } @else if (registerForm.get('phone')?.errors?.['maxlength']) {
-              {{ 'register.errors.max_30' | translate }}
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Fecha de nacimiento -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.birth_date' | translate }}
-        </label>
-        <input type="date" formControlName="birthDate"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold scheme-dark text-sm">
-        @if (registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            @if (registerForm.get('birthDate')?.errors?.['required']) {
-              {{ 'register.errors.required' | translate }}
-            } @else if (registerForm.get('birthDate')?.errors?.['notAdult']) {
-              {{ 'register.errors.not_adult' | translate }}
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Contraseña -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.password' | translate }}
-        </label>
-        <input type="password" formControlName="password"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-
-        @if (showPasswordHints) {
-          <ul class="mt-2 space-y-0.5">
-            <li class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
-                [class.text-green-500]="pwHasMinLength" [class.text-white-40]="!pwHasMinLength">
-              <span>{{ pwHasMinLength ? '✓' : '✗' }}</span>
-              <span>{{ 'register.errors.password_req_length' | translate }}</span>
-            </li>
-            <li class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
-                [class.text-green-500]="pwHasUpperCase" [class.text-white-40]="!pwHasUpperCase">
-              <span>{{ pwHasUpperCase ? '✓' : '✗' }}</span>
-              <span>{{ 'register.errors.password_req_upper' | translate }}</span>
-            </li>
-            <li class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
-                [class.text-green-500]="pwHasLowerCase" [class.text-white-40]="!pwHasLowerCase">
-              <span>{{ pwHasLowerCase ? '✓' : '✗' }}</span>
-              <span>{{ 'register.errors.password_req_lower' | translate }}</span>
-            </li>
-            <li class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
-                [class.text-green-500]="pwHasNumber" [class.text-white-40]="!pwHasNumber">
-              <span>{{ pwHasNumber ? '✓' : '✗' }}</span>
-              <span>{{ 'register.errors.password_req_number' | translate }}</span>
-            </li>
-            <li class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
-                [class.text-green-500]="pwHasSpecial" [class.text-white-40]="!pwHasSpecial">
-              <span>{{ pwHasSpecial ? '✓' : '✗' }}</span>
-              <span>{{ 'register.errors.password_req_special' | translate }}</span>
-            </li>
-          </ul>
-        }
-
-        @if (registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched && !showPasswordHints) {
-          <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-            {{ 'register.errors.required' | translate }}
-          </span>
-        }
-      </div>
-
-      <!-- Confirmar contraseña -->
-      <div class="relative group">
-        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1 group-focus-within:text-red-500">
-          {{ 'register.labels.confirm_password' | translate }}
-        </label>
-        <input type="password" formControlName="confirmPassword"
-               class="w-full bg-transparent border-b border-white/10 py-1 text-white focus:outline-none focus:border-red-600 transition-all font-bold text-sm">
-        @if (registerForm.get('confirmPassword')?.touched) {
-          @if (registerForm.get('confirmPassword')?.errors?.['required']) {
-            <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-              {{ 'register.errors.required' | translate }}
-            </span>
-          } @else if (registerForm.errors?.['notSame']) {
-            <span class="text-red-500 text-[9px] font-bold uppercase tracking-wider mt-1 block">
-              {{ 'register.errors.passwords_not_match' | translate }}
-            </span>
-          }
-        }
-      </div>
-
-      <div class="md:col-span-2 pt-4">
-        <button
-          type="submit"
-          [disabled]="registerForm.invalid || isLoading()"
-          class="w-full bg-white text-black py-3 text-xs font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 transition-all cursor-pointer flex justify-between items-center px-8"
-        >
-          <span>
-            @if (isLoading()) {
-              {{ 'register.btn.processing' | translate }}
-            } @else {
-              {{ 'register.btn.submit' | translate }}
-            }
-          </span>
-
-          @if (!isLoading()) {
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          }
-        </button>
-        <app-legal-consent/>
-      </div>
-    </form>
-
-    <div class="mt-4 flex justify-between items-center text-[9px] font-bold uppercase tracking-widest">
-      <a routerLink="/login" class="text-white/30 hover:text-white transition-colors">
-        ← {{ 'register.link.back_login' | translate }}
-      </a>
     </div>
   </div>
 </div>

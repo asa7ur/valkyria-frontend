@@ -1,119 +1,116 @@
-<div class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+<div class="min-h-screen grid lg:grid-cols-2">
 
-  <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-600 blur-[120px] rounded-full"></div>
-  </div>
-
-  <div class="w-full max-w-md z-10">
-    <div class="mb-12">
-      <h2 [innerHTML]="'login.title' | translate"
-          class="text-6xl font-black text-white uppercase italic leading-none">
-      </h2>
-      <div class="h-2 w-24 bg-red-600 mt-4"></div>
+  <!-- Foto del festival (solo en pantallas grandes) -->
+  <aside class="relative hidden lg:block overflow-hidden" aria-hidden="true">
+    <img src="experience/01.webp" alt="" class="absolute inset-0 w-full h-full object-cover object-[50%_40%]">
+    <div class="absolute inset-0 bg-linear-to-r from-transparent via-black/30 to-black"></div>
+    <div class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/30"></div>
+    <div class="absolute bottom-10 left-10 flex items-center gap-4">
+      <img src="logo.png" alt="" class="w-14 drop-shadow-[0_0_18px_rgba(220,38,38,0.6)]">
+      <p class="font-bebas text-xs uppercase tracking-[0.4em] text-neutral-300">{{ 'home.hero.date' | translate }}</p>
     </div>
+  </aside>
 
-    @if (errorMessage() || errorKey()) {
-      <div class="bg-red-600/20 border border-red-600 text-red-500 p-4 mb-6 text-xs font-bold uppercase tracking-widest">
-        @if (errorMessage()) {
-          {{ errorMessage() }}
-        } @else {
-          {{ errorKey()! | translate }}
-        }
+  <!-- Formulario -->
+  <div class="relative flex items-center justify-center px-6 py-16 overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-red-700/20 blur-[120px] pointer-events-none"></div>
 
-        @if (canResendActivation()) {
-          <button type="button" (click)="resendActivation()" [disabled]="isResending()"
-                  class="block mt-3 text-white underline underline-offset-4 hover:text-red-300 disabled:opacity-50 cursor-pointer uppercase tracking-widest">
-            {{ 'login.btn.resend_activation' | translate }}
-          </button>
-        }
-      </div>
-    }
-
-    @if (infoMessage()) {
-      <div class="bg-white/10 border border-white/30 text-white p-4 mb-6 text-xs font-bold uppercase tracking-widest">
-        {{ infoMessage() }}
-      </div>
-    }
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
-      <div class="relative group">
-        <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          {{ 'login.labels.username' | translate }}
-        </label>
-        <input
-          type="text"
-          formControlName="username"
-          [placeholder]="'login.placeholders.username' | translate"
-          class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
-        >
+    <div class="relative w-full max-w-md">
+      <div class="mb-10">
+        <h1 [innerHTML]="'login.title' | translate"
+            class="font-cinzel text-5xl md:text-6xl font-black text-white uppercase leading-[0.95]">
+        </h1>
+        <div class="h-1 w-16 bg-red-600 mt-5"></div>
       </div>
 
-      <div class="relative group">
-        <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-2 group-focus-within:text-red-500 transition-colors">
-          {{ 'login.labels.password' | translate }}
-        </label>
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="••••••••"
-          class="w-full bg-transparent border-b-2 border-white/10 py-3 text-white placeholder:text-white/10 focus:outline-none focus:border-red-600 transition-all font-bold"
-        >
-      </div>
-
-      <div class="pt-4">
-        <button
-          type="submit"
-          [disabled]="loginForm.invalid || isLoading()"
-          class="w-full bg-white text-black py-5 text-sm font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-black transition-all cursor-pointer flex justify-between items-center px-8 group"
-        >
-          <span>
-            @if (isLoading()) {
-              {{ 'login.btn.authenticating' | translate }}
-            } @else {
-              {{ 'login.btn.submit' | translate }}
-            }
-          </span>
-
-          @if (!isLoading()) {
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 class="h-5 w-5 transform group-hover:translate-x-2 transition-transform" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-            </svg>
+      @if (errorMessage() || errorKey()) {
+        <div class="bg-red-600/15 border border-red-600/50 text-red-400 px-4 py-3 mb-6 text-sm" role="alert">
+          @if (errorMessage()) {
+            {{ errorMessage() }}
+          } @else {
+            {{ errorKey()! | translate }}
           }
-        </button>
+
+          @if (canResendActivation()) {
+            <button type="button" (click)="resendActivation()" [disabled]="isResending()"
+                    class="block mt-2 font-bebas text-xs uppercase tracking-[0.25em] text-white underline underline-offset-4 hover:text-red-300 disabled:opacity-50 cursor-pointer">
+              {{ 'login.btn.resend_activation' | translate }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (infoMessage()) {
+        <div class="bg-white/5 border border-white/20 text-neutral-200 px-4 py-3 mb-6 text-sm" role="status">
+          {{ infoMessage() }}
+        </div>
+      }
+
+      <div class="relative pt-[18px]">
+        <div class="wood-beam absolute inset-x-0 top-0"></div>
+
+        <div class="auth-panel p-6 md:p-8">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div>
+              <label for="login-username" class="field-label">{{ 'login.labels.username' | translate }}</label>
+              <input id="login-username" type="text" formControlName="username" autocomplete="username"
+                     [placeholder]="'login.placeholders.username' | translate"
+                     class="field-input placeholder:text-white/20">
+            </div>
+
+            <div>
+              <label for="login-password" class="field-label">{{ 'login.labels.password' | translate }}</label>
+              <input id="login-password" type="password" formControlName="password" autocomplete="current-password"
+                     placeholder="••••••••"
+                     class="field-input placeholder:text-white/20">
+            </div>
+
+            <button type="submit" [disabled]="loginForm.invalid || isLoading()"
+                    class="btn-blood cut-corners group w-full py-4 px-6 font-bebas text-base uppercase tracking-[0.35em] cursor-pointer flex justify-between items-center">
+              <span>
+                @if (isLoading()) {
+                  {{ 'login.btn.authenticating' | translate }}
+                } @else {
+                  {{ 'login.btn.submit' | translate }}
+                }
+              </span>
+              @if (isLoading()) {
+                <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+              } @else {
+                <i class="bi bi-arrow-right text-lg transition-transform group-hover:translate-x-1"></i>
+              }
+            </button>
+          </form>
+
+          <div class="flex items-center gap-4 my-6">
+            <div class="flex-1 h-px bg-white/10"></div>
+            <span class="font-bebas text-neutral-500 text-xs uppercase tracking-[0.3em]">{{ 'login.text.or' | translate }}</span>
+            <div class="flex-1 h-px bg-white/10"></div>
+          </div>
+
+          <button type="button" (click)="loginWithGoogle()"
+                  class="btn-steel cut-corners w-full py-3.5 px-6 font-bebas text-sm uppercase tracking-[0.25em] cursor-pointer flex items-center justify-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 shrink-0" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            {{ 'login.btn.google' | translate }}
+          </button>
+        </div>
       </div>
-    </form>
 
-    <div class="mt-8">
-      <div class="flex items-center gap-4 mb-6">
-        <div class="flex-1 h-px bg-white/10"></div>
-        <span class="text-white/20 text-[10px] font-bold uppercase tracking-widest">{{ 'login.text.or' | translate }}</span>
-        <div class="flex-1 h-px bg-white/10"></div>
-      </div>
-
-      <button type="button" (click)="loginWithGoogle()"
-         class="w-full bg-transparent border border-white/20 text-white py-4 text-sm font-bold uppercase tracking-[0.15em] hover:border-white/60 hover:bg-white/5 transition-all flex items-center justify-center gap-4 px-8 cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 shrink-0">
-          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          <path fill="none" d="M0 0h48v48H0z"/>
-        </svg>
-        {{ 'login.btn.google' | translate }}
-      </button>
-    </div>
-
-    <div class="mt-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-      <a routerLink="/" class="text-white/30 hover:text-white transition-colors">
-        ← {{ 'login.links.back_home' | translate }}
-      </a>
-      <div class="flex gap-4">
-        <span class="text-white/20">{{ 'login.text.new_here' | translate }}</span>
-        <a routerLink="/register" class="text-red-500 hover:text-white transition-colors">
-          {{ 'login.links.register' | translate }} →
+      <div class="mt-8 flex flex-wrap gap-4 justify-between items-center font-bebas text-xs uppercase tracking-[0.25em]">
+        <a routerLink="/" class="text-neutral-500 hover:text-white transition-colors">
+          ← {{ 'login.links.back_home' | translate }}
         </a>
+        <p>
+          <span class="text-neutral-500">{{ 'login.text.new_here' | translate }}</span>
+          <a routerLink="/register" class="ml-2 text-red-500 hover:text-white transition-colors">
+            {{ 'login.links.register' | translate }} →
+          </a>
+        </p>
       </div>
     </div>
   </div>
