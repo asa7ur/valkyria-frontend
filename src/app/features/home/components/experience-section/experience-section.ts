@@ -1,8 +1,26 @@
 import {Component, DestroyRef, ElementRef, afterNextRender, inject, signal} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 
-// Fotogramas del aftermovie de Valkyria (public/experience/01.webp ... 12.webp)
-const PHOTOS = Array.from({length: 12}, (_, i) => `experience/${String(i + 1).padStart(2, '0')}.webp`);
+// Fotos del festival (public/experience/01.webp ... 11.webp). Cada recuadro del mosaico tiene otra proporción,
+// así que la foto se recorta con object-cover alrededor de su punto de interés (la cara o el gesto principal).
+interface Photo {
+  src: string;
+  focus: string;
+}
+
+const PHOTOS: Photo[] = [
+  {src: 'experience/01.webp', focus: '50% 40%'},
+  {src: 'experience/02.webp', focus: '50% 35%'},
+  {src: 'experience/03.webp', focus: '50% 30%'},
+  {src: 'experience/04.webp', focus: '40% 30%'},
+  {src: 'experience/05.webp', focus: '50% 45%'},
+  {src: 'experience/06.webp', focus: '50% 55%'},
+  {src: 'experience/07.webp', focus: '45% 40%'},
+  {src: 'experience/08.webp', focus: '50% 25%'},
+  {src: 'experience/09.webp', focus: '50% 55%'},
+  {src: 'experience/10.webp', focus: '50% 35%'},
+  {src: 'experience/11.webp', focus: '50% 30%'},
+];
 // Cada cuánto uno de los recuadros funde a otra foto
 const SWAP_INTERVAL_MS = 3200;
 
@@ -38,7 +56,7 @@ export class ExperienceSection {
       const observer = new IntersectionObserver(entries => {
         if (!entries.some(entry => entry.isIntersecting)) return;
         observer.disconnect();
-        PHOTOS.forEach(src => new Image().src = src);
+        PHOTOS.forEach(photo => new Image().src = photo.src);
         const timer = setInterval(() => this.swapRandomTile(), SWAP_INTERVAL_MS);
         this.destroyRef.onDestroy(() => clearInterval(timer));
       }, {threshold: 0.2});
