@@ -8,15 +8,32 @@ import { map } from 'rxjs';
 import { LineupClient } from '../../core/services/lineup-client';
 import { Performance, FESTIVAL_DAYS, StructuredDay } from '../../core/models/performance';
 import { getFestivalDate } from '../../shared/utils/date-utils';
+import { environment } from '../../../environments/environment';
+
+// Orden de escenarios deseado; el primero es el principal
+const STAGE_ORDER = [
+  'Asgard del Sur',
+  'Valhalla de Triana',
+  'Fenrir del Al-Ándalus',
+  'Drakkar de Guadalquivir'
+];
+
+// Cada día lleva además su cabeza de cartel: el último en actuar en el escenario principal
+interface LineupDay extends StructuredDay {
+  headliner: Performance | null;
+  total: number;
+}
 
 @Component({
   selector: 'app-lineup',
   imports: [CommonModule, RouterLink, TranslateModule, LocalizedNamePipe],
   templateUrl: './lineup.html',
+  styleUrl: './lineup.css',
 })
 export class Lineup implements OnInit {
   private client = inject(LineupClient);
   private translate = inject(TranslateService);
+  private readonly logosBaseUrl = `${environment.apiUrl}/uploads/artists/`;
 
   protected isLoading = signal<boolean>(true);
   private allPerformances = signal<Performance[]>([]);
@@ -30,21 +47,13 @@ export class Lineup implements OnInit {
   protected readonly days = FESTIVAL_DAYS;
 
   /**
-   * Transforma y agrupa los datos en una única estructura jerárquica plana.
+   * Agrupa las actuaciones por día (de festival: lo de después de medianoche cuenta como la noche anterior)
+   * y, dentro de cada día, por escenario en el orden de STAGE_ORDER.
    */
-  protected structuredLineup = computed<StructuredDay[]>(() => {
+  protected structuredLineup = computed<LineupDay[]>(() => {
     const rawPerformances = this.allPerformances();
     const dayFilter = this.selectedDay();
 
-    // Orden de escenarios deseado
-    const stageOrder = [
-      'Asgard del Sur',
-      'Valhalla de Triana',
-      'Fenrir del Al-Ándalus',
-      'Drakkar de Guadalquivir'
-    ];
-
-    // 1. Agrupación intermedia usando un Map para eficiencia
     const groups = new Map<string, Map<string, Performance[]>>();
 
     rawPerformances.forEach(p => {
@@ -58,23 +67,29 @@ export class Lineup implements OnInit {
       stagesMap.get(p.stage.name)!.push(p);
     });
 
-    // 2. Convertir Map a Array ordenado de StructuredDay
     return Array.from(groups.entries())
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([date, stagesMap]) => ({
-        date,
-        stages: Array.from(stagesMap.entries())
+      .map(([date, stagesMap]) => {
+        const stages = Array.from(stagesMap.entries())
           .sort(([nameA], [nameB]) => {
-            const idxA = stageOrder.indexOf(nameA);
-            const idxB = stageOrder.indexOf(nameB);
+            const idxA = STAGE_ORDER.indexOf(nameA);
+            const idxB = STAGE_ORDER.indexOf(nameB);
             return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
           })
           .map(([name, performances]) => ({
             name,
             nameEn: performances[0]?.stage.nameEn,
             performances: performances.sort((a, b) => a.startTime.localeCompare(b.startTime))
-          }))
-      }));
+          }));
+
+        const mainStage = stages.find(stage => stage.name === STAGE_ORDER[0]);
+        return {
+          date,
+          stages,
+          headliner: mainStage?.performances.at(-1) ?? null,
+          total: stages.reduce((sum, stage) => sum + stage.performances.length, 0)
+        };
+      });
   });
 
   ngOnInit() {
@@ -90,5 +105,9 @@ export class Lineup implements OnInit {
 
   setDay(date: string) {
     this.selectedDay.set(date);
+  }
+
+  protected logoUrl(perf: Performance): string | null {
+    return perf.artist.logo ? `${this.logosBaseUrl}${perf.artist.logo}_thumb.webp` : null;
   }
 }

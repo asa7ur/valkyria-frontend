@@ -191,6 +191,8 @@
     "loading": "Abriendo las puertas del Valhalla...",
     "empty": "No hay actuaciones programadas.",
     "date_format": "EEEE d 'de' MMMM",
+    "headliner": "Cabeza de cartel",
+    "performances": "{{count}} actuaciones",
     "days": {
       "all": "TODOS",
       "thu": "JUE 5",
