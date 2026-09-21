@@ -1,14 +1,17 @@
+<!-- El hero se queda fijo arriba y se desvanece mientras el resto de la página sube por encima.
+     sticky solo funciona dentro de su padre, por eso este contenedor envuelve toda la home. -->
 <div class="relative">
-  <app-hero-section/>
-  <img src="intro-logo.png" alt="" class="absolute bottom-0 left-0 w-full z-20 translate-y-1/2 select-none pointer-events-none block" />
-</div>
-<div class="mt-8 md:mt-24">
-  <app-lineup-section id="lineup"/>
-</div>
-<app-info-section id="info"/>
-<app-tickets-section id="tickets"/>
-<app-experience-section id="experience"/>
-<app-social-section id="social"/>
-<app-sponsors-section id="sponsors"/>
+  <app-hero-section class="block sticky top-0 z-0"/>
 
-
+  <div class="relative z-10">
+    <img src="intro-logo.png" alt="" class="absolute top-0 left-0 w-full -translate-y-1/2 select-none pointer-events-none block" />
+    <div class="pt-8 md:pt-24">
+      <app-lineup-section id="lineup"/>
+    </div>
+    <app-info-section id="info"/>
+    <app-tickets-section id="tickets"/>
+    <app-experience-section id="experience"/>
+    <app-social-section id="social"/>
+    <app-sponsors-section id="sponsors"/>
+  </div>
+</div>
