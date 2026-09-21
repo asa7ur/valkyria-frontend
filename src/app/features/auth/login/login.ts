@@ -9,7 +9,8 @@ import {environment} from '../../../../environments/environment';
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, TranslatePipe],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+  styleUrl: '../auth-panel.css'
 })
 export class Login implements OnInit {
   private fb = inject(FormBuilder);

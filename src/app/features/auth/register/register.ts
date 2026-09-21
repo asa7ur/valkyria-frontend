@@ -10,7 +10,8 @@ import {LegalConsent} from '../../../shared/components/legal-consent/legal-conse
   selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, TranslatePipe, LegalConsent],
-  templateUrl: './register.html'
+  templateUrl: './register.html',
+  styleUrl: '../auth-panel.css'
 })
 export class Register {
   private fb = inject(FormBuilder);
