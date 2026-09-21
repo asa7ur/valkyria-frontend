@@ -279,7 +279,12 @@
       "emailPlaceholder": "TU@EMAIL.COM"
     },
     "confirmBtn": "Confirmar y Pagar",
-    "demo": "Pago de prueba: no se cobra nada. Usa la tarjeta 4242 4242 4242 4242"
+    "redirecting": "Abriendo la pasarela de pago...",
+    "demo": "Pago de prueba: no se cobra nada. Usa la tarjeta 4242 4242 4242 4242",
+    "edit": "⟨ Editar pedido",
+    "needTicket": "El pedido necesita al menos una entrada.",
+    "invalidEmail": "Introduce un email válido",
+    "payError": "No se ha podido iniciar el pago. Inténtalo de nuevo."
   },
 
   "profile": {

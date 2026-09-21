@@ -8,21 +8,34 @@ import { CheckoutLogic } from '../../../../core/services/checkout-logic';
 import { TicketProvider } from '../../../../core/services/ticket-provider';
 import { AuthManager } from '../../../../core/services/auth-manager';
 import { OrderCreateDTO } from '../../../../core/models/order-schema';
-import {TranslatePipe} from '@ngx-translate/core';
+import { CampingType, TicketType } from '../../../../core/models/ticket-types';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {LegalConsent} from '../../../../shared/components/legal-consent/legal-consent';
+import {LocalizedNamePipe} from '../../../../shared/pipes/localized-name.pipe';
+import {splitName} from '../../../../shared/utils/name-utils';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe, LegalConsent],
-  templateUrl: './checkout.html'
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe, LegalConsent, LocalizedNamePipe],
+  templateUrl: './checkout.html',
+  styleUrl: './checkout.css',
 })
 export class Checkout {
   private cart = inject(CheckoutLogic);
   private provider = inject(TicketProvider);
   private auth = inject(AuthManager);
+  private translate = inject(TranslateService);
 
   currentUser = this.auth.currentUser;
   guestEmail = signal('');
+
+  // Mientras se crea el pedido y se redirige a Stripe: evita pagar dos veces con un doble clic
+  protected readonly isPaying = signal(false);
+  // Error que se enseña encima del botón (la web pública no tiene toasts). Si el backend manda un mensaje
+  // (p. ej. sin stock, ya traducido), se usa ese
+  protected readonly error = signal<string | null>(null);
+
+  protected readonly splitName = splitName;
 
   // Usamos toSignal para manejar las peticiones asíncronas como estados reactivos puros
   ticketTypes = toSignal(this.provider.getTicketTypes(), { initialValue: [] });
@@ -33,36 +46,29 @@ export class Checkout {
   // Total solo de las entradas
   ticketsTotal = computed(() => {
     const currentOrder = this.order();
-    const types = this.ticketTypes();
-    return currentOrder.tickets.reduce((sum, t) => {
-      const found = types.find(tp => Number(tp.id) === Number(t.ticketTypeId));
-      return sum + (found?.price || 0);
-    }, 0);
+    return currentOrder.tickets.reduce((sum, t) => sum + (this.ticketType(t.ticketTypeId)?.price || 0), 0);
   });
 
-// Total solo del camping
+  // Total solo del camping
   campingsTotal = computed(() => {
     const currentOrder = this.order();
-    const types = this.campingTypes();
-    return currentOrder.campings.reduce((sum, c) => {
-      const found = types.find(cp => Number(cp.id) === Number(c.campingTypeId));
-      return sum + (found?.price || 0);
-    }, 0);
+    return currentOrder.campings.reduce((sum, c) => sum + (this.campingType(c.campingTypeId)?.price || 0), 0);
   });
 
-// Suma final de ambos
+  // Suma final de ambos
   grandTotal = computed(() => this.ticketsTotal() + this.campingsTotal());
+
+  // El backend exige al menos una entrada: solo camping no se puede pagar
+  protected readonly canPay = computed(() => this.order().tickets.length > 0 && this.grandTotal() > 0);
 
   isLoading = computed(() => this.ticketTypes().length === 0 && this.campingTypes().length === 0);
 
-  getTicketName(id: any): string {
-    const found = this.ticketTypes().find(t => Number(t.id) === Number(id));
-    return found ? found.name : 'Ticket';
+  protected ticketType(id: unknown): TicketType | undefined {
+    return this.ticketTypes().find(t => Number(t.id) === Number(id));
   }
 
-  getCampingName(id: any): string {
-    const found = this.campingTypes().find(c => Number(c.id) === Number(id));
-    return found ? found.name : 'Alojamiento';
+  protected campingType(id: unknown): CampingType | undefined {
+    return this.campingTypes().find(c => Number(c.id) === Number(id));
   }
 
   removeItem(type: 'ticket' | 'camping', index: number) {
@@ -83,24 +89,32 @@ export class Checkout {
   }
 
   confirmAndPay() {
+    if (this.isPaying() || !this.canPay()) return;
+    this.error.set(null);
+
     const currentOrder = { ...this.order() }; // Clonamos para evitar mutaciones directas
 
     if (!this.currentUser()) {
       if (!this.guestEmail() || !this.guestEmail().includes('@')) {
-        alert('Por favor, introduce un email válido');
+        this.error.set(this.translate.instant('checkout.invalidEmail'));
         return;
       }
       currentOrder.guestEmail = this.guestEmail();
     }
 
+    this.isPaying.set(true);
     this.cart.createOrder(currentOrder).subscribe({
       next: (res) => {
         if (res.success && res.data?.url) {
           window.location.href = res.data.url;
+        } else {
+          this.isPaying.set(false);
+          this.error.set(this.translate.instant('checkout.payError'));
         }
       },
       error: (err) => {
-        alert(err.error?.message || 'Error al procesar el pago');
+        this.isPaying.set(false);
+        this.error.set(err.error?.message || this.translate.instant('checkout.payError'));
       }
     });
   }
