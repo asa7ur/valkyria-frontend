@@ -1,0 +1,66 @@
+/* Tablón de patrocinadores: casillas oscuras separadas por líneas finas (el gap-px deja ver el fondo de la
+   rejilla), enmarcadas por dos travesaños de madera (.wood-beam, en styles.css). */
+
+.board {
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.9);
+}
+
+.cell {
+  background: radial-gradient(ellipse at center, #140c0a, #0a0605 80%);
+}
+
+/* Luz roja que se enciende detrás del logo al pasar el ratón */
+.cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.22), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.cell:hover::before {
+  opacity: 1;
+}
+
+.logo {
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s;
+}
+
+.cell:hover .logo {
+  opacity: 1;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 16px rgba(220, 38, 38, 0.85));
+}
+
+/* --- Aparición escalonada --- */
+
+.cell .logo {
+  opacity: 0;
+}
+
+.is-revealed .cell .logo {
+  opacity: 0.8;
+  animation: logoIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.is-revealed .cell:hover .logo {
+  opacity: 1;
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-revealed .cell .logo {
+    animation: none;
+  }
+}
