@@ -1,0 +1,136 @@
+/* Tarjetas de madera quemada con flejes de hierro. La madera es "weathered_planks" de Poly Haven
+   (CC0, dominio público), oscurecida por encima para que case con el negro y rojo de la web. */
+
+.plank {
+  --wood: url('/textures/wood.webp');
+
+  background-color: #120b08;
+  background-image:
+    /* Viñeta: bordes más quemados */
+    radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%),
+    /* Oscurecido general */
+    linear-gradient(rgba(10, 5, 4, 0.55), rgba(10, 5, 4, 0.55)),
+    var(--wood);
+  /* La textura es más grande que la tarjeta y cada una muestra un trozo distinto, para que no parezcan
+     sellos iguales; la imagen es cíclica, así que si faltara madera se repite sin costura */
+  background-size: auto, auto, 180% auto;
+  background-position: center, center, calc(var(--i, 0) * 31%) center;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 30px -12px rgba(0, 0, 0, 0.9);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s;
+}
+
+/* Los abonos llevan un baño rojo que sube desde una esquina */
+.plank--premium {
+  background-image:
+    linear-gradient(135deg, rgba(153, 27, 27, 0.5), transparent 60%),
+    radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%),
+    linear-gradient(rgba(10, 5, 4, 0.55), rgba(10, 5, 4, 0.55)),
+    var(--wood);
+  background-size: auto, auto, auto, 180% auto;
+  background-position: center, center, center, calc(var(--i, 0) * 31%) center;
+}
+
+.plank:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(220, 38, 38, 0.7), 0 22px 44px -12px rgba(220, 38, 38, 0.45);
+}
+
+/* --- Travesaños de madera sujetos con clavijas --- */
+/* Madera "dark_wood" de Poly Haven (CC0) con la veta en horizontal */
+
+.band {
+  --peg: radial-gradient(circle, #8a5a3a 0, #5a3620 2.5px, #24140b 4.5px, rgba(0, 0, 0, 0.6) 5.5px, transparent 6.5px);
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background:
+    /* Clavijas cerca de cada extremo */
+    var(--peg) 14px 50% / 14px 14px no-repeat,
+    var(--peg) calc(100% - 14px) 50% / 14px 14px no-repeat,
+    /* Volumen: canto superior con luz y el inferior en sombra */
+    linear-gradient(to bottom, rgba(255, 220, 190, 0.18), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.55)),
+    url('/textures/beam.webp') center / cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
+
+/* --- Placa del precio --- */
+
+.plate {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  padding: 0.35em 1.1em;
+  background: linear-gradient(to bottom, #2a2a2a, #0f0f0f);
+  border: 1px solid rgba(163, 163, 163, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Remaches de la placa */
+.plate::before,
+.plate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #e5e5e5, #525252 60%, #171717);
+  transform: translateY(-50%);
+}
+
+.plate::before {
+  left: 0.4em;
+}
+
+.plate::after {
+  right: 0.4em;
+}
+
+/* --- Botones y etiqueta con las esquinas cortadas --- */
+
+.cut {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.btn-blood {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  color: #fff;
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.btn-steel {
+  background: linear-gradient(to bottom, #e5e5e5, #8a8a8a);
+  color: #0a0a0a;
+  transition: filter 0.3s, transform 0.3s, background 0.3s, color 0.3s;
+}
+
+.btn-blood:hover {
+  filter: brightness(1.15) drop-shadow(0 0 10px rgba(220, 38, 38, 0.6));
+}
+
+.btn-steel:hover {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  color: #fff;
+}
+
+.btn-blood:active,
+.btn-steel:active {
+  transform: scale(0.98);
+}
+
+.tag {
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  background: linear-gradient(to bottom, #dc2626, #7f1d1d);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plank,
+  .plank:hover {
+    transition: none;
+    transform: none;
+  }
+}
