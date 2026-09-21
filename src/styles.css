@@ -154,6 +154,25 @@ body {
   opacity: 0;
 }
 
+/* --- TRAVESAÑO DE MADERA --- */
+/* Listón con clavijas en los extremos (entradas y patrocinadores). Madera "dark_wood" de Poly Haven (CC0)
+   con la veta en horizontal. La posición la pone quien lo usa. */
+
+.wood-beam {
+  --peg: radial-gradient(circle, #8a5a3a 0, #5a3620 2.5px, #24140b 4.5px, rgba(0, 0, 0, 0.6) 5.5px, transparent 6.5px);
+
+  height: 18px;
+  background:
+    /* Clavijas cerca de cada extremo */
+    var(--peg) 14px 50% / 14px 14px no-repeat,
+    var(--peg) calc(100% - 14px) 50% / 14px 14px no-repeat,
+    /* Volumen: canto superior con luz y el inferior en sombra */
+    linear-gradient(to bottom, rgba(255, 220, 190, 0.18), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.55)),
+    url('/textures/beam.webp') center / cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
+
 /* --- MARQUEE --- */
 
 @keyframes marquee {
