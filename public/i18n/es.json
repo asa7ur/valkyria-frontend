@@ -44,7 +44,9 @@
       "duration_value": "3 Días",
       "duration_label": "Duración",
       "artists_count": "+25",
-      "artists_label": "Artistas"
+      "artists_label": "Artistas",
+      "stages_value": "4",
+      "stages_label": "Escenarios"
     },
 
     "tickets": {

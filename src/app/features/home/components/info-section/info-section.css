@@ -1,0 +1,139 @@
+/* Estandartes de guerra: cada nivel de anidado lleva una sola transformación para que no se pisen
+   .drop       -> la caída al entrar en pantalla
+   .banner     -> el giro del abanico y el levantamiento al pasar el ratón
+   .sway       -> el balanceo continuo, como tela colgada */
+
+/* Corte en V de la parte de abajo */
+.flag-edge,
+.flag {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 91%, 0 100%);
+}
+
+/* Borde rojo: el fondo del contenedor asoma 2px alrededor de la bandera */
+.flag-edge {
+  padding: 2px;
+  background: linear-gradient(to bottom, #dc2626, #7f1d1d);
+}
+
+.rod {
+  background: linear-gradient(to bottom, #d4d4d4, #737373 45%, #262626);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Remates de la barra */
+.rod::before,
+.rod::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #e5e5e5, #525252 60%, #171717);
+  transform: translateY(-50%);
+}
+
+.rod::before {
+  left: -6px;
+}
+
+.rod::after {
+  right: -6px;
+}
+
+/* --- Giro del abanico y hover --- */
+
+.banner {
+  transform: rotate(var(--r)) translateY(var(--y));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  .banner {
+    transform: rotate(var(--r-md)) translateY(var(--y-md));
+  }
+}
+
+.banner:hover {
+  transform: rotate(0deg) translateY(-14px) scale(1.04);
+}
+
+/* --- Balanceo --- */
+
+.sway {
+  transform-origin: top center;
+  animation: sway 6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.7s);
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 14px rgba(220, 38, 38, 0.3));
+  transition: filter 0.5s;
+}
+
+.banner:hover .sway {
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 26px rgba(220, 38, 38, 0.6));
+}
+
+@keyframes sway {
+  0%, 100% {
+    rotate: -1.2deg;
+  }
+  50% {
+    rotate: 1.2deg;
+  }
+}
+
+/* --- Caída al entrar en pantalla --- */
+
+.drop {
+  opacity: 0;
+}
+
+.is-revealed .drop {
+  opacity: 1;
+  animation: bannerDrop 1s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--i) * 140ms);
+}
+
+@keyframes bannerDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-90px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Emblema de fondo --- */
+
+.emblem {
+  opacity: 0.22;
+  filter: drop-shadow(0 0 40px rgba(220, 38, 38, 0.5));
+}
+
+/* closest-side: la elipse llega a transparente justo en los bordes de la sección,
+   así el overflow-hidden no deja un corte recto arriba y abajo */
+.emblem-glow {
+  background: radial-gradient(closest-side, rgba(185, 28, 28, 0.32), rgba(185, 28, 28, 0.12) 55%, transparent);
+  animation: emblemGlow 6s ease-in-out infinite;
+}
+
+@keyframes emblemGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sway,
+  .emblem-glow {
+    animation: none;
+  }
+
+  .is-revealed .drop {
+    animation: none;
+  }
+}

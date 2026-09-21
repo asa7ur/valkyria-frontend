@@ -1,47 +1,47 @@
-<section class="relative text-white py-16 md:py-24 overflow-hidden">
-  <!-- Marca de agua de fondo -->
-  <div class="absolute inset-0 flex justify-center items-center opacity-[0.12] z-0 pointer-events-none select-none">
-    <span class="font-cinzel-decorative text-[30vw] md:text-[25vw] font-black leading-none tracking-tighter uppercase" style="color: rgba(220, 38, 38, 0.3);">
-      VALKYRIA
-    </span>
+<section class="relative text-white py-20 md:py-32 overflow-hidden" [class.is-revealed]="revealed()">
+  <!-- Emblema de fondo: el casco alado con un resplandor rojo -->
+  <div class="absolute inset-0 flex justify-center items-center pointer-events-none select-none" aria-hidden="true">
+    <div class="emblem-glow absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-5xl"></div>
+    <img src="logo.png" alt="" class="emblem relative w-[72vw] max-w-[300px] md:max-w-[460px] -translate-y-[12%]">
   </div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-4 lg:gap-8 text-center items-center">
+  <ul class="relative z-10 max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-2 gap-x-4 gap-y-12 md:flex md:justify-center md:gap-5 lg:gap-8">
+    @for (banner of banners; track banner.numeral; let i = $index) {
+      <li class="drop relative flex justify-center hover:z-20"
+          [style.--i]="i"
+          [style.--r]="banner.rotate + 'deg'"
+          [style.--y]="banner.offsetY + 'px'"
+          [style.--r-md]="banner.rotateMd + 'deg'"
+          [style.--y-md]="banner.offsetYMd + 'px'">
+        <div class="banner group w-full max-w-[170px] md:w-[190px] md:max-w-none lg:w-[230px]">
+          <div class="sway relative pt-2">
+            <!-- Barra de hierro de la que cuelga el estandarte -->
+            <div class="rod absolute top-0 -left-3 -right-3 h-3 rounded-full z-10"></div>
 
-      <!-- Lugar -->
-      <div class="flex flex-col items-center group animate-in" style="animation-delay: 0.1s">
-        <h3 class="text-4xl sm:text-6xl lg:text-8xl font-black uppercase tracking-tighter mb-3 md:mb-4 italic transition-all group-hover:scale-110 group-hover:text-red-600 duration-500 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-          {{ 'home.info.location_value' | translate }}
-        </h3>
-        <div class="w-10 md:w-12 h-1 bg-linear-to-r from-red-600 to-red-800 mb-4 transition-all group-hover:w-24 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
-        <p class="font-bebas text-xs md:text-sm uppercase tracking-[0.5em] text-gray-400 group-hover:text-gray-300 transition-colors">
-          {{ 'home.info.location_label' | translate }}
-        </p>
-      </div>
+            <div class="flag-edge">
+              <div class="flag relative aspect-[5/8] overflow-hidden bg-neutral-900">
+                <img [src]="banner.image" alt="" loading="lazy"
+                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-linear-to-t from-black via-black/55 via-45% to-black/10"></div>
 
-      <!-- Duración -->
-      <div class="flex flex-col items-center group animate-in border-y md:border-y-0 md:border-x border-red-900/20 py-10 md:py-0" style="animation-delay: 0.2s">
-        <h3 class="text-4xl sm:text-6xl lg:text-8xl font-black uppercase tracking-tighter mb-3 md:mb-4 italic transition-all group-hover:scale-110 group-hover:text-red-600 duration-500 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-          {{ 'home.info.duration_value' | translate }}
-        </h3>
-        <div class="w-10 md:w-12 h-1 bg-linear-to-r from-red-600 to-red-800 mb-4 transition-all group-hover:w-24 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
-        <p class="font-bebas text-xs md:text-sm uppercase tracking-[0.5em] text-gray-400 group-hover:text-gray-300 transition-colors">
-          {{ 'home.info.duration_label' | translate }}
-        </p>
-      </div>
+                <span class="absolute top-5 inset-x-0 text-center font-cinzel font-bold text-[10px] md:text-xs tracking-[0.5em] text-white/70">
+                  {{ banner.numeral }}
+                </span>
 
-      <!-- Conteo Artistas -->
-      <div class="flex flex-col items-center group animate-in" style="animation-delay: 0.3s">
-        <h3 class="text-4xl sm:text-6xl lg:text-8xl font-black uppercase tracking-tighter mb-3 md:mb-4 italic transition-all group-hover:scale-110 group-hover:text-red-600 duration-500 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-          {{ 'home.info.artists_count' | translate }}
-        </h3>
-        <div class="w-10 md:w-12 h-1 bg-linear-to-r from-red-600 to-red-800 mb-4 transition-all group-hover:w-24 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
-        <p class="font-bebas text-xs md:text-sm uppercase tracking-[0.5em] text-gray-400 group-hover:text-gray-300 transition-colors">
-          {{ 'home.info.artists_label' | translate }}
-        </p>
-      </div>
-
-    </div>
-  </div>
+                <div class="absolute inset-x-0 bottom-[17%] px-3 text-center">
+                  <h3 class="font-black uppercase leading-none tracking-tight text-2xl md:text-[1.9rem] lg:text-[2.3rem] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    {{ banner.value | translate }}
+                  </h3>
+                  <div class="w-8 h-0.5 bg-red-600 mx-auto my-3 transition-all duration-500 group-hover:w-16"></div>
+                  <p class="font-bebas text-[10px] md:text-xs uppercase tracking-[0.45em] text-neutral-200">
+                    {{ banner.label | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    }
+  </ul>
 </section>
