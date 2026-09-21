@@ -203,7 +203,10 @@
 
   "purchase": {
     "title": "Reserva tu sitio en Valhalla",
+    "subtitle": "Un formulario por persona. Todos los asistentes deben ser mayores de edad.",
     "loading": "Preparando las credenciales...",
+    "remove": "Quitar",
+    "total": "Total estimado",
     "tickets": {
       "sectionTitle": "Entradas",
       "addBtn": "+ Añadir Asistente",
@@ -215,7 +218,8 @@
         "docNumber": "Nº Documento",
         "birthDate": "Fecha Nacimiento",
         "selectTicketLabel": "Selecciona tu Entrada",
-        "selectTicketPlaceholder": "-- Selecciona el tipo de acceso --"
+        "selectTicketPlaceholder": "-- Selecciona el tipo de acceso --",
+        "attendee": "Asistente"
       }
     },
     "camping": {
@@ -229,8 +233,10 @@
         "docNumber": "Nº Documento",
         "birthDate": "Fecha Nacimiento",
         "accommodationType": "Tipo de Alojamiento",
-        "selectAccommodation": "-- Selecciona tu zona de descanso --"
-      }
+        "selectAccommodation": "-- Selecciona tu zona de descanso --",
+        "guest": "Reserva"
+      },
+      "empty": "Sin camping. Añade una reserva si vas a dormir en el recinto."
     },
     "submitBtn": "Ir a la cesta",
     "backLink": "⟨ Volver al Inicio",

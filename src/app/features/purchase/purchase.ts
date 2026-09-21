@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { NgClass, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {isAdultValidator} from '../../core/validators/is-adult.validator';
 import { Router, RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-purchase',
-  imports: [CommonModule, NgClass, ReactiveFormsModule, RouterModule, TicketItem, CampingItem, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TicketItem, CampingItem, TranslatePipe],
   templateUrl: './purchase.html',
 })
 export class Purchase implements OnInit {
@@ -83,8 +83,22 @@ export class Purchase implements OnInit {
       documentType: [data.documentType || '', Validators.required],
       documentNumber: [data.documentNumber || '', Validators.required],
       birthDate: [data.birthDate || '', [Validators.required, isAdultValidator]],
-      [idKey]: [data[idKey] || '', Validators.required]
+      // Número: las tarjetas de tipo son radios con [value]="tipo.id". Las cestas guardadas con el desplegable
+      // anterior tenían el id como texto, así que se convierte al cargarlas.
+      [idKey]: [data[idKey] ? Number(data[idKey]) : '', Validators.required]
     });
+  }
+
+  // Suma de los precios de los tipos elegidos (lo definitivo lo calcula el backend al crear el pedido)
+  get estimatedTotal(): number {
+    const priceOf = (types: {id: number; price: number}[], id: unknown) =>
+      types.find(type => type.id === Number(id))?.price ?? 0;
+
+    const ticketsTotal = this.tickets.controls
+      .reduce((sum, group) => sum + priceOf(this.ticketTypes, group.get('ticketTypeId')?.value), 0);
+    const campingsTotal = this.campings.controls
+      .reduce((sum, group) => sum + priceOf(this.campingTypes, group.get('campingTypeId')?.value), 0);
+    return ticketsTotal + campingsTotal;
   }
 
   // Getters para facilitar el acceso a los FormArrays

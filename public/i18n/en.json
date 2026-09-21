@@ -209,6 +209,9 @@
 
   "purchase": {
     "title": "Reserve your spot in Valhalla",
+    "subtitle": "One form per person. Every attendee must be of legal age.",
+    "remove": "Remove",
+    "total": "Estimated total",
     "loading": "Preparing credentials...",
     "tickets": {
       "sectionTitle": "Tickets",
@@ -221,7 +224,8 @@
         "docNumber": "Document Number",
         "birthDate": "Date of Birth",
         "selectTicketLabel": "Select your Ticket",
-        "selectTicketPlaceholder": "-- Select access type --"
+        "selectTicketPlaceholder": "-- Select access type --",
+        "attendee": "Attendee"
       }
     },
     "camping": {
@@ -235,8 +239,10 @@
         "docNumber": "Document Number",
         "birthDate": "Date of Birth",
         "accommodationType": "Accommodation Type",
-        "selectAccommodation": "-- Select your resting area --"
-      }
+        "selectAccommodation": "-- Select your resting area --",
+        "guest": "Booking"
+      },
+      "empty": "No camping. Add a booking if you will sleep on site."
     },
     "submitBtn": "Go to cart",
     "backLink": "⟨ Back to Home",

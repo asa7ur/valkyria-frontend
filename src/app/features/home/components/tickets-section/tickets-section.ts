@@ -5,6 +5,7 @@ import { TicketType, CampingType } from '../../../../core/models/ticket-types';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocalizedNamePipe } from '../../../../shared/pipes/localized-name.pipe';
 import { forkJoin } from 'rxjs';
+import { splitName } from '../../../../shared/utils/name-utils';
 
 @Component({
   selector: 'app-tickets-section',
@@ -26,17 +27,8 @@ export class TicketsSection implements OnInit {
     return [...tickets, ...campings];
   });
 
-  // "Senda del Guerrero (Abono General)" -> título "Senda del Guerrero" y subtítulo "Abono General".
-  // Sin expresión regular: una con grupos perezosos puede disparar el backtracking (SonarQube S5852).
-  protected splitName(name: string): {title: string; subtitle: string | null} {
-    const trimmed = name.trim();
-    const open = trimmed.lastIndexOf('(');
-    if (open <= 0 || !trimmed.endsWith(')')) {
-      return {title: trimmed, subtitle: null};
-    }
-    const subtitle = trimmed.slice(open + 1, -1).trim();
-    return subtitle ? {title: trimmed.slice(0, open).trim(), subtitle} : {title: trimmed, subtitle: null};
-  }
+  // "Senda del Guerrero (Abono General)" -> título y subtítulo
+  protected readonly splitName = splitName;
 
   ngOnInit() {
     forkJoin({

@@ -1,0 +1,64 @@
+/* Tarjeta de asistente (entrada o camping): panel oscuro colgado de un travesaño de madera (.wood-beam) y
+   selección del tipo con tarjetas en vez de un desplegable. La comparten ticket-item y camping-item. */
+
+.attendee-panel {
+  background: linear-gradient(to bottom, rgba(20, 12, 10, 0.92), rgba(8, 5, 4, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.9);
+}
+
+.remove-btn {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a3a3a3;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.remove-btn:hover {
+  color: #fff;
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.15);
+}
+
+/* --- Tarjetas de tipo de entrada / alojamiento --- */
+
+.type-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.type-card:hover {
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+.type-card.is-selected {
+  border-color: #dc2626;
+  background: radial-gradient(ellipse at 30% 0%, rgba(220, 38, 38, 0.28), rgba(0, 0, 0, 0.5) 70%);
+  box-shadow: 0 0 0 1px #dc2626, 0 0 22px -4px rgba(220, 38, 38, 0.55);
+}
+
+/* Marca de seleccionado en la esquina */
+.type-card.is-selected::after {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #dc2626;
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.9);
+}
+
+/* El radio está oculto: el foco del teclado se marca en la tarjeta */
+.type-card:has(input:focus-visible) {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
