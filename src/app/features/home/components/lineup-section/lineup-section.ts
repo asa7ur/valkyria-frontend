@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 import {ResponseDTO} from '../../../../core/models/response-dto';
 import {environment} from '../../../../../environments/environment';
 import {TranslatePipe} from '@ngx-translate/core';
+import {randomInt, shuffle} from '../../../../shared/utils/random-utils';
 
 // Cada cuánto el foco "pilla" a otro grupo al azar
 const SPOTLIGHT_INTERVAL_MS = 1800;
@@ -52,13 +53,12 @@ export class LineupSection implements OnInit {
         next: (response) => {
           const content = response.data;
 
-          const randomArtists = content
+          const randomArtists = shuffle(content)
+            .slice(0, 24)
             .map(artist => ({
               ...artist,
               logo: `${this.baseUrl}${artist.logo}_thumb.webp`
-            }))
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 24);
+            }));
 
           this.artists.set(randomArtists);
         },
@@ -73,7 +73,7 @@ export class LineupSection implements OnInit {
     if (!this.revealed() || count < 2) return;
     let next: number;
     do {
-      next = Math.floor(Math.random() * count);
+      next = randomInt(count);
     } while (next === this.litIndex());
     this.litIndex.set(next);
   }
