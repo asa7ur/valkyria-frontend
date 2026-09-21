@@ -1,0 +1,73 @@
+/* Line-up: pestañas con las esquinas cortadas, cabeza de cartel destacado y un running order por escenarios
+   con travesaños de madera (.wood-beam, en styles.css) y los logos de los grupos. */
+
+/* --- Pestañas de día --- */
+
+.tab {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  background: linear-gradient(to bottom, #262626, #121212);
+  color: #a3a3a3;
+  transition: color 0.3s, filter 0.3s, background 0.3s;
+}
+
+.tab:hover {
+  color: #fff;
+}
+
+.tab--active,
+.tab--active:hover {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  color: #fff;
+  filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.45));
+}
+
+/* --- Cabeza de cartel --- */
+
+.headliner {
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(185, 28, 28, 0.35), transparent 70%),
+    linear-gradient(to bottom, #140c0a, #080504);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.9);
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+.headliner:hover {
+  border-color: rgba(220, 38, 38, 0.7);
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4), 0 24px 60px -16px rgba(220, 38, 38, 0.4);
+}
+
+/* --- Columnas de escenario --- */
+
+.stage-col {
+  background: linear-gradient(to bottom, rgba(20, 12, 10, 0.85), rgba(8, 5, 4, 0.6));
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.perf {
+  transition: background 0.4s;
+}
+
+.perf:hover {
+  background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.14), transparent 75%);
+}
+
+/* El último del escenario principal lleva un filo rojo también en su columna */
+.perf--headliner {
+  box-shadow: inset 3px 0 0 #dc2626;
+}
+
+/* --- Logos: blancos, con resplandor rojo al pasar el ratón (como en la home) --- */
+
+.logo {
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s;
+}
+
+.perf:hover .logo,
+.headliner:hover .logo {
+  opacity: 1;
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 16px rgba(220, 38, 38, 0.85));
+}

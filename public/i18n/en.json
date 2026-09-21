@@ -197,6 +197,8 @@
     "loading": "Opening the gates of Valhalla...",
     "empty": "No performances scheduled.",
     "date_format": "EEEE, MMMM d",
+    "headliner": "Headliner",
+    "performances": "{{count}} shows",
     "days": {
       "all": "ALL",
       "thu": "THU 5",
