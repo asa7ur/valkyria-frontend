@@ -1,24 +1,20 @@
-<section class="text-white py-16 md:py-24 overflow-hidden">
-  <div class="px-4 md:px-6">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex items-center gap-4 mb-8 md:mb-12">
-        <h2 class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
-          {{ 'home.experience.title' | translate }}
-        </h2>
-        <div class="h-px w-full bg-white/10"></div>
-      </div>
+<section class="text-white py-16 md:py-24 px-4 md:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-4 mb-8 md:mb-12">
+      <h2 class="text-[10px] md:text-sm uppercase tracking-[0.5em] text-gray-500 whitespace-nowrap">
+        {{ 'home.experience.title' | translate }}
+      </h2>
+      <div class="h-px w-full bg-white/10"></div>
     </div>
-  </div>
 
-  <div class="relative w-full h-[45vh] md:h-[80vh]">
-    <div class="absolute inset-0 flex transition-transform duration-1000 ease-in-out"
-         [style.transform]="'translateX(-' + (currentIndex() * 100) + '%)'">
-
-      @for (image of images(); track image) {
-        <div class="min-w-full h-full">
-          <img [src]="image"
-               class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-               [alt]="'home.experience.img_alt' | translate">
+    <!-- Mosaico: un recuadro grande y tres pequeños que van cambiando de foto -->
+    <div class="mosaic grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-2 md:gap-3 lg:h-[72vh] lg:min-h-120">
+      @for (tile of tiles(); track $index; let i = $index) {
+        <div class="tile relative overflow-hidden bg-neutral-950" [class]="'tile--' + i">
+          <img [src]="photos[tile.a]" [alt]="'home.experience.img_alt' | translate"
+               class="layer absolute inset-0 w-full h-full object-cover" [class.is-visible]="!tile.showB">
+          <img [src]="photos[tile.b]" alt=""
+               class="layer absolute inset-0 w-full h-full object-cover" [class.is-visible]="tile.showB">
         </div>
       }
     </div>
